@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestão de Rotas</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #f4f6f8;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .pesquisa,
+        .selecionados {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .cliente {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cliente label {
+            cursor: pointer;
+        }
+
+        .cliente input {
+            width: auto;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Nova Rota</h1>
+
+    <div class="pesquisa">
+
+        <div class="pesquisa">
+
+            <h2>Base da rota</h2>
+
+            <p>
+                R. Parque Industrial Monte de Rabadas, nº 207,
+                4720-608, Braga
+            </p>
+
+        </div>
+
+        <h2>Selecionar clientes</h2>
+
+        <input type="text" id="pesquisa" placeholder="Pesquisar cliente por código ou nome...">
+
+        <div id="listaClientes">
+            Digite para pesquisar.
+        </div>
+
+    </div>
+
+
+    <div class="selecionados">
+
+        <h2>Clientes selecionados</h2>
+
+        <div id="clientesSelecionados">
+            Nenhum cliente selecionado.
+        </div>
+
+        <button onclick="gerarRota()">
+            🚚 Gerar rota
+        </button>
+    </div>
+
+
+    <script>
+
+        const enderecoBase = "R. Parque Industrial Monte de Rabadas, nº 207, 4720-608, Braga";
+
+        const pesquisa = document.getElementById("pesquisa");
+
+        pesquisa.addEventListener("input", pesquisarClientes);
+
+        let clientesSelecionados = [];
+
+        function pesquisarClientes() {
+
+            const texto = pesquisa.value.trim().toLowerCase();
+
+            const lista = document.getElementById("listaClientes");
+
+            lista.innerHTML = "";
+
+            if (texto === "") {
+                lista.innerHTML = "Digite para pesquisar.";
+                return;
+            }
+
+            const clientes =
+                JSON.parse(localStorage.getItem("clientes")) || [];
+
+            const resultados = clientes.filter(function (cliente) {
+
+                return cliente.codigo.toLowerCase().includes(texto) ||
+                    cliente.nome.toLowerCase().includes(texto);
+
+            });
+
+            if (resultados.length === 0) {
+
+                lista.innerHTML = "Nenhum cliente encontrado.";
+                return;
+
+            }
+
+            resultados.forEach(function (cliente) {
+
+                lista.innerHTML += `
+        <div class="cliente">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="${cliente.codigo}"
+                    onchange="selecionarCliente('${cliente.codigo}')"
+                >
+
+                <strong>
+                    ${cliente.codigo} - ${cliente.nome}
+                </strong>
+
+                <br>
+
+                ${cliente.endereco}
+
+            </label>
+
+        </div>
+    `;
+
+            });
+
+        }
+
+        function selecionarCliente(codigo) {
+
+            const clientes =
+                JSON.parse(localStorage.getItem("clientes")) || [];
+
+            const cliente = clientes.find(function (cliente) {
+                return cliente.codigo === codigo;
+            });
+
+            const checkbox =
+                document.querySelector(`input[value="${codigo}"]`);
+
+            if (!cliente) {
+                return;
+            }
+
+            if (checkbox.checked) {
+
+                const jaSelecionado = clientesSelecionados.some(function (cliente) {
+                    return cliente.codigo === codigo;
+                });
+
+                if (!jaSelecionado) {
+                    clientesSelecionados.push(cliente);
+                }
+
+            } else {
+
+                clientesSelecionados =
+                    clientesSelecionados.filter(function (cliente) {
+                        return cliente.codigo !== codigo;
+                    });
+
+            }
+
+            mostrarClientesSelecionados();
+        }
+
+        function mostrarClientesSelecionados() {
+
+            const area =
+                document.getElementById("clientesSelecionados");
+
+            area.innerHTML = "";
+
+            if (clientesSelecionados.length === 0) {
+
+                area.innerHTML =
+                    "Nenhum cliente selecionado.";
+
+                return;
+            }
+
+            clientesSelecionados.forEach(function (cliente) {
+
+                area.innerHTML += `
+            <div class="cliente">
+
+                <strong>
+                    ${cliente.codigo} - ${cliente.nome}
+                </strong>
+
+                <br>
+
+                ${cliente.endereco}
+
+            </div>
+        `;
+
+            });
+        }
+
+        async function gerarRota() {
+
+            if (clientesSelecionados.length === 0) {
+
+                alert("Selecione pelo menos um cliente.");
+
+                return;
+            }
+
+            const resposta = await fetch("http://localhost:3000/gerar-rota", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    clientes: clientesSelecionados
+                })
+
+            });
+
+            const resultado = await resposta.json();
+
+            alert(resultado.mensagem + "\nQuantidade: " + resultado.quantidade);
+
+        }
+    </script>
+
+</body>
+
+</html>

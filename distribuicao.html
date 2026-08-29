@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nova Distribuição</title>
+
+</head>
+
+<body>
+
+    <h1>Nova Distribuição</h1>
+
+    <div id="dadosDistribuicao"></div>
+
+
+    <script>
+
+        const distribuidores =
+            JSON.parse(
+                localStorage.getItem("distribuidores")
+            ) || [];
+
+
+        const veiculos =
+            JSON.parse(
+                localStorage.getItem("veiculos")
+            ) || [];
+
+
+        const clientes =
+            JSON.parse(
+                localStorage.getItem("clientes")
+            ) || [];
+
+
+        const codigosSelecionados =
+            JSON.parse(
+                localStorage.getItem(
+                    "clientesDistribuicaoTemporaria"
+                )
+            ) || [];
+
+
+        const clientesSelecionados =
+            clientes.filter(function (cliente) {
+
+                return codigosSelecionados.includes(
+                    String(cliente.codigo)
+                );
+
+            });
+
+
+        const dados =
+            document.getElementById(
+                "dadosDistribuicao"
+            );
+
+
+        function nomeDaRota(numero) {
+
+            const rotas = {
+
+                "1": "Adaúfe",
+                "2": "Braga Este",
+                "3": "Braga Estádio",
+                "4": "Braga 1",
+                "5": "Braga 2",
+                "6": "Vieira do Minho",
+                "7": "Póvoa de Lanhoso 1",
+                "8": "Póvoa de Lanhoso 2",
+                "9": "Amares",
+                "10": "Terras de Bouro",
+                "11": "Caldelas",
+                "12": "Vila Verde 1",
+                "13": "Vila Verde 2",
+                "14": "Vila Verde 3",
+                "15": "Vila Verde 4",
+                "16": "Ponte de Lima"
+
+            };
+
+            return rotas[String(numero)] || "";
+
+        }
+
+
+        /* ================================
+           MOSTRAR DISTRIBUIDORES
+           CONFORME O VEÍCULO
+        ================================= */
+
+        function atualizarDistribuidores() {
+
+            const selectVeiculo =
+                document.getElementById("veiculoDistribuicao");
+
+            const selectDistribuidor =
+                document.getElementById("distribuidorDistribuicao");
+
+            const veiculo =
+                selectVeiculo.value;
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem("distribuicoes")
+                ) || [];
+
+
+            selectDistribuidor.innerHTML = `
+        <option value="">
+            Selecione o distribuidor
+        </option>
+    `;
+
+
+            if (!veiculo) {
+
+                selectDistribuidor.disabled = true;
+
+                return;
+
+            }
+
+
+            const tipoVeiculo =
+                veiculo.toLowerCase().startsWith("carro")
+                    ? "carro"
+                    : "moto";
+
+
+            const distribuidoresDisponiveis =
+                distribuidores.filter(function (distribuidor) {
+
+                    const nome =
+                        typeof distribuidor === "object"
+                            ? distribuidor.nome
+                            : distribuidor;
+
+
+                    const tipo =
+                        typeof distribuidor === "object"
+                            ? distribuidor.tipo
+                            : tipoVeiculo;
+
+
+                    if (tipo !== tipoVeiculo) {
+
+                        return false;
+
+                    }
+
+
+                    const ocupado =
+                        distribuicoes.some(function (distribuicao) {
+
+                            return (
+                                String(distribuicao.distribuidor)
+                                    .trim()
+                                    .toLowerCase() ===
+                                String(nome)
+                                    .trim()
+                                    .toLowerCase()
+                                &&
+                                distribuicao.status ===
+                                "Em andamento"
+                            );
+
+                        });
+
+
+                    return !ocupado;
+
+                });
+
+
+            distribuidoresDisponiveis.forEach(function (distribuidor) {
+
+                const nome =
+                    typeof distribuidor === "object"
+                        ? distribuidor.nome
+                        : distribuidor;
+
+
+                selectDistribuidor.innerHTML += `
+            <option value="${nome}">
+                ${nome}
+            </option>
+        `;
+
+            });
+
+
+            if (distribuidoresDisponiveis.length === 0) {
+
+                selectDistribuidor.innerHTML = `
+            <option value="">
+                Nenhum distribuidor disponível
+            </option>
+        `;
+
+                selectDistribuidor.disabled = true;
+
+            }
+            else {
+
+                selectDistribuidor.disabled = false;
+
+            }
+
+        }
+
+
+        /* ================================
+           CONTEÚDO
+        ================================= */
+
+        dados.innerHTML = `
+
+        <h2>
+            Clientes selecionados
+        </h2>
+
+        <p>
+            ${clientesSelecionados.length}
+            ${clientesSelecionados.length === 1
+                ? "cliente selecionado"
+                : "clientes selecionados"
+            }
+        </p>
+
+
+        <div id="clientesSelecionados"></div>
+
+
+        <div id="areaVeiculo">
+
+            <h2>
+                Veículo
+            </h2>
+
+            <select
+                id="veiculoDistribuicao"
+                onchange="atualizarDistribuidores()"
+            >
+
+                <option value="">
+                    Selecione o veículo
+                </option>
+
+                ${veiculos.map(function (veiculo) {
+
+                const distribuicoes =
+                    JSON.parse(
+                        localStorage.getItem("distribuicoes")
+                    ) || [];
+
+
+                const ocupado =
+                    distribuicoes.some(function (distribuicao) {
+
+                        return (
+                            distribuicao.veiculo === veiculo &&
+                            distribuicao.status === "Em andamento"
+                        );
+
+                    });
+
+
+                return `
+        <option
+            value="${veiculo}"
+            ${ocupado ? "disabled" : ""}
+        >
+            ${veiculo}${ocupado
+                        ? " — 🔴 Em distribuição"
+                        : ""
+                    }
+        </option>
+    `;
+
+            }).join("")}
+
+            </select>
+
+        </div>
+
+
+        <div id="areaDistribuidor">
+
+            <h2>
+                Distribuidor
+            </h2>
+
+            <select
+                id="distribuidorDistribuicao"
+                disabled
+            >
+
+                <option value="">
+                    Primeiro selecione o veículo
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="areaBotao">
+
+            <button
+                onclick="criarDistribuicao()"
+            >
+                Criar distribuição
+            </button>
+
+        </div>
+
+    `;
+
+
+        /* ================================
+           CLIENTES
+        ================================= */
+
+        const lista =
+            document.getElementById(
+                "clientesSelecionados"
+            );
+
+
+        clientesSelecionados.forEach(
+            function (cliente) {
+
+                lista.innerHTML += `
+
+                <div>
+
+                    <strong>
+                        ${cliente.codigo} - ${cliente.nome}
+                    </strong>
+
+                    <br>
+
+                    ${cliente.endereco}
+
+                    <br>
+
+                    Rota ${cliente.rota} -
+                    ${nomeDaRota(cliente.rota)}
+
+                </div>
+
+                <hr>
+
+            `;
+
+            }
+        );
+
+
+        /* ================================
+           CRIAR DISTRIBUIÇÃO
+        ================================= */
+
+        function criarDistribuicao() {
+
+            const distribuidor =
+                document.getElementById(
+                    "distribuidorDistribuicao"
+                ).value;
+
+
+            const veiculo =
+                document.getElementById(
+                    "veiculoDistribuicao"
+                ).value;
+
+
+            if (!veiculo) {
+
+                alert(
+                    "Selecione um veículo."
+                );
+
+                return;
+
+            }
+
+
+            if (!distribuidor) {
+
+                alert(
+                    "Selecione um distribuidor."
+                );
+
+                return;
+
+            }
+
+            const distribuicoesExistentes =
+                JSON.parse(
+                    localStorage.getItem("distribuicoes")
+                ) || [];
+
+
+            const veiculoOcupado =
+                distribuicoesExistentes.some(
+                    function (distribuicao) {
+
+                        return (
+                            distribuicao.veiculo === veiculo &&
+                            distribuicao.status === "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            if (veiculoOcupado) {
+
+                alert(
+                    "Este veículo já está em distribuição."
+                );
+
+                return;
+
+            }
+
+            const distribuidorOcupado =
+                distribuicoesExistentes.some(
+                    function (distribuicao) {
+
+                        return (
+                            distribuicao.distribuidor === distribuidor &&
+                            distribuicao.status === "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            if (distribuidorOcupado) {
+
+                alert(
+                    "Este distribuidor já está em distribuição."
+                );
+
+                return;
+
+            }
+
+
+            if (clientesSelecionados.length === 0) {
+
+                alert(
+                    "Não há clientes selecionados."
+                );
+
+                return;
+
+            }
+
+
+            const agora = new Date();
+
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const novaDistribuicao = {
+
+                id:
+                    Date.now(),
+
+                clientes:
+                    clientesSelecionados,
+
+                distribuidor:
+                    distribuidor,
+
+                veiculo:
+                    veiculo,
+
+                data:
+                    agora.toLocaleDateString(
+                        "pt-PT"
+                    ),
+
+                horaInicio:
+                    agora.toLocaleTimeString(
+                        "pt-PT",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    ),
+
+                inicioTimestamp:
+                    agora.getTime(),
+
+                status:
+                    "Em andamento"
+
+            };
+
+
+            distribuicoes.push(
+                novaDistribuicao
+            );
+
+
+            localStorage.setItem(
+                "distribuicoes",
+                JSON.stringify(
+                    distribuicoes
+                )
+            );
+
+
+            localStorage.removeItem(
+                "clientesDistribuicaoTemporaria"
+            );
+
+
+            alert(
+                "Distribuição criada com sucesso!"
+            );
+
+
+            window.location.href =
+                "Distribuicoes.html";
+
+        }
+
+        atualizarDistribuidores();
+
+    </script>
+
+</body>
+
+</html>

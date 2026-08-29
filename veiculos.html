@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Veículos</title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f3f6fa;
+
+            color: #1f2937;
+
+        }
+
+
+        #conteudo {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 35px 25px 60px;
+
+        }
+
+
+        h1 {
+
+            margin: 0 0 35px;
+
+            font-size: 32px;
+
+            color: #172033;
+
+        }
+
+
+        h2 {
+
+            margin: 35px 0 18px;
+
+            font-size: 22px;
+
+            color: #172033;
+
+        }
+
+
+        /* ================================
+           GRELHA
+        ================================= */
+
+        .lista-veiculos {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 12px;
+
+        }
+
+
+        /* ================================
+           CARTÃO
+        ================================= */
+
+        .cartao-veiculo {
+
+            background: white;
+
+            border: 1px solid #e1e7ef;
+
+            border-radius: 12px;
+
+            padding: 16px;
+
+            min-height: 115px;
+
+            box-shadow:
+                0 2px 6px rgba(0, 0, 0, 0.05);
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+
+        }
+
+
+        .cartao-veiculo:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 14px rgba(0, 0, 0, 0.09);
+
+        }
+
+
+        .nome-veiculo {
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .distribuidor-veiculo {
+
+            font-size: 14px;
+
+            color: #596579;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        /* ================================
+           ESTADOS
+        ================================= */
+
+        .estado-veiculo {
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .estado-disponivel {
+
+            background: #e8f7ee;
+
+            color: #16803c;
+
+        }
+
+
+        .estado-andamento {
+
+            background: #fff1e6;
+
+            color: #c45a00;
+
+        }
+
+
+        .info-distribuicao {
+
+            margin-top: 8px;
+
+            font-size: 12px;
+
+            color: #6b7280;
+
+        }
+
+        /* ================================
+   DETALHES DO VEÍCULO
+================================ */
+
+        .detalhe-veiculo {
+
+            background: white;
+
+            border: 1px solid #e1e7ef;
+
+            border-radius: 14px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 3px 10px rgba(0, 0, 0, 0.06);
+
+        }
+
+        .detalhe-veiculo h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 20px;
+
+        }
+
+        .titulo-ultima-distribuicao {
+
+            margin-top: 15px !important;
+
+        }
+
+        .detalhe-item {
+
+            padding: 10px 0;
+
+            border-bottom: 1px solid #edf0f4;
+
+            font-size: 15px;
+
+        }
+
+        .detalhe-item:last-child {
+
+            border-bottom: none;
+
+        }
+
+        .btn-voltar-veiculos {
+
+            margin-top: 25px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 11px 18px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+        }
+
+        .btn-voltar-veiculos:hover {
+
+            background: #1d4ed8;
+
+        }
+
+        .clientes-do-veiculo {
+
+            margin-top: 10px;
+
+        }
+
+        .clientes-do-veiculo .detalhe-item {
+
+            padding: 8px 0;
+
+        }
+
+        /* ================================
+   ROTA DO VEÍCULO
+================================ */
+
+        .titulo-rota {
+
+            margin-top: 25px !important;
+
+            margin-bottom: 12px !important;
+
+            font-size: 18px !important;
+
+        }
+
+        .clientes-do-veiculo {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+            margin-top: 10px;
+
+        }
+
+        .clientes-do-veiculo .detalhe-item {
+
+            background: #f8fafc;
+
+            border: 1px solid #e5eaf0;
+
+            border-radius: 9px;
+
+            padding: 11px 13px;
+
+            display: flex;
+
+            align-items: center;
+
+        }
+
+        .clientes-do-veiculo .detalhe-item strong {
+
+            font-size: 14px;
+
+            color: #263247;
+
+        }
+
+
+        /* ================================
+           TABLET
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .lista-veiculos {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+            }
+
+        }
+
+
+        /* ================================
+           TELEMÓVEL
+        ================================= */
+
+        @media (max-width: 600px) {
+
+            #conteudo {
+
+                padding:
+                    25px 15px 40px;
+
+            }
+
+
+            h1 {
+
+                font-size: 27px;
+
+                margin-bottom: 25px;
+
+            }
+
+
+            h2 {
+
+                font-size: 20px;
+
+            }
+
+
+            .lista-veiculos {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .cartao-veiculo {
+
+                width: 100%;
+
+            }
+
+            .titulo-ultima-distribuicao {
+                margin-top: 15px !important;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main id="conteudo">
+
+        <h1>
+            Veículos de Distribuição
+        </h1>
+
+
+        <!-- ================================
+             CARROS
+        ================================= -->
+
+        <h2>
+            🚗 Carros
+        </h2>
+
+
+        <div id="listaCarros" class="lista-veiculos"></div>
+
+
+        <!-- ================================
+             MOTOS
+        ================================= -->
+
+        <h2>
+            🏍️ Motos
+        </h2>
+
+
+        <div id="listaMotos" class="lista-veiculos"></div>
+
+    </main>
+
+
+    <script>
+
+        /* ================================
+           CARROS E MOTOS
+        ================================= */
+
+        const carros = [
+
+            {
+                numero: 1,
+                distribuidor: "Aníbal"
+            },
+
+            {
+                numero: 2,
+                distribuidor: "João Palha"
+            },
+
+            {
+                numero: 3,
+                distribuidor: "Victor Hugo"
+            },
+
+            {
+                numero: 4,
+                distribuidor: "André"
+            },
+
+            {
+                numero: 5,
+                distribuidor: "Lopes"
+            },
+
+            {
+                numero: 6,
+                distribuidor: "Fernando"
+            }
+
+        ];
+
+
+        const motos = [
+
+            {
+                numero: 1,
+                distribuidor: "Ianyck"
+            },
+
+            {
+                numero: 2,
+                distribuidor: "Dione"
+            },
+
+            {
+                numero: 3,
+                distribuidor: "Charles"
+            },
+
+            {
+                numero: 4,
+                distribuidor: "Francisco"
+            },
+
+            {
+                numero: 5,
+                distribuidor: "Vitor"
+            },
+
+            {
+                numero: 6,
+                distribuidor: "Mauro"
+            },
+
+            {
+                numero: 7,
+                distribuidor: "Leonardo"
+            },
+
+            {
+                numero: 8,
+                distribuidor: "Juan"
+            },
+
+            {
+                numero: 9,
+                distribuidor: "Gustavo"
+            }
+
+        ];
+
+
+        /* ================================
+           VERIFICAR ESTADO
+        ================================= */
+
+        function encontrarDistribuicaoDoVeiculo(
+            nomeVeiculo
+        ) {
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            return distribuicoes.find(
+                function (distribuicao) {
+
+                    return (
+                        distribuicao.veiculo ===
+                        nomeVeiculo &&
+                        distribuicao.status ===
+                        "Em andamento"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ================================
+           CRIAR CARTÕES
+        ================================= */
+
+        function mostrarVeiculos(
+            lista,
+            tipo,
+            elemento
+        ) {
+
+            const area =
+                document.getElementById(
+                    elemento
+                );
+
+
+            area.innerHTML = "";
+
+
+            lista.forEach(
+                function (veiculo) {
+
+                    const nomeVeiculo =
+                        tipo +
+                        " " +
+                        veiculo.numero;
+
+
+                    const distribuicao =
+                        encontrarDistribuicaoDoVeiculo(
+                            nomeVeiculo
+                        );
+
+
+                    const emDistribuicao =
+                        !!distribuicao;
+
+
+                    area.innerHTML += `
+
+                <div
+                    class="cartao-veiculo"
+                    onclick="abrirVeiculo(
+                        '${nomeVeiculo}'
+                    )"
+                    style="cursor: pointer;"
+                >
+
+                    <div
+                        class="nome-veiculo"
+                    >
+
+                        ${nomeVeiculo}
+
+                    </div>
+
+
+                    <div
+                        class="distribuidor-veiculo"
+                    >
+
+                        Distribuidor:
+                        <strong>
+                            ${veiculo.distribuidor}
+                        </strong>
+
+                    </div>
+
+
+                    <span
+                        class="estado-veiculo
+                        ${emDistribuicao
+                            ? "estado-andamento"
+                            : "estado-disponivel"
+                        }"
+                    >
+
+                        ${emDistribuicao
+                            ? "🔴 Em distribuição"
+                            : "🟢 Disponível"
+                        }
+
+                    </span>
+
+
+                    ${emDistribuicao
+                            ? `
+
+                                <div
+                                    class="info-distribuicao"
+                                >
+
+                                    Distribuição em andamento
+
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+                </div>
+
+            `;
+
+                }
+            );
+
+        }
+
+        function abrirVeiculo(nomeVeiculo) {
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const distribuicaoAtual =
+                distribuicoes.find(
+                    function (distribuicao) {
+
+                        return (
+                            distribuicao.veiculo ===
+                            nomeVeiculo &&
+                            distribuicao.status ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            const distribuicoesAnteriores =
+                distribuicoes
+                    .filter(
+                        function (distribuicao) {
+
+                            return (
+                                distribuicao.veiculo ===
+                                nomeVeiculo &&
+                                distribuicao.status ===
+                                "Concluída"
+                            );
+
+                        }
+                    )
+                    .sort(
+                        function (a, b) {
+
+                            return (
+                                (b.fimTimestamp || 0) -
+                                (a.fimTimestamp || 0)
+                            );
+
+                        }
+                    );
+
+
+            const ultimaDistribuicao =
+                distribuicoesAnteriores[0];
+
+
+            const conteudo =
+                document.getElementById(
+                    "conteudo"
+                );
+
+
+            conteudo.innerHTML = `
+
+        <div class="detalhe-veiculo">
+
+            <h1>
+                ${nomeVeiculo}
+            </h1>
+
+
+            ${distribuicaoAtual
+                    ? `
+
+                        <h2>
+                            🔴 Em distribuição
+                        </h2>
+
+                        <div class="detalhe-item">
+                            Distribuidor:
+                            <strong>
+                                ${distribuicaoAtual.distribuidor}
+                            </strong>
+                        </div>
+
+                        <div class="detalhe-item">
+                            Data:
+                            <strong>
+                                ${distribuicaoAtual.data}
+                            </strong>
+                        </div>
+
+                        <div class="detalhe-item">
+                            Iniciada:
+                            <strong>
+                                ${distribuicaoAtual.horaInicio ||
+                    "Não registado"
+                    }
+                            </strong>
+                        </div>
+
+                        <div class="detalhe-item">
+                            Clientes:
+                            <strong>
+                                ${distribuicaoAtual.clientes
+                        ? distribuicaoAtual.clientes.length
+                        : 0
+                    }
+                            </strong>
+                        </div>
+
+            <h2 class="titulo-rota">
+                Ordem de entrega
+            </h2>
+
+<div class="clientes-do-veiculo">
+
+    ${distribuicaoAtual.clientes
+                        ? distribuicaoAtual.clientes
+                            .slice()
+                            .sort(function (a, b) {
+
+                                return Number(a.codigo) - Number(b.codigo);
+
+                            })
+                            .map(function (cliente, indice) {
+
+                                return `
+                        <div class="detalhe-item">
+
+                            <strong>
+                                ${indice + 1}. ${cliente.codigo} - ${cliente.nome}
+                            </strong>
+
+                        </div>
+                    `;
+
+                            })
+                            .join("")
+                        : ""
+                    }
+
+                        </div>
+
+                    `
+                    : `
+
+                        <h2>
+                            🟢 Disponível
+                        </h2>
+
+                        <div class="detalhe-item">
+                            O veículo não está atualmente
+                            em nenhuma distribuição.
+                        </div>
+
+                    `
+                }
+
+
+            ${ultimaDistribuicao
+                    ? `
+
+                        <h2 class="titulo-ultima-distribuicao">
+                         Última distribuição
+                        </h2>
+
+                        <div class="detalhe-item">
+                            Data:
+                            <strong>
+                                ${ultimaDistribuicao.data}
+                            </strong>
+                        </div>
+
+                        <div class="detalhe-item">
+                            Distribuidor:
+                            <strong>
+                                ${ultimaDistribuicao.distribuidor}
+                            </strong>
+                        </div>
+
+                        <div class="detalhe-item">
+                            Iniciada:
+                            <strong>
+                                ${ultimaDistribuicao.horaInicio ||
+                    "Não registado"
+                    }
+                            </strong>
+                        </div>
+
+                        <div class="detalhe-item">
+                            Finalizada:
+                            <strong>
+                                ${ultimaDistribuicao.horaFim ||
+                    "Não registado"
+                    }
+                            </strong>
+                        </div>
+
+                        ${ultimaDistribuicao.duracao !== undefined
+                        ? `
+
+                                    <div class="detalhe-item">
+                                        Duração:
+                                        <strong>
+                                            ${formatarDuracaoVeiculo(
+                            ultimaDistribuicao.duracao
+                        )
+                        }
+                                        </strong>
+                                    </div>
+
+                                `
+                        : ""
+                    }
+
+                    `
+                    : `
+
+                        <h2>
+                            Última distribuição
+                        </h2>
+
+                        <div class="detalhe-item">
+                            Ainda não existem registos
+                            para este veículo.
+                        </div>
+
+                    `
+                }
+
+
+            <button
+                class="btn-voltar-veiculos"
+                onclick="mostrarPaginaVeiculos()"
+            >
+                ← Voltar aos veículos
+            </button>
+
+        </div>
+
+    `;
+
+        }
+
+        function mostrarPaginaVeiculos() {
+
+            location.reload();
+
+        }
+
+
+        function formatarDuracaoVeiculo(segundos) {
+
+            const horas =
+                Math.floor(
+                    segundos / 3600
+                );
+
+
+            const minutos =
+                Math.floor(
+                    (segundos % 3600) / 60
+                );
+
+
+            const segundosRestantes =
+                segundos % 60;
+
+
+            if (horas > 0) {
+
+                return (
+                    horas + "h " +
+                    minutos + "min " +
+                    segundosRestantes + "s"
+                );
+
+            }
+
+
+            if (minutos > 0) {
+
+                return (
+                    minutos + "min " +
+                    segundosRestantes + "s"
+                );
+
+            }
+
+
+            return (
+                segundosRestantes +
+                " segundos"
+            );
+
+        }
+
+
+        /* ================================
+           MOSTRAR
+        ================================= */
+
+        mostrarVeiculos(
+            carros,
+            "Carro",
+            "listaCarros"
+        );
+
+
+        mostrarVeiculos(
+            motos,
+            "Moto",
+            "listaMotos"
+        );
+
+    </script>
+
+</body>
+
+</html>

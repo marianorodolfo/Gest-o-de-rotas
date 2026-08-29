@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rotas</title>
+
+</head>
+
+<body>
+
+    <h1>Rotas de Distribuição</h1>
+
+    <div id="listaRotas"></div>
+
+    <script>
+
+        const rotas = [
+            { codigo: 1, nome: "Adaúfe" },
+            { codigo: 2, nome: "Braga Este" },
+            { codigo: 3, nome: "Braga Estádio" },
+            { codigo: 4, nome: "Braga 1" },
+            { codigo: 5, nome: "Braga 2" },
+            { codigo: 6, nome: "Vieira do Minho" },
+            { codigo: 7, nome: "Póvoa de Lanhoso 1" },
+            { codigo: 8, nome: "Póvoa de Lanhoso 2" },
+            { codigo: 9, nome: "Amares" },
+            { codigo: 10, nome: "Terras de Bouro" },
+            { codigo: 11, nome: "Caldelas" },
+            { codigo: 12, nome: "Vila Verde 1" },
+            { codigo: 13, nome: "Vila Verde 2" },
+            { codigo: 14, nome: "Vila Verde 3" },
+            { codigo: 15, nome: "Vila Verde 4" },
+            { codigo: 16, nome: "Ponte de Lima" }
+        ];
+
+
+        const listaRotas =
+            document.getElementById("listaRotas");
+
+        let clientesSelecionados = [];
+
+        const clientes =
+            JSON.parse(localStorage.getItem("clientes")) || [];
+
+        rotas.forEach(function (rota) {
+
+            const quantidadeClientes =
+                clientes.filter(function (cliente) {
+
+                    return cliente.rota === String(rota.codigo);
+
+                }).length;
+
+
+            listaRotas.innerHTML += `
+
+        <div
+    onclick="abrirRota(${rota.codigo})"
+    style="cursor: pointer;"
+>
+
+    <strong>
+        Rota ${rota.codigo} - ${rota.nome}
+    </strong>
+
+    <span>
+        ${quantidadeClientes} clientes
+    </span>
+
+</div>
+
+    `;
+
+        });
+
+        function nomeDaRota(numero) {
+
+            const rotas = {
+                "1": "Adaúfe",
+                "2": "Braga Este",
+                "3": "Braga Estádio",
+                "4": "Braga 1",
+                "5": "Braga 2",
+                "6": "Vieira do Minho",
+                "7": "Póvoa de Lanhoso 1",
+                "8": "Póvoa de Lanhoso 2",
+                "9": "Amares",
+                "10": "Terras de Bouro",
+                "11": "Caldelas",
+                "12": "Vila Verde 1",
+                "13": "Vila Verde 2",
+                "14": "Vila Verde 3",
+                "15": "Vila Verde 4",
+                "16": "Ponte de Lima"
+            };
+
+            return rotas[numero];
+
+        }
+
+        function alternarCliente(codigoCliente) {
+
+            codigoCliente = String(codigoCliente);
+
+
+            const indice =
+                clientesSelecionados.indexOf(codigoCliente);
+
+
+            if (indice === -1) {
+
+                clientesSelecionados.push(codigoCliente);
+
+            } else {
+
+                clientesSelecionados.splice(indice, 1);
+
+            }
+
+
+            atualizarContador();
+
+        }
+
+
+        function atualizarContador() {
+
+            const contador =
+                document.getElementById("contadorSelecionados");
+
+
+            if (contador) {
+
+                contador.textContent =
+                    clientesSelecionados.length +
+                    (
+                        clientesSelecionados.length === 1
+                            ? " cliente selecionado"
+                            : " clientes selecionados"
+                    );
+
+            }
+
+        }
+
+        function mostrarRotas() {
+
+            const resultado =
+                document.getElementById("listaRotas");
+
+            resultado.innerHTML = "";
+
+            resultado.innerHTML = `
+
+    <p id="contadorSelecionados">
+        ${clientesSelecionados.length}
+        ${clientesSelecionados.length === 1
+                    ? "cliente selecionado"
+                    : "clientes selecionados"}
+    </p>
+
+    <button
+        onclick="gerarDistribuicao()"
+        ${clientesSelecionados.length === 0 ? "disabled" : ""}
+    >
+        Gerar distribuição
+    </button>
+
+    <hr>
+
+`;
+
+            rotas.forEach(function (rota) {
+
+                const quantidadeClientes =
+                    clientes.filter(function (cliente) {
+
+                        return cliente.rota === String(rota.codigo);
+
+                    }).length;
+
+
+                resultado.innerHTML += `
+
+            <div
+                onclick="abrirRota(${rota.codigo})"
+                style="cursor: pointer;"
+            >
+
+                <strong>
+                    Rota ${rota.codigo} - ${rota.nome}
+                </strong>
+
+                <span>
+                    ${quantidadeClientes} clientes
+                </span>
+
+            </div>
+
+        `;
+
+            });
+
+        }
+
+        function gerarDistribuicao() {
+
+            if (clientesSelecionados.length === 0) {
+
+                alert("Selecione pelo menos um cliente.");
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "clientesDistribuicaoTemporaria",
+                JSON.stringify(clientesSelecionados)
+            );
+
+
+            window.location.href =
+                "distribuicao.html";
+
+        }
+
+        function abrirRota(codigoRota) {
+
+            const clientes =
+                JSON.parse(localStorage.getItem("clientes")) || [];
+
+
+            const clientesDaRota =
+                clientes
+                    .filter(function (cliente) {
+
+                        return cliente.rota === String(codigoRota);
+
+                    })
+                    .sort(function (a, b) {
+
+                        return Number(a.codigo) - Number(b.codigo);
+
+                    });
+
+
+            const resultado =
+                document.getElementById("listaRotas");
+
+
+            resultado.innerHTML = `
+
+        <button onclick="mostrarRotas()">
+            ← Voltar às rotas
+        </button>
+
+        <h2>
+            Rota ${codigoRota} - ${nomeDaRota(codigoRota)}
+        </h2>
+
+        <p id="contadorSelecionados">
+            ${clientesSelecionados.length} selecionados
+        </p>
+
+        <button onclick="gerarDistribuicao()">
+            Gerar distribuição
+        </button>
+
+        <hr>
+
+    `;
+
+
+            clientesDaRota.forEach(function (cliente) {
+
+                const estaSelecionado =
+                    clientesSelecionados.includes(
+                        String(cliente.codigo)
+                    );
+
+
+                resultado.innerHTML += `
+
+            <div>
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        class="clienteCheckbox"
+                        value="${cliente.codigo}"
+                        ${estaSelecionado ? "checked" : ""}
+                        onchange="alternarCliente('${cliente.codigo}')"
+                    >
+
+                    <strong>
+                        ${cliente.codigo} - ${cliente.nome}
+                    </strong>
+
+                </label>
+
+                <br>
+
+                ${cliente.endereco}
+
+                <br>
+
+                Rota: ${cliente.rota} - ${nomeDaRota(cliente.rota)}
+
+            </div>
+
+            <hr>
+
+        `;
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

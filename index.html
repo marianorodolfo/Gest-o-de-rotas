@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Primo Peças</title>
+
+    <link rel="stylesheet" href="menu.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2933;
+        }
+
+        #conteudo {
+            margin-left: 230px;
+            padding: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="topo">
+
+        <div class="logo">
+            PRIMO PEÇAS
+        </div>
+
+    </header>
+
+    <div id="menu-container"></div>
+
+    <main id="conteudo">
+
+        <h1>
+            Dashboard
+        </h1>
+
+    </main>
+
+    <script>
+
+        fetch("menu.html")
+            .then(function (resposta) {
+                return resposta.text();
+            })
+            .then(function (menu) {
+                document.getElementById("menu-container").innerHTML = menu;
+            });
+
+    </script>
+
+</body>
+
+</html>

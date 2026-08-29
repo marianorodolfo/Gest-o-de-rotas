@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <link rel="stylesheet" href="menu.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestão de Rotas - Clientes</title>
+
+    <style>
+        :root {
+            --azul-primo: #123b63;
+            --azul-primo-hover: #0d2f50;
+            --fundo-painel: #f4f6f8;
+            --branco: #ffffff;
+            --borda: #e1e6eb;
+            --texto: #1f2933;
+            --texto-secundario: #667085;
+            --sucesso: #2f8f5b;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--fundo-painel);
+            color: var(--texto);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--texto);
+        }
+
+        .formulario {
+            background: var(--branco);
+            padding: 24px;
+            border-radius: 14px;
+            border: 1px solid var(--borda);
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+        }
+
+        .campo {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--texto-secundario);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            box-sizing: border-box;
+            border: 1px solid var(--borda);
+            border-radius: 8px;
+            background: var(--branco);
+            color: var(--texto);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--azul-primo);
+            box-shadow: 0 0 0 3px rgba(18, 59, 99, 0.10);
+        }
+
+        button {
+            padding: 11px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--azul-primo);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--azul-primo-hover);
+            transform: translateY(-2px);
+        }
+
+        .lista {
+            background: var(--branco);
+            padding: 24px;
+            border-radius: 14px;
+            border: 1px solid var(--borda);
+            box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+        }
+
+        .lista h2 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: var(--texto);
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .cliente {
+            background: var(--branco);
+            border: 1px solid var(--borda);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cliente:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 24, 40, 0.08);
+        }
+
+        .cliente strong {
+            color: var(--texto);
+            font-size: 16px;
+        }
+
+        .pesquisa {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-editar {
+            background: var(--azul-primo);
+        }
+
+        .btn-editar:hover {
+            background: var(--azul-primo-hover);
+        }
+
+        .btn-excluir {
+            background: #c0392b;
+        }
+
+        .btn-excluir:hover {
+            background: #a93226;
+        }
+
+        .cliente-codigo {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: #f1f3f5;
+            color: var(--texto-secundario);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .cliente-cabecalho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .cliente-cabecalho strong {
+            font-size: 17px;
+        }
+
+        .cliente-cabecalho span {
+            font-size: 13px;
+            color: var(--texto-secundario);
+            font-weight: 600;
+        }
+
+        .cliente-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .cliente-info span {
+            font-size: 14px;
+            color: var(--texto-secundario);
+        }
+
+        #listaClientes {
+            color: var(--texto-secundario);
+            font-size: 14px;
+        }
+
+        .mensagem-vazia {
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px dashed var(--borda);
+            border-radius: 10px;
+            background: #fafbfc;
+        }
+
+        .mensagem-vazia strong {
+            display: block;
+            color: var(--texto);
+            margin-bottom: 6px;
+        }
+
+        .mensagem-vazia span {
+            color: var(--texto-secundario);
+            font-size: 13px;
+        }
+
+        #conteudo {
+            margin-left: 230px;
+            padding: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 0;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .formulario,
+            .lista {
+                padding: 18px;
+            }
+
+            .pesquisa {
+                grid-template-columns: 1fr;
+            }
+
+            .cliente-cabecalho {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .cliente button {
+                width: auto;
+                padding: 7px 12px;
+                margin-top: 8px;
+                font-size: 13px;
+            }
+
+            #resumoClientes {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            #conteudo {
+                margin-left: 0;
+                padding: 16px;
+            }
+
+            .pesquisa {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .pesquisa input,
+            .pesquisa select {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                overflow-x: hidden;
+            }
+
+        }
+
+        #tituloFormulario {
+            margin-top: 0;
+            margin-bottom: 6px;
+            font-size: 21px;
+            color: var(--texto);
+        }
+
+        .subtitulo-formulario {
+            margin-top: 0;
+            margin-bottom: 22px;
+            color: var(--texto-secundario);
+            font-size: 14px;
+        }
+
+        .formulario.editando {
+            border-color: var(--azul-primo);
+            box-shadow: 0 0 0 3px rgba(18, 59, 99, 0.08);
+        }
+
+        .cliente-rota {
+            display: inline-block;
+            width: fit-content;
+            padding: 5px 9px;
+            border-radius: 6px;
+            background: rgba(18, 59, 99, 0.08);
+            color: var(--azul-primo);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        #resumoClientes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .indicador-cliente {
+            background: var(--branco);
+            border: 2px solid var(--borda);
+            border-radius: 12px;
+            padding: 18px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .indicador-cliente:nth-child(1) {
+            border-color: #1976d2;
+        }
+
+        .indicador-cliente:nth-child(2) {
+            border-color: #2e7d32;
+        }
+
+        .indicador-cliente:nth-child(3) {
+            border-color: #ef8f00;
+        }
+
+        .indicador-cliente:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 24, 40, 0.08);
+        }
+
+        .indicador-cliente strong {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: var(--texto);
+        }
+
+        .indicador-cliente span {
+            font-size: 13px;
+            color: var(--texto-secundario);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topo">
+
+        <div class="logo">
+            PRIMO PEÇAS
+        </div>
+
+    </header>
+
+    <div id="menu-container"></div>
+    <main id="conteudo">
+
+        <h1>Cadastro de Clientes</h1>
+
+        <div id="resumoClientes"></div>
+
+        <div class="formulario">
+
+            <h2 id="tituloFormulario">
+                Novo cliente
+            </h2>
+
+            <p class="subtitulo-formulario">
+                Adicione os dados do cliente e associe-o a uma rota.
+            </p>
+
+            <div class="campo">
+                <label for="codigo">Código do cliente</label>
+                <input type="text" id="codigo" placeholder="Digite o código">
+            </div>
+
+            <div class="campo">
+                <label for="nome">Nome do cliente</label>
+                <input type="text" id="nome" placeholder="Digite o nome">
+            </div>
+
+            <div class="campo">
+                <label for="endereco">Endereço completo</label>
+                <input type="text" id="endereco" placeholder="Rua, número, código postal, cidade">
+            </div>
+
+            <div class="campo">
+                <label for="rota">Rota</label>
+
+                <select id="rota">
+
+                    <option value="">Selecione a rota</option>
+
+                    <option value="1">Rota 1 - Adaúfe</option>
+                    <option value="2">Rota 2 - Braga Este</option>
+                    <option value="3">Rota 3 - Braga Estádio</option>
+                    <option value="4">Rota 4 - Braga 1</option>
+                    <option value="5">Rota 5 - Braga 2</option>
+                    <option value="6">Rota 6 - Vieira do Minho</option>
+                    <option value="7">Rota 7 - Póvoa de Lanhoso 1</option>
+                    <option value="8">Rota 8 - Póvoa de Lanhoso 2</option>
+                    <option value="9">Rota 9 - Amares</option>
+                    <option value="10">Rota 10 - Terras de Bouro</option>
+                    <option value="11">Rota 11 - Caldelas</option>
+                    <option value="12">Rota 12 - Vila Verde 1</option>
+                    <option value="13">Rota 13 - Vila Verde 2</option>
+                    <option value="14">Rota 14 - Vila Verde 3</option>
+                    <option value="15">Rota 15 - Vila Verde 4</option>
+                    <option value="16">Rota 16 - Ponte de Lima</option>
+
+                </select>
+            </div>
+
+            <button id="botaoFormulario" onclick="cadastrarCliente()">
+                Cadastrar cliente
+            </button>
+
+        </div>
+
+
+        <div class="lista">
+
+            <h2>Pesquisar clientes</h2>
+
+            <div class="pesquisa">
+                <input type="text" id="pesquisa" placeholder="Pesquisar por código, nome, endereço ou rota..."
+                    oninput="pesquisarClientes()">
+
+                <select id="filtroRota" onchange="pesquisarClientes(); atualizarResumoClientes()">
+
+                    <option value="">
+                        Rotas
+                    </option>
+
+                    <option value="1">Rota 1 - Adaúfe</option>
+                    <option value="2">Rota 2 - Braga Este</option>
+                    <option value="3">Rota 3 - Braga Estádio</option>
+                    <option value="4">Rota 4 - Braga 1</option>
+                    <option value="5">Rota 5 - Braga 2</option>
+                    <option value="6">Rota 6 - Vieira do Minho</option>
+                    <option value="7">Rota 7 - Póvoa de Lanhoso 1</option>
+                    <option value="8">Rota 8 - Póvoa de Lanhoso 2</option>
+                    <option value="9">Rota 9 - Amares</option>
+                    <option value="10">Rota 10 - Terras de Bouro</option>
+                    <option value="11">Rota 11 - Caldelas</option>
+                    <option value="12">Rota 12 - Vila Verde 1</option>
+                    <option value="13">Rota 13 - Vila Verde 2</option>
+                    <option value="14">Rota 14 - Vila Verde 3</option>
+                    <option value="15">Rota 15 - Vila Verde 4</option>
+                    <option value="16">Rota 16 - Ponte de Lima</option>
+
+                </select>
+            </div>
+
+            <div id="listaClientes">
+                Digite algo para pesquisar.
+            </div>
+
+        </div>
+
+
+        <script>
+
+            // =========================
+            // CADASTRAR CLIENTE
+            // =========================
+            let clienteEmEdicao = null;
+
+            function nomeDaRota(numero) {
+
+                const rotas = {
+                    "1": "Adaúfe",
+                    "2": "Braga Este",
+                    "3": "Braga Estádio",
+                    "4": "Braga 1",
+                    "5": "Braga 2",
+                    "6": "Vieira do Minho",
+                    "7": "Póvoa de Lanhoso 1",
+                    "8": "Póvoa de Lanhoso 2",
+                    "9": "Amares",
+                    "10": "Terras de Bouro",
+                    "11": "Caldelas",
+                    "12": "Vila Verde 1",
+                    "13": "Vila Verde 2",
+                    "14": "Vila Verde 3",
+                    "15": "Vila Verde 4",
+                    "16": "Ponte de Lima"
+                };
+
+                return rotas[numero];
+            }
+
+            function editarCliente(codigo) {
+
+                const clientes =
+                    JSON.parse(localStorage.getItem("clientes")) || [];
+
+                const cliente =
+                    clientes.find(function (cliente) {
+                        return cliente.codigo === codigo;
+                    });
+
+                if (!cliente) {
+                    alert("Cliente não encontrado.");
+                    return;
+                }
+                clienteEmEdicao = codigo;
+
+                document
+                    .querySelector(".formulario")
+                    .classList.add("editando");
+
+                document.getElementById("tituloFormulario").textContent =
+                    "Editar cliente";
+
+                document.getElementById("botaoFormulario").textContent =
+                    "Atualizar cliente";
+
+                document.getElementById("codigo").value = cliente.codigo;
+                document.getElementById("nome").value = cliente.nome;
+                document.getElementById("endereco").value = cliente.endereco;
+                document.getElementById("rota").value = cliente.rota;
+
+            }
+
+            function excluirCliente(codigo) {
+
+                const confirmar = confirm(
+                    "Tem certeza que deseja excluir este cliente?"
+                );
+
+                if (!confirmar) {
+                    return;
+                }
+
+                let clientes =
+                    JSON.parse(localStorage.getItem("clientes")) || [];
+
+                clientes = clientes.filter(function (cliente) {
+                    return cliente.codigo !== codigo;
+                });
+
+                localStorage.setItem(
+                    "clientes",
+                    JSON.stringify(clientes)
+                );
+
+                alert("Cliente excluído com sucesso!");
+
+                pesquisarClientes();
+                atualizarResumoClientes();
+            }
+
+            function cadastrarCliente() {
+
+                let clientes =
+                    JSON.parse(localStorage.getItem("clientes")) || [];
+
+                const codigo =
+                    document.getElementById("codigo").value.trim();
+
+                const nome =
+                    document.getElementById("nome").value.trim();
+
+                const endereco =
+                    document.getElementById("endereco").value.trim();
+
+                const rota = document.getElementById("rota").value;
+
+                if (codigo === "" || nome === "" || endereco === "" || rota === "") {
+
+                    alert("Preencha todos os campos.");
+
+                    return;
+                }
+
+
+                const novoCliente = {
+                    codigo: codigo,
+                    nome: nome,
+                    endereco: endereco,
+                    rota: rota
+                };
+
+                if (clienteEmEdicao !== null) {
+
+                    const indice = clientes.findIndex(function (cliente) {
+                        return cliente.codigo === clienteEmEdicao;
+                    });
+
+                    if (indice !== -1) {
+                        clientes[indice] = novoCliente;
+                    }
+
+                } else {
+
+                    clientes.push(novoCliente);
+
+                }
+
+                localStorage.setItem(
+                    "clientes",
+                    JSON.stringify(clientes)
+                );
+
+                // Limpa os campos
+
+                document.getElementById("codigo").value = "";
+
+                document.getElementById("nome").value = "";
+
+                document.getElementById("endereco").value = "";
+
+                document.getElementById("rota").value = "";
+
+
+                // Mostra uma mensagem
+
+                if (clienteEmEdicao === null) {
+
+                    alert("Cliente cadastrado com sucesso!");
+
+                } else {
+
+                    alert("Cliente atualizado com sucesso!");
+
+                }
+
+                clienteEmEdicao = null;
+
+                document
+                    .querySelector(".formulario")
+                    .classList.remove("editando");
+
+                document.getElementById("tituloFormulario").textContent =
+                    "Novo cliente";
+
+                document.getElementById("botaoFormulario").textContent =
+                    "Cadastrar cliente";
+
+
+                // Coloca o cursor novamente no código
+
+                document.getElementById("codigo").focus();
+
+
+                // Atualiza a pesquisa
+
+                pesquisarClientes();
+                atualizarResumoClientes();
+            }
+
+
+            // =========================
+            // PESQUISAR CLIENTES
+            // =========================
+
+            function pesquisarClientes() {
+
+                const texto =
+                    document.getElementById("pesquisa").value
+                        .trim()
+                        .toLowerCase();
+
+                const filtroRota =
+                    document.getElementById("filtroRota").value;
+
+                const lista =
+                    document.getElementById("listaClientes");
+
+
+                const clientes =
+                    JSON.parse(localStorage.getItem("clientes")) || [];
+
+
+                const clientesFiltrados =
+                    clientes.filter(function (cliente) {
+
+                        const correspondeTexto =
+                            texto === "" ||
+                            cliente.codigo.toLowerCase().includes(texto) ||
+                            cliente.nome.toLowerCase().includes(texto) ||
+                            cliente.endereco.toLowerCase().includes(texto) ||
+                            cliente.rota.toLowerCase().includes(texto) ||
+                            nomeDaRota(cliente.rota).toLowerCase().includes(texto);
+
+                        const correspondeRota =
+                            filtroRota === "" ||
+                            cliente.rota === filtroRota;
+
+                        return correspondeTexto && correspondeRota;
+
+                    });
+
+
+                // Nenhum resultado
+
+                if (clientesFiltrados.length === 0) {
+
+                    lista.innerHTML = `
+    <div class="mensagem-vazia">
+        <strong>Nenhum cliente encontrado</strong>
+        <span>
+            Tente outro código, nome ou rota.
+        </span>
+    </div>
+`;
+
+                    return;
+                }
+
+
+                // Mostra os resultados
+
+                lista.innerHTML = "";
+
+
+                clientesFiltrados.forEach(function (cliente) {
+
+                    lista.innerHTML += `
+    <div class="cliente">
+
+        <div class="cliente-cabecalho">
+
+    <strong>
+        ${cliente.nome}
+    </strong>
+
+    <span class="cliente-codigo">
+    ${cliente.codigo}
+    </span>
+
+</div>
+
+<div class="cliente-info">
+
+    <span>
+        ${cliente.endereco}
+    </span>
+
+    <span class="cliente-rota">
+    Rota ${cliente.rota} — ${nomeDaRota(cliente.rota)}
+    </span>
+
+</div>
+
+        <button
+    class="btn-editar"
+    onclick="editarCliente('${cliente.codigo}')"
+>
+    Editar
+</button>
+
+<button
+    class="btn-excluir"
+    onclick="excluirCliente('${cliente.codigo}')"
+>
+    Excluir
+</button>
+
+    </div>
+`;
+
+                });
+
+            }
+
+            function atualizarResumoClientes() {
+
+                const clientes =
+                    JSON.parse(localStorage.getItem("clientes")) || [];
+
+                const rotasUtilizadas =
+                    new Set();
+
+                clientes.forEach(function (cliente) {
+
+                    if (cliente.rota) {
+                        rotasUtilizadas.add(cliente.rota);
+                    }
+
+                });
+
+                const filtroRota =
+                    document.getElementById("filtroRota").value;
+
+                const clientesNaRota =
+                    filtroRota === ""
+                        ? clientes.length
+                        : clientes.filter(function (cliente) {
+                            return cliente.rota === filtroRota;
+                        }).length;
+
+                document.getElementById("resumoClientes").innerHTML = `
+
+        <div class="indicador-cliente">
+
+            <strong>
+                ${clientes.length}
+            </strong>
+
+            <span>
+                clientes cadastrados
+            </span>
+
+        </div>
+
+
+        <div class="indicador-cliente">
+
+            <strong>
+                ${rotasUtilizadas.size} / 16
+            </strong>
+
+            <span>
+                rotas utilizadas
+            </span>
+
+        </div>
+
+
+        <div class="indicador-cliente">
+
+            <strong>
+                ${clientesNaRota}
+            </strong>
+
+            <span>
+                ${filtroRota === "" ? "todos os clientes" : "clientes em distribuição"}
+            </span>
+
+        </div>
+
+    `;
+            }
+
+            atualizarResumoClientes();
+
+        </script>
+
+    </main>
+
+    <script>
+
+        fetch("menu.html")
+            .then(function (resposta) {
+                return resposta.text();
+            })
+            .then(function (menu) {
+
+                document.getElementById("menu-container").innerHTML = menu;
+
+                const paginaAtual =
+                    window.location.pathname.split("/").pop();
+
+                document.querySelectorAll(".menu a").forEach(function (link) {
+
+                    const paginaLink =
+                        link.getAttribute("href");
+
+                    if (paginaLink === paginaAtual) {
+                        link.classList.add("ativo");
+                    }
+
+                });
+
+            });
+
+    </script>
+
+</body>
+
+</html>

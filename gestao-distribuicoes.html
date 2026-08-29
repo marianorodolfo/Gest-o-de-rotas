@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestão de Distribuições</title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f3f6fa;
+
+            color: #1f2937;
+
+        }
+
+
+        #conteudo {
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 35px 25px 60px;
+
+        }
+
+
+        /* ================================
+           TÍTULO PRINCIPAL
+        ================================= */
+
+        h1 {
+
+            margin: 0 0 35px;
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+        }
+
+
+        /* ================================
+           TÍTULOS DAS SECÇÕES
+        ================================= */
+
+        h2 {
+
+            margin: 35px 0 18px;
+
+            font-size: 22px;
+
+            color: #172033;
+
+        }
+
+
+        /* ================================
+           LISTA DE ITENS
+        ================================= */
+
+        /* ================================
+   GRELHA DE DISTRIBUIDORES E VEÍCULOS
+================================ */
+
+        #listaDistribuidoresCarro,
+        #listaDistribuidoresMoto,
+        #listaVeiculos {
+
+            display: grid !important;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr)) !important;
+
+            gap: 10px;
+
+            width: 100%;
+
+        }
+
+
+        /* ================================
+           CARTÃO
+        ================================= */
+
+        .item-gestao {
+
+            background: white;
+
+            border: 1px solid #e1e7ef;
+
+            border-radius: 10px;
+
+            padding: 10px 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            min-height: 52px;
+
+            box-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.04);
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+
+        }
+
+
+        .item-gestao:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 14px rgba(0, 0, 0, 0.09);
+
+        }
+
+
+        /* ================================
+           NOME
+        ================================= */
+
+        .item-gestao span {
+
+            flex: 1;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #263247;
+
+            line-height: 1.3;
+
+        }
+
+
+        /* ================================
+           BOTÕES
+        ================================= */
+
+        .item-gestao button {
+
+            border: none;
+
+            border-radius: 6px;
+
+            padding: px 8px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease,
+                transform 0.1s ease;
+
+        }
+
+
+        .item-gestao button:active {
+
+            transform: scale(0.96);
+
+        }
+
+
+        /* EDITAR */
+
+        .item-gestao button:first-of-type {
+
+            background: #e8f0ff;
+
+            color: #2563eb;
+
+        }
+
+
+        .item-gestao button:first-of-type:hover {
+
+            background: #dbe7ff;
+
+        }
+
+
+        /* EXCLUIR */
+
+        .item-gestao button:last-of-type {
+
+            background: #feecec;
+
+            color: #dc2626;
+
+        }
+
+
+        .item-gestao button:last-of-type:hover {
+
+            background: #fde0e0;
+
+        }
+
+
+        /* ================================
+           FORMULÁRIO
+        ================================= */
+
+        .formulario-gestao {
+
+            margin-top: 15px;
+
+            background: white;
+
+            border: 1px solid #e1e7ef;
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            width: fit-content;
+
+        }
+
+
+        .formulario-gestao input {
+
+            width: 260px;
+
+            padding: 10px 12px;
+
+            border: 1px solid #cfd7e3;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+        .formulario-gestao input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+
+        }
+
+
+        .formulario-gestao button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 10px 14px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+        }
+
+
+        .formulario-gestao button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        /* ================================
+           SEPARAÇÃO ENTRE SECÇÕES
+        ================================= */
+
+        #listaVeiculos {
+
+            margin-bottom: 5px;
+
+        }
+
+
+        /* ================================
+           TABLET
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            #listaDistribuidoresCarro,
+            #listaDistribuidoresMoto,
+            #listaVeiculos {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+            }
+
+        }
+
+
+        /* ================================
+   TELEMÓVEL
+================================= */
+
+        @media (max-width: 600px) {
+
+            #conteudo {
+
+                padding: 25px 15px 40px;
+
+            }
+
+
+            h1 {
+
+                font-size: 27px;
+
+                margin-bottom: 25px;
+
+            }
+
+
+            h2 {
+
+                font-size: 20px;
+
+            }
+
+
+            /* ================================
+       1 CARTÃO POR LINHA
+    ================================= */
+
+            #listaDistribuidoresCarro,
+            #listaDistribuidoresMoto,
+            #listaVeiculos {
+
+                display: grid !important;
+
+                grid-template-columns: 1fr !important;
+
+                width: 100% !important;
+
+                gap: 10px;
+
+            }
+
+
+            /* ================================
+       CARTÃO
+    ================================= */
+
+            .item-gestao {
+
+                width: 100%;
+
+                padding: 14px;
+
+            }
+
+
+            /* ================================
+       FORMULÁRIO
+    ================================= */
+
+            .formulario-gestao {
+
+                width: 100%;
+
+                flex-direction: row;
+
+                align-items: center;
+
+                gap: 8px;
+
+            }
+
+
+            .formulario-gestao input {
+
+                width: auto;
+
+                flex: 1;
+
+                min-width: 0;
+
+            }
+
+
+            .formulario-gestao button {
+
+                width: auto;
+
+                flex-shrink: 0;
+
+                padding: 10px 12px;
+
+            }
+
+        }
+        
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main id="conteudo">
+
+        <h1>
+            Gestão de Distribuições
+        </h1>
+
+
+        <!-- ================================
+         DISTRIBUIDORES DE CARRO
+    ================================= -->
+
+        <h2>
+            🚗 Distribuidores de carro
+        </h2>
+
+        <div id="listaDistribuidoresCarro"></div>
+
+        <div class="formulario-gestao">
+
+            <input type="text" id="novoDistribuidorCarro" placeholder="Nome do distribuidor">
+
+            <button onclick="adicionarDistribuidor('carro')">
+                + Adicionar distribuidor
+            </button>
+
+        </div>
+
+
+        <!-- ================================
+         DISTRIBUIDORES DE MOTO
+    ================================= -->
+
+        <h2>
+            🏍️ Distribuidores de moto
+        </h2>
+
+        <div id="listaDistribuidoresMoto"></div>
+
+        <div class="formulario-gestao">
+
+            <input type="text" id="novoDistribuidorMoto" placeholder="Nome do distribuidor">
+
+            <button onclick="adicionarDistribuidor('moto')">
+                + Adicionar distribuidor
+            </button>
+
+        </div>
+
+
+        <!-- ================================
+         VEÍCULOS
+    ================================= -->
+
+        <h2>
+            🚚 Veículos
+        </h2>
+
+        <div id="listaVeiculos"></div>
+
+        <div class="formulario-gestao">
+
+            <input type="text" id="novoVeiculo" placeholder="Nome do veículo">
+
+            <button onclick="adicionarVeiculo()">
+                + Adicionar veículo
+            </button>
+
+        </div>
+
+    </main>
+
+
+    <script>
+
+        /* ================================
+           DISTRIBUIDORES INICIAIS
+        ================================= */
+
+        const distribuidoresCarroIniciais = [
+            "Aníbal",
+            "João Palha",
+            "Victor Hugo",
+            "André",
+            "Lopes",
+            "Fernando"
+        ];
+
+
+        const distribuidoresMotoIniciais = [
+            "Ianyck",
+            "Dione",
+            "Charles",
+            "Francisco",
+            "Vitor",
+            "Mauro",
+            "Leonardo",
+            "Juan",
+            "Gustavo"
+        ];
+
+
+        /* ================================
+           VEÍCULOS INICIAIS
+        ================================= */
+
+        const veiculosIniciais = [
+            "Carro 1",
+            "Carro 2",
+            "Carro 3",
+            "Carro 4",
+            "Carro 5",
+            "Carro 6",
+            "Moto 1",
+            "Moto 2",
+            "Moto 3",
+            "Moto 4",
+            "Moto 5",
+            "Moto 6",
+            "Moto 7",
+            "Moto 8",
+            "Moto 9"
+        ];
+
+
+        /* ================================
+           MIGRAÇÃO DOS DISTRIBUIDORES
+        ================================= */
+
+        function prepararDistribuidores() {
+
+            const existentes =
+                JSON.parse(
+                    localStorage.getItem("distribuidores")
+                );
+
+
+            /*
+             * Se já estiverem no novo formato,
+             * não fazemos nada.
+             */
+
+            if (
+                Array.isArray(existentes) &&
+                existentes.length > 0 &&
+                typeof existentes[0] === "object"
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Se existirem os distribuidores antigos
+             * como strings, fazemos a conversão.
+             */
+
+            const distribuidores = [];
+
+
+            if (Array.isArray(existentes)) {
+
+                existentes.forEach(function (nome) {
+
+                    if (
+                        distribuidoresCarroIniciais
+                            .includes(nome)
+                    ) {
+
+                        distribuidores.push({
+                            nome: nome,
+                            tipo: "carro"
+                        });
+
+                    }
+                    else if (
+                        distribuidoresMotoIniciais
+                            .includes(nome)
+                    ) {
+
+                        distribuidores.push({
+                            nome: nome,
+                            tipo: "moto"
+                        });
+
+                    }
+
+                });
+
+            }
+            else {
+
+                distribuidoresCarroIniciais
+                    .forEach(function (nome) {
+
+                        distribuidores.push({
+                            nome: nome,
+                            tipo: "carro"
+                        });
+
+                    });
+
+
+                distribuidoresMotoIniciais
+                    .forEach(function (nome) {
+
+                        distribuidores.push({
+                            nome: nome,
+                            tipo: "moto"
+                        });
+
+                    });
+
+            }
+
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(distribuidores)
+            );
+
+        }
+
+
+        prepararDistribuidores();
+
+
+        /* ================================
+           VEÍCULOS
+        ================================= */
+
+        if (!localStorage.getItem("veiculos")) {
+
+            localStorage.setItem(
+                "veiculos",
+                JSON.stringify(veiculosIniciais)
+            );
+
+        }
+
+
+        /* ================================
+           MOSTRAR DISTRIBUIDORES
+        ================================= */
+
+        function mostrarDistribuidores() {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+
+            const carros =
+                lista.filter(function (distribuidor) {
+
+                    return distribuidor.tipo === "carro";
+
+                });
+
+
+            const motos =
+                lista.filter(function (distribuidor) {
+
+                    return distribuidor.tipo === "moto";
+
+                });
+
+
+            const areaCarro =
+                document.getElementById(
+                    "listaDistribuidoresCarro"
+                );
+
+
+            const areaMoto =
+                document.getElementById(
+                    "listaDistribuidoresMoto"
+                );
+
+
+            areaCarro.innerHTML = "";
+
+
+            areaMoto.innerHTML = "";
+
+
+            carros.forEach(
+                function (distribuidor, indice) {
+
+                    areaCarro.innerHTML += `
+
+                    <div class="item-gestao">
+
+                        <span>
+
+                            ${String(
+                        indice + 1
+                    ).padStart(2, "0")}
+
+                            ·
+
+                            ${distribuidor.nome}
+
+                        </span>
+
+
+                        <button
+                            onclick="editarDistribuidor(${lista.indexOf(distribuidor)})"
+                        >
+                            Editar
+                        </button>
+
+
+                        <button
+                            onclick="excluirDistribuidor(${lista.indexOf(distribuidor)})"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                `;
+
+                }
+            );
+
+
+            motos.forEach(
+                function (distribuidor, indice) {
+
+                    areaMoto.innerHTML += `
+
+                    <div class="item-gestao">
+
+                        <span>
+
+                            ${String(
+                        indice + 1
+                    ).padStart(2, "0")}
+
+                            ·
+
+                            ${distribuidor.nome}
+
+                        </span>
+
+
+                        <button
+                            onclick="editarDistribuidor(${lista.indexOf(distribuidor)})"
+                        >
+                            Editar
+                        </button>
+
+
+                        <button
+                            onclick="excluirDistribuidor(${lista.indexOf(distribuidor)})"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                `;
+
+                }
+            );
+
+        }
+
+
+        /* ================================
+           ADICIONAR DISTRIBUIDOR
+        ================================= */
+
+        function adicionarDistribuidor(tipo) {
+
+            const idCampo =
+                tipo === "carro"
+                    ? "novoDistribuidorCarro"
+                    : "novoDistribuidorMoto";
+
+
+            const campo =
+                document.getElementById(idCampo);
+
+
+            const nome =
+                campo.value.trim();
+
+
+            if (!nome) {
+
+                alert(
+                    "Digite o nome do distribuidor."
+                );
+
+                return;
+
+            }
+
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+
+            const existe =
+                lista.some(
+                    function (distribuidor) {
+
+                        return (
+                            distribuidor.nome
+                                .toLowerCase() ===
+                            nome.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existe) {
+
+                alert(
+                    "Esse distribuidor já existe."
+                );
+
+                return;
+
+            }
+
+
+            lista.push({
+
+                nome: nome,
+
+                tipo: tipo
+
+            });
+
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(lista)
+            );
+
+
+            campo.value = "";
+
+
+            mostrarDistribuidores();
+
+        }
+
+
+        /* ================================
+           EDITAR DISTRIBUIDOR
+        ================================= */
+
+        function editarDistribuidor(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+
+            const distribuidor =
+                lista[indice];
+
+
+            if (!distribuidor) {
+
+                return;
+
+            }
+
+
+            const novoNome =
+                prompt(
+                    "Novo nome do distribuidor:",
+                    distribuidor.nome
+                );
+
+
+            if (novoNome === null) {
+
+                return;
+
+            }
+
+
+            const nome =
+                novoNome.trim();
+
+
+            if (!nome) {
+
+                alert(
+                    "O nome não pode ficar vazio."
+                );
+
+                return;
+
+            }
+
+
+            const existe =
+                lista.some(
+                    function (item, i) {
+
+                        return (
+                            i !== indice &&
+                            item.nome.toLowerCase() ===
+                            nome.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existe) {
+
+                alert(
+                    "Esse distribuidor já existe."
+                );
+
+                return;
+
+            }
+
+
+            lista[indice].nome = nome;
+
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(lista)
+            );
+
+
+            mostrarDistribuidores();
+
+        }
+
+
+        /* ================================
+           EXCLUIR DISTRIBUIDOR
+        ================================= */
+
+        function excluirDistribuidor(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+
+            const distribuidor =
+                lista[indice];
+
+
+            if (!distribuidor) {
+
+                return;
+
+            }
+
+
+            const confirmar =
+                confirm(
+                    'Tem a certeza que pretende excluir "' +
+                    distribuidor.nome +
+                    '"?'
+                );
+
+
+            if (!confirmar) {
+
+                return;
+
+            }
+
+
+            lista.splice(
+                indice,
+                1
+            );
+
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(lista)
+            );
+
+
+            mostrarDistribuidores();
+
+        }
+
+
+        /* ================================
+           MOSTRAR VEÍCULOS
+        ================================= */
+
+        function mostrarVeiculos() {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const area =
+                document.getElementById(
+                    "listaVeiculos"
+                );
+
+
+            area.innerHTML = "";
+
+
+            lista.forEach(
+                function (
+                    veiculo,
+                    indice
+                ) {
+
+                    area.innerHTML += `
+
+                    <div class="item-gestao">
+
+                        <span>
+
+                            ${String(
+                        indice + 1
+                    ).padStart(2, "0")}
+
+                            ·
+
+                            ${veiculo}
+
+                        </span>
+
+
+                        <button
+                            onclick="editarVeiculo(${indice})"
+                        >
+                            Editar
+                        </button>
+
+
+                        <button
+                            onclick="excluirVeiculo(${indice})"
+                        >
+                            Excluir
+                        </button>
+
+                    </div>
+
+                `;
+
+                }
+            );
+
+        }
+
+
+        /* ================================
+           ADICIONAR VEÍCULO
+        ================================= */
+
+        function adicionarVeiculo() {
+
+            const campo =
+                document.getElementById(
+                    "novoVeiculo"
+                );
+
+
+            const nome =
+                campo.value.trim();
+
+
+            if (!nome) {
+
+                alert(
+                    "Digite o nome do veículo."
+                );
+
+                return;
+
+            }
+
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const existe =
+                lista.some(
+                    function (veiculo) {
+
+                        return (
+                            veiculo.toLowerCase() ===
+                            nome.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existe) {
+
+                alert(
+                    "Esse veículo já existe."
+                );
+
+                return;
+
+            }
+
+
+            lista.push(nome);
+
+
+            localStorage.setItem(
+                "veiculos",
+                JSON.stringify(lista)
+            );
+
+
+            campo.value = "";
+
+
+            mostrarVeiculos();
+
+        }
+
+
+        /* ================================
+           EDITAR VEÍCULO
+        ================================= */
+
+        function editarVeiculo(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const nomeAtual =
+                lista[indice];
+
+
+            const novoNome =
+                prompt(
+                    "Novo nome do veículo:",
+                    nomeAtual
+                );
+
+
+            if (novoNome === null) {
+
+                return;
+
+            }
+
+
+            const nome =
+                novoNome.trim();
+
+
+            if (!nome) {
+
+                alert(
+                    "O nome não pode ficar vazio."
+                );
+
+                return;
+
+            }
+
+
+            const existe =
+                lista.some(
+                    function (
+                        veiculo,
+                        i
+                    ) {
+
+                        return (
+                            i !== indice &&
+                            veiculo.toLowerCase() ===
+                            nome.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existe) {
+
+                alert(
+                    "Esse veículo já existe."
+                );
+
+                return;
+
+            }
+
+
+            lista[indice] = nome;
+
+
+            localStorage.setItem(
+                "veiculos",
+                JSON.stringify(lista)
+            );
+
+
+            mostrarVeiculos();
+
+        }
+
+
+        /* ================================
+           EXCLUIR VEÍCULO
+        ================================= */
+
+        function excluirVeiculo(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const nome =
+                lista[indice];
+
+
+            const confirmar =
+                confirm(
+                    'Tem a certeza que pretende excluir "' +
+                    nome +
+                    '"?'
+                );
+
+
+            if (!confirmar) {
+
+                return;
+
+            }
+
+
+            lista.splice(
+                indice,
+                1
+            );
+
+
+            localStorage.setItem(
+                "veiculos",
+                JSON.stringify(lista)
+            );
+
+
+            mostrarVeiculos();
+
+        }
+
+
+        /* ================================
+           INICIAR
+        ================================= */
+
+        mostrarDistribuidores();
+
+        mostrarVeiculos();
+
+    </script>
+
+</body>
+
+</html>
