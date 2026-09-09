@@ -11,282 +11,638 @@
 
     <style>
         body {
+
             font-family: Arial, sans-serif;
+
             margin: 0;
+
             padding: 0;
+
             background: #f4f6f8;
+
             color: #1f2933;
+
         }
+
 
         #conteudo {
+
             margin-left: 230px;
+
             padding: 94px 30px 30px;
+
         }
+
 
         h1 {
+
             margin-top: 0;
+
             margin-bottom: 25px;
+
             font-size: 28px;
+
         }
 
-        /* LISTA DE DISTRIBUIÇÕES */
+
+        /* =========================================
+           LISTA DE DISTRIBUIÇÕES
+        ========================================= */
 
         #listaDistribuicoes {
+
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 16px;
+
             align-items: start;
+
         }
+
 
         .cartao-distribuicao {
+
             background: white;
+
             border: 1px solid #e1e6eb;
+
             border-radius: 14px;
+
             padding: 8px 14px;
+
             width: 100%;
+
             box-sizing: border-box;
-            box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+
+            box-shadow:
+                0 2px 8px rgba(16, 24, 40, 0.06);
+
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
         }
+
 
         .cartao-distribuicao:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(16, 24, 40, 0.10);
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 6px 16px rgba(16, 24, 40, 0.10);
+
         }
+
 
         .cartao-distribuicao h2 {
+
             margin-top: 0;
+
             margin-bottom: 8px;
+
             color: #123b63;
+
             font-size: 19px;
+
         }
+
 
         .info-distribuicao {
+
             display: flex;
+
             flex-direction: column;
+
             gap: 1px;
+
             color: #667085;
+
             font-size: 14px;
+
         }
+
 
         .info-distribuicao strong {
+
             color: #1f2933;
+
         }
 
 
-        /* DETALHES DA DISTRIBUIÇÃO */
+        .info-distribuicao p {
+
+            margin-top: 2px;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        /* =========================================
+           DETALHES DA DISTRIBUIÇÃO
+        ========================================= */
 
         .detalhe-distribuicao {
+
             background: #ffffff;
+
             border: 1px solid #e1e6eb;
+
             border-radius: 14px;
+
             padding: 24px;
-            box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+
+            box-shadow:
+                0 2px 8px rgba(16, 24, 40, 0.06);
+
             max-width: 700px;
+
         }
+
 
         .detalhe-distribuicao h2 {
+
             margin-top: 0;
+
             margin-bottom: 20px;
+
             color: #123b63;
+
         }
+
 
         .detalhe-item {
+
             margin-bottom: 14px;
+
             color: #667085;
+
         }
+
 
         .detalhe-item strong {
+
             color: #1f2933;
+
         }
 
 
-        /* BOTÃO FINALIZAR */
+        /* =========================================
+           CLIENTES DA DISTRIBUIÇÃO
+        ========================================= */
+
+        .clientes-da-distribuicao {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .cliente-distribuicao {
+
+            padding: 10px 12px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 8px;
+
+            color: #1f2933;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================================
+           BOTÕES
+        ========================================= */
 
         #finalizarDistribuicao {
+
             display: inline-flex;
+
             align-items: center;
+
             justify-content: center;
+
             width: fit-content;
+
             height: 32px;
+
             margin-top: 10px;
+
             padding: 0 12px;
+
             background: #2f8f5b;
+
             color: white;
+
             border: none;
+
             border-radius: 7px;
+
             font-size: 13px;
+
             font-weight: 600;
+
             line-height: 1;
+
             cursor: pointer;
+
         }
+
 
         #finalizarDistribuicao:hover {
+
             background: #246b44;
-            transform: translateY(-1px);
+
+            transform:
+                translateY(-1px);
+
         }
+
 
         #finalizarDistribuicao:disabled {
+
             background: #aab4bd;
+
             cursor: not-allowed;
+
             transform: none;
+
             opacity: 0.8;
+
         }
 
-
-        /* BOTÃO VOLTAR */
 
         .btn-voltar-distribuicoes {
+
             position: relative;
+
             top: -2px;
+
             display: block !important;
+
             width: fit-content !important;
+
             height: 32px !important;
+
             margin-top: 15px;
+
             margin-left: 0 !important;
+
             padding: 0 12px !important;
+
             background: #123b63;
+
             color: white;
+
             border: none;
+
             border-radius: 7px;
+
             font-size: 13px;
+
             font-weight: 600;
+
             line-height: 1;
+
             cursor: pointer;
+
         }
+
 
         .btn-voltar-distribuicoes:hover {
+
             background: #09243d;
-            transform: translateY(-1px);
+
+            transform:
+                translateY(-1px);
+
         }
+
 
         .acoes-distribuicao {
+
             display: flex;
+
             align-items: center;
+
             gap: 8px;
+
             margin-top: 10px;
+
         }
+
+
+        /* =========================================
+           ESTADOS
+        ========================================= */
 
         .estado-distribuicao {
+
             display: inline-block;
+
             width: fit-content;
+
             padding: 5px 10px;
+
             border-radius: 6px;
+
             background: #e8f5e9;
+
             color: #2f8f5b;
+
             font-size: 12px;
+
             font-weight: 600;
+
         }
+
 
         .estado-em-andamento {
+
             background: #e8f0f7;
+
             color: #123b63;
+
         }
+
+
+        /* =========================================
+           ABAS
+        ========================================= */
 
         .abas-distribuicoes {
+
             display: flex;
+
             gap: 8px;
+
             margin-bottom: 20px;
+
+            flex-wrap: wrap;
+
         }
+
 
         .aba-distribuicao {
+
             border: 1px solid #d5dce3;
+
             background: white;
+
             color: #667085;
+
             padding: 8px 16px;
+
             border-radius: 7px;
+
             font-size: 13px;
+
             font-weight: 600;
+
             cursor: pointer;
+
         }
+
 
         .aba-distribuicao:hover {
+
             background: #f0f4f7;
+
         }
+
 
         .aba-distribuicao.ativa {
+
             background: #123b63;
+
             color: white;
+
             border-color: #123b63;
+
         }
+
+
+        /* =========================================
+           TÍTULO DA LISTA
+        ========================================= */
 
         #tituloListaDistribuicoes {
-            margin: -5px 0 15px;
+
+            margin:
+                -5px 0 15px;
+
             color: #667085;
+
             font-size: 13px;
+
             font-weight: 600;
+
         }
 
 
-        /* TELEMÓVEL */
+        /* =========================================
+           FILTRO DO HISTÓRICO
+        ========================================= */
+
+        #filtroHistorico {
+
+            margin-bottom: 20px;
+
+            padding: 14px;
+
+            background: white;
+
+            border: 1px solid #e1e6eb;
+
+            border-radius: 10px;
+
+        }
+
+
+        #filtroHistorico label {
+
+            color: #667085;
+
+            font-size: 13px;
+
+            margin-right: 8px;
+
+        }
+
+
+        #filtroDataHistorico {
+
+            padding: 6px 8px;
+
+            border:
+                1px solid #d5dce3;
+
+            border-radius: 6px;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+
+        #filtroHistorico button {
+
+            margin-left: 8px;
+
+            padding: 6px 10px;
+
+            border:
+                1px solid #d5dce3;
+
+            background: white;
+
+            color: #667085;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+        }
+
+
+        #filtroHistorico button:hover {
+
+            background: #f0f4f7;
+
+        }
+
+
+        /* =========================================
+           TELEMÓVEL
+        ========================================= */
 
         @media (max-width: 900px) {
 
             #conteudo {
+
                 margin-left: 0;
-                padding: 20px 16px;
+
+                padding:
+                    20px 16px;
+
             }
+
 
             #listaDistribuicoes {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
+
             }
+
 
             .cartao-distribuicao {
-                max-width: 400px;
+
+                max-width:
+                    400px;
+
+                padding:
+                    8px 12px;
+
             }
+
 
             .detalhe-distribuicao {
-                padding: 10px 12px;
+
+                padding:
+                    16px;
+
             }
+
 
             .detalhe-distribuicao h1 {
-                margin-bottom: 10px;
-                font-size: 22px;
+
+                margin-bottom:
+                    10px;
+
+                font-size:
+                    22px;
+
             }
+
 
             .detalhe-distribuicao h2 {
-                margin-bottom: 10px;
+
+                margin-bottom:
+                    10px;
+
             }
+
 
             .detalhe-item {
-                margin-bottom: 6px;
+
+                margin-bottom:
+                    8px;
+
             }
 
-            @media (max-width: 900px) {
+        }
 
-                .cartao-distribuicao {
-                    padding: 10px 12px;
-                }
 
-                .cartao-distribuicao h2 {
-                    margin-bottom: 8px;
-                }
+        @media (max-width: 600px) {
 
-                .info-distribuicao {
-                    gap: 2px;
-                }
+            #filtroHistorico {
 
-                .cartao-distribuicao .info-distribuicao p {
-                    margin-top: 2px;
-                    margin-bottom: 2px;
-                }
+                display: flex;
 
-                .cartao-distribuicao {
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-                }
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+
+            }
+
+
+            #filtroHistorico label {
+
+                margin-right: 0;
+
+            }
+
+
+            #filtroHistorico button {
+
+                margin-left: 0;
 
             }
 
         }
     </style>
 
+
     <title>Distribuições</title>
 
 </head>
 
+
 <body>
+
+
+    <!-- =========================================
+         CABEÇALHO
+    ========================================= -->
 
     <header class="topo">
 
@@ -296,109 +652,237 @@
 
     </header>
 
+
+    <!-- =========================================
+         MENU
+    ========================================= -->
+
     <div id="menu-container"></div>
+
+
+    <!-- =========================================
+         CONTEÚDO
+    ========================================= -->
 
     <main id="conteudo">
 
-        <h1>Distribuições</h1>
+
+        <h1>
+            Distribuições
+        </h1>
+
 
         <p id="tituloListaDistribuicoes"></p>
 
+
+        <!-- =====================================
+             ABAS
+        ====================================== -->
+
         <div class="abas-distribuicoes">
+
 
             <button id="abaEmAndamento" class="aba-distribuicao ativa">
                 Em andamento
             </button>
 
+
             <button id="abaHistorico" class="aba-distribuicao">
                 Histórico
             </button>
+
 
             <button id="abaGestao" class="aba-distribuicao">
                 ⚙️ Gestão
             </button>
 
+
         </div>
 
-        <div id="filtroHistorico" style="display: none; margin-bottom: 20px;">
+
+        <!-- =====================================
+             FILTRO HISTÓRICO
+        ====================================== -->
+
+        <div id="filtroHistorico" style="display: none;">
 
             <label for="filtroDataHistorico">
+
                 Filtrar histórico por dia
+
             </label>
 
-            <input type="date" id="filtroDataHistorico" onchange="mostrarLista('historico')">
 
-            <button type="button" onclick="limparFiltroHistorico()" style="margin-left: 8px;">
+            <input type="date" id="filtroDataHistorico">
+
+
+            <button type="button" id="btnLimparFiltroHistorico">
+
                 Todos os dias
+
             </button>
 
         </div>
 
-        <div id="filtroHistorico" style="display: none; margin-bottom: 20px;">
 
-            <label for="filtroDataHistorico">
-                Filtrar histórico por dia
-            </label>
-
-            <input type="date" id="filtroDataHistorico" onchange="mostrarLista('historico')">
-
-            <button type="button" onclick="limparFiltroHistorico()">
-                Todos os dias
-            </button>
-
-        </div>
+        <!-- =====================================
+             LISTA
+        ====================================== -->
 
         <div id="listaDistribuicoes"></div>
 
+
     </main>
+
+
+    <!-- =========================================
+         MENU
+    ========================================= -->
 
     <script>
 
         fetch("menu.html")
+
             .then(function (resposta) {
+
                 return resposta.text();
+
             })
+
             .then(function (menu) {
 
-                document.getElementById("menu-container").innerHTML = menu;
+                document
+                    .getElementById(
+                        "menu-container"
+                    )
+                    .innerHTML = menu;
+
 
                 const paginaAtual =
-                    window.location.pathname.split("/").pop();
+                    window.location.pathname
+                        .split("/")
+                        .pop();
 
-                document.querySelectorAll(".menu a").forEach(function (link) {
 
-                    const paginaLink =
-                        link.getAttribute("href");
+                document
+                    .querySelectorAll(
+                        ".menu a"
+                    )
+                    .forEach(
+                        function (link) {
 
-                    if (paginaLink === paginaAtual) {
-                        link.classList.add("ativo");
-                    }
+                            const paginaLink =
+                                link.getAttribute(
+                                    "href"
+                                );
 
-                });
+
+                            if (
+                                paginaLink ===
+                                paginaAtual
+                            ) {
+
+                                link.classList.add(
+                                    "ativo"
+                                );
+
+                            }
+
+                        }
+                    );
 
             });
 
     </script>
 
+
+    <!-- =========================================
+         JAVASCRIPT PRINCIPAL
+    ========================================= -->
+
     <script>
 
+
+        /* =========================================
+           ELEMENTOS
+        ========================================= */
+
         const lista =
-            document.getElementById("listaDistribuicoes");
+            document.getElementById(
+                "listaDistribuicoes"
+            );
 
 
-        function mostrarLista(tipo) {
+        const abaEmAndamento =
+            document.getElementById(
+                "abaEmAndamento"
+            );
+
+
+        const abaHistorico =
+            document.getElementById(
+                "abaHistorico"
+            );
+
+
+        const abaGestao =
+            document.getElementById(
+                "abaGestao"
+            );
+
+
+        const filtroHistorico =
+            document.getElementById(
+                "filtroHistorico"
+            );
+
+
+        const filtroDataHistorico =
+            document.getElementById(
+                "filtroDataHistorico"
+            );
+
+
+        const btnLimparFiltroHistorico =
+            document.getElementById(
+                "btnLimparFiltroHistorico"
+            );
+
+
+        /* =========================================
+           LER DISTRIBUIÇÕES
+        ========================================= */
+
+        function obterDistribuicoes() {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "distribuicoes"
+                )
+            ) || [];
+
+        }
+
+
+        /* =========================================
+           MOSTRAR LISTA
+        ========================================= */
+
+        function mostrarLista(
+            tipo,
+            dataForcada
+        ) {
 
             lista.innerHTML = "";
 
 
-            const filtroHistorico =
-                document.getElementById("filtroHistorico");
+            /* =====================================
+               CONTROLAR FILTRO
+            ====================================== */
 
-            const filtroData =
-                document.getElementById("filtroDataHistorico");
-
-
-            if (filtroHistorico) {
+            if (
+                filtroHistorico
+            ) {
 
                 filtroHistorico.style.display =
                     tipo === "historico"
@@ -409,97 +893,142 @@
 
 
             const distribuicoes =
-                JSON.parse(
-                    localStorage.getItem("distribuicoes")
-                ) || [];
+                obterDistribuicoes();
 
+
+            /* =====================================
+               FILTRAR
+            ====================================== */
 
             const distribuicoesFiltradas =
                 distribuicoes
-                    .filter(function (distribuicao) {
 
-                        if (tipo === "andamento") {
-
-                            return distribuicao.status === "Em andamento";
-
-                        }
-
-
-                        if (distribuicao.status !== "Concluída") {
-
-                            return false;
-
-                        }
-
-
-                        if (
-                            filtroData &&
-                            filtroData.value
+                    .filter(
+                        function (
+                            distribuicao
                         ) {
 
-                            const partes =
-                                filtroData.value.split("-");
+                            if (
+                                !distribuicao
+                            ) {
+
+                                return false;
+
+                            }
 
 
-                            const dataFormatada =
-                                partes[2] +
-                                "/" +
-                                partes[1] +
-                                "/" +
-                                partes[0];
+                            /* =====================
+                               EM ANDAMENTO
+                            ====================== */
+
+                            if (
+                                tipo ===
+                                "andamento"
+                            ) {
+
+                                return (
+                                    distribuicao.status ===
+                                    "Em andamento"
+                                );
+
+                            }
 
 
-                            return distribuicao.data ===
-                                dataFormatada;
+                            /* =====================
+                               HISTÓRICO
+                            ====================== */
+
+                            if (
+                                distribuicao.status !==
+                                "Concluída"
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            /*
+ * Se existir filtro
+ * por dia, aplicar.
+ */
+
+                            console.log(
+                                "FILTRO HISTÓRICO:",
+                                filtroDataHistorico.value
+                            );
+
+                            const dataFiltro =
+                                dataForcada ||
+                                (
+                                    filtroDataHistorico
+                                        ? filtroDataHistorico.value
+                                        : ""
+                                );
+
+
+                            if (dataFiltro) {
+
+                                const partes =
+                                    dataFiltro.split("-");
+
+
+                                const dataFormatada =
+                                    partes[2] +
+                                    "/" +
+                                    partes[1] +
+                                    "/" +
+                                    partes[0];
+
+
+                                return (
+                                    distribuicao.data ===
+                                    dataFormatada
+                                );
+
+                            }
+
+
+                            return true;
 
                         }
+                    )
 
 
-                        return true;
+                    /* =================================
+                       ORDENAR
+                    ================================= */
 
-                    })
-                    .sort(function (a, b) {
+                    .sort(
+                        function (
+                            a,
+                            b
+                        ) {
 
-                        const dataA =
-                            a.fimTimestamp ||
-                            a.inicioTimestamp ||
-                            0;
-
-                        const dataB =
-                            b.fimTimestamp ||
-                            b.inicioTimestamp ||
-                            0;
-
-                        return dataB - dataA;
-
-                    });
+                            const dataA =
+                                a.fimTimestamp ||
+                                a.inicioTimestamp ||
+                                0;
 
 
-            if (distribuicoesFiltradas.length === 0) {
+                            const dataB =
+                                b.fimTimestamp ||
+                                b.inicioTimestamp ||
+                                0;
 
-                lista.innerHTML =
-                    tipo === "andamento"
-                        ? "<p>Nenhuma distribuição em andamento.</p>"
-                        : "<p>Nenhuma distribuição concluída neste dia.</p>";
 
-                const tituloLista =
-                    document.getElementById(
-                        "tituloListaDistribuicoes"
+                            return (
+                                dataB -
+                                dataA
+                            );
+
+                        }
                     );
 
-                if (tituloLista) {
 
-                    tituloLista.textContent =
-                        tipo === "andamento"
-                            ? "0 distribuições em andamento"
-                            : "0 distribuições concluídas";
-
-                }
-
-                return;
-
-            }
-
+            /* =====================================
+               TÍTULO
+            ====================================== */
 
             const tituloLista =
                 document.getElementById(
@@ -507,129 +1036,272 @@
                 );
 
 
-            if (tituloLista) {
+            if (
+                tituloLista
+            ) {
 
-                tituloLista.textContent =
-                    tipo === "andamento"
-                        ? distribuicoesFiltradas.length +
-                        " distribuições em andamento"
-                        : distribuicoesFiltradas.length +
+                if (
+                    tipo ===
+                    "andamento"
+                ) {
+
+                    tituloLista.textContent =
+                        distribuicoesFiltradas.length +
+                        " distribuições em andamento";
+
+                } else {
+
+                    tituloLista.textContent =
+                        distribuicoesFiltradas.length +
                         " distribuições concluídas";
+
+                }
 
             }
 
 
+            /* =====================================
+               SEM RESULTADOS
+            ====================================== */
+
+            if (
+                distribuicoesFiltradas.length ===
+                0
+            ) {
+
+                lista.innerHTML =
+                    tipo === "andamento"
+
+                        ? `
+                            <p>
+                                Nenhuma distribuição
+                                em andamento.
+                            </p>
+                        `
+
+                        : `
+                            <p>
+                                Nenhuma distribuição
+                                encontrada.
+                            </p>
+                        `;
+
+                return;
+
+            }
+
+
+            /* =====================================
+               CRIAR CARTÕES
+            ====================================== */
+
             distribuicoesFiltradas.forEach(
-                function (distribuicao, indice) {
+                function (
+                    distribuicao,
+                    indice
+                ) {
+
+
+                    const clientes =
+                        Array.isArray(
+                            distribuicao.clientes
+                        )
+                            ? distribuicao.clientes
+                            : [];
+
 
                     lista.innerHTML += `
 
-                    <div
-                        class="cartao-distribuicao"
-                        onclick="abrirDistribuicao(${distribuicao.id})"
-                    >
+                        <div
+                            class="cartao-distribuicao"
+                            onclick="
+                                abrirDistribuicao(
+                                    ${distribuicao.id}
+                                )
+                            "
+                        >
 
-                        <h2>
-                            Distribuição ${indice + 1}
-                        </h2>
+                            <h2>
 
-                        <div class="info-distribuicao">
+                                Distribuição
+                                ${indice + 1}
 
-                            <p>
-                                Data:
-                                <strong>
-                                    ${distribuicao.data}
-                                </strong>
-                            </p>
-
-                            <p>
-                                Distribuidor:
-                                <strong>
-                                    ${distribuicao.distribuidor}
-                                </strong>
-                            </p>
-
-                            <p>
-                                Veículo:
-                                <strong>
-                                    ${distribuicao.veiculo}
-                                </strong>
-                            </p>
-
-                            <p>
-                                <strong>
-                                    ${distribuicao.clientes.length}
-                                    clientes
-                                </strong>
-                            </p>
+                            </h2>
 
 
-                            ${tipo === "historico" ? `
+                            <div
+                                class="info-distribuicao"
+                            >
 
-                                <div
-                                    style="
-                                        display: flex;
-                                        gap: 20px;
-                                        flex-wrap: wrap;
+                                <p>
+
+                                    Data:
+
+                                    <strong>
+
+                                        ${distribuicao.data || "-"}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    Distribuidor:
+
+                                    <strong>
+
+                                        ${distribuicao.distribuidor || "-"}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    Veículo:
+
+                                    <strong>
+
+                                        ${distribuicao.veiculo || "-"}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+
+                                        ${clientes.length}
+
+                                        clientes
+
+                                    </strong>
+
+                                </p>
+
+
+                                ${tipo ===
+                            "historico"
+
+                            ? `
+
+                                            <div
+                                                style="
+                                                    display:
+                                                        flex;
+                                                    gap:
+                                                        20px;
+                                                    flex-wrap:
+                                                        wrap;
+                                                "
+                                            >
+
+                                                ${distribuicao.horaInicio
+
+                                ? `
+
+                                                            <p>
+
+                                                                Iniciada:
+
+                                                                <strong>
+
+                                                                    ${distribuicao.horaInicio}
+
+                                                                </strong>
+
+                                                            </p>
+
+                                                        `
+
+                                : ""
+                            }
+
+
+                                                ${distribuicao.horaFim
+
+                                ? `
+
+                                                            <p>
+
+                                                                Finalizada:
+
+                                                                <strong>
+
+                                                                    ${distribuicao.horaFim}
+
+                                                                </strong>
+
+                                                            </p>
+
+                                                        `
+
+                                : ""
+                            }
+
+                                            </div>
+
+
+                                            ${distribuicao.duracao !==
+                                undefined
+
+                                ? `
+
+                                                        <p>
+
+                                                            Duração:
+
+                                                            <strong>
+
+                                                                ${formatarDuracao(
+                                    distribuicao.duracao
+                                )}
+
+                                                            </strong>
+
+                                                        </p>
+
+                                                    `
+
+                                : ""
+                            }
+
+                                        `
+
+                            : ""
+                        }
+
+
+                                <span
+                                    class="
+                                        estado-distribuicao
+                                        ${distribuicao.status ===
+                            "Em andamento"
+
+                            ? "estado-em-andamento"
+
+                            : ""
+                        }
                                     "
                                 >
 
-                                    ${distribuicao.horaInicio ? `
+                                    ${distribuicao.status ||
+                        "Concluída"
+                        }
 
-                                        <p>
-                                            Iniciada:
-                                            <strong>
-                                                ${distribuicao.horaInicio}
-                                            </strong>
-                                        </p>
-
-                                    ` : ""}
+                                </span>
 
 
-                                    ${distribuicao.horaFim ? `
-
-                                        <p>
-                                            Finalizada:
-                                            <strong>
-                                                ${distribuicao.horaFim}
-                                            </strong>
-                                        </p>
-
-                                    ` : ""}
-
-                                </div>
-
-
-                                ${distribuicao.duracao !== undefined ? `
-
-                                    <p>
-                                        Duração:
-                                        <strong>
-                                            ${formatarDuracao(
-                        distribuicao.duracao
-                    )}
-                                        </strong>
-                                    </p>
-
-                                ` : ""}
-
-                            ` : ""}
-
-
-                            <span
-                                class="estado-distribuicao ${distribuicao.status === "Em andamento"
-                            ? "estado-em-andamento"
-                            : ""
-                        }"
-                            >
-                                ${distribuicao.status || "Concluída"}
-                            </span>
+                            </div>
 
                         </div>
 
-                    </div>
-
-                `;
+                    `;
 
                 }
             );
@@ -637,354 +1309,673 @@
         }
 
 
-        /* ================================
-           BOTÃO EM ANDAMENTO
-        ================================= */
-
-        document
-            .getElementById("abaEmAndamento")
-            .addEventListener("click", function () {
-
-                document
-                    .getElementById("abaEmAndamento")
-                    .classList.add("ativa");
-
-                document
-                    .getElementById("abaHistorico")
-                    .classList.remove("ativa");
-
-
-                mostrarLista("andamento");
-
-            });
-
-
-        /* ================================
-           BOTÃO HISTÓRICO
-        ================================= */
-
-        document
-            .getElementById("abaHistorico")
-            .addEventListener("click", function () {
-
-                document
-                    .getElementById("abaHistorico")
-                    .classList.add("ativa");
-
-                document
-                    .getElementById("abaEmAndamento")
-                    .classList.remove("ativa");
-
-
-                const filtroData =
-                    document.getElementById(
-                        "filtroDataHistorico"
-                    );
-
-
-                if (filtroData) {
-
-                    filtroData.value = "";
-
-                }
-
-
-                mostrarLista("historico");
-
-            });
-
-
-        /* ================================
-           BOTÃO GESTÃO
-        ================================= */
-
-        document
-            .getElementById("abaGestao")
-            .addEventListener("click", function () {
-
-                window.location.href =
-                    "gestao-distribuicoes.html";
-
-            });
-
-
-        /* ================================
-           ABRIR PÁGINA
-        ================================= */
-
-        mostrarLista("andamento");
-
-
-        /* ================================
+        /* =========================================
            ABRIR DISTRIBUIÇÃO
-        ================================= */
+        ========================================= */
 
-        function abrirDistribuicao(id) {
+        function abrirDistribuicao(
+            id
+        ) {
 
             const distribuicoes =
-                JSON.parse(
-                    localStorage.getItem("distribuicoes")
-                ) || [];
+                obterDistribuicoes();
 
 
             const distribuicao =
-                distribuicoes.find(function (item) {
+                distribuicoes.find(
+                    function (
+                        item
+                    ) {
 
-                    return item.id === id;
+                        return (
+                            String(item.id) ===
+                            String(id)
+                        );
 
-                });
+                    }
+                );
 
 
-            if (!distribuicao) {
+            if (
+                !distribuicao
+            ) {
 
                 return;
 
             }
 
 
+            /* =====================================
+               CLIENTES
+            ====================================== */
+
             const clientesDaDistribuicao =
-                distribuicao.clientes
-                    .slice()
-                    .sort(function (a, b) {
+                Array.isArray(
+                    distribuicao.clientes
+                )
 
-                        return Number(a.codigo) -
-                            Number(b.codigo);
+                    ? distribuicao.clientes
+                        .slice()
+                        .sort(
+                            function (
+                                a,
+                                b
+                            ) {
 
-                    });
+                                return (
+                                    Number(
+                                        a.codigo
+                                    ) -
+                                    Number(
+                                        b.codigo
+                                    )
+                                );
 
+                            }
+                        )
+
+                    : [];
+
+
+            /* =====================================
+               MOSTRAR DETALHES
+            ====================================== */
 
             lista.innerHTML = `
 
-            <div class="detalhe-distribuicao">
-
-                <h1>
-                    Distribuição
-                </h1>
-
-                <h2>
-                    ${distribuicao.distribuidor}
-                </h2>
-
-                <div class="detalhe-item">
-                    Veículo:
-                    <strong>
-                        ${distribuicao.veiculo}
-                    </strong>
-                </div>
-
-                <div class="detalhe-item">
-                    Data:
-                    <strong>
-                        ${distribuicao.data}
-                    </strong>
-                </div>
-
-                <div class="detalhe-item">
-                    Início:
-                    <strong>
-                        ${distribuicao.horaInicio || "Não registrado"}
-                    </strong>
-                </div>
-
-
-                <h3>
-                    Clientes da distribuição
-                </h3>
-
-
-                <div class="clientes-da-distribuicao">
-
-                    ${clientesDaDistribuicao.map(
-                function (cliente, indice) {
-
-                    return `
-
-                                <div class="cliente-distribuicao">
-
-                                    <strong>
-                                        ${indice + 1}.
-                                        ${cliente.codigo} -
-                                        ${cliente.nome}
-                                    </strong>
-
-                                </div>
-
-                            `;
-
-                }
-            ).join("")}
-
-                </div>
-
-
                 <div
-                    class="detalhe-item"
-                    style="margin-top: 10px;"
+                    class="detalhe-distribuicao"
                 >
-                    Estado:
 
-                    <span
-                        class="estado-distribuicao ${distribuicao.status === "Em andamento"
-                    ? "estado-em-andamento"
-                    : ""
-                }"
-                    >
-                        ${distribuicao.status || "Concluída"}
-                    </span>
-
-                </div>
+                    <h1>
+                        Distribuição
+                    </h1>
 
 
-                ${distribuicao.duracao !== undefined ? `
+                    <h2>
+
+                        ${distribuicao.distribuidor ||
+                "Distribuidor"
+                }
+
+                    </h2>
+
 
                     <div class="detalhe-item">
 
-                        Duração:
+                        Veículo:
 
                         <strong>
-                            ${formatarDuracao(
-                    distribuicao.duracao
-                )}
+
+                            ${distribuicao.veiculo ||
+                "Não registado"
+                }
+
                         </strong>
 
                     </div>
 
-                ` : ""}
+
+                    <div class="detalhe-item">
+
+                        Data:
+
+                        <strong>
+
+                            ${distribuicao.data ||
+                "Não registada"
+                }
+
+                        </strong>
+
+                    </div>
 
 
-                <br>
+                    <div class="detalhe-item">
+
+                        Início:
+
+                        <strong>
+
+                            ${distribuicao.horaInicio ||
+                "Não registado"
+                }
+
+                        </strong>
+
+                    </div>
 
 
-                <div class="acoes-distribuicao">
+                    ${distribuicao.horaFim
 
-                    <button
-                        id="finalizarDistribuicao"
-                        ${distribuicao.status === "Concluída"
-                    ? "disabled"
+                    ? `
+
+                                <div
+                                    class="detalhe-item"
+                                >
+
+                                    Fim:
+
+                                    <strong>
+
+                                        ${distribuicao.horaFim}
+
+                                    </strong>
+
+                                </div>
+
+                            `
+
                     : ""
                 }
+
+
+                    <h3>
+
+                        Clientes da distribuição
+
+                    </h3>
+
+
+                    <div
+                        class="clientes-da-distribuicao"
                     >
-                        ${distribuicao.status === "Concluída"
-                    ? "Distribuição concluída"
-                    : "Finalizar distribuição"
+
+                        ${clientesDaDistribuicao.length > 0
+
+                    ? clientesDaDistribuicao
+                        .map(
+                            function (
+                                cliente,
+                                indice
+                            ) {
+
+                                return `
+
+                                                <div
+                                                    class="
+                                                        cliente-distribuicao
+                                                    "
+                                                >
+
+                                                    <strong>
+
+                                                        ${indice + 1}.
+
+                                                        ${cliente.codigo ||
+                                    ""
+                                    }
+
+                                                        -
+
+                                                        ${cliente.nome ||
+                                    ""
+                                    }
+
+                                                    </strong>
+
+                                                </div>
+
+                                            `;
+
+                            }
+                        )
+                        .join("")
+
+                    : `
+
+                                    <div
+                                        class="
+                                            cliente-distribuicao
+                                        "
+                                    >
+
+                                        Nenhum cliente
+                                        registado.
+
+                                    </div>
+
+                                `
                 }
-                    </button>
+
+                    </div>
 
 
-                    <button
-                        class="btn-voltar-distribuicoes"
-                        onclick="
-                            event.stopPropagation();
-                            mostrarDistribuicoes();
+                    <div
+                        class="detalhe-item"
+                        style="
+                            margin-top: 10px;
                         "
                     >
-                        Voltar
-                    </button>
+
+                        Estado:
+
+
+                        <span
+                            class="
+                                estado-distribuicao
+                                ${distribuicao.status ===
+                    "Em andamento"
+
+                    ? "estado-em-andamento"
+
+                    : ""
+                }
+                            "
+                        >
+
+                            ${distribuicao.status ||
+                "Concluída"
+                }
+
+                        </span>
+
+                    </div>
+
+
+                    ${distribuicao.duracao !==
+                    undefined
+
+                    ? `
+
+                                <div
+                                    class="detalhe-item"
+                                >
+
+                                    Duração:
+
+                                    <strong>
+
+                                        ${formatarDuracao(
+                        distribuicao.duracao
+                    )}
+
+                                    </strong>
+
+                                </div>
+
+                            `
+
+                    : ""
+                }
+
+
+                    <div
+                        class="acoes-distribuicao"
+                    >
+
+                        <button
+                            id="finalizarDistribuicao"
+
+                            ${distribuicao.status ===
+                    "Concluída"
+
+                    ? "disabled"
+
+                    : ""
+                }
+                        >
+
+                            ${distribuicao.status ===
+                    "Concluída"
+
+                    ? "Distribuição concluída"
+
+                    : "Finalizar distribuição"
+                }
+
+                        </button>
+
+
+                        <button
+                            class="
+                                btn-voltar-distribuicoes
+                            "
+
+                            id="btnVoltarDistribuicao"
+                        >
+
+                            Voltar
+
+                        </button>
+
+                    </div>
+
 
                 </div>
 
-            </div>
-
-        `;
+            `;
 
 
-            document
-                .getElementById("finalizarDistribuicao")
-                .addEventListener("click", function () {
+            /* =====================================
+               BOTÃO FINALIZAR
+            ====================================== */
 
-                    const agora = new Date();
-
-
-                    distribuicao.horaFim =
-                        agora.toLocaleTimeString(
-                            "pt-PT",
-                            {
-                                hour: "2-digit",
-                                minute: "2-digit"
-                            }
-                        );
+            const botaoFinalizar =
+                document.getElementById(
+                    "finalizarDistribuicao"
+                );
 
 
-                    distribuicao.fimTimestamp =
-                        agora.getTime();
+            if (
+                botaoFinalizar
+            ) {
+
+                botaoFinalizar.addEventListener(
+                    "click",
+                    function () {
+
+                        const agora =
+                            new Date();
 
 
-                    distribuicao.status =
-                        "Concluída";
+                        distribuicao.horaFim =
+                            agora.toLocaleTimeString(
+                                "pt-PT",
+                                {
+                                    hour:
+                                        "2-digit",
 
-
-                    if (distribuicao.inicioTimestamp) {
-
-                        const duracaoMilissegundos =
-                            distribuicao.fimTimestamp -
-                            distribuicao.inicioTimestamp;
-
-
-                        distribuicao.duracao =
-                            Math.floor(
-                                duracaoMilissegundos / 1000
+                                    minute:
+                                        "2-digit"
+                                }
                             );
 
-                    }
+
+                        distribuicao.fimTimestamp =
+                            agora.getTime();
 
 
-                    localStorage.setItem(
-                        "distribuicoes",
-                        JSON.stringify(distribuicoes)
-                    );
+                        distribuicao.status =
+                            "Concluída";
 
 
-                    alert(
-                        "Distribuição finalizada com sucesso!"
-                    );
+                        if (
+                            distribuicao.inicioTimestamp
+                        ) {
+
+                            const duracaoMilissegundos =
+                                distribuicao.fimTimestamp -
+                                distribuicao.inicioTimestamp;
 
 
-                    document
-                        .getElementById("abaEmAndamento")
-                        .classList.remove("ativa");
+                            distribuicao.duracao =
+                                Math.floor(
+                                    duracaoMilissegundos /
+                                    1000
+                                );
+
+                        }
 
 
-                    document
-                        .getElementById("abaHistorico")
-                        .classList.add("ativa");
+                        localStorage.setItem(
+                            "distribuicoes",
 
-
-                    const filtroData =
-                        document.getElementById(
-                            "filtroDataHistorico"
+                            JSON.stringify(
+                                distribuicoes
+                            )
                         );
 
 
-                    if (filtroData) {
+                        alert(
+                            "Distribuição finalizada com sucesso!"
+                        );
 
-                        filtroData.value = "";
+
+                        /*
+                         * Depois de finalizar,
+                         * mostramos o histórico.
+                         */
+
+                        ativarAba(
+                            "historico"
+                        );
+
+
+                        /*
+                         * Mantém o histórico
+                         * sem filtro.
+                         */
+
+                        filtroDataHistorico.value =
+                            "";
+
+
+                        mostrarLista(
+                            "historico"
+                        );
 
                     }
+                );
+
+            }
 
 
-                    mostrarLista("historico");
+            /* =====================================
+               BOTÃO VOLTAR
+            ====================================== */
 
-                });
+            const botaoVoltar =
+                document.getElementById(
+                    "btnVoltarDistribuicao"
+                );
+
+
+            if (
+                botaoVoltar
+            ) {
+
+                botaoVoltar.addEventListener(
+                    "click",
+                    function () {
+
+                        mostrarDistribuicoes();
+
+                    }
+                );
+
+            }
 
         }
 
 
-        /* ================================
-           VOLTAR PARA DISTRIBUIÇÕES
-        ================================= */
+        /* =========================================
+           ATIVAR ABA
+        ========================================= */
+
+        function ativarAba(
+            tipo
+        ) {
+
+            abaEmAndamento
+                .classList
+                .remove("ativa");
+
+
+            abaHistorico
+                .classList
+                .remove("ativa");
+
+
+            if (
+                tipo ===
+                "andamento"
+            ) {
+
+                abaEmAndamento
+                    .classList
+                    .add("ativa");
+
+            }
+
+
+            if (
+                tipo ===
+                "historico"
+            ) {
+
+                abaHistorico
+                    .classList
+                    .add("ativa");
+
+            }
+
+        }
+
+
+        /* =========================================
+           MOSTRAR DISTRIBUIÇÕES
+        ========================================= */
 
         function mostrarDistribuicoes() {
 
-            mostrarLista("andamento");
+            ativarAba(
+                "andamento"
+            );
+
+
+            mostrarLista(
+                "andamento"
+            );
 
         }
 
 
-        /* ================================
-           FORMATAR DURAÇÃO
-        ================================= */
+        /* =========================================
+           BOTÃO EM ANDAMENTO
+        ========================================= */
 
-        function formatarDuracao(segundos) {
+        abaEmAndamento.addEventListener(
+            "click",
+            function () {
+
+                ativarAba(
+                    "andamento"
+                );
+
+
+                mostrarLista(
+                    "andamento"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           BOTÃO HISTÓRICO
+        ========================================= */
+
+        abaHistorico.addEventListener(
+            "click",
+            function () {
+
+                ativarAba(
+                    "historico"
+                );
+
+
+                /*
+                 * Só limpar o filtro quando o utilizador
+                 * clicar manualmente na aba Histórico.
+                 *
+                 * Se a página foi aberta pelo Dashboard
+                 * com ?modo=historico&data=..., não devemos
+                 * apagar a data recebida pela URL.
+                 */
+
+                const parametros =
+                    new URLSearchParams(
+                        window.location.search
+                    );
+
+
+                const dataURL =
+                    parametros.get(
+                        "data"
+                    );
+
+
+                if (!dataURL) {
+
+                    filtroDataHistorico.value =
+                        "";
+
+                }
+
+
+                mostrarLista(
+                    "historico"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           BOTÃO GESTÃO
+        ========================================= */
+
+        abaGestao.addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "gestao-distribuicoes.html";
+
+            }
+        );
+
+
+        /* =========================================
+           FILTRO POR DATA
+        ========================================= */
+
+        filtroDataHistorico.addEventListener(
+            "change",
+            function () {
+
+                mostrarLista(
+                    "historico"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           LIMPAR FILTRO
+        ========================================= */
+
+        btnLimparFiltroHistorico.addEventListener(
+            "click",
+            function () {
+
+                filtroDataHistorico.value =
+                    "";
+
+
+                mostrarLista(
+                    "historico"
+                );
+
+            }
+        );
+
+
+        /* =========================================
+           FORMATAR DURAÇÃO
+        ========================================= */
+
+        function formatarDuracao(
+            segundos
+        ) {
+
+            segundos =
+                Number(
+                    segundos || 0
+                );
+
 
             const horas =
                 Math.floor(
@@ -1002,57 +1993,588 @@
                 segundos % 60;
 
 
-            if (horas > 0) {
+            if (
+                horas > 0
+            ) {
 
                 return (
-                    horas + "h " +
-                    minutos + "min " +
-                    segundosRestantes + "s"
+                    horas +
+                    "h " +
+                    minutos +
+                    "min " +
+                    segundosRestantes +
+                    "s"
                 );
 
             }
 
 
-            if (minutos > 0) {
+            if (
+                minutos > 0
+            ) {
 
                 return (
-                    minutos + "min " +
-                    segundosRestantes + "s"
+                    minutos +
+                    "min " +
+                    segundosRestantes +
+                    "s"
                 );
 
             }
 
 
-            return segundosRestantes +
-                " segundos";
+            return (
+                segundosRestantes +
+                " segundos"
+            );
 
         }
 
 
-        /* ================================
-           LIMPAR FILTRO DO HISTÓRICO
-        ================================= */
+        /* =========================================
+           CONVERTER DATA PARA YYYY-MM-DD
+        ========================================= */
 
-        function limparFiltroHistorico() {
+        function converterDataParaISO(
+            dataTexto
+        ) {
 
-            const filtroData =
+            if (
+                !dataTexto
+            ) {
+
+                return "";
+
+            }
+
+
+            const partes =
+                dataTexto.split("/");
+
+
+            if (
+                partes.length !== 3
+            ) {
+
+                return "";
+
+            }
+
+
+            return (
+                partes[2] +
+                "-" +
+                partes[1] +
+                "-" +
+                partes[0]
+            );
+
+        }
+
+
+        /* =========================================
+           INICIALIZAÇÃO A PARTIR DA URL
+        ========================================= */
+
+        function inicializarAPartirDaURL() {
+
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            const id =
+                parametros.get(
+                    "id"
+                );
+
+
+            const modo =
+                parametros.get(
+                    "modo"
+                );
+
+
+            const data =
+                parametros.get(
+                    "data"
+                );
+
+
+            const mes =
+                parametros.get(
+                    "mes"
+                );
+
+
+            /* =====================================
+               ABRIR DISTRIBUIÇÃO ESPECÍFICA
+            ====================================== */
+
+            if (
+                id
+            ) {
+
+                abrirDistribuicao(
+                    id
+                );
+
+                return;
+
+            }
+
+
+            /* =====================================
+               ABRIR HISTÓRICO
+            ====================================== */
+
+            if (
+                modo ===
+                "historico"
+            ) {
+
+                ativarAba(
+                    "historico"
+                );
+
+
+                /*
+                 * Se foi enviada uma data
+                 * específica pelo Dashboard,
+                 * aplicar diretamente.
+                 */
+
+                if (
+                    data
+                ) {
+
+                    filtroDataHistorico.value =
+                        data;
+
+                }
+
+
+                /*
+                 * Se foi enviado um mês,
+                 * mostramos o histórico desse
+                 * mês através de uma filtragem
+                 * especial.
+                 */
+
+                if (
+                    mes
+                ) {
+
+                    mostrarHistoricoPorMes(
+                        mes
+                    );
+
+                    return;
+
+                }
+
+
+                mostrarLista(
+                    "historico",
+                    data
+                );
+
+                return;
+
+            }
+
+
+            /* =====================================
+               COMPORTAMENTO NORMAL
+            ====================================== */
+
+            mostrarLista(
+                "andamento"
+            );
+
+        }
+
+
+        /* =========================================
+           HISTÓRICO POR MÊS
+        ========================================= */
+
+        function mostrarHistoricoPorMes(
+            mesSelecionado
+        ) {
+
+            lista.innerHTML = "";
+
+
+            filtroHistorico.style.display =
+                "block";
+
+
+            /*
+             * Retiramos o filtro diário
+             * porque o Dashboard pediu
+             * o histórico mensal.
+             */
+
+            filtroDataHistorico.value =
+                "";
+
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+
+            const distribuicoesFiltradas =
+                distribuicoes
+
+                    .filter(
+                        function (
+                            distribuicao
+                        ) {
+
+                            if (
+                                !distribuicao
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            if (
+                                distribuicao.status !==
+                                "Concluída"
+                            ) {
+
+                                return false;
+
+                            }
+
+
+                            const dataISO =
+                                converterDataParaISO(
+                                    distribuicao.data
+                                );
+
+
+                            return (
+                                dataISO.substring(
+                                    0,
+                                    7
+                                ) ===
+                                mesSelecionado
+                            );
+
+                        }
+                    )
+
+
+                    .sort(
+                        function (
+                            a,
+                            b
+                        ) {
+
+                            const dataA =
+                                a.fimTimestamp ||
+                                a.inicioTimestamp ||
+                                0;
+
+
+                            const dataB =
+                                b.fimTimestamp ||
+                                b.inicioTimestamp ||
+                                0;
+
+
+                            return (
+                                dataB -
+                                dataA
+                            );
+
+                        }
+                    );
+
+
+            /* =====================================
+   TOTAL DE ENTREGAS DO MÊS
+====================================== */
+
+            let totalEntregasMes =
+                0;
+
+
+            distribuicoesFiltradas.forEach(
+                function (
+                    distribuicao
+                ) {
+
+                    if (
+                        Array.isArray(
+                            distribuicao.clientes
+                        )
+                    ) {
+
+                        totalEntregasMes +=
+                            distribuicao.clientes.length;
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================
+               TÍTULO
+            ====================================== */
+
+            const tituloLista =
                 document.getElementById(
-                    "filtroDataHistorico"
+                    "tituloListaDistribuicoes"
                 );
 
 
-            if (filtroData) {
+            if (
+                tituloLista
+            ) {
 
-                filtroData.value = "";
+                tituloLista.textContent =
+                    distribuicoesFiltradas.length +
+                    " distribuições concluídas no mês" +
+                    " · " +
+                    totalEntregasMes +
+                    " entregas";
 
             }
 
 
-            mostrarLista("historico");
+            if (
+                distribuicoesFiltradas.length ===
+                0
+            ) {
+
+                lista.innerHTML = `
+
+                    <p>
+
+                        Nenhuma distribuição
+                        concluída neste mês.
+
+                    </p>
+
+                `;
+
+                return;
+
+            }
+
+
+            distribuicoesFiltradas.forEach(
+                function (
+                    distribuicao,
+                    indice
+                ) {
+
+                    const clientes =
+                        Array.isArray(
+                            distribuicao.clientes
+                        )
+                            ? distribuicao.clientes
+                            : [];
+
+
+                    lista.innerHTML += `
+
+                        <div
+                            class="cartao-distribuicao"
+
+                            onclick="
+                                abrirDistribuicao(
+                                    ${distribuicao.id}
+                                )
+                            "
+                        >
+
+                            <h2>
+
+                                Distribuição
+                                ${indice + 1}
+
+                            </h2>
+
+
+                            <div
+                                class="info-distribuicao"
+                            >
+
+                                <p>
+
+                                    Data:
+
+                                    <strong>
+
+                                        ${distribuicao.data || "-"}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    Distribuidor:
+
+                                    <strong>
+
+                                        ${distribuicao.distribuidor || "-"}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    Veículo:
+
+                                    <strong>
+
+                                        ${distribuicao.veiculo || "-"}
+
+                                    </strong>
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+
+                                        ${clientes.length}
+
+                                        clientes
+
+                                    </strong>
+
+                                </p>
+
+
+                                <div
+                                    style="
+                                        display:
+                                            flex;
+                                        gap:
+                                            20px;
+                                        flex-wrap:
+                                            wrap;
+                                    "
+                                >
+
+                                    ${distribuicao.horaInicio
+
+                            ? `
+
+                                                <p>
+
+                                                    Iniciada:
+
+                                                    <strong>
+
+                                                        ${distribuicao.horaInicio}
+
+                                                    </strong>
+
+                                                </p>
+
+                                            `
+
+                            : ""
+                        }
+
+
+                                    ${distribuicao.horaFim
+
+                            ? `
+
+                                                <p>
+
+                                                    Finalizada:
+
+                                                    <strong>
+
+                                                        ${distribuicao.horaFim}
+
+                                                    </strong>
+
+                                                </p>
+
+                                            `
+
+                            : ""
+                        }
+
+                                </div>
+
+
+                                ${distribuicao.duracao !==
+                            undefined
+
+                            ? `
+
+                                            <p>
+
+                                                Duração:
+
+                                                <strong>
+
+                                                    ${formatarDuracao(
+                                distribuicao.duracao
+                            )}
+
+                                                </strong>
+
+                                            </p>
+
+                                        `
+
+                            : ""
+                        }
+
+
+                                <span
+                                    class="
+                                        estado-distribuicao
+                                    "
+                                >
+
+                                    ${distribuicao.status ||
+                        "Concluída"
+                        }
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
 
         }
+
+
+        /* =========================================
+           INICIAR
+        ========================================= */
+
+        inicializarAPartirDaURL();
+
 
     </script>
+
 
 </body>
 

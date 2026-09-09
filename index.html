@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Primo Peças</title>
+    <title>Primo Peças - Dashboard</title>
 
     <link rel="stylesheet" href="menu.css">
 
@@ -25,11 +25,588 @@
 
         #conteudo {
             margin-left: 230px;
-            padding: 30px;
+            padding: 70px 30px 30px 30px;
+        }
+
+        /* =========================================
+           CABEÇALHO
+        ========================================= */
+
+        .cabecalho-dashboard {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .titulo-dashboard h1 {
+            margin: 0;
+        }
+
+        .titulo-dashboard p {
+            margin-top: 6px;
+            color: #667085;
+        }
+
+        /* =========================================
+           FILTRO DE DATA
+        ========================================= */
+
+        .filtro-dashboard {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .filtro-dashboard label {
+            font-size: 13px;
+            color: #667085;
+        }
+
+        .filtro-dashboard input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #1f2933;
+        }
+
+        /* =========================================
+           INDICADORES
+        ========================================= */
+
+        .indicadores-dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .indicador-dashboard {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .indicador-dashboard:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
+        }
+
+        .indicador-dashboard strong {
+            display: block;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .indicador-dashboard span {
+            color: #667085;
+            font-size: 15px;
+        }
+
+        .indicador-andamento strong {
+            color: #dc2626;
+        }
+
+        .indicador-concluidas strong {
+            color: #16a34a;
+        }
+
+        .indicador-clientes strong {
+            color: #2563eb;
+        }
+
+        .indicador-entregas strong {
+            color: #9333ea;
+        }
+
+        /* =========================================
+           DUAS COLUNAS
+        ========================================= */
+
+        .dashboard-colunas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .bloco-dashboard {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .bloco-dashboard h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* =========================================
+           DISTRIBUIDORES
+        ========================================= */
+
+        .lista-estafetas {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .linha-estado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 13px;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .linha-estado:hover {
+            transform: translateY(-2px);
+            background: #f8fafc;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .nome-estado {
+            font-weight: bold;
+            color: #1f2933;
+        }
+
+        .informacao-estafeta {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .detalhe-estafeta {
+            font-size: 12px;
+            color: #667085;
+        }
+
+        .estado {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .estado-ocupado {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .sem-dados {
+            color: #667085;
+            font-style: italic;
+        }
+
+        /* =========================================
+           META DO DIA
+        ========================================= */
+
+        .meta-dia {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .meta-numero {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .meta-numero strong {
+            font-size: 34px;
+            color: #2563eb;
+        }
+
+        .meta-numero span {
+            color: #667085;
+            font-size: 14px;
+        }
+
+        .barra-meta {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .barra-meta-progresso {
+            height: 100%;
+            width: 0%;
+            background: #2563eb;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .informacao-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .item-meta {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .item-meta span {
+            display: block;
+            color: #667085;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .item-meta strong {
+            font-size: 18px;
+        }
+
+        .mensagem-meta {
+            font-size: 14px;
+            color: #667085;
+        }
+
+        /* =========================================
+           ÁREA INFERIOR
+        ========================================= */
+
+        .dashboard-inferior {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        /* =========================================
+           DESEMPENHO OPERACIONAL
+        ========================================= */
+
+        .desempenho-operacional {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .item-desempenho {
+            background: #f8fafc;
+            border-radius: 9px;
+            padding: 15px;
+            border: 1px solid #eef2f6;
+            min-height: 105px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-desempenho span {
+            display: block;
+            color: #667085;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .item-desempenho strong {
+            font-size: 24px;
+            color: #1f2933;
+        }
+
+        .item-desempenho small {
+            display: block;
+            margin-top: 5px;
+            color: #98a2b3;
+            font-size: 12px;
+        }
+
+        .item-lider {
+            grid-column: 1 / -1;
+            background:
+                linear-gradient(135deg,
+                    #f8fafc,
+                    #eef6ff);
+        }
+
+        .lider-conteudo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lider-nome {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lider-trofeu {
+            font-size: 30px;
+        }
+
+        .lider-nome strong {
+            font-size: 21px;
+        }
+
+        .lider-entregas {
+            text-align: right;
+        }
+
+        .lider-entregas strong {
+            color: #2563eb;
+            font-size: 25px;
+        }
+
+        .lider-entregas span {
+            display: block;
+            margin: 0;
+            color: #667085;
+            font-size: 12px;
+        }
+
+        /* =========================================
+           PLANEAMENTO MENSAL
+        ========================================= */
+
+        .planeamento-resumo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .planeamento-resumo strong {
+            font-size: 25px;
+        }
+
+        .planeamento-resumo span {
+            color: #667085;
+            font-size: 13px;
+        }
+
+        .barra-mensal {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .barra-mensal-progresso {
+            height: 100%;
+            width: 0%;
+            background: #16a34a;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        /* =========================================
+           GRÁFICO
+        ========================================= */
+
+        .grafico-planeamento {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 210px;
+            padding: 15px 5px 5px 5px;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: hidden;
+        }
+
+        .dia-grafico {
+            flex: 1;
+            min-width: 0px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .coluna-dia {
+            width: 100%;
+            max-width: 24px;
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+        }
+
+        .meta-coluna {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+            background: #dbeafe;
+        }
+
+        .realizado-coluna {
+            position: absolute;
+            bottom: 0;
+            width: 70%;
+            border-radius: 4px 4px 0 0;
+            background: #2563eb;
+            z-index: 2;
+        }
+
+        .dia-label {
+            font-size: 10px;
+            color: #667085;
+        }
+
+        .dia-selecionado {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .legenda-grafico {
+            display: flex;
+            gap: 18px;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #667085;
+        }
+
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legenda-quadrado {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .legenda-meta {
+            background: #dbeafe;
+        }
+
+        .legenda-realizado {
+            background: #2563eb;
+        }
+
+        /* =========================================
+           RESPONSIVO
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            #conteudo {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .indicadores-dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-colunas {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-inferior {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            #conteudo {
+                padding: 15px;
+            }
+
+            .cabecalho-dashboard {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .filtro-dashboard {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .indicadores-dashboard {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .indicador-dashboard {
+                padding: 16px;
+            }
+
+            .indicador-dashboard strong {
+                font-size: 26px;
+            }
+
+            .indicador-dashboard span {
+                font-size: 13px;
+            }
+
+            .linha-estado {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .estado {
+                font-size: 12px;
+            }
+
+            .informacao-meta {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .desempenho-operacional {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .lider-conteudo {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .lider-entregas {
+                text-align: left;
+            }
+
+            .grafico-planeamento {
+                height: 180px;
+            }
+
         }
     </style>
 
 </head>
+
 
 <body>
 
@@ -41,27 +618,3103 @@
 
     </header>
 
+
     <div id="menu-container"></div>
+
 
     <main id="conteudo">
 
-        <h1>
-            Dashboard
-        </h1>
+
+        <!-- =====================================
+             CABEÇALHO
+        ====================================== -->
+
+        <div class="cabecalho-dashboard">
+
+            <div class="titulo-dashboard">
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Visão geral da operação
+                </p>
+
+            </div>
+
+
+            <div class="filtro-dashboard">
+
+                <label for="filtroDataDashboard">
+                    Data:
+                </label>
+
+                <input type="date" id="filtroDataDashboard">
+
+            </div>
+
+            <div class="filtro-dashboard">
+
+                <label for="filtroPeriodo">
+                    Período:
+                </label>
+
+                <select id="filtroPeriodo">
+                    <option value="dia">Dia</option>
+                    <option value="semana">Semana</option>
+                    <option value="mes">Mês</option>
+                </select>
+
+            </div>
+
+            <div class="filtro-dashboard">
+
+                <label for="filtroDistribuidor">
+                    Distribuidor:
+                </label>
+
+                <select id="filtroDistribuidor">
+                    <option value="">Todos</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             INDICADORES
+        ====================================== -->
+
+        <div class="indicadores-dashboard" id="indicadoresDashboard">
+
+
+            <div class="
+                    indicador-dashboard
+                    indicador-andamento
+                " onclick="abrirPendentes()" title="Abrir distribuições pendentes">
+
+                <strong id="totalAndamento">
+                    0
+                </strong>
+
+                <span>
+                    Entregas pendentes
+                </span>
+
+            </div>
+
+
+            <div class="
+                    indicador-dashboard
+                    indicador-concluidas
+                " onclick="abrirAnaliseDistribuicoes()" title="Abrir análise das distribuições">
+
+                <strong id="totalConcluidas">
+                    0
+                </strong>
+
+                <span>
+                    Distribuições realizadas
+                </span>
+
+            </div>
+
+
+            <div class="
+                    indicador-dashboard
+                    indicador-clientes
+                " onclick="abrirClientesDia()" title="Abrir clientes atendidos">
+
+                <strong id="totalClientes">
+                    0
+                </strong>
+
+                <span>
+                    Clientes Atendidos
+                </span>
+
+            </div>
+
+
+            <div class="
+                    indicador-dashboard
+                    indicador-entregas
+                " onclick="abrirHistoricoDia()" title="Abrir entregas do dia">
+
+                <strong id="totalEntregas">
+                    0
+                </strong>
+
+                <span>
+                    Total de entregas
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             DISTRIBUIDORES / META
+        ====================================== -->
+
+        <div class="dashboard-colunas">
+
+
+            <section class="bloco-dashboard">
+
+                <h2>
+                    👤 Distribuidores nas entregas
+                </h2>
+
+                <div id="listaDistribuidores" class="lista-estafetas">
+
+                    <p class="sem-dados">
+                        Nenhum distribuidor em distribuição.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section class="bloco-dashboard">
+
+                <h2>
+                    🎯 Meta do dia
+                </h2>
+
+                <div class="meta-dia">
+
+
+                    <div class="meta-numero">
+
+                        <strong id="entregasHojeMeta">
+                            0
+                        </strong>
+
+                        <span>
+
+                            de
+
+                            <strong id="metaDiaria">
+                                0
+                            </strong>
+
+                            entregas
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="barra-meta">
+
+                        <div class="barra-meta-progresso" id="barraMetaProgresso"></div>
+
+                    </div>
+
+
+                    <div class="informacao-meta">
+
+                        <div class="item-meta">
+
+                            <span>
+                                Objetivo mensal
+                            </span>
+
+                            <input type="number" id="metaMensal" value="6000" min="1">
+
+                        </div>
+
+
+                        <div class="item-meta">
+
+                            <span>
+                                Dias de trabalho
+                            </span>
+
+                            <input type="number" id="diasTrabalho" value="31" min="1" max="31">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mensagem-meta" id="mensagemMeta">
+                        A calcular a meta do dia...
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================
+             ÁREA INFERIOR
+        ====================================== -->
+
+        <div class="dashboard-inferior">
+
+
+            <section class="bloco-dashboard">
+
+                <h2>
+                    📈 Desempenho operacional
+                </h2>
+
+
+                <div class="desempenho-operacional">
+
+
+                    <div class="item-desempenho">
+
+                        <span>
+                            ⏱️ Tempo médio das distribuições
+                        </span>
+
+                        <strong id="tempoMedioDistribuicoes">
+                            Sem dados
+                        </strong>
+
+                        <small>
+                            distribuições concluídas
+                        </small>
+
+                    </div>
+
+
+                    <div class="item-desempenho">
+
+                        <span>
+                            🚚 Média de entregas por hora
+                        </span>
+
+                        <strong id="mediaEntregasHora">
+                            Sem dados
+                        </strong>
+
+                        <small>
+                            entregas por hora
+                        </small>
+
+                    </div>
+
+
+                    <div class="item-desempenho">
+
+                        <span>
+                            👤 Média de entregas por distribuidor
+                        </span>
+
+                        <strong id="mediaEntregasDistribuidor">
+                            Sem dados
+                        </strong>
+
+                        <small>
+                            no dia selecionado
+                        </small>
+
+                    </div>
+
+
+                    <div class="
+                            item-desempenho
+                            item-lider
+                        ">
+
+                        <span>
+                            🏆 Líder do dia
+                        </span>
+
+
+                        <div class="lider-conteudo">
+
+
+                            <div class="lider-nome">
+
+                                <span class="lider-trofeu">
+                                    🏆
+                                </span>
+
+                                <strong id="liderDistribuidor">
+                                    Sem dados
+                                </strong>
+
+                            </div>
+
+
+                            <div class="lider-entregas">
+
+                                <strong id="liderEntregas">
+                                    0
+                                </strong>
+
+                                <span>
+                                    entregas
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="bloco-dashboard">
+
+                <h2>
+                    📊 Planeamento mensal
+                </h2>
+
+
+                <div class="planeamento-resumo">
+
+                    <div>
+
+                        <strong id="planeamentoRealizado">
+                            0
+                        </strong>
+
+                        <span>
+                            entregas realizadas
+                        </span>
+
+                    </div>
+
+
+                    <div style="text-align:right;">
+
+                        <strong id="planeamentoMeta">
+                            6.000
+                        </strong>
+
+                        <span>
+                            meta mensal
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="barra-mensal">
+
+                    <div class="barra-mensal-progresso" id="barraMensalProgresso"></div>
+
+                </div>
+
+
+                <div class="grafico-planeamento" id="graficoPlaneamento"></div>
+
+
+                <div class="legenda-grafico">
+
+                    <div class="legenda-item">
+
+                        <span class="
+                                legenda-quadrado
+                                legenda-meta
+                            "></span>
+
+                        Meta diária
+
+                    </div>
+
+
+                    <div class="legenda-item">
+
+                        <span class="
+                                legenda-quadrado
+                                legenda-realizado
+                            "></span>
+
+                        Realizado
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
 
     </main>
 
+
     <script>
 
+        /* =========================================
+           CONFIGURAÇÃO
+        ========================================= */
+
+        const META_MENSAL_PADRAO = 6000;
+        const DIAS_TRABALHO_PADRAO = 31;
+
+        const META_MENSAL =
+            Number(
+                localStorage.getItem(
+                    "metaMensal"
+                )
+            ) || META_MENSAL_PADRAO;
+
+        const DIAS_TRABALHO =
+            Number(
+                localStorage.getItem(
+                    "diasTrabalho"
+                )
+            ) || DIAS_TRABALHO_PADRAO;
+
+        const PAGINA_CLIENTES = "clientes.html";
+
+
+        /* =========================================
+           MENU
+        ========================================= */
+
         fetch("menu.html")
+
             .then(function (resposta) {
+
                 return resposta.text();
+
             })
+
             .then(function (menu) {
-                document.getElementById("menu-container").innerHTML = menu;
+
+                document
+                    .getElementById("menu-container")
+                    .innerHTML = menu;
+
+
+                const paginaAtual =
+                    window.location.pathname
+                        .split("/")
+                        .pop();
+
+
+                document
+                    .querySelectorAll(".menu a")
+                    .forEach(function (link) {
+
+                        const paginaLink =
+                            link.getAttribute("href");
+
+
+                        if (
+                            paginaLink === paginaAtual
+                        ) {
+
+                            link.classList.add("ativo");
+
+                        }
+
+                    });
+
+            })
+
+            .catch(function (erro) {
+
+                console.error(
+                    "Erro ao carregar menu:",
+                    erro
+                );
+
             });
 
+
+        /* =========================================
+           DATA LOCAL
+        ========================================= */
+
+        function criarDataLocal(
+            ano,
+            mes,
+            dia
+        ) {
+
+            return new Date(
+                ano,
+                mes - 1,
+                dia
+            );
+
+        }
+
+
+        /* =========================================
+           CONVERTER DATA DD/MM/AAAA
+        ========================================= */
+
+        function converterData(dataTexto) {
+
+            if (!dataTexto) {
+                return null;
+            }
+
+            const texto =
+                String(dataTexto).trim();
+
+
+            /*
+             * Formato ISO:
+             * AAAA-MM-DD
+             */
+
+            if (
+                /^\d{4}-\d{2}-\d{2}$/.test(texto)
+            ) {
+
+                const partes =
+                    texto.split("-");
+
+                const ano =
+                    Number(partes[0]);
+
+                const mes =
+                    Number(partes[1]);
+
+                const dia =
+                    Number(partes[2]);
+
+                if (
+                    !ano ||
+                    !mes ||
+                    !dia
+                ) {
+
+                    return null;
+
+                }
+
+                return criarDataLocal(
+                    ano,
+                    mes,
+                    dia
+                );
+
+            }
+
+
+            /*
+             * Formato português:
+             * DD/MM/AAAA
+             */
+
+            const partes =
+                texto.split("/");
+
+
+            if (
+                partes.length !== 3
+            ) {
+
+                return null;
+
+            }
+
+
+            const dia =
+                Number(partes[0]);
+
+            const mes =
+                Number(partes[1]);
+
+            const ano =
+                Number(partes[2]);
+
+
+            if (
+                !dia ||
+                !mes ||
+                !ano
+            ) {
+
+                return null;
+
+            }
+
+
+            return criarDataLocal(
+                ano,
+                mes,
+                dia
+            );
+
+        }
+
+
+        /* =========================================
+           VERIFICAR DATA
+        ========================================= */
+
+        function mesmaData(
+            dataTexto,
+            dataSelecionada
+        ) {
+
+            const data =
+                converterData(dataTexto);
+
+
+            if (!data) {
+
+                return false;
+
+            }
+
+
+            const partes =
+                String(dataSelecionada).split("-");
+
+
+            if (partes.length !== 3) {
+
+                return false;
+
+            }
+
+
+            const ano = Number(partes[0]);
+            const mes = Number(partes[1]);
+            const dia = Number(partes[2]);
+
+
+            return (
+
+                data.getFullYear() === ano &&
+
+                data.getMonth() === mes - 1 &&
+
+                data.getDate() === dia
+
+            );
+
+        }
+
+
+        /* =========================================
+           HOJE
+        ========================================= */
+
+        function obterHojeFormatado() {
+
+            const hoje = new Date();
+
+
+            const ano =
+                hoje.getFullYear();
+
+
+            const mes =
+                String(
+                    hoje.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const dia =
+                String(
+                    hoje.getDate()
+                ).padStart(2, "0");
+
+
+            return (
+                ano +
+                "-" +
+                mes +
+                "-" +
+                dia
+            );
+
+        }
+
+
+        /* =========================================
+           NORMALIZAR CLIENTE
+        ========================================= */
+
+        function obterCodigoCliente(
+            cliente
+        ) {
+
+            if (
+                cliente &&
+                typeof cliente === "object"
+            ) {
+
+                return String(
+                    cliente.codigo
+                );
+
+            }
+
+
+            return String(cliente);
+
+        }
+
+
+        /* =========================================
+           DIAS ÚTEIS
+        ========================================= */
+
+        function obterDiasUteis(
+            ano,
+            mes
+        ) {
+
+            const dias = [];
+
+
+            const totalDias =
+                new Date(
+                    ano,
+                    mes,
+                    0
+                ).getDate();
+
+
+            for (
+                let dia = 1;
+                dia <= totalDias;
+                dia++
+            ) {
+
+                const data =
+                    new Date(
+                        ano,
+                        mes - 1,
+                        dia
+                    );
+
+
+                const diaSemana =
+                    data.getDay();
+
+
+                if (
+                    diaSemana !== 0 &&
+                    diaSemana !== 6
+                ) {
+
+                    dias.push(data);
+
+                }
+
+            }
+
+
+            return dias;
+
+        }
+
+
+        /* =========================================
+           DATA ISO
+        ========================================= */
+
+        function formatarDataISO(
+            data
+        ) {
+
+            const ano =
+                data.getFullYear();
+
+
+            const mes =
+                String(
+                    data.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const dia =
+                String(
+                    data.getDate()
+                ).padStart(2, "0");
+
+
+            return (
+                ano +
+                "-" +
+                mes +
+                "-" +
+                dia
+            );
+
+        }
+
+
+        /* =========================================
+           NÚMEROS
+        ========================================= */
+
+        function formatarNumero(
+            numero
+        ) {
+
+            return Number(
+                numero || 0
+            ).toLocaleString("pt-PT");
+
+        }
+
+
+        function formatarNumeroDecimal(
+            numero
+        ) {
+
+            if (
+                numero === null ||
+                numero === undefined ||
+                !Number.isFinite(
+                    Number(numero)
+                )
+            ) {
+
+                return "0";
+
+            }
+
+
+            return Number(numero)
+                .toLocaleString(
+                    "pt-PT",
+                    {
+                        minimumFractionDigits: 1,
+                        maximumFractionDigits: 1
+                    }
+                );
+
+        }
+
+
+        /* =========================================
+           HORA PARA MINUTOS
+        ========================================= */
+
+        function converterHoraParaMinutos(
+            hora
+        ) {
+
+            if (!hora) {
+
+                return null;
+
+            }
+
+
+            const partes =
+                String(hora).split(":");
+
+
+            if (partes.length < 2) {
+
+                return null;
+
+            }
+
+
+            const horas =
+                Number(partes[0]);
+
+
+            const minutos =
+                Number(partes[1]);
+
+
+            if (
+                !Number.isFinite(horas) ||
+                !Number.isFinite(minutos)
+            ) {
+
+                return null;
+
+            }
+
+
+            return (
+                horas * 60 +
+                minutos
+            );
+
+        }
+
+
+        /* =========================================
+           DURAÇÃO EM HORAS
+        ========================================= */
+
+        function calcularDuracaoHoras(
+            horaInicio,
+            horaFim
+        ) {
+
+            const inicio =
+                converterHoraParaMinutos(
+                    horaInicio
+                );
+
+
+            const fim =
+                converterHoraParaMinutos(
+                    horaFim
+                );
+
+
+            if (
+                inicio === null ||
+                fim === null
+            ) {
+
+                return null;
+
+            }
+
+
+            let diferenca =
+                fim - inicio;
+
+
+            if (diferenca < 0) {
+
+                diferenca += 24 * 60;
+
+            }
+
+
+            return diferenca / 60;
+
+        }
+
+
+        /* =========================================
+           OBTER DURAÇÃO EM HORAS
+        ========================================= */
+
+        function obterDuracaoEmHoras(
+            distribuicao
+        ) {
+
+            if (!distribuicao) {
+
+                return null;
+
+            }
+
+
+            /*
+             * Se existir uma duração guardada,
+             * tentamos interpretar o valor.
+             *
+             * Valores muito grandes:
+             * assumimos milissegundos.
+             *
+             * Valores intermédios:
+             * assumimos minutos.
+             *
+             * Valores pequenos:
+             * assumimos horas.
+             */
+
+            if (
+                distribuicao.duracao !== undefined &&
+                distribuicao.duracao !== null &&
+                distribuicao.duracao !== ""
+            ) {
+
+                const valor =
+                    Number(
+                        distribuicao.duracao
+                    );
+
+
+                if (
+                    Number.isFinite(valor) &&
+                    valor > 0
+                ) {
+
+                    if (valor > 10000) {
+
+                        return valor / 3600000;
+
+                    }
+
+
+                    /*
+                     * Na estrutura atualmente
+                     * utilizada pelo dashboard,
+                     * durações abaixo de 10.000
+                     * são tratadas como minutos.
+                     */
+
+                    return valor / 60;
+
+                }
+
+            }
+
+
+            /*
+             * Se não houver duração guardada,
+             * calculamos através das horas.
+             */
+
+            if (
+                distribuicao.horaInicio &&
+                distribuicao.horaFim
+            ) {
+
+                return calcularDuracaoHoras(
+                    distribuicao.horaInicio,
+                    distribuicao.horaFim
+                );
+
+            }
+
+
+            return null;
+
+        }
+
+
+        /* =========================================
+           FORMATAR DURAÇÃO
+        ========================================= */
+
+        function formatarDuracao(
+            horas
+        ) {
+
+            if (
+                horas === null ||
+                horas === undefined ||
+                !Number.isFinite(
+                    Number(horas)
+                )
+            ) {
+
+                return "Sem dados";
+
+            }
+
+
+            const totalMinutos =
+                Math.round(
+                    Number(horas) * 60
+                );
+
+
+            if (totalMinutos <= 0) {
+
+                return "0 min";
+
+            }
+
+
+            const horasInteiras =
+                Math.floor(
+                    totalMinutos / 60
+                );
+
+
+            const minutos =
+                totalMinutos % 60;
+
+
+            if (horasInteiras === 0) {
+
+                return (
+                    minutos +
+                    " min"
+                );
+
+            }
+
+
+            if (minutos === 0) {
+
+                return (
+                    horasInteiras +
+                    " h"
+                );
+
+            }
+
+
+            return (
+                horasInteiras +
+                " h " +
+                minutos +
+                " min"
+            );
+
+        }
+
+
+        /* =========================================
+           CARREGAR DISTRIBUIÇÕES
+        ========================================= */
+
+        function obterDistribuicoes() {
+
+            try {
+
+                const dados =
+                    localStorage.getItem(
+                        "distribuicoes"
+                    );
+
+
+                if (!dados) {
+
+                    return [];
+
+                }
+
+
+                const resultado =
+                    JSON.parse(dados);
+
+
+                return Array.isArray(resultado)
+                    ? resultado
+                    : [];
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao ler distribuicoes:",
+                    erro
+                );
+
+
+                return [];
+
+            }
+
+        }
+
+        function preencherFiltroDistribuidor() {
+
+            const filtro =
+                document.getElementById(
+                    "filtroDistribuidor"
+                );
+
+            if (!filtro) {
+                return;
+            }
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+            const nomes =
+                [
+                    ...new Set(
+                        distribuicoes
+                            .map(
+                                function (distribuicao) {
+                                    return String(
+                                        distribuicao.distribuidor ||
+                                        ""
+                                    ).trim();
+                                }
+                            )
+                            .filter(
+                                function (nome) {
+                                    return nome !== "";
+                                }
+                            )
+                    )
+                ]
+                    .sort(
+                        function (a, b) {
+                            return a.localeCompare(
+                                b,
+                                "pt-PT"
+                            );
+                        }
+                    );
+
+            filtro.innerHTML =
+                '<option value="">Todos</option>';
+
+            nomes.forEach(
+                function (nome) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value = nome;
+
+                    option.textContent = nome;
+
+                    filtro.appendChild(
+                        option
+                    );
+
+                }
+            );
+        }
+
+
+        /* =========================================
+   CARREGAR DASHBOARD
+========================================= */
+
+        function carregarDashboard() {
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+
+            const filtroData =
+                document.getElementById(
+                    "filtroDataDashboard"
+                );
+
+
+            const dataSelecionada =
+                filtroData.value ||
+                obterHojeFormatado();
+
+
+            /*
+             * Período selecionado
+             */
+
+            const periodo =
+                document.getElementById(
+                    "filtroPeriodo"
+                ).value;
+
+
+            /*
+             * Distribuidor selecionado
+             */
+
+            const filtroDistribuidor =
+                document.getElementById(
+                    "filtroDistribuidor"
+                );
+
+
+            const distribuidorSelecionado =
+                filtroDistribuidor
+                    ? filtroDistribuidor.value
+                    : "";
+
+
+            /*
+             * Distribuições em andamento
+             */
+
+            const emAndamento =
+                distribuicoes.filter(
+                    function (distribuicao) {
+
+                        return (
+
+                            distribuicao &&
+
+                            distribuicao.status ===
+                            "Em andamento"
+
+                        );
+
+                    }
+                );
+
+
+            /*
+             * Data de referência
+             */
+
+            const dataReferencia =
+                converterData(
+                    dataSelecionada
+                );
+
+
+            /*
+             * Distribuições concluídas
+             */
+
+            const concluidas =
+                distribuicoes.filter(
+                    function (distribuicao) {
+
+                        if (
+                            !distribuicao ||
+                            distribuicao.status !==
+                            "Concluída"
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        /*
+                         * FILTRO DE DISTRIBUIDOR
+                         */
+
+                        if (
+                            distribuidorSelecionado
+                        ) {
+
+                            const nomeDistribuidor =
+                                String(
+                                    distribuicao.distribuidor ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase();
+
+
+                            if (
+                                nomeDistribuidor !==
+                                distribuidorSelecionado
+                                    .trim()
+                                    .toLowerCase()
+                            ) {
+
+                                return false;
+
+                            }
+
+                        }
+
+
+                        /*
+                         * DIA
+                         */
+
+                        if (
+                            periodo === "dia"
+                        ) {
+
+                            return mesmaData(
+                                distribuicao.data,
+                                dataSelecionada
+                            );
+
+                        }
+
+
+                        /*
+                         * Converter data
+                         */
+
+                        const dataDistribuicao =
+                            converterData(
+                                distribuicao.data
+                            );
+
+
+                        if (
+                            !dataDistribuicao ||
+                            !dataReferencia
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        /*
+                         * MÊS
+                         */
+
+                        if (
+                            periodo === "mes"
+                        ) {
+
+                            return (
+
+                                dataDistribuicao
+                                    .getFullYear() ===
+                                dataReferencia
+                                    .getFullYear() &&
+
+                                dataDistribuicao
+                                    .getMonth() ===
+                                dataReferencia
+                                    .getMonth()
+
+                            );
+
+                        }
+
+
+                        /*
+                         * SEMANA
+                         */
+
+                        if (
+                            periodo === "semana"
+                        ) {
+
+                            const inicioSemana =
+                                new Date(
+                                    dataReferencia
+                                );
+
+
+                            const diaSemana =
+                                inicioSemana.getDay();
+
+
+                            const diferenca =
+                                diaSemana === 0
+                                    ? 6
+                                    : diaSemana - 1;
+
+
+                            inicioSemana.setDate(
+                                inicioSemana.getDate() -
+                                diferenca
+                            );
+
+
+                            inicioSemana.setHours(
+                                0,
+                                0,
+                                0,
+                                0
+                            );
+
+
+                            const fimSemana =
+                                new Date(
+                                    inicioSemana
+                                );
+
+
+                            fimSemana.setDate(
+                                fimSemana.getDate() + 7
+                            );
+
+
+                            return (
+
+                                dataDistribuicao >=
+                                inicioSemana &&
+
+                                dataDistribuicao <
+                                fimSemana
+
+                            );
+
+                        }
+
+
+                        return false;
+
+                    }
+                );
+
+
+            /*
+             * Total de entregas
+             */
+
+            const totalEntregas =
+                concluidas.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return (
+
+                            total +
+
+                            (
+                                Array.isArray(
+                                    distribuicao.clientes
+                                )
+                                    ? distribuicao.clientes.length
+                                    : 0
+                            )
+
+                        );
+
+                    },
+                    0
+                );
+
+
+            /*
+             * Clientes únicos
+             */
+
+            const clientesUnicos =
+                new Set();
+
+
+            concluidas.forEach(
+                function (distribuicao) {
+
+                    if (
+                        !Array.isArray(
+                            distribuicao.clientes
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    distribuicao.clientes.forEach(
+                        function (cliente) {
+
+                            clientesUnicos.add(
+                                obterCodigoCliente(
+                                    cliente
+                                )
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /*
+             * Indicadores
+             */
+
+            document
+                .getElementById(
+                    "totalAndamento"
+                )
+                .textContent =
+                emAndamento.length;
+
+
+            document
+                .getElementById(
+                    "totalConcluidas"
+                )
+                .textContent =
+                concluidas.length;
+
+
+            document
+                .getElementById(
+                    "totalClientes"
+                )
+                .textContent =
+                clientesUnicos.size;
+
+
+            document
+                .getElementById(
+                    "totalEntregas"
+                )
+                .textContent =
+                totalEntregas;
+
+
+            /*
+             * Distribuidores em andamento
+             */
+
+            const emAndamentoFiltrado =
+                emAndamento.filter(
+                    function (distribuicao) {
+
+                        if (!distribuidorSelecionado) {
+                            return true;
+                        }
+
+                        const nomeDistribuidor =
+                            String(
+                                distribuicao.distribuidor ||
+                                ""
+                            )
+                                .trim()
+                                .toLowerCase();
+
+                        return (
+                            nomeDistribuidor ===
+                            distribuidorSelecionado
+                                .trim()
+                                .toLowerCase()
+                        );
+                    }
+                );
+
+            atualizarDistribuidoresEmAndamento(
+                emAndamentoFiltrado
+            );
+
+
+            /*
+             * Meta do dia
+             */
+
+            atualizarMetaDoDia(
+                concluidas,
+                dataSelecionada
+            );
+
+
+            /*
+             * Desempenho
+             */
+
+            atualizarDesempenhoOperacional(
+                concluidas
+            );
+
+            const distribuicoesFiltradas =
+                distribuicoes.filter(
+                    function (distribuicao) {
+
+                        if (!distribuidorSelecionado) {
+                            return true;
+                        }
+
+                        const nomeDistribuidor =
+                            String(
+                                distribuicao.distribuidor ||
+                                ""
+                            )
+                                .trim()
+                                .toLowerCase();
+
+                        return (
+                            nomeDistribuidor ===
+                            distribuidorSelecionado
+                                .trim()
+                                .toLowerCase()
+                        );
+                    }
+                );
+
+            /*
+             * Planeamento mensal
+             */
+
+            const distribuicoesPlaneamento =
+                distribuicoes.filter(
+                    function (distribuicao) {
+
+                        if (!distribuidorSelecionado) {
+                            return true;
+                        }
+
+                        const nomeDistribuidor =
+                            String(
+                                distribuicao.distribuidor ||
+                                ""
+                            )
+                                .trim()
+                                .toLowerCase();
+
+                        return (
+                            nomeDistribuidor ===
+                            distribuidorSelecionado
+                                .trim()
+                                .toLowerCase()
+                        );
+
+                    }
+                );
+
+            atualizarPlaneamentoMensal(
+                distribuicoesPlaneamento,
+                dataSelecionada
+            );
+
+        }
+
+
+        /* =========================================
+           DISTRIBUIDORES EM ANDAMENTO
+        ========================================= */
+
+        function atualizarDistribuidoresEmAndamento(
+            emAndamento
+        ) {
+
+            const lista =
+                document.getElementById(
+                    "listaDistribuidores"
+                );
+
+
+            lista.innerHTML = "";
+
+
+            if (
+                emAndamento.length === 0
+            ) {
+
+                lista.innerHTML = `
+
+                    <p class="sem-dados">
+                        Nenhum distribuidor em distribuição.
+                    </p>
+
+                `;
+
+                return;
+
+            }
+
+
+            emAndamento.forEach(
+                function (distribuicao) {
+
+                    if (
+                        !distribuicao ||
+                        !distribuicao.distribuidor
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const quantidadeClientes =
+                        Array.isArray(
+                            distribuicao.clientes
+                        )
+                            ? distribuicao.clientes.length
+                            : 0;
+
+
+                    const linha =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    linha.className =
+                        "linha-estado";
+
+
+                    linha.title =
+                        "Abrir detalhes da distribuição";
+
+
+                    linha.onclick =
+                        function () {
+
+                            abrirDistribuicao(
+                                distribuicao.id
+                            );
+
+                        };
+
+
+                    linha.innerHTML = `
+
+                        <div class="informacao-estafeta">
+
+                            <span class="nome-estado">
+
+                                ${escaparHTML(
+                        distribuicao.distribuidor
+                    )}
+
+                            </span>
+
+                            <span class="detalhe-estafeta">
+
+                                ${quantidadeClientes}
+                                clientes
+
+                                ${distribuicao.horaInicio
+                            ? " · início " +
+                            escaparHTML(
+                                distribuicao.horaInicio
+                            )
+                            : ""
+                        }
+
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="
+                                estado
+                                estado-ocupado
+                            "
+                        >
+
+                            🔴 Em distribuição
+
+                        </span>
+
+                    `;
+
+
+                    lista.appendChild(linha);
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           ESCAPAR HTML
+        ========================================= */
+
+        function escaparHTML(
+            valor
+        ) {
+
+            return String(
+                valor ?? ""
+            )
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================================
+           DESEMPENHO OPERACIONAL
+        ========================================= */
+
+        function atualizarDesempenhoOperacional(
+            concluidas
+        ) {
+
+            const elementoTempo =
+                document.getElementById(
+                    "tempoMedioDistribuicoes"
+                );
+
+
+            const elementoMediaHora =
+                document.getElementById(
+                    "mediaEntregasHora"
+                );
+
+
+            const elementoMediaDistribuidor =
+                document.getElementById(
+                    "mediaEntregasDistribuidor"
+                );
+
+
+            const elementoLider =
+                document.getElementById(
+                    "liderDistribuidor"
+                );
+
+
+            const elementoLiderEntregas =
+                document.getElementById(
+                    "liderEntregas"
+                );
+
+
+            if (
+                !Array.isArray(concluidas) ||
+                concluidas.length === 0
+            ) {
+
+                elementoTempo.textContent =
+                    "Sem dados";
+
+
+                elementoMediaHora.textContent =
+                    "Sem dados";
+
+
+                elementoMediaDistribuidor.textContent =
+                    "Sem dados";
+
+
+                elementoLider.textContent =
+                    "Sem dados";
+
+
+                elementoLiderEntregas.textContent =
+                    "0";
+
+
+                return;
+
+            }
+
+
+            /*
+             * Tempo total.
+             */
+
+            let tempoTotalHoras = 0;
+
+            let quantidadeComTempo = 0;
+
+
+            concluidas.forEach(
+                function (distribuicao) {
+
+                    const duracao =
+                        obterDuracaoEmHoras(
+                            distribuicao
+                        );
+
+
+                    if (
+                        duracao !== null &&
+                        duracao > 0
+                    ) {
+
+                        tempoTotalHoras +=
+                            duracao;
+
+                        quantidadeComTempo++;
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * Tempo médio.
+             */
+
+            const tempoMedio =
+                quantidadeComTempo > 0
+                    ? tempoTotalHoras /
+                    quantidadeComTempo
+                    : null;
+
+
+            elementoTempo.textContent =
+                tempoMedio !== null
+                    ? formatarDuracao(
+                        tempoMedio
+                    )
+                    : "Sem dados";
+
+
+            /*
+             * Entregas por distribuidor.
+             */
+
+            const entregasPorDistribuidor =
+                {};
+
+
+            concluidas.forEach(
+                function (distribuicao) {
+
+                    const nome =
+                        String(
+                            distribuicao.distribuidor ||
+                            ""
+                        ).trim();
+
+
+                    if (!nome) {
+
+                        return;
+
+                    }
+
+
+                    const quantidade =
+                        Array.isArray(
+                            distribuicao.clientes
+                        )
+                            ? distribuicao.clientes.length
+                            : 0;
+
+
+                    if (
+                        !entregasPorDistribuidor[nome]
+                    ) {
+
+                        entregasPorDistribuidor[nome] =
+                            0;
+
+                    }
+
+
+                    entregasPorDistribuidor[nome] +=
+                        quantidade;
+
+                }
+            );
+
+
+            const nomes =
+                Object.keys(
+                    entregasPorDistribuidor
+                );
+
+
+            /*
+             * Média de entregas por distribuidor.
+             */
+
+            const totalEntregas =
+                nomes.reduce(
+                    function (
+                        total,
+                        nome
+                    ) {
+
+                        return (
+                            total +
+                            entregasPorDistribuidor[nome]
+                        );
+
+                    },
+                    0
+                );
+
+
+            const mediaEntregasDistribuidor =
+                nomes.length > 0
+                    ? totalEntregas /
+                    nomes.length
+                    : 0;
+
+
+            elementoMediaDistribuidor.textContent =
+                nomes.length > 0
+                    ? formatarNumeroDecimal(
+                        mediaEntregasDistribuidor
+                    )
+                    : "Sem dados";
+
+
+            /*
+             * Média de entregas por hora.
+             */
+
+            const mediaEntregasHora =
+                tempoTotalHoras > 0
+                    ? totalEntregas /
+                    tempoTotalHoras
+                    : 0;
+
+
+            elementoMediaHora.textContent =
+                mediaEntregasHora > 0
+                    ? formatarNumeroDecimal(
+                        mediaEntregasHora
+                    )
+                    : "Sem dados";
+
+
+            /*
+             * Líder do dia.
+             */
+
+            let lider = null;
+
+
+            nomes.forEach(
+                function (nome) {
+
+                    const entregas =
+                        entregasPorDistribuidor[
+                        nome
+                        ];
+
+
+                    if (
+                        !lider ||
+                        entregas > lider.entregas
+                    ) {
+
+                        lider = {
+
+                            nome: nome,
+
+                            entregas: entregas
+
+                        };
+
+                    }
+
+                }
+            );
+
+
+            if (lider) {
+
+                elementoLider.textContent =
+                    lider.nome;
+
+
+                elementoLiderEntregas.textContent =
+                    formatarNumero(
+                        lider.entregas
+                    );
+
+            } else {
+
+                elementoLider.textContent =
+                    "Sem dados";
+
+
+                elementoLiderEntregas.textContent =
+                    "0";
+
+            }
+
+        }
+
+
+        /* =========================================
+           META DO DIA
+        ========================================= */
+
+        function atualizarMetaDoDia(
+            distribuicoes,
+            dataSelecionada
+        ) {
+
+            const partes =
+                dataSelecionada.split("-");
+
+
+            if (partes.length !== 3) {
+
+                return;
+
+            }
+
+
+            const ano =
+                Number(partes[0]);
+
+
+            const mes =
+                Number(partes[1]);
+
+
+            const diasDoMes = [];
+
+            const ultimoDia =
+                new Date(
+                    ano,
+                    mes,
+                    0
+                ).getDate();
+
+            for (
+                let dia = 1;
+                dia <= ultimoDia;
+                dia++
+            ) {
+
+                diasDoMes.push(
+                    criarDataLocal(
+                        ano,
+                        mes,
+                        dia
+                    )
+                );
+
+            }
+
+
+            const quantidadeDias =
+                DIAS_TRABALHO;
+
+
+            const metaDiaria =
+                quantidadeDias > 0
+                    ? Math.ceil(
+                        META_MENSAL /
+                        quantidadeDias
+                    )
+                    : 0;
+
+
+            const concluidas =
+                distribuicoes.filter(
+                    function (distribuicao) {
+
+                        return (
+
+                            distribuicao &&
+
+                            distribuicao.status ===
+                            "Concluída" &&
+
+                            mesmaData(
+                                distribuicao.data,
+                                dataSelecionada
+                            )
+
+                        );
+
+                    }
+                );
+
+
+            const entregas =
+                concluidas.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return (
+                            total +
+                            (
+                                Array.isArray(
+                                    distribuicao.clientes
+                                )
+                                    ? distribuicao.clientes.length
+                                    : 0
+                            )
+                        );
+
+                    },
+                    0
+                );
+
+
+            const percentagem =
+                metaDiaria > 0
+                    ? Math.min(
+                        100,
+                        (
+                            entregas /
+                            metaDiaria
+                        ) * 100
+                    )
+                    : 0;
+
+
+            document
+                .getElementById(
+                    "entregasHojeMeta"
+                )
+                .textContent =
+                formatarNumero(
+                    entregas
+                );
+
+
+            document
+                .getElementById(
+                    "metaDiaria"
+                )
+                .textContent =
+                formatarNumero(
+                    metaDiaria
+                );
+
+
+            document
+                .getElementById(
+                    "metaMensal"
+                )
+                .value =
+                META_MENSAL;
+
+
+            document
+                .getElementById(
+                    "diasTrabalho"
+                )
+                .textContent =
+                quantidadeDias;
+
+
+            document
+                .getElementById(
+                    "barraMetaProgresso"
+                )
+                .style.width =
+                percentagem + "%";
+
+
+            const mensagem =
+                document.getElementById(
+                    "mensagemMeta"
+                );
+
+
+            if (entregas === 0) {
+
+                mensagem.textContent =
+                    "Ainda não existem entregas concluídas nesta data.";
+
+            } else if (
+                entregas >= metaDiaria
+            ) {
+
+                mensagem.textContent =
+                    "🎯 Meta diária atingida.";
+
+            } else {
+
+                const falta =
+                    metaDiaria -
+                    entregas;
+
+
+                mensagem.textContent =
+                    "Faltam " +
+                    formatarNumero(falta) +
+                    " entregas para atingir a meta diária.";
+
+            }
+
+        }
+
+
+        /* =========================================
+           PLANEAMENTO MENSAL
+        ========================================= */
+
+        function atualizarPlaneamentoMensal(
+            distribuicoes,
+            dataSelecionada
+        ) {
+
+            const partes =
+                dataSelecionada.split("-");
+
+
+            if (partes.length !== 3) {
+
+                return;
+
+            }
+
+
+            const ano =
+                Number(partes[0]);
+
+
+            const mes =
+                Number(partes[1]);
+
+
+            const diasDoMes = [];
+
+            const ultimoDia =
+                new Date(
+                    ano,
+                    mes,
+                    0
+                ).getDate();
+
+            for (
+                let dia = 1;
+                dia <= ultimoDia;
+                dia++
+            ) {
+
+                diasDoMes.push(
+                    criarDataLocal(
+                        ano,
+                        mes,
+                        dia
+                    )
+                );
+
+            }
+
+
+            const metaDiaria =
+                diasDoMes.length > 0
+                    ? META_MENSAL /
+                    diasDoMes.length
+                    : 0;
+
+
+            /*
+             * Total mensal.
+             */
+
+            let totalRealizado = 0;
+
+
+            diasDoMes.forEach(
+                function (data) {
+
+                    const dataISO =
+                        formatarDataISO(
+                            data
+                        );
+
+
+                    distribuicoes.forEach(
+                        function (distribuicao) {
+
+                            if (
+                                !distribuicao ||
+                                distribuicao.status !==
+                                "Concluída"
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            if (
+                                mesmaData(
+                                    distribuicao.data,
+                                    dataISO
+                                )
+                            ) {
+
+                                if (
+                                    Array.isArray(
+                                        distribuicao.clientes
+                                    )
+                                ) {
+
+                                    totalRealizado +=
+                                        distribuicao.clientes.length;
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+            document
+                .getElementById(
+                    "planeamentoRealizado"
+                )
+                .textContent =
+                formatarNumero(
+                    totalRealizado
+                );
+
+
+            document
+                .getElementById(
+                    "planeamentoMeta"
+                )
+                .textContent =
+                formatarNumero(
+                    META_MENSAL
+                );
+
+
+            const percentagemMensal =
+                META_MENSAL > 0
+                    ? Math.min(
+                        100,
+                        (
+                            totalRealizado /
+                            META_MENSAL
+                        ) * 100
+                    )
+                    : 0;
+
+
+            document
+                .getElementById(
+                    "barraMensalProgresso"
+                )
+                .style.width =
+                percentagemMensal + "%";
+
+
+            /*
+             * Gráfico.
+             */
+
+            const grafico =
+                document.getElementById(
+                    "graficoPlaneamento"
+                );
+
+
+            grafico.innerHTML = "";
+
+
+            if (
+                diasDoMes.length === 0
+            ) {
+
+                grafico.innerHTML = `
+
+                    <p class="sem-dados">
+                        Não existem dias úteis neste mês.
+                    </p>
+
+                `;
+
+                return;
+
+            }
+
+
+            const alturaMaxima = 150;
+
+
+            let maiorValor =
+                metaDiaria;
+
+
+            const realizadosPorDia =
+                {};
+
+
+            diasDoMes.forEach(
+                function (data) {
+
+                    const dataISO =
+                        formatarDataISO(
+                            data
+                        );
+
+
+                    let realizado = 0;
+
+
+                    distribuicoes.forEach(
+                        function (distribuicao) {
+
+                            if (
+                                !distribuicao ||
+                                distribuicao.status !==
+                                "Concluída"
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            if (
+                                mesmaData(
+                                    distribuicao.data,
+                                    dataISO
+                                )
+                            ) {
+
+                                if (
+                                    Array.isArray(
+                                        distribuicao.clientes
+                                    )
+                                ) {
+
+                                    realizado +=
+                                        distribuicao.clientes.length;
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+
+                    realizadosPorDia[dataISO] =
+                        realizado;
+
+
+                    if (
+                        realizado >
+                        maiorValor
+                    ) {
+
+                        maiorValor =
+                            realizado;
+
+                    }
+
+                }
+            );
+
+
+            if (maiorValor <= 0) {
+
+                maiorValor = 1;
+
+            }
+
+
+            /*
+             * Criar colunas.
+             */
+
+            diasDoMes.forEach(
+                function (data) {
+
+                    const dataISO =
+                        formatarDataISO(
+                            data
+                        );
+
+
+                    const realizado =
+                        realizadosPorDia[
+                        dataISO
+                        ] || 0;
+
+
+                    const alturaMeta =
+                        (
+                            metaDiaria /
+                            maiorValor
+                        ) *
+                        alturaMaxima;
+
+
+                    const alturaRealizado =
+                        (
+                            realizado /
+                            maiorValor
+                        ) *
+                        alturaMaxima;
+
+
+                    const dia =
+                        data.getDate();
+
+
+                    const selecionado =
+                        dataISO ===
+                        dataSelecionada;
+
+
+                    const coluna =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    coluna.className =
+                        "dia-grafico";
+
+
+                    coluna.innerHTML = `
+
+                        <div
+                            class="coluna-dia"
+                            title="
+                                Dia ${dia}:
+                                meta ${Math.round(metaDiaria)}
+                                · realizado ${realizado}
+                            "
+                        >
+
+                            <div
+                                class="meta-coluna"
+                                style="
+                                    height:
+                                    ${alturaMeta}px;
+                                "
+                            ></div>
+
+
+                            <div
+                                class="realizado-coluna"
+                                style="
+                                    height:
+                                    ${alturaRealizado}px;
+                                "
+                            ></div>
+
+                        </div>
+
+
+                        <div
+                            class="
+                                dia-label
+                                ${selecionado
+                            ? "dia-selecionado"
+                            : ""
+                        }
+                            "
+                        >
+                            ${dia}
+                        </div>
+
+                    `;
+
+
+                    grafico.appendChild(
+                        coluna
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           ABRIR DISTRIBUIÇÃO
+        ========================================= */
+
+        function abrirDistribuicao(
+            id
+        ) {
+
+            sessionStorage.setItem(
+                "distribuicaoSelecionada",
+                String(id)
+            );
+
+
+            window.location.href =
+                "Distribuicoes.html";
+
+        }
+
+
+        /* =========================================
+           ABRIR PENDENTES
+        ========================================= */
+
+        function abrirPendentes() {
+
+            sessionStorage.setItem(
+                "abaDistribuicoesSelecionada",
+                "andamento"
+            );
+
+
+            window.location.href =
+                "Distribuicoes.html";
+
+        }
+
+
+        /* =========================================
+           ABRIR HISTÓRICO DO DIA
+        ========================================= */
+
+        function abrirHistoricoDia() {
+
+            const data =
+                document
+                    .getElementById(
+                        "filtroDataDashboard"
+                    )
+                    .value;
+
+
+            if (!data) {
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "Distribuicoes.html" +
+                "?modo=historico" +
+                "&data=" +
+                encodeURIComponent(
+                    data
+                );
+
+        }
+
+
+        /* =========================================
+           ABRIR HISTÓRICO DO MÊS
+        ========================================= */
+
+        function abrirHistoricoMes() {
+
+            const data =
+                document
+                    .getElementById(
+                        "filtroDataDashboard"
+                    )
+                    .value;
+
+
+            if (!data) {
+
+                return;
+
+            }
+
+
+            const partes =
+                data.split("-");
+
+
+            const mes =
+                partes[0] +
+                "-" +
+                partes[1];
+
+
+            window.location.href =
+                "Distribuicoes.html" +
+                "?modo=historico" +
+                "&mes=" +
+                encodeURIComponent(
+                    mes
+                );
+
+        }
+
+
+        /* =========================================
+   ABRIR ANÁLISE DAS DISTRIBUIÇÕES
+========================================= */
+
+        function abrirAnaliseDistribuicoes() {
+
+            const data =
+                document
+                    .getElementById(
+                        "filtroDataDashboard"
+                    )
+                    .value;
+
+            const filtroDistribuidor =
+                document.getElementById(
+                    "filtroDistribuidor"
+                );
+
+            const distribuidor =
+                filtroDistribuidor
+                    ? filtroDistribuidor.value
+                    : "";
+
+            if (!data) {
+
+                return;
+
+            }
+
+            console.log(
+                "DATA ENVIADA:",
+                data
+            );
+
+            console.log(
+                "DISTRIBUIDOR ENVIADO:",
+                distribuidor
+            );
+
+            window.location.href =
+                "AnaliseDistribuicoes.html" +
+                "?data=" +
+                encodeURIComponent(
+                    data
+                ) +
+                "&distribuidor=" +
+                encodeURIComponent(
+                    distribuidor
+                );
+
+        }
+
+
+        /* =========================================
+           ABRIR CLIENTES DO DIA
+        ========================================= */
+
+        function abrirClientesDia() {
+
+            const data =
+                document
+                    .getElementById(
+                        "filtroDataDashboard"
+                    )
+                    .value;
+
+
+            if (!data) {
+
+                return;
+
+            }
+
+
+            window.location.href =
+                PAGINA_CLIENTES +
+                "?data=" +
+                encodeURIComponent(
+                    data
+                );
+
+        }
+
+
+        /* =========================================
+           FILTRO DE DATA
+        ========================================= */
+
+        const filtroDataDashboard =
+            document.getElementById(
+                "filtroDataDashboard"
+            );
+
+
+        filtroDataDashboard.value =
+            obterHojeFormatado();
+
+
+        filtroDataDashboard.addEventListener(
+            "change",
+            function () {
+
+                carregarDashboard();
+
+            }
+        );
+
+        const filtroPeriodo =
+            document.getElementById("filtroPeriodo");
+
+        filtroPeriodo.addEventListener(
+            "change",
+            function () {
+
+                carregarDashboard();
+
+            }
+        );
+
+        const filtroDistribuidor =
+            document.getElementById(
+                "filtroDistribuidor"
+            );
+
+        if (filtroDistribuidor) {
+
+            filtroDistribuidor.addEventListener(
+                "change",
+                function () {
+                    carregarDashboard();
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           ATUALIZAÇÃO AUTOMÁTICA
+        ========================================= */
+
+        setInterval(
+            function () {
+
+                carregarDashboard();
+
+            },
+            5000
+        );
+
+
+        /* =========================================
+           ATUALIZAR AO VOLTAR À PÁGINA
+        ========================================= */
+
+        document.addEventListener(
+            "visibilitychange",
+            function () {
+
+                if (
+                    !document.hidden
+                ) {
+
+                    carregarDashboard();
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           INICIAR
+        ========================================= */
+
+        function preencherFiltroDistribuidor() {
+
+            const filtro =
+                document.getElementById(
+                    "filtroDistribuidor"
+                );
+
+            if (!filtro) {
+                return;
+            }
+
+            const distribuidores =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+            filtro.innerHTML =
+                '<option value="">Todos</option>';
+
+            distribuidores.forEach(
+                function (distribuidor) {
+
+                    if (
+                        !distribuidor ||
+                        !distribuidor.nome
+                    ) {
+                        return;
+                    }
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        distribuidor.nome;
+
+                    option.textContent =
+                        distribuidor.nome;
+
+                    filtro.appendChild(
+                        option
+                    );
+
+                }
+            );
+        }
+
+        preencherFiltroDistribuidor();
+        carregarDashboard();
+
     </script>
+
 
 </body>
 

@@ -540,66 +540,348 @@
 
     <script>
 
-        const distribuidores = [
+        /* =====================================================
+           DISTRIBUIDORES
+        ===================================================== */
 
-            "Aníbal",
-            "João Palha",
-            "Victor Hugo",
-            "André",
-            "Lopes",
-            "Fernando",
+        const distribuidoresSalvos =
+            JSON.parse(
+                localStorage.getItem("distribuidores")
+            ) || [];
 
-            "Ianyck",
-            "Dione",
-            "Charles",
-            "Francisco",
-            "Vitor",
-            "Mauro",
-            "Leonardo",
-            "Juan",
-            "Gustavo"
 
-        ];
+        const distribuidores =
+            distribuidoresSalvos.map(function (distribuidor) {
+
+                return typeof distribuidor === "object"
+                    ? distribuidor.nome
+                    : distribuidor;
+
+            });
+
 
         const distribuidorFiltro =
             document.getElementById("distribuidorFiltro");
+
 
         distribuidores.forEach(function (nome) {
 
             distribuidorFiltro.innerHTML += `
 
-        <option value="${nome}">
-            ${nome}
-        </option>
+            <option value="${nome}">
+                ${nome}
+            </option>
 
         `;
 
         });
 
 
-        const distribuicoes =
-            JSON.parse(
-                localStorage.getItem("distribuicoes")
-            ) || [];
-
+        /* =====================================================
+           ELEMENTOS
+        ===================================================== */
 
         const resumo =
             document.getElementById(
                 "resumoDistribuidores"
             );
 
+
         const resumoDia =
-            document.getElementById("resumoDia");
+            document.getElementById(
+                "resumoDia"
+            );
+
 
         const dataFiltro =
-            document.getElementById("dataFiltro");
+            document.getElementById(
+                "dataFiltro"
+            );
+
+
+        /* =====================================================
+           DATA INICIAL
+        ===================================================== */
 
         const hoje =
             new Date();
 
+
         dataFiltro.value =
             hoje.toISOString().split("T")[0];
 
+
+        /* =====================================================
+           CONVERTER DATA DD/MM/AAAA
+        ===================================================== */
+
+        function converterData(dataTexto) {
+
+            if (!dataTexto) {
+                return null;
+            }
+
+
+            const partes =
+                dataTexto.split("/");
+
+
+            if (partes.length !== 3) {
+                return null;
+            }
+
+
+            const dia =
+                Number(partes[0]);
+
+
+            const mes =
+                Number(partes[1]) - 1;
+
+
+            const ano =
+                Number(partes[2]);
+
+
+            return new Date(
+                ano,
+                mes,
+                dia
+            );
+
+        }
+
+
+        /* =====================================================
+           VERIFICAR DATA / PERÍODO
+        ===================================================== */
+
+        function mesmaDataOuPeriodo(
+            distribuicao,
+            dataSelecionada,
+            periodo
+        ) {
+
+            const dataDistribuicao =
+                converterData(
+                    distribuicao.data
+                );
+
+
+            if (!dataDistribuicao) {
+                return false;
+            }
+
+
+            dataDistribuicao.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+
+            const dataEscolhida =
+                new Date(
+                    dataSelecionada + "T00:00:00"
+                );
+
+
+            dataEscolhida.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+
+            /* =================================================
+               DIA
+            ================================================= */
+
+            if (periodo === "dia") {
+
+                return (
+                    dataDistribuicao.getFullYear() ===
+                    dataEscolhida.getFullYear() &&
+
+                    dataDistribuicao.getMonth() ===
+                    dataEscolhida.getMonth() &&
+
+                    dataDistribuicao.getDate() ===
+                    dataEscolhida.getDate()
+                );
+
+            }
+
+
+            /* =================================================
+               MÊS
+            ================================================= */
+
+            if (periodo === "mes") {
+
+                return (
+                    dataDistribuicao.getFullYear() ===
+                    dataEscolhida.getFullYear() &&
+
+                    dataDistribuicao.getMonth() ===
+                    dataEscolhida.getMonth()
+                );
+
+            }
+
+
+            /* =================================================
+               SEMANA
+            ================================================= */
+
+            const inicioSemana =
+                new Date(
+                    dataEscolhida
+                );
+
+
+            const diaSemana =
+                inicioSemana.getDay();
+
+
+            const diferenca =
+                diaSemana === 0
+                    ? 6
+                    : diaSemana - 1;
+
+
+            inicioSemana.setDate(
+                inicioSemana.getDate() -
+                diferenca
+            );
+
+
+            inicioSemana.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+
+            const fimSemana =
+                new Date(
+                    inicioSemana
+                );
+
+
+            fimSemana.setDate(
+                fimSemana.getDate() + 7
+            );
+
+
+            fimSemana.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+
+            return (
+                dataDistribuicao >=
+                inicioSemana &&
+
+                dataDistribuicao <
+                fimSemana
+            );
+
+        }
+
+
+        /* =====================================================
+           CÓDIGO DO CLIENTE
+        ===================================================== */
+
+        function obterCodigoCliente(cliente) {
+
+            if (
+                cliente &&
+                typeof cliente === "object"
+            ) {
+
+                return String(
+                    cliente.codigo
+                );
+
+            }
+
+
+            return String(
+                cliente
+            );
+
+        }
+
+
+        /* =====================================================
+           FORMATAR TEMPO
+        ===================================================== */
+
+        function formatarTempo(segundos) {
+
+            segundos =
+                Number(segundos) || 0;
+
+
+            const horas =
+                Math.floor(
+                    segundos / 3600
+                );
+
+
+            const minutos =
+                Math.floor(
+                    (segundos % 3600) / 60
+                );
+
+
+            const segundosRestantes =
+                segundos % 60;
+
+
+            if (horas > 0) {
+
+                return (
+                    horas +
+                    "h " +
+                    minutos +
+                    "min"
+                );
+
+            }
+
+
+            if (minutos > 0) {
+
+                return (
+                    minutos +
+                    "min " +
+                    segundosRestantes +
+                    "s"
+                );
+
+            }
+
+
+            return (
+                segundosRestantes +
+                "s"
+            );
+
+        }
+
+
+        /* =====================================================
+           MOSTRAR DESEMPENHO
+        ===================================================== */
 
         function mostrarDesempenho() {
 
@@ -607,96 +889,400 @@
 
             resumo.innerHTML = "";
 
+
+            /* =================================================
+               CARREGAR DADOS SEMPRE ATUALIZADOS
+            ================================================= */
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
             const dataSelecionada =
                 dataFiltro.value;
 
+
             const periodo =
-                document.getElementById("periodoFiltro").value;
+                document.getElementById(
+                    "periodoFiltro"
+                ).value;
+
 
             const distribuidorSelecionado =
-                document.getElementById("distribuidorFiltro").value;
-
-            function mesmaDataOuPeriodo(distribuicao) {
-
-                const partes =
-                    distribuicao.data.split("/");
-
-                const dataDistribuicao =
-                    new Date(
-                        partes[2],
-                        partes[1] - 1,
-                        partes[0]
-                    );
-
-                const dataEscolhida =
-                    new Date(
-                        dataSelecionada + "T00:00:00"
-                    );
+                document.getElementById(
+                    "distribuidorFiltro"
+                ).value;
 
 
-                if (periodo === "dia") {
+            /* =================================================
+               DISTRIBUIÇÕES CONCLUÍDAS DO PERÍODO
+            ================================================= */
 
-                    return (
-                        dataDistribuicao.getFullYear() ===
-                        dataEscolhida.getFullYear() &&
+            const distribuicoesDoPeriodo =
+                distribuicoes.filter(
+                    function (distribuicao) {
 
-                        dataDistribuicao.getMonth() ===
-                        dataEscolhida.getMonth() &&
+                        return (
+                            distribuicao.status ===
+                            "Concluída" &&
 
-                        dataDistribuicao.getDate() ===
-                        dataEscolhida.getDate()
+                            (
+                                distribuidorSelecionado === "" ||
+
+                                distribuicao.distribuidor ===
+                                distribuidorSelecionado
+                            ) &&
+
+                            mesmaDataOuPeriodo(
+                                distribuicao,
+                                dataSelecionada,
+                                periodo
+                            )
+                        );
+
+                    }
+                );
+
+
+            /* =================================================
+               TOTAL DE SAÍDAS
+            ================================================= */
+
+            const totalDistribuicoes =
+                distribuicoesDoPeriodo.length;
+
+
+            /* =================================================
+               TOTAL DE ENTREGAS
+            ================================================= */
+
+            const totalEntregas =
+                distribuicoesDoPeriodo.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return total +
+                            (
+                                Array.isArray(
+                                    distribuicao.clientes
+                                )
+                                    ? distribuicao.clientes.length
+                                    : 0
+                            );
+
+                    },
+                    0
+                );
+
+
+            /* =================================================
+               CLIENTES ÚNICOS
+            ================================================= */
+
+            const clientesUnicos =
+                new Set();
+
+
+            distribuicoesDoPeriodo.forEach(
+                function (distribuicao) {
+
+                    if (
+                        !Array.isArray(
+                            distribuicao.clientes
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    distribuicao.clientes.forEach(
+                        function (cliente) {
+
+                            clientesUnicos.add(
+                                obterCodigoCliente(
+                                    cliente
+                                )
+                            );
+
+                        }
                     );
 
                 }
+            );
 
 
-                if (periodo === "mes") {
-
-                    return (
-                        dataDistribuicao.getFullYear() ===
-                        dataEscolhida.getFullYear() &&
-
-                        dataDistribuicao.getMonth() ===
-                        dataEscolhida.getMonth()
-                    );
-
-                }
+            const totalClientes =
+                clientesUnicos.size;
 
 
-                // Semana
+            /* =================================================
+               TEMPO TOTAL
+            ================================================= */
 
-                const inicioSemana =
-                    new Date(dataEscolhida);
+            const tempoTotalDia =
+                distribuicoesDoPeriodo.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
 
-                const diaSemana =
-                    inicioSemana.getDay();
+                        return total +
+                            (
+                                Number(
+                                    distribuicao.duracao
+                                ) || 0
+                            );
 
-                const diferenca =
-                    diaSemana === 0
-                        ? 6
-                        : diaSemana - 1;
-
-                inicioSemana.setDate(
-                    inicioSemana.getDate() - diferenca
-                );
-
-                inicioSemana.setHours(0, 0, 0, 0);
-
-
-                const fimSemana =
-                    new Date(inicioSemana);
-
-                fimSemana.setDate(
-                    fimSemana.getDate() + 7
+                    },
+                    0
                 );
 
 
-                return (
-                    dataDistribuicao >= inicioSemana &&
-                    dataDistribuicao < fimSemana
+            /* =================================================
+               TEMPO MÉDIO
+            ================================================= */
+
+            const tempoMedioDia =
+                totalDistribuicoes > 0
+                    ? Math.round(
+                        tempoTotalDia /
+                        totalDistribuicoes
+                    )
+                    : 0;
+
+
+            /* =================================================
+               CARROS
+            ================================================= */
+
+            const distribuicoesCarros =
+                distribuicoesDoPeriodo.filter(
+                    function (distribuicao) {
+
+                        return (
+                            distribuicao.veiculo &&
+                            distribuicao.veiculo
+                                .toLowerCase()
+                                .startsWith("carro")
+                        );
+
+                    }
                 );
 
-            }
+
+            /* =================================================
+               MOTOS
+            ================================================= */
+
+            const distribuicoesMotos =
+                distribuicoesDoPeriodo.filter(
+                    function (distribuicao) {
+
+                        return (
+                            distribuicao.veiculo &&
+                            distribuicao.veiculo
+                                .toLowerCase()
+                                .startsWith("moto")
+                        );
+
+                    }
+                );
+
+
+            /* =================================================
+               ENTREGAS CARROS
+            ================================================= */
+
+            const entregasCarros =
+                distribuicoesCarros.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return total +
+                            (
+                                Array.isArray(
+                                    distribuicao.clientes
+                                )
+                                    ? distribuicao.clientes.length
+                                    : 0
+                            );
+
+                    },
+                    0
+                );
+
+
+            /* =================================================
+               ENTREGAS MOTOS
+            ================================================= */
+
+            const entregasMotos =
+                distribuicoesMotos.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return total +
+                            (
+                                Array.isArray(
+                                    distribuicao.clientes
+                                )
+                                    ? distribuicao.clientes.length
+                                    : 0
+                            );
+
+                    },
+                    0
+                );
+
+
+            /* =================================================
+               RESUMO
+            ================================================= */
+
+            resumoDia.innerHTML = `
+
+            <div class="resumo-dia">
+
+                <h2>
+                    Resumo do período
+                </h2>
+
+
+                <div class="indicadores-dia">
+
+
+                    <div class="indicador-dia indicador-saidas">
+
+                        <strong>
+                            ${totalDistribuicoes}
+                        </strong>
+
+                        <span>
+                            saídas realizadas
+                        </span>
+
+                    </div>
+
+
+                    <div class="indicador-dia indicador-clientes">
+
+                        <strong>
+                            ${totalClientes}
+                        </strong>
+
+                        <span>
+                            clientes únicos
+                        </span>
+
+                    </div>
+
+
+                    <div class="indicador-dia indicador-entregas">
+
+                        <strong>
+                            ${totalEntregas}
+                        </strong>
+
+                        <span>
+                            entregas
+                        </span>
+
+                    </div>
+
+
+                    <div class="indicador-dia indicador-tempo">
+
+                        <strong>
+                            ${formatarTempo(
+                tempoTotalDia
+            )}
+                        </strong>
+
+                        <span>
+                            tempo total
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <p>
+
+                    Tempo médio por saída:
+
+                    <strong>
+                        ${formatarTempo(
+                tempoMedioDia
+            )}
+                    </strong>
+
+                </p>
+
+
+                <hr>
+
+
+                <h3>
+                    Veículos
+                </h3>
+
+
+                <div class="veiculos-resumo">
+
+
+                    <div class="veiculo-resumo veiculo-carros">
+
+                        <strong>
+                            🚗 Carros
+                        </strong>
+
+                        ${distribuicoesCarros.length}
+                        saídas ·
+                        ${entregasCarros}
+                        entregas
+
+                    </div>
+
+
+                    <div class="veiculo-resumo veiculo-motos">
+
+                        <strong>
+                            🏍️ Motos
+                        </strong>
+
+                        ${distribuicoesMotos.length}
+                        saídas ·
+                        ${entregasMotos}
+                        entregas
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+            /* =================================================
+               RANKING
+            ================================================= */
 
             const ranking =
                 distribuidores
@@ -711,40 +1297,70 @@
                     .map(function (nome) {
 
                         const minhasDistribuicoes =
-                            distribuicoes.filter(function (distribuicao) {
+                            distribuicoesDoPeriodo.filter(
+                                function (
+                                    distribuicao
+                                ) {
 
-                                return (
-                                    distribuicao.distribuidor === nome &&
-                                    distribuicao.status === "Concluída" &&
-                                    mesmaDataOuPeriodo(distribuicao)
-                                );
+                                    return (
+                                        distribuicao.distribuidor ===
+                                        nome
+                                    );
 
-                            });
+                                }
+                            );
 
 
                         const entregas =
                             minhasDistribuicoes.reduce(
-                                function (total, distribuicao) {
+                                function (
+                                    total,
+                                    distribuicao
+                                ) {
 
                                     return total +
-                                        distribuicao.clientes.length;
+                                        (
+                                            Array.isArray(
+                                                distribuicao.clientes
+                                            )
+                                                ? distribuicao.clientes.length
+                                                : 0
+                                        );
 
                                 },
                                 0
                             );
+
 
                         const clientesUnicos =
                             new Set();
 
 
                         minhasDistribuicoes.forEach(
-                            function (distribuicao) {
+                            function (
+                                distribuicao
+                            ) {
+
+                                if (
+                                    !Array.isArray(
+                                        distribuicao.clientes
+                                    )
+                                ) {
+
+                                    return;
+
+                                }
+
 
                                 distribuicao.clientes.forEach(
-                                    function (codigoCliente) {
+                                    function (
+                                        cliente
+                                    ) {
 
                                         clientesUnicos.add(
-                                            codigoCliente
+                                            obterCodigoCliente(
+                                                cliente
+                                            )
                                         );
 
                                     }
@@ -772,545 +1388,493 @@
                     });
 
 
-            ranking.sort(function (a, b) {
+            /* =================================================
+               ORDENAR RANKING
+            ================================================= */
 
-                if (b.quantidade !== a.quantidade) {
+            ranking.sort(
+                function (a, b) {
 
-                    return b.quantidade - a.quantidade;
+                    if (
+                        b.quantidade !==
+                        a.quantidade
+                    ) {
 
-                }
+                        return (
+                            b.quantidade -
+                            a.quantidade
+                        );
 
-                return b.entregas - a.entregas;
+                    }
 
-            });
-
-            const distribuicoesDoDia =
-                distribuicoes.filter(function (distribuicao) {
 
                     return (
-                        (
-                            distribuidorSelecionado === "" ||
-                            distribuicao.distribuidor ===
-                            distribuidorSelecionado
-                        ) &&
-                        distribuicao.status === "Concluída" &&
-                        mesmaDataOuPeriodo(distribuicao)
-                    );
-
-                });
-
-
-            const totalDistribuicoes =
-                distribuicoesDoDia.length;
-
-            const totalEntregas =
-                distribuicoesDoDia.reduce(
-                    function (total, distribuicao) {
-
-                        return total +
-                            distribuicao.clientes.length;
-
-                    },
-                    0
-                );
-
-
-            const clientesUnicos =
-                new Set();
-
-            distribuicoesDoDia.forEach(
-                function (distribuicao) {
-
-                    distribuicao.clientes.forEach(
-                        function (codigoCliente) {
-
-                            clientesUnicos.add(
-                                codigoCliente
-                            );
-
-                        }
+                        b.entregas -
+                        a.entregas
                     );
 
                 }
             );
 
 
-            const totalClientes =
-                clientesUnicos.size;
-
-            const tempoTotalDia =
-                distribuicoesDoDia.reduce(
-                    function (total, distribuicao) {
-
-                        return total +
-                            (distribuicao.duracao || 0);
-
-                    },
-                    0
-                );
-
-
-            const tempoMedioDia =
-                totalDistribuicoes > 0
-                    ? Math.round(
-                        tempoTotalDia / totalDistribuicoes
-                    )
-                    : 0;
-
-            const distribuicoesCarros =
-                distribuicoesDoDia.filter(function (distribuicao) {
-
-                    return distribuicao.veiculo &&
-                        distribuicao.veiculo.startsWith("Carro");
-
-                });
-
-
-            const distribuicoesMotos =
-                distribuicoesDoDia.filter(function (distribuicao) {
-
-                    return distribuicao.veiculo &&
-                        distribuicao.veiculo.startsWith("Moto");
-
-                });
-
-
-            const entregasCarros =
-                distribuicoesCarros.reduce(
-                    function (total, distribuicao) {
-
-                        return total +
-                            distribuicao.clientes.length;
-
-                    },
-                    0
-                );
-
-
-            const entregasMotos =
-                distribuicoesMotos.reduce(
-                    function (total, distribuicao) {
-
-                        return total +
-                            distribuicao.clientes.length;
-
-                    },
-                    0
-                );
-
-
-            resumoDia.innerHTML = `
-
-    <div class="resumo-dia">
-
-        <h2>
-            Resumo do dia
-        </h2>
-
-        <div class="indicadores-dia">
-
-            <div class="indicador-dia indicador-saidas">
-
-                <strong>
-                    ${totalDistribuicoes}
-                </strong>
-
-                <span>
-                    saídas realizadas
-                </span>
-
-            </div>
-
-
-            <div class="indicador-dia indicador-clientes">
-
-                <strong>
-                    ${totalClientes}
-                </strong>
-
-                <span>
-                    clientes únicos
-                </span>
-
-            </div>
-
-
-            <div class="indicador-dia indicador-entregas">
-
-                <strong>
-                    ${totalEntregas}
-                </strong>
-
-                <span>
-                    entregas
-                </span>
-
-            </div>
-
-
-            <div class="indicador-dia indicador-tempo">
-
-                <strong>
-                    ${formatarTempo(tempoTotalDia)}
-                </strong>
-
-                <span>
-                    tempo total
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <p>
-            Tempo médio por saída:
-            <strong>
-                ${formatarTempo(tempoMedioDia)}
-            </strong>
-        </p>
-
-
-        <hr>
-
-
-        <h3>
-    Veículos
-</h3>
-
-<div class="veiculos-resumo">
-
-    <div class="veiculo-resumo veiculo-carros">
-
-        <strong>
-            🚗 Carros
-        </strong>
-
-        ${distribuicoesCarros.length}
-        saídas ·
-        ${entregasCarros}
-        entregas
-
-    </div>
-
-
-    <div class="veiculo-resumo veiculo-motos">
-
-        <strong>
-            🏍️ Motos
-        </strong>
-
-        ${distribuicoesMotos.length}
-        saídas ·
-        ${entregasMotos}
-        entregas
-
-    </div>
-
-</div>
-
-    `;
-
             resumoDia.innerHTML += `
 
-    <h2>
-        Ranking
-    </h2>
+            <h2>
+                Ranking
+            </h2>
 
-`;
+        `;
 
-            ranking.forEach(function (item, indice) {
 
-                if (item.quantidade === 0) {
-                    return;
+            let posicao =
+                0;
+
+
+            ranking.forEach(
+                function (
+                    item
+                ) {
+
+                    if (
+                        item.quantidade === 0
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    posicao++;
+
+
+                    resumoDia.innerHTML += `
+
+                    <p class="linha-ranking">
+
+                        <strong>
+
+                            <span class="posicao-ranking">
+                                ${posicao}º
+                            </span>
+
+                            ${item.nome}
+
+                        </strong>
+
+                        —
+
+                        ${item.quantidade}
+
+                        ${item.quantidade === 1
+                            ? "saída"
+                            : "saídas"
+                        }
+
+                        ·
+
+                        ${item.clientes}
+
+                        ${item.clientes === 1
+                            ? "cliente"
+                            : "clientes"
+                        }
+
+                        ·
+
+                        ${item.entregas}
+
+                        ${item.entregas === 1
+                            ? "entrega"
+                            : "entregas"
+                        }
+
+                    </p>
+
+                `;
+
                 }
-
-                resumoDia.innerHTML += `
-
-        <p class="linha-ranking">
-
-    <strong>
-
-    <span class="posicao-ranking">
-        ${indice + 1}º
-    </span>
-
-    ${item.nome}
-
-    </strong>
-
-    —
-
-    ${item.quantidade}
-    ${item.quantidade === 1
-                        ? "saída"
-                        : "saídas"}
-
-    ·
-
-    ${item.clientes}
-    ${item.clientes === 1
-                        ? "cliente"
-                        : "clientes"}
-
-    ·
-
-    ${item.entregas}
-    ${item.entregas === 1
-                        ? "entrega"
-                        : "entregas"}
-
-</p>
-
-    `;
-
-            });
-
-            distribuidores.forEach(function (nome) {
-
-                const minhasDistribuicoes =
-                    distribuicoes.filter(function (distribuicao) {
-
-                        return (
-                            (
-                                distribuidorSelecionado === "" ||
-                                distribuicao.distribuidor ===
-                                distribuidorSelecionado
-                            ) &&
-                            distribuicao.distribuidor === nome &&
-                            distribuicao.status === "Concluída" &&
-                            mesmaDataOuPeriodo(distribuicao)
-                        );
-                    });
+            );
 
 
-                const quantidade =
-                    minhasDistribuicoes.length;
+            /* =================================================
+               CARTÕES DOS DISTRIBUIDORES
+            ================================================= */
 
-                const tempoTotal =
-                    minhasDistribuicoes.reduce(
-                        function (total, distribuicao) {
+            distribuidores.forEach(
+                function (nome) {
 
-                            return total +
-                                (distribuicao.duracao || 0);
+                    if (
+                        distribuidorSelecionado !== "" &&
+                        nome !==
+                        distribuidorSelecionado
+                    ) {
 
-                        },
-                        0
-                    );
+                        return;
 
-                const tempoMedio =
-                    quantidade > 0
-                        ? Math.round(
-                            tempoTotal / quantidade
-                        )
-                        : 0;
-
-                const entregas =
-                    minhasDistribuicoes.reduce(
-                        function (total, distribuicao) {
-
-                            return total +
-                                distribuicao.clientes.length;
-
-                        },
-                        0
-                    );
+                    }
 
 
-                const clientesUnicos =
-                    new Set();
+                    const minhasDistribuicoes =
+                        distribuicoesDoPeriodo.filter(
+                            function (
+                                distribuicao
+                            ) {
 
-                minhasDistribuicoes.forEach(
-                    function (distribuicao) {
-
-                        distribuicao.clientes.forEach(
-                            function (codigoCliente) {
-
-                                clientesUnicos.add(
-                                    codigoCliente
+                                return (
+                                    distribuicao.distribuidor ===
+                                    nome
                                 );
 
                             }
                         );
 
-                    }
-                );
+
+                    const quantidade =
+                        minhasDistribuicoes.length;
 
 
-                const clientes =
-                    clientesUnicos.size;
+                    const tempoTotal =
+                        minhasDistribuicoes.reduce(
+                            function (
+                                total,
+                                distribuicao
+                            ) {
 
-                resumo.innerHTML += `
+                                return total +
+                                    (
+                                        Number(
+                                            distribuicao.duracao
+                                        ) || 0
+                                    );
 
-    <div class="cartao-distribuidor">
-
-        <h2>
-            ${nome}
-        </h2>
-
-        <p>
-            <strong>
-                ${quantidade}
-            </strong>
-            de 10 distribuições
-        </p>
-
-        <div class="barra-meta">
-
-            <div
-                class="progresso-meta"
-                style="width: ${Math.min((quantidade / 10) * 100, 100)}%;"
-            ></div>
-
-        </div>
-
-        <p>
-            ${quantidade}
-            / 10 saídas —
-            ${Math.round((quantidade / 10) * 100)}%
-        </p>
+                            },
+                            0
+                        );
 
 
-        <div class="indicadores-distribuidor">
-
-            <div class="indicador">
-
-                <strong>
-                    ${clientes}
-                </strong>
-
-                <span>
-                    clientes únicos
-                </span>
-
-            </div>
+                    const tempoMedio =
+                        quantidade > 0
+                            ? Math.round(
+                                tempoTotal /
+                                quantidade
+                            )
+                            : 0;
 
 
-            <div class="indicador">
+                    const entregas =
+                        minhasDistribuicoes.reduce(
+                            function (
+                                total,
+                                distribuicao
+                            ) {
 
-                <strong>
-                    ${entregas}
-                </strong>
+                                return total +
+                                    (
+                                        Array.isArray(
+                                            distribuicao.clientes
+                                        )
+                                            ? distribuicao.clientes.length
+                                            : 0
+                                    );
 
-                <span>
-                    entregas
-                </span>
-
-            </div>
-
-
-            <div class="indicador">
-
-                <strong>
-                    ${formatarTempo(tempoTotal)}
-                </strong>
-
-                <span>
-                    tempo total
-                </span>
-
-            </div>
+                            },
+                            0
+                        );
 
 
-            <div class="indicador">
+                    /* =============================================
+                       CLIENTES ÚNICOS DO DISTRIBUIDOR
+                    ============================================= */
 
-                <strong>
-                    ${formatarTempo(tempoMedio)}
-                </strong>
+                    const clientesUnicos =
+                        new Set();
 
-                <span>
-                    tempo médio
-                </span>
 
-            </div>
+                    minhasDistribuicoes.forEach(
+                        function (
+                            distribuicao
+                        ) {
 
-        </div>
+                            if (
+                                !Array.isArray(
+                                    distribuicao.clientes
+                                )
+                            ) {
 
-    </div>
+                                return;
 
-    <hr>
+                            }
 
-`;
 
-            });
+                            distribuicao.clientes.forEach(
+                                function (
+                                    cliente
+                                ) {
+
+                                    clientesUnicos.add(
+                                        obterCodigoCliente(
+                                            cliente
+                                        )
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                    const clientes =
+                        clientesUnicos.size;
+
+
+                    /* =============================================
+                       PERCENTAGEM DA META
+                    ============================================= */
+
+                    const percentagem =
+                        Math.min(
+                            (
+                                quantidade /
+                                10
+                            ) * 100,
+                            100
+                        );
+
+
+                    resumo.innerHTML += `
+
+                    <div class="cartao-distribuidor">
+
+                        <h2>
+                            ${nome}
+                        </h2>
+
+
+                        <p>
+
+                            <strong>
+                                ${quantidade}
+                            </strong>
+
+                            de 10 distribuições
+
+                        </p>
+
+
+                        <div class="barra-meta">
+
+                            <div
+                                class="progresso-meta"
+                                style="
+                                    width: ${percentagem}%;
+                                "
+                            ></div>
+
+                        </div>
+
+
+                        <p>
+
+                            ${quantidade}
+                            / 10 saídas —
+
+                            ${Math.round(
+                        percentagem
+                    )}%
+
+                        </p>
+
+
+                        <div class="indicadores-distribuidor">
+
+
+                            <div class="indicador">
+
+                                <strong>
+                                    ${clientes}
+                                </strong>
+
+                                <span>
+                                    clientes únicos
+                                </span>
+
+                            </div>
+
+
+                            <div class="indicador">
+
+                                <strong>
+                                    ${entregas}
+                                </strong>
+
+                                <span>
+                                    entregas
+                                </span>
+
+                            </div>
+
+
+                            <div class="indicador">
+
+                                <strong>
+                                    ${formatarTempo(
+                        tempoTotal
+                    )}
+                                </strong>
+
+                                <span>
+                                    tempo total
+                                </span>
+
+                            </div>
+
+
+                            <div class="indicador">
+
+                                <strong>
+                                    ${formatarTempo(
+                        tempoMedio
+                    )}
+                                </strong>
+
+                                <span>
+                                    tempo médio
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <hr>
+
+                `;
+
+                }
+            );
+
+
+            /* =================================================
+               GRÁFICO DE SAÍDAS
+            ================================================= */
 
             const graficoSaidas =
-                document.getElementById("graficoSaidas");
+                document.getElementById(
+                    "graficoSaidas"
+                );
+
 
             graficoSaidas.innerHTML = "";
 
+
             const diasGrafico = {};
 
-            distribuicoes.forEach(function (distribuicao) {
 
-                if (
-                    distribuicao.status !== "Concluída"
+            distribuicoesDoPeriodo.forEach(
+                function (
+                    distribuicao
                 ) {
-                    return;
-                }
 
-                if (
-                    distribuidorSelecionado !== "" &&
-                    distribuicao.distribuidor !==
-                    distribuidorSelecionado
-                ) {
-                    return;
-                }
+                    const partes =
+                        distribuicao.data.split("/");
 
-                if (
-                    !mesmaDataOuPeriodo(distribuicao)
-                ) {
-                    return;
-                }
 
-                const partes =
-                    distribuicao.data.split("/");
+                    const chave =
+                        partes[0] +
+                        "/" +
+                        partes[1];
 
-                const chave =
-                    partes[0] + "/" + partes[1];
 
-                if (!diasGrafico[chave]) {
+                    if (
+                        !diasGrafico[chave]
+                    ) {
 
-                    diasGrafico[chave] = 0;
+                        diasGrafico[chave] = 0;
+
+                    }
+
+
+                    diasGrafico[chave]++;
 
                 }
-
-                diasGrafico[chave]++;
-
-            });
+            );
 
 
             const diasOrdenados =
-                Object.keys(diasGrafico).sort(
-                    function (a, b) {
+                Object.keys(
+                    diasGrafico
+                ).sort(
+                    function (
+                        a,
+                        b
+                    ) {
 
-                        const partesA = a.split("/");
-                        const partesB = b.split("/");
+                        const partesA =
+                            a.split("/");
+
+
+                        const partesB =
+                            b.split("/");
+
+
+                        const ano =
+                            dataSelecionada
+                                .split("-")[0];
+
 
                         const dataA =
                             new Date(
-                                dataSelecionada.split("-")[0],
-                                partesA[1] - 1,
-                                partesA[0]
+                                Number(ano),
+                                Number(partesA[1]) - 1,
+                                Number(partesA[0])
                             );
+
 
                         const dataB =
                             new Date(
-                                dataSelecionada.split("-")[0],
-                                partesB[1] - 1,
-                                partesB[0]
+                                Number(ano),
+                                Number(partesB[1]) - 1,
+                                Number(partesB[0])
                             );
 
-                        return dataA - dataB;
+
+                        return (
+                            dataA -
+                            dataB
+                        );
 
                     }
                 );
+
+
+            if (
+                diasOrdenados.length === 0
+            ) {
+
+                graficoSaidas.innerHTML = `
+
+                <p>
+                    Nenhuma saída concluída neste período.
+                </p>
+
+            `;
+
+                return;
+
+            }
 
 
             const maiorValor =
                 Math.max(
                     ...diasOrdenados.map(
-                        function (dia) {
+                        function (
+                            dia
+                        ) {
 
                             return diasGrafico[dia];
 
@@ -1323,6 +1887,7 @@
             graficoSaidas.innerHTML =
                 `<div class="grafico-barras"></div>`;
 
+
             const grafico =
                 graficoSaidas.querySelector(
                     ".grafico-barras"
@@ -1330,92 +1895,84 @@
 
 
             diasOrdenados.forEach(
-                function (dia) {
+                function (
+                    dia
+                ) {
 
                     const quantidade =
                         diasGrafico[dia];
 
+
                     const altura =
-                        (quantidade / maiorValor) * 180;
+                        (
+                            quantidade /
+                            maiorValor
+                        ) * 180;
 
 
                     grafico.innerHTML += `
 
-            <div class="barra-dia">
+                    <div class="barra-dia">
 
-                <div class="barra-numero">
-                    ${quantidade}
-                </div>
+                        <div class="barra-numero">
+                            ${quantidade}
+                        </div>
 
-                <div
-                    class="barra-valor"
-                    style="height: ${altura}px;"
-                ></div>
 
-                <div class="barra-label">
-                    ${dia}
-                </div>
+                        <div
+                            class="barra-valor"
+                            style="
+                                height: ${altura}px;
+                            "
+                        ></div>
 
-            </div>
 
-        `;
+                        <div class="barra-label">
+                            ${dia}
+                        </div>
+
+                    </div>
+
+                `;
 
                 }
             );
+
         }
+
+
+        /* =====================================================
+           FILTROS
+        ===================================================== */
 
         dataFiltro.addEventListener(
             "change",
             mostrarDesempenho
         );
 
-        document.getElementById("periodoFiltro")
+
+        document
+            .getElementById(
+                "periodoFiltro"
+            )
             .addEventListener(
                 "change",
                 mostrarDesempenho
             );
+
 
         distribuidorFiltro.addEventListener(
             "change",
             mostrarDesempenho
         );
 
+
+        /* =====================================================
+           INICIAR
+        ===================================================== */
+
         mostrarDesempenho();
 
-        function formatarTempo(segundos) {
-
-            const horas =
-                Math.floor(segundos / 3600);
-
-            const minutos =
-                Math.floor(
-                    (segundos % 3600) / 60
-                );
-
-            const segundosRestantes =
-                segundos % 60;
-
-            if (horas > 0) {
-
-                return (
-                    horas + "h " +
-                    minutos + "min"
-                );
-
-            }
-
-            if (minutos > 0) {
-
-                return (
-                    minutos + "min " +
-                    segundosRestantes + "s"
-                );
-
-            }
-
-            return segundosRestantes + "s";
-
-        }
     </script>
 
 </body>

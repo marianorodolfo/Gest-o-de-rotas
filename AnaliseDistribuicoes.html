@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Primo Peças - Análise das Distribuições
+    </title>
+
+
+    <link rel="stylesheet" href="menu.css">
+
+
+    <style>
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background: #f4f6f8;
+
+            color: #1f2933;
+
+        }
+
+
+        #conteudo {
+
+            margin-left: 230px;
+
+            padding: 90px 30px 30px 30px;
+
+            max-width: 1600px;
+
+        }
+
+
+        /* =========================================
+           CABEÇALHO
+        ========================================= */
+
+        .cabecalho-analise {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .cabecalho-analise h1 {
+
+            margin: 0;
+
+        }
+
+
+        .cabecalho-analise p {
+
+            margin: 6px 0 0 0;
+
+            color: #667085;
+
+        }
+
+
+        .botao-voltar {
+
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+
+        }
+
+
+        .botao-voltar:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =========================================
+           CARTÕES PRINCIPAIS
+        ========================================= */
+
+        .indicadores {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .indicador {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 8px rgba(0,
+                    0,
+                    0,
+                    0.08);
+
+        }
+
+
+        .indicador strong {
+
+            display: block;
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .indicador span {
+
+            color: #667085;
+
+            font-size: 14px;
+
+        }
+
+
+        .cor-azul strong {
+
+            color: #2563eb;
+
+        }
+
+
+        .cor-verde strong {
+
+            color: #16a34a;
+
+        }
+
+
+        .cor-roxo strong {
+
+            color: #9333ea;
+
+        }
+
+
+        .cor-laranja strong {
+
+            color: #ea580c;
+
+        }
+
+
+        /* =========================================
+           GRID
+        ========================================= */
+
+        .grid-duas-colunas {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .bloco {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 8px rgba(0,
+                    0,
+                    0,
+                    0.08);
+
+        }
+
+
+        .bloco h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* =========================================
+           DESEMPENHO
+        ========================================= */
+
+        .lista-metricas {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+        }
+
+
+        .metrica {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 14px;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+            border: 1px solid #eef2f6;
+
+        }
+
+
+        .metrica span {
+
+            color: #667085;
+
+        }
+
+
+        .metrica strong {
+
+            font-size: 18px;
+
+            text-align: right;
+
+        }
+
+
+        /* =========================================
+           MELHOR DISTRIBUIDOR
+        ========================================= */
+
+        .melhor-distribuidor {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+        }
+
+
+        .nome-vencedor {
+
+            font-size: 26px;
+
+            font-weight: bold;
+
+            color: #2563eb;
+
+            word-break: break-word;
+
+        }
+
+
+        .dados-vencedor {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+
+        }
+
+
+        .dado-vencedor {
+
+            background: #f8fafc;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+        }
+
+
+        .dado-vencedor span {
+
+            display: block;
+
+            font-size: 13px;
+
+            color: #667085;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .dado-vencedor strong {
+
+            font-size: 20px;
+
+        }
+
+
+        /* =========================================
+           RANKING
+        ========================================= */
+
+        .ranking {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+
+        .ranking-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 14px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 9px;
+
+            background: #fff;
+
+            transition:
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+
+        }
+
+
+        .ranking-item:hover {
+
+            box-shadow:
+                0 3px 10px rgba(0,
+                    0,
+                    0,
+                    0.08);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .ranking-posicao {
+
+            font-size: 20px;
+
+            min-width: 35px;
+
+            text-align: center;
+
+        }
+
+
+        .ranking-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .ranking-info strong {
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            word-break: break-word;
+
+        }
+
+
+        .ranking-info span {
+
+            font-size: 13px;
+
+            color: #667085;
+
+        }
+
+
+        .ranking-media {
+
+            text-align: right;
+
+            min-width: 120px;
+
+        }
+
+
+        .ranking-media strong {
+
+            display: block;
+
+            font-size: 17px;
+
+        }
+
+
+        .ranking-media span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 12px;
+
+            color: #667085;
+
+        }
+
+
+        .sem-dados {
+
+            color: #667085;
+
+            font-style: italic;
+
+            margin: 0;
+
+        }
+
+
+        /* =========================================
+           ESTADO SEM DATA
+        ========================================= */
+
+        .aviso-data {
+
+            margin-bottom: 25px;
+
+            padding: 14px 16px;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+
+            color: #1e40af;
+
+            font-size: 14px;
+
+        }
+
+        .cabecalho-analise {
+            position: relative;
+            top: 1px;
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================================
+           RESPONSIVO
+        ========================================= */
+
+        @media (max-width: 1100px) {
+
+            #conteudo {
+
+                margin-left: 230px;
+
+                padding: 90px 25px 25px 25px;
+
+            }
+
+
+            .indicadores {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            #conteudo {
+
+                margin-left: 0;
+
+                padding: 20px;
+
+            }
+
+
+            .grid-duas-colunas {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            #conteudo {
+
+                padding: 15px;
+
+            }
+
+
+            .cabecalho-analise {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .botao-voltar {
+
+                width: 100%;
+
+            }
+
+
+            .indicadores {
+
+                grid-template-columns: 1fr;
+
+                gap: 10px;
+
+            }
+
+
+            .indicador {
+
+                padding: 16px;
+
+            }
+
+
+            .indicador strong {
+
+                font-size: 24px;
+
+            }
+
+
+            .dados-vencedor {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .metrica {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .metrica strong {
+
+                text-align: left;
+
+            }
+
+
+            .ranking-item {
+
+                align-items: flex-start;
+
+            }
+
+
+            .ranking-media {
+
+                min-width: auto;
+
+                text-align: left;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         CABEÇALHO
+    ========================================= -->
+
+    <header class="topo">
+
+        <div class="logo">
+
+            PRIMO PEÇAS
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         MENU
+    ========================================= -->
+
+    <div id="menu-container"></div>
+
+
+    <!-- =========================================
+         CONTEÚDO
+    ========================================= -->
+
+    <main id="conteudo">
+
+
+        <!-- =====================================
+             CABEÇALHO
+        ====================================== -->
+
+        <div class="cabecalho-analise">
+
+
+            <div>
+
+                <h1>
+                    📊 Análise das Distribuições
+                </h1>
+
+
+                <p id="subtituloAnalise">
+
+                    Desempenho operacional
+
+                </p>
+
+            </div>
+
+
+            <button type="button" class="botao-voltar" onclick="voltarDashboard()">
+
+                ← Voltar ao Dashboard
+
+            </button>
+
+
+        </div>
+
+
+        <!-- =====================================
+             AVISO DA DATA
+        ====================================== -->
+
+        <div id="avisoData" class="aviso-data" style="display: none;">
+
+        </div>
+
+
+        <!-- =====================================
+             INDICADORES PRINCIPAIS
+        ====================================== -->
+
+        <section class="indicadores">
+
+
+            <div class="indicador cor-azul">
+
+                <strong id="totalDistribuicoes">
+                    0
+                </strong>
+
+                <span>
+                    Distribuições concluídas
+                </span>
+
+            </div>
+
+
+            <div class="indicador cor-verde">
+
+                <strong id="totalEntregas">
+                    0
+                </strong>
+
+                <span>
+                    Entregas realizadas
+                </span>
+
+            </div>
+
+
+            <div class="indicador cor-roxo">
+
+                <strong id="tempoMedio">
+                    0 min
+                </strong>
+
+                <span>
+                    Tempo médio por distribuição
+                </span>
+
+            </div>
+
+
+            <div class="indicador cor-laranja">
+
+                <strong id="tempoTotal">
+                    0 min
+                </strong>
+
+                <span>
+                    Tempo total em distribuição
+                </span>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================
+             DESEMPENHO / MELHOR DISTRIBUIDOR
+        ====================================== -->
+
+        <div class="grid-duas-colunas">
+
+
+            <!-- =================================
+                 DESEMPENHO
+            ================================== -->
+
+            <section class="bloco">
+
+                <h2>
+                    ⚡ Desempenho das distribuições
+                </h2>
+
+
+                <div class="lista-metricas">
+
+
+                    <div class="metrica">
+
+                        <span>
+                            Distribuição mais rápida
+                        </span>
+
+                        <strong id="distribuicaoMaisRapida">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metrica">
+
+                        <span>
+                            Distribuição mais longa
+                        </span>
+
+                        <strong id="distribuicaoMaisLonga">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metrica">
+
+                        <span>
+                            Média de entregas por distribuição
+                        </span>
+
+                        <strong id="mediaEntregasDistribuicao">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metrica">
+
+                        <span>
+                            Média de entregas por hora
+                        </span>
+
+                        <strong id="mediaEntregasHora">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 MELHOR DISTRIBUIDOR
+            ================================== -->
+
+            <section class="bloco">
+
+                <h2>
+                    🏆 Melhor desempenho
+                </h2>
+
+
+                <div class="melhor-distribuidor" id="melhorDistribuidorContainer">
+
+
+                    <div class="nome-vencedor" id="nomeMelhorDistribuidor">
+
+                        -
+
+                    </div>
+
+
+                    <div class="dados-vencedor">
+
+
+                        <div class="dado-vencedor">
+
+                            <span>
+                                Entregas realizadas
+                            </span>
+
+                            <strong id="entregasMelhorDistribuidor">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dado-vencedor">
+
+                            <span>
+                                Distribuições
+                            </span>
+
+                            <strong id="distribuicoesMelhorDistribuidor">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+        <!-- =====================================
+             RANKING
+        ====================================== -->
+
+        <section class="bloco">
+
+
+            <h2>
+                🏆 Ranking dos distribuidores
+            </h2>
+
+
+            <div class="ranking" id="rankingDistribuidores">
+
+                <p class="sem-dados">
+
+                    A calcular ranking...
+
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <script>
+
+
+        /* =========================================
+           MENU
+        ========================================= */
+
+        fetch("menu.html")
+
+            .then(function (resposta) {
+
+                if (!resposta.ok) {
+
+                    throw new Error(
+                        "Não foi possível carregar o menu."
+                    );
+
+                }
+
+                return resposta.text();
+
+            })
+
+            .then(function (menu) {
+
+                document
+                    .getElementById(
+                        "menu-container"
+                    )
+                    .innerHTML = menu;
+
+            })
+
+            .catch(function (erro) {
+
+                console.error(
+                    "Erro ao carregar menu:",
+                    erro
+                );
+
+            });
+
+        console.log("SCRIPT DA ANÁLISE CARREGADO");
+
+
+        function obterDataDaURL() {
+
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            const data =
+                parametros.get("data");
+
+            const distribuidor =
+                parametros.get("distribuidor");
+
+            return {
+                data: data || "",
+                distribuidor: distribuidor || ""
+            };
+
+        }
+
+
+        /* =========================================
+           VALIDAR DATA ISO
+        ========================================= */
+
+        function dataISOValida(data) {
+
+            if (!data) {
+
+                return false;
+
+            }
+
+
+            const padrao =
+                /^\d{4}-\d{2}-\d{2}$/;
+
+
+            if (!padrao.test(data)) {
+
+                return false;
+
+            }
+
+
+            const partes =
+                data.split("-");
+
+
+            const ano =
+                Number(partes[0]);
+
+
+            const mes =
+                Number(partes[1]);
+
+
+            const dia =
+                Number(partes[2]);
+
+
+            const dataObjeto =
+                new Date(
+                    ano,
+                    mes - 1,
+                    dia
+                );
+
+
+            return (
+                dataObjeto.getFullYear() === ano &&
+                dataObjeto.getMonth() === mes - 1 &&
+                dataObjeto.getDate() === dia
+            );
+
+        }
+
+
+        /* =========================================
+           CONVERTER DATA DD/MM/AAAA PARA ISO
+        ========================================= */
+
+        function converterDataParaISO(
+            dataTexto
+        ) {
+
+            if (!dataTexto) {
+
+                return "";
+
+            }
+
+
+            /*
+             * Caso a data já esteja em ISO.
+             */
+
+            if (
+                dataISOValida(
+                    dataTexto
+                )
+            ) {
+
+                return dataTexto;
+
+            }
+
+
+            const partes =
+                String(dataTexto)
+                    .trim()
+                    .split("/");
+
+
+            if (
+                partes.length !== 3
+            ) {
+
+                return "";
+
+            }
+
+
+            const dia =
+                partes[0]
+                    .padStart(2, "0");
+
+
+            const mes =
+                partes[1]
+                    .padStart(2, "0");
+
+
+            const ano =
+                partes[2];
+
+
+            const dataISO =
+                ano +
+                "-" +
+                mes +
+                "-" +
+                dia;
+
+
+            if (
+                !dataISOValida(
+                    dataISO
+                )
+            ) {
+
+                return "";
+
+            }
+
+
+            return dataISO;
+
+        }
+
+
+        /* =========================================
+           FORMATAR NÚMERO
+        ========================================= */
+
+        function formatarNumero(
+            numero
+        ) {
+
+            const valor =
+                Number(numero);
+
+
+            if (
+                !Number.isFinite(valor)
+            ) {
+
+                return "0";
+
+            }
+
+
+            return valor.toLocaleString(
+                "pt-PT"
+            );
+
+        }
+
+
+        /* =========================================
+           FORMATAR NÚMERO DECIMAL
+        ========================================= */
+
+        function formatarDecimal(
+            numero
+        ) {
+
+            const valor =
+                Number(numero);
+
+
+            if (
+                !Number.isFinite(valor)
+            ) {
+
+                return "0";
+
+            }
+
+
+            return valor.toLocaleString(
+                "pt-PT",
+                {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 1
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           FORMATAR DURAÇÃO
+           A duração é considerada em SEGUNDOS.
+        ========================================= */
+
+        function formatarDuracao(
+            segundos
+        ) {
+
+            segundos =
+                Number(segundos);
+
+
+            if (
+                !Number.isFinite(segundos) ||
+                segundos <= 0
+            ) {
+
+                return "0 min";
+
+            }
+
+
+            const horas =
+                Math.floor(
+                    segundos / 3600
+                );
+
+
+            const minutos =
+                Math.round(
+                    (
+                        segundos % 3600
+                    ) / 60
+                );
+
+
+            /*
+             * Corrigir o caso de 59 min + arredondamento
+             * resultar em 60 minutos.
+             */
+
+            if (
+                minutos === 60
+            ) {
+
+                return (
+                    horas + 1 +
+                    "h"
+                );
+
+            }
+
+
+            if (
+                horas <= 0
+            ) {
+
+                return (
+                    minutos +
+                    " min"
+                );
+
+            }
+
+
+            if (
+                minutos === 0
+            ) {
+
+                return (
+                    horas +
+                    "h"
+                );
+
+            }
+
+
+            return (
+                horas +
+                "h " +
+                minutos +
+                "min"
+            );
+
+        }
+
+
+        /* =========================================
+           FORMATAR DATA PARA PORTUGUÊS
+        ========================================= */
+
+        function formatarDataLegivel(
+            dataISO
+        ) {
+
+            if (!dataISO) {
+
+                return "";
+
+            }
+
+
+            const partes =
+                dataISO.split("-");
+
+
+            if (
+                partes.length !== 3
+            ) {
+
+                return dataISO;
+
+            }
+
+
+            return (
+                partes[2] +
+                "/" +
+                partes[1] +
+                "/" +
+                partes[0]
+            );
+
+        }
+
+
+        /* =========================================
+           OBTER QUANTIDADE DE ENTREGAS
+        ========================================= */
+
+        function obterQuantidadeEntregas(
+            distribuicao
+        ) {
+
+            if (
+                !distribuicao ||
+                !Array.isArray(
+                    distribuicao.clientes
+                )
+            ) {
+
+                return 0;
+
+            }
+
+
+            return distribuicao.clientes.length;
+
+        }
+
+
+        /* =========================================
+   OBTER DURAÇÃO
+   A duração é considerada em SEGUNDOS.
+========================================= */
+
+        function obterDuracao(
+            distribuicao
+        ) {
+
+            if (!distribuicao) {
+
+                return 0;
+
+            }
+
+
+            /* =====================================
+               1. UTILIZAR DURAÇÃO GUARDADA
+            ====================================== */
+
+            if (
+                distribuicao.duracao !== undefined &&
+                distribuicao.duracao !== null &&
+                String(distribuicao.duracao).trim() !== ""
+            ) {
+
+                const duracao =
+                    Number(
+                        distribuicao.duracao
+                    );
+
+
+                if (
+                    Number.isFinite(duracao) &&
+                    duracao > 0
+                ) {
+
+                    return duracao;
+
+                }
+
+            }
+
+
+            /* =====================================
+               2. CALCULAR ATRAVÉS DAS HORAS
+            ====================================== */
+
+            if (
+                distribuicao.horaInicio &&
+                distribuicao.horaFim
+            ) {
+
+                const inicio =
+                    converterHoraParaMinutos(
+                        distribuicao.horaInicio
+                    );
+
+
+                const fim =
+                    converterHoraParaMinutos(
+                        distribuicao.horaFim
+                    );
+
+
+                if (
+                    inicio !== null &&
+                    fim !== null
+                ) {
+
+                    let diferenca =
+                        fim - inicio;
+
+
+                    /*
+                     * Se terminou depois da meia-noite.
+                     */
+
+                    if (
+                        diferenca < 0
+                    ) {
+
+                        diferenca +=
+                            24 * 60;
+
+                    }
+
+
+                    return (
+                        diferenca * 60
+                    );
+
+                }
+
+            }
+
+
+            return 0;
+
+        }
+
+
+        /* =========================================
+           CONVERTER HORA PARA MINUTOS
+        ========================================= */
+
+        function converterHoraParaMinutos(
+            hora
+        ) {
+
+            if (!hora) {
+
+                return null;
+
+            }
+
+
+            const partes =
+                String(hora)
+                    .split(":");
+
+
+            if (
+                partes.length < 2
+            ) {
+
+                return null;
+
+            }
+
+
+            const horas =
+                Number(
+                    partes[0]
+                );
+
+
+            const minutos =
+                Number(
+                    partes[1]
+                );
+
+
+            if (
+                !Number.isFinite(horas) ||
+                !Number.isFinite(minutos)
+            ) {
+
+                return null;
+
+            }
+
+
+            if (
+                horas < 0 ||
+                horas > 23 ||
+                minutos < 0 ||
+                minutos > 59
+            ) {
+
+                return null;
+
+            }
+
+
+            return (
+                horas * 60 +
+                minutos
+            );
+
+        }
+
+
+        /* =========================================
+           ATUALIZAR TEXTO DO SUBTÍTULO
+        ========================================= */
+
+        function atualizarSubtitulo(
+            dataSelecionada
+        ) {
+
+            const subtitulo =
+                document.getElementById(
+                    "subtituloAnalise"
+                );
+
+
+            const aviso =
+                document.getElementById(
+                    "avisoData"
+                );
+
+
+            if (
+                dataSelecionada &&
+                dataISOValida(
+                    dataSelecionada
+                )
+            ) {
+
+                const dataLegivel =
+                    formatarDataLegivel(
+                        dataSelecionada
+                    );
+
+
+                subtitulo.textContent =
+                    "Desempenho operacional — " +
+                    dataLegivel;
+
+
+                aviso.style.display =
+                    "block";
+
+
+                aviso.textContent =
+                    "A análise apresentada corresponde apenas às distribuições concluídas em " +
+                    dataLegivel +
+                    ".";
+
+            }
+
+            else if (
+                dataSelecionada
+            ) {
+
+                subtitulo.textContent =
+                    "Desempenho operacional";
+
+
+                aviso.style.display =
+                    "block";
+
+
+                aviso.textContent =
+                    "A data selecionada na URL não é válida. A análise está a apresentar todas as distribuições concluídas.";
+
+            }
+
+            else {
+
+                subtitulo.textContent =
+                    "Desempenho operacional — todas as datas";
+
+
+                aviso.style.display =
+                    "block";
+
+
+                aviso.textContent =
+                    "Não foi selecionada uma data. A análise está a apresentar todas as distribuições concluídas.";
+
+            }
+
+        }
+
+
+        /* =========================================
+           LER DISTRIBUIÇÕES DO LOCALSTORAGE
+        ========================================= */
+
+        function obterDistribuicoes() {
+
+            try {
+
+                const dados =
+                    localStorage.getItem(
+                        "distribuicoes"
+                    );
+
+
+                if (!dados) {
+
+                    return [];
+
+                }
+
+
+                const distribuicoes =
+                    JSON.parse(dados);
+
+
+                if (
+                    !Array.isArray(
+                        distribuicoes
+                    )
+                ) {
+
+                    return [];
+
+                }
+
+
+                return distribuicoes;
+
+            }
+
+            catch (erro) {
+
+                console.error(
+                    "Erro ao ler as distribuições:",
+                    erro
+                );
+
+
+                return [];
+
+            }
+
+        }
+
+
+        /* =========================================
+           CALCULAR ANÁLISE
+        ========================================= */
+
+        function carregarAnalise() {
+
+
+            const parametros =
+                obterDataDaURL();
+
+            const dataSelecionada =
+                parametros.data;
+
+            const distribuidorSelecionado =
+                parametros.distribuidor;
+
+
+            atualizarSubtitulo(
+                dataSelecionada
+            );
+
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+            const distribuicoesFiltradas =
+                distribuicoes.filter(
+                    function (distribuicao) {
+
+                        if (
+                            !distribuidorSelecionado
+                        ) {
+                            return true;
+                        }
+
+                        const nomeDistribuidor =
+                            String(
+                                distribuicao.distribuidor ||
+                                ""
+                            )
+                                .trim()
+                                .toLowerCase();
+
+                        return (
+                            nomeDistribuidor ===
+                            distribuidorSelecionado
+                                .trim()
+                                .toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            /* =====================================
+               FILTRAR DISTRIBUIÇÕES
+            ====================================== */
+
+            const distribuicoesConcluidas =
+                distribuicoesFiltradas.filter(
+                    function (
+                        distribuicao
+                    ) {
+
+                        if (
+                            !distribuicao
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        /*
+                         * Aceitar apenas concluídas.
+                         */
+
+                        if (
+                            String(
+                                distribuicao.status
+                            )
+                                .trim()
+                                .toLowerCase() !==
+                            "concluída"
+                        ) {
+
+                            return false;
+
+                        }
+
+
+                        /*
+                         * Sem filtro de data:
+                         * apresentar todas.
+                         */
+
+                        if (
+                            !dataSelecionada ||
+                            !dataISOValida(
+                                dataSelecionada
+                            )
+                        ) {
+
+                            return true;
+
+                        }
+
+
+                        const dataDistribuicao =
+                            converterDataParaISO(
+                                distribuicao.data
+                            );
+
+
+                        return (
+                            dataDistribuicao ===
+                            dataSelecionada
+                        );
+
+                    }
+                );
+
+
+            /* =====================================
+               TOTAIS
+            ====================================== */
+
+            const totalDistribuicoes =
+                distribuicoesConcluidas.length;
+
+
+            const totalEntregas =
+                distribuicoesConcluidas.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return (
+                            total +
+                            obterQuantidadeEntregas(
+                                distribuicao
+                            )
+                        );
+
+                    },
+                    0
+                );
+
+
+            /* =====================================
+               DURAÇÕES
+            ====================================== */
+
+            const distribuicoesComDuracao =
+                distribuicoesConcluidas.filter(
+                    function (
+                        distribuicao
+                    ) {
+
+                        return (
+                            obterDuracao(
+                                distribuicao
+                            ) > 0
+                        );
+
+                    }
+                );
+
+
+            const totalSegundos =
+                distribuicoesComDuracao.reduce(
+                    function (
+                        total,
+                        distribuicao
+                    ) {
+
+                        return (
+                            total +
+                            obterDuracao(
+                                distribuicao
+                            )
+                        );
+
+                    },
+                    0
+                );
+
+
+            const tempoMedioSegundos =
+                distribuicoesComDuracao.length > 0
+
+                    ? totalSegundos /
+                    distribuicoesComDuracao.length
+
+                    : 0;
+
+
+            /* =====================================
+               MAIS RÁPIDA / MAIS LONGA
+            ====================================== */
+
+            let maisRapida = null;
+
+            let maisLonga = null;
+
+
+            distribuicoesComDuracao.forEach(
+                function (
+                    distribuicao
+                ) {
+
+                    const duracao =
+                        obterDuracao(
+                            distribuicao
+                        );
+
+
+                    if (
+                        !maisRapida ||
+                        duracao <
+                        obterDuracao(
+                            maisRapida
+                        )
+                    ) {
+
+                        maisRapida =
+                            distribuicao;
+
+                    }
+
+
+                    if (
+                        !maisLonga ||
+                        duracao >
+                        obterDuracao(
+                            maisLonga
+                        )
+                    ) {
+
+                        maisLonga =
+                            distribuicao;
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================
+               MÉDIAS
+            ====================================== */
+
+            const mediaEntregasDistribuicao =
+                totalDistribuicoes > 0
+
+                    ? totalEntregas /
+                    totalDistribuicoes
+
+                    : 0;
+
+
+            const totalHoras =
+                totalSegundos / 3600;
+
+
+            const mediaEntregasHora =
+                totalHoras > 0
+
+                    ? totalEntregas /
+                    totalHoras
+
+                    : 0;
+
+
+            /* =====================================
+               RANKING
+            ====================================== */
+
+            const ranking = {};
+
+
+            distribuicoesConcluidas.forEach(
+                function (
+                    distribuicao
+                ) {
+
+                    let nome =
+                        distribuicao.distribuidor;
+
+
+                    if (
+                        nome === undefined ||
+                        nome === null ||
+                        String(nome).trim() === ""
+                    ) {
+
+                        nome =
+                            "Sem distribuidor";
+
+                    }
+
+                    else {
+
+                        nome =
+                            String(nome).trim();
+
+                    }
+
+
+                    const quantidadeEntregas =
+                        obterQuantidadeEntregas(
+                            distribuicao
+                        );
+
+
+                    const duracao =
+                        obterDuracao(
+                            distribuicao
+                        );
+
+
+                    if (
+                        !ranking[nome]
+                    ) {
+
+                        ranking[nome] = {
+
+                            nome: nome,
+
+                            entregas: 0,
+
+                            distribuicoes: 0,
+
+                            segundos: 0,
+
+                            distribuicoesComDuracao: 0
+
+                        };
+
+                    }
+
+
+                    ranking[nome].entregas +=
+                        quantidadeEntregas;
+
+
+                    ranking[nome].distribuicoes +=
+                        1;
+
+
+                    if (
+                        duracao > 0
+                    ) {
+
+                        ranking[nome].segundos +=
+                            duracao;
+
+
+                        ranking[nome]
+                            .distribuicoesComDuracao +=
+                            1;
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * Ordenação:
+             *
+             * 1.º mais entregas
+             * 2.º mais distribuições
+             * 3.º maior média de entregas/distribuição
+             */
+
+            const rankingOrdenado =
+                Object.values(
+                    ranking
+                )
+                    .filter(
+                        function (
+                            distribuidor
+                        ) {
+
+                            return (
+                                distribuidor.nome !==
+                                "Sem distribuidor"
+                            );
+
+                        }
+                    )
+
+                    .sort(
+                        function (
+                            a,
+                            b
+                        ) {
+
+                            if (
+                                b.entregas !==
+                                a.entregas
+                            ) {
+
+                                return (
+                                    b.entregas -
+                                    a.entregas
+                                );
+
+                            }
+
+
+                            if (
+                                b.distribuicoes !==
+                                a.distribuicoes
+                            ) {
+
+                                return (
+                                    b.distribuicoes -
+                                    a.distribuicoes
+                                );
+
+                            }
+
+
+                            const mediaA =
+                                a.distribuicoes > 0
+                                    ? a.entregas /
+                                    a.distribuicoes
+                                    : 0;
+
+
+                            const mediaB =
+                                b.distribuicoes > 0
+                                    ? b.entregas /
+                                    b.distribuicoes
+                                    : 0;
+
+
+                            return (
+                                mediaB -
+                                mediaA
+                            );
+
+                        }
+                    );
+
+
+            /* =====================================
+               ATUALIZAR INDICADORES
+            ====================================== */
+
+            document
+                .getElementById(
+                    "totalDistribuicoes"
+                )
+                .textContent =
+                formatarNumero(
+                    totalDistribuicoes
+                );
+
+
+            document
+                .getElementById(
+                    "totalEntregas"
+                )
+                .textContent =
+                formatarNumero(
+                    totalEntregas
+                );
+
+
+            document
+                .getElementById(
+                    "tempoMedio"
+                )
+                .textContent =
+                formatarDuracao(
+                    tempoMedioSegundos
+                );
+
+
+            document
+                .getElementById(
+                    "tempoTotal"
+                )
+                .textContent =
+                formatarDuracao(
+                    totalSegundos
+                );
+
+
+            /* =====================================
+               DESEMPENHO
+            ====================================== */
+
+            document
+                .getElementById(
+                    "distribuicaoMaisRapida"
+                )
+                .textContent =
+                maisRapida
+
+                    ? formatarDuracao(
+                        obterDuracao(
+                            maisRapida
+                        )
+                    )
+
+                    : "-";
+
+
+            document
+                .getElementById(
+                    "distribuicaoMaisLonga"
+                )
+                .textContent =
+                maisLonga
+
+                    ? formatarDuracao(
+                        obterDuracao(
+                            maisLonga
+                        )
+                    )
+
+                    : "-";
+
+
+            document
+                .getElementById(
+                    "mediaEntregasDistribuicao"
+                )
+                .textContent =
+                formatarDecimal(
+                    mediaEntregasDistribuicao
+                );
+
+
+            document
+                .getElementById(
+                    "mediaEntregasHora"
+                )
+                .textContent =
+                formatarDecimal(
+                    mediaEntregasHora
+                );
+
+
+            /* =====================================
+               MELHOR DISTRIBUIDOR
+            ====================================== */
+
+            const melhor =
+                rankingOrdenado.length > 0
+
+                    ? rankingOrdenado[0]
+
+                    : null;
+
+
+            document
+                .getElementById(
+                    "nomeMelhorDistribuidor"
+                )
+                .textContent =
+                melhor
+                    ? melhor.nome
+                    : "-";
+
+
+            document
+                .getElementById(
+                    "entregasMelhorDistribuidor"
+                )
+                .textContent =
+                melhor
+                    ? formatarNumero(
+                        melhor.entregas
+                    )
+                    : "0";
+
+
+            document
+                .getElementById(
+                    "distribuicoesMelhorDistribuidor"
+                )
+                .textContent =
+                melhor
+                    ? formatarNumero(
+                        melhor.distribuicoes
+                    )
+                    : "0";
+
+
+            /* =====================================
+               RANKING
+            ====================================== */
+
+            renderizarRanking(
+                rankingOrdenado
+            );
+
+        }
+
+
+        /* =========================================
+           RENDERIZAR RANKING
+        ========================================= */
+
+        function renderizarRanking(
+            rankingOrdenado
+        ) {
+
+            const rankingContainer =
+                document.getElementById(
+                    "rankingDistribuidores"
+                );
+
+
+            rankingContainer.innerHTML =
+                "";
+
+
+            if (
+                rankingOrdenado.length ===
+                0
+            ) {
+
+                const mensagem =
+                    document.createElement(
+                        "p"
+                    );
+
+
+                mensagem.className =
+                    "sem-dados";
+
+
+                mensagem.textContent =
+                    "Não existem distribuições concluídas nesta data.";
+
+
+                rankingContainer.appendChild(
+                    mensagem
+                );
+
+
+                return;
+
+            }
+
+
+            rankingOrdenado.forEach(
+                function (
+                    distribuidor,
+                    indice
+                ) {
+
+                    /* =========================
+                       POSIÇÃO
+                    ========================= */
+
+                    let medalha;
+
+
+                    if (
+                        indice === 0
+                    ) {
+
+                        medalha = "🥇";
+
+                    }
+
+                    else if (
+                        indice === 1
+                    ) {
+
+                        medalha = "🥈";
+
+                    }
+
+                    else if (
+                        indice === 2
+                    ) {
+
+                        medalha = "🥉";
+
+                    }
+
+                    else {
+
+                        medalha =
+                            (
+                                indice + 1
+                            ) +
+                            "º";
+
+                    }
+
+
+                    /* =========================
+                       ITEM
+                    ========================= */
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "ranking-item";
+
+
+                    /* =========================
+                       POSIÇÃO
+                    ========================= */
+
+                    const posicao =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    posicao.className =
+                        "ranking-posicao";
+
+
+                    posicao.textContent =
+                        medalha;
+
+
+                    /* =========================
+                       INFORMAÇÕES
+                    ========================= */
+
+                    const info =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    info.className =
+                        "ranking-info";
+
+
+                    const nome =
+                        document.createElement(
+                            "strong"
+                        );
+
+
+                    nome.textContent =
+                        distribuidor.nome;
+
+
+                    const detalhes =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    detalhes.textContent =
+                        formatarNumero(
+                            distribuidor.entregas
+                        ) +
+                        " entregas · " +
+                        formatarNumero(
+                            distribuidor.distribuicoes
+                        ) +
+                        " distribuições";
+
+
+                    info.appendChild(
+                        nome
+                    );
+
+
+                    info.appendChild(
+                        detalhes
+                    );
+
+
+                    /* =========================
+                       MÉDIA
+                    ========================= */
+
+                    const media =
+                        distribuidor.distribuicoes >
+                            0
+
+                            ? distribuidor.entregas /
+                            distribuidor.distribuicoes
+
+                            : 0;
+
+
+                    const mediaContainer =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    mediaContainer.className =
+                        "ranking-media";
+
+
+                    const mediaValor =
+                        document.createElement(
+                            "strong"
+                        );
+
+
+                    mediaValor.textContent =
+                        formatarDecimal(
+                            media
+                        );
+
+
+                    const mediaTexto =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    mediaTexto.textContent =
+                        "entregas / distribuição";
+
+
+                    mediaContainer.appendChild(
+                        mediaValor
+                    );
+
+
+                    mediaContainer.appendChild(
+                        mediaTexto
+                    );
+
+
+                    /* =========================
+                       MONTAR ITEM
+                    ========================= */
+
+                    item.appendChild(
+                        posicao
+                    );
+
+
+                    item.appendChild(
+                        info
+                    );
+
+
+                    item.appendChild(
+                        mediaContainer
+                    );
+
+
+                    rankingContainer.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           VOLTAR AO DASHBOARD
+        ========================================= */
+
+        function voltarDashboard() {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /* =========================================
+           ATUALIZAÇÃO AUTOMÁTICA
+           Quando outra aba altera o localStorage.
+        ========================================= */
+
+        window.addEventListener(
+            "storage",
+            function (evento) {
+
+                if (
+                    evento.key ===
+                    "distribuicoes"
+                ) {
+
+                    carregarAnalise();
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           INICIAR
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                carregarAnalise();
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
