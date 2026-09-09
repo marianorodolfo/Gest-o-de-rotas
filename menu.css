@@ -53,6 +53,27 @@
     color: #123b63;
 }
 
+.logo-sistema {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px 12px 12px 12px;
+}
+
+.logo-sistema img {
+    width: 190px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.logo img {
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
 
 
 @media (max-width: 700px) {
