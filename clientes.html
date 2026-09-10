@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
     <title>Gestão de Rotas - Clientes</title>
 
     <style>
@@ -91,6 +96,22 @@
         button:hover {
             background: var(--azul-primo-hover);
             transform: translateY(-2px);
+        }
+
+        .coordenadas-cliente {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            .coordenadas-cliente {
+                grid-template-columns: 1fr;
+            }
+
         }
 
         .lista {
@@ -218,6 +239,81 @@
         #conteudo {
             margin-left: 230px;
             padding: 30px;
+        }
+
+        .botao-localizar-endereco {
+            width: 100%;
+            margin: 0 0 14px 0;
+            padding: 10px 14px;
+
+            border: 1px solid #2563eb;
+            border-radius: 8px;
+
+            background: #eff6ff;
+            color: #1d4ed8;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .botao-localizar-endereco:hover {
+            background: #2563eb;
+            color: #ffffff;
+
+            transform: translateY(-1px);
+        }
+
+        /* =========================================
+   MAPA DE CONFIRMAÇÃO DO CLIENTE
+========================================= */
+
+        .mapa-confirmacao-cliente {
+            width: 100%;
+            height: 220px;
+
+            margin-bottom: 16px;
+
+            overflow: hidden;
+
+            border: 1px solid #dbe2ea;
+            border-radius: 10px;
+
+            background: #f8fafc;
+        }
+
+        .mapa-confirmacao-vazio {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            box-sizing: border-box;
+
+            color: #64748b;
+
+            font-size: 12px;
+            text-align: center;
+        }
+
+        #mapaConfirmacaoCliente img.leaflet-tile {
+            max-width: none !important;
+            max-height: none !important;
+        }
+
+        #mapaConfirmacaoCliente .leaflet-tile {
+            width: 256px !important;
+            height: 256px !important;
         }
 
         @media (max-width: 700px) {
@@ -387,26 +483,78 @@
             </p>
 
             <div class="campo">
-                <label for="codigo">Código do cliente</label>
+                <label for="codigo">
+                    Código do cliente
+                </label>
+
                 <input type="text" id="codigo" placeholder="Digite o código">
             </div>
 
+
             <div class="campo">
-                <label for="nome">Nome do cliente</label>
+                <label for="nome">
+                    Nome do cliente
+                </label>
+
                 <input type="text" id="nome" placeholder="Digite o nome">
             </div>
 
+
             <div class="campo">
-                <label for="endereco">Endereço completo</label>
+                <label for="endereco">
+                    Endereço completo
+                </label>
+
                 <input type="text" id="endereco" placeholder="Rua, número, código postal, cidade">
             </div>
 
+            <button type="button" class="botao-localizar-endereco" onclick="localizarEnderecoCliente()">
+                📍 Localizar endereço
+            </button>
+
+
+            <div class="coordenadas-cliente">
+
+                <div class="campo">
+
+                    <label for="latitude">
+                        Latitude
+                    </label>
+
+                    <input type="number" id="latitude" step="any" placeholder="Ex: 41.6232128">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="longitude">
+                        Longitude
+                    </label>
+
+                    <input type="number" id="longitude" step="any" placeholder="Ex: -8.3472675">
+
+                </div>
+
+            </div>
+
+            <div class="mapa-confirmacao-cliente" id="mapaConfirmacaoCliente">
+                <div class="mapa-confirmacao-vazio">
+                    📍 Localize o endereço para visualizar o ponto de entrega
+                </div>
+            </div>
+
+
             <div class="campo">
-                <label for="rota">Rota</label>
+                <label for="rota">
+                    Rota
+                </label>
 
                 <select id="rota">
 
-                    <option value="">Selecione a rota</option>
+                    <option value="">
+                        Selecione a rota
+                    </option>
 
                     <option value="1">Rota 1 - Adaúfe</option>
                     <option value="2">Rota 2 - Braga Este</option>
@@ -427,6 +575,7 @@
 
                 </select>
             </div>
+
 
             <button id="botaoFormulario" onclick="cadastrarCliente()">
                 Cadastrar cliente
@@ -478,6 +627,150 @@
 
         <script>
 
+            /* =========================================
+                MAPA DE CONFIRMAÇÃO
+                ========================================= */
+
+            let mapaConfirmacaoCliente = null;
+
+            let marcadorConfirmacaoCliente = null;
+
+
+            function mostrarClienteNoMapa(
+                latitude,
+                longitude
+            ) {
+
+                const elementoMapa =
+                    document.getElementById(
+                        "mapaConfirmacaoCliente"
+                    );
+
+
+                if (!elementoMapa) {
+                    return;
+                }
+
+
+                const coordenadas = [
+                    Number(latitude),
+                    Number(longitude)
+                ];
+
+
+                /* CRIAR MAPA */
+
+                if (!mapaConfirmacaoCliente) {
+
+                    elementoMapa.innerHTML = "";
+
+
+                    mapaConfirmacaoCliente =
+                        L.map(
+                            "mapaConfirmacaoCliente"
+                        ).setView(
+                            coordenadas,
+                            17
+                        );
+
+
+                    L.tileLayer(
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        {
+                            maxZoom: 19,
+                            attribution:
+                                "&copy; OpenStreetMap contributors"
+                        }
+                    )
+                        .addTo(
+                            mapaConfirmacaoCliente
+                        );
+
+                } else {
+
+                    mapaConfirmacaoCliente.setView(
+                        coordenadas,
+                        17
+                    );
+
+                }
+
+
+                /* REMOVER MARCADOR ANTERIOR */
+
+                if (marcadorConfirmacaoCliente) {
+
+                    mapaConfirmacaoCliente.removeLayer(
+                        marcadorConfirmacaoCliente
+                    );
+
+                }
+
+
+                /* NOVO MARCADOR */
+
+                marcadorConfirmacaoCliente =
+                    L.marker(
+                        coordenadas,
+                        {
+                            draggable: true
+                        }
+                    )
+                        .addTo(
+                            mapaConfirmacaoCliente
+                        );
+
+
+                marcadorConfirmacaoCliente
+                    .bindPopup(
+                        "<strong>Ponto de entrega</strong>"
+                    )
+                    .openPopup();
+
+
+                /* PERMITIR AJUSTAR O PONTO */
+
+                marcadorConfirmacaoCliente.on(
+                    "dragend",
+                    function () {
+
+                        const posicao =
+                            marcadorConfirmacaoCliente
+                                .getLatLng();
+
+
+                        document
+                            .getElementById(
+                                "latitude"
+                            )
+                            .value =
+                            posicao.lat.toFixed(7);
+
+
+                        document
+                            .getElementById(
+                                "longitude"
+                            )
+                            .value =
+                            posicao.lng.toFixed(7);
+
+                    }
+                );
+
+
+                setTimeout(
+                    function () {
+
+                        mapaConfirmacaoCliente
+                            .invalidateSize();
+
+                    },
+                    200
+                );
+
+            }
+
+
             // =========================
             // CADASTRAR CLIENTE
             // =========================
@@ -510,33 +803,111 @@
             function editarCliente(codigo) {
 
                 const clientes =
-                    JSON.parse(localStorage.getItem("clientes")) || [];
+                    JSON.parse(
+                        localStorage.getItem("clientes")
+                    ) || [];
+
 
                 const cliente =
-                    clientes.find(function (cliente) {
-                        return cliente.codigo === codigo;
-                    });
+                    clientes.find(
+                        function (cliente) {
+
+                            return (
+                                cliente.codigo === codigo
+                            );
+
+                        }
+                    );
+
 
                 if (!cliente) {
-                    alert("Cliente não encontrado.");
+
+                    alert(
+                        "Cliente não encontrado."
+                    );
+
                     return;
+
                 }
-                clienteEmEdicao = codigo;
+
+
+                clienteEmEdicao =
+                    codigo;
+
 
                 document
                     .querySelector(".formulario")
-                    .classList.add("editando");
+                    .classList.add(
+                        "editando"
+                    );
 
-                document.getElementById("tituloFormulario").textContent =
+
+                document
+                    .getElementById(
+                        "tituloFormulario"
+                    )
+                    .textContent =
                     "Editar cliente";
 
-                document.getElementById("botaoFormulario").textContent =
+
+                document
+                    .getElementById(
+                        "botaoFormulario"
+                    )
+                    .textContent =
                     "Atualizar cliente";
 
-                document.getElementById("codigo").value = cliente.codigo;
-                document.getElementById("nome").value = cliente.nome;
-                document.getElementById("endereco").value = cliente.endereco;
-                document.getElementById("rota").value = cliente.rota;
+
+                /* =========================================
+                   PREENCHER CAMPOS
+                ========================================= */
+
+                document
+                    .getElementById("codigo")
+                    .value =
+                    cliente.codigo || "";
+
+
+                document
+                    .getElementById("nome")
+                    .value =
+                    cliente.nome || "";
+
+
+                document
+                    .getElementById("endereco")
+                    .value =
+                    cliente.endereco || "";
+
+
+                document
+                    .getElementById("latitude")
+                    .value =
+                    cliente.latitude ?? "";
+
+
+                document
+                    .getElementById("longitude")
+                    .value =
+                    cliente.longitude ?? "";
+
+
+                document
+                    .getElementById("rota")
+                    .value =
+                    cliente.rota || "";
+
+                if (
+                    cliente.latitude != null &&
+                    cliente.longitude != null
+                ) {
+
+                    mostrarClienteNoMapa(
+                        cliente.latitude,
+                        cliente.longitude
+                    );
+
+                }
 
             }
 
@@ -568,103 +939,426 @@
                 atualizarResumoClientes();
             }
 
+            /* =========================================
+   LOCALIZAR ENDEREÇO DO CLIENTE
+========================================= */
+
+            async function localizarEnderecoCliente() {
+
+                const endereco =
+                    document
+                        .getElementById("endereco")
+                        .value
+                        .trim();
+
+
+                if (endereco === "") {
+
+                    alert(
+                        "Digite primeiro o endereço do cliente."
+                    );
+
+                    return;
+
+                }
+
+
+                const botao =
+                    document.querySelector(
+                        ".botao-localizar-endereco"
+                    );
+
+
+                const textoOriginal =
+                    botao.textContent;
+
+
+                try {
+
+                    botao.disabled =
+                        true;
+
+                    botao.textContent =
+                        "🔎 Localizando...";
+
+
+                    const url =
+                        "https://nominatim.openstreetmap.org/search" +
+                        "?format=json" +
+                        "&limit=1" +
+                        "&countrycodes=pt" +
+                        "&q=" +
+                        encodeURIComponent(
+                            endereco
+                        );
+
+
+                    const resposta =
+                        await fetch(url);
+
+
+                    if (!resposta.ok) {
+
+                        throw new Error(
+                            "Erro ao consultar endereço."
+                        );
+
+                    }
+
+
+                    const resultados =
+                        await resposta.json();
+
+
+                    if (
+                        !resultados ||
+                        resultados.length === 0
+                    ) {
+
+                        alert(
+                            "Não foi possível localizar esse endereço."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const resultado =
+                        resultados[0];
+
+
+                    document
+                        .getElementById("latitude")
+                        .value =
+                        Number(
+                            resultado.lat
+                        );
+
+
+                    document
+                        .getElementById("longitude")
+                        .value =
+                        Number(
+                            resultado.lon
+                        );
+
+
+                    /* MOSTRAR LOCALIZAÇÃO NO MINI MAPA */
+
+                    mostrarClienteNoMapa(
+                        resultado.lat,
+                        resultado.lon
+                    );
+
+
+                    alert(
+                        "Endereço localizado com sucesso!"
+                    );
+
+                }
+                catch (erro) {
+
+                    console.error(
+                        erro
+                    );
+
+
+                    alert(
+                        "Não foi possível localizar o endereço neste momento."
+                    );
+
+                }
+                finally {
+
+                    botao.disabled =
+                        false;
+
+                    botao.textContent =
+                        textoOriginal;
+
+                }
+
+            }
+
             function cadastrarCliente() {
 
                 let clientes =
-                    JSON.parse(localStorage.getItem("clientes")) || [];
+                    JSON.parse(
+                        localStorage.getItem("clientes")
+                    ) || [];
+
 
                 const codigo =
-                    document.getElementById("codigo").value.trim();
+                    document
+                        .getElementById("codigo")
+                        .value
+                        .trim();
 
                 const nome =
-                    document.getElementById("nome").value.trim();
+                    document
+                        .getElementById("nome")
+                        .value
+                        .trim();
 
                 const endereco =
-                    document.getElementById("endereco").value.trim();
+                    document
+                        .getElementById("endereco")
+                        .value
+                        .trim();
 
-                const rota = document.getElementById("rota").value;
+                const latitudeTexto =
+                    document
+                        .getElementById("latitude")
+                        .value
+                        .trim();
 
-                if (codigo === "" || nome === "" || endereco === "" || rota === "") {
+                const longitudeTexto =
+                    document
+                        .getElementById("longitude")
+                        .value
+                        .trim();
 
-                    alert("Preencha todos os campos.");
+                const rota =
+                    document
+                        .getElementById("rota")
+                        .value;
+
+
+                /* =========================================
+                   VALIDAR CAMPOS
+                ========================================= */
+
+                if (
+                    codigo === "" ||
+                    nome === "" ||
+                    endereco === "" ||
+                    latitudeTexto === "" ||
+                    longitudeTexto === "" ||
+                    rota === ""
+                ) {
+
+                    alert(
+                        "Preencha todos os campos."
+                    );
 
                     return;
                 }
 
 
+                const latitude =
+                    Number(latitudeTexto);
+
+                const longitude =
+                    Number(longitudeTexto);
+
+
+                /* =========================================
+                   VALIDAR COORDENADAS
+                ========================================= */
+
+                if (
+                    !Number.isFinite(latitude) ||
+                    !Number.isFinite(longitude)
+                ) {
+
+                    alert(
+                        "Latitude ou longitude inválida."
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    latitude < -90 ||
+                    latitude > 90
+                ) {
+
+                    alert(
+                        "A latitude deve estar entre -90 e 90."
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    longitude < -180 ||
+                    longitude > 180
+                ) {
+
+                    alert(
+                        "A longitude deve estar entre -180 e 180."
+                    );
+
+                    return;
+                }
+
+
+                /* =========================================
+                   CRIAR CLIENTE
+                ========================================= */
+
                 const novoCliente = {
+
                     codigo: codigo,
+
                     nome: nome,
+
                     endereco: endereco,
-                    rota: rota
+
+                    rota: rota,
+
+                    latitude: latitude,
+
+                    longitude: longitude
+
                 };
+
+
+                /* =========================================
+                   CADASTRAR / ATUALIZAR
+                ========================================= */
 
                 if (clienteEmEdicao !== null) {
 
-                    const indice = clientes.findIndex(function (cliente) {
-                        return cliente.codigo === clienteEmEdicao;
-                    });
+                    const indice =
+                        clientes.findIndex(
+                            function (cliente) {
+
+                                return (
+                                    cliente.codigo ===
+                                    clienteEmEdicao
+                                );
+
+                            }
+                        );
+
 
                     if (indice !== -1) {
-                        clientes[indice] = novoCliente;
+
+                        clientes[indice] =
+                            novoCliente;
+
                     }
 
                 } else {
 
-                    clientes.push(novoCliente);
+                    clientes.push(
+                        novoCliente
+                    );
 
                 }
+
+
+                /* =========================================
+                   SALVAR
+                ========================================= */
 
                 localStorage.setItem(
                     "clientes",
                     JSON.stringify(clientes)
                 );
 
-                // Limpa os campos
 
-                document.getElementById("codigo").value = "";
+                /* =========================================
+                   LIMPAR CAMPOS
+                ========================================= */
 
-                document.getElementById("nome").value = "";
+                document
+                    .getElementById("codigo")
+                    .value = "";
 
-                document.getElementById("endereco").value = "";
+                document
+                    .getElementById("nome")
+                    .value = "";
 
-                document.getElementById("rota").value = "";
+                document
+                    .getElementById("endereco")
+                    .value = "";
+
+                document
+                    .getElementById("latitude")
+                    .value = "";
+
+                document
+                    .getElementById("longitude")
+                    .value = "";
+
+                document
+                    .getElementById("rota")
+                    .value = "";
 
 
-                // Mostra uma mensagem
+                /* =========================================
+                   MENSAGEM
+                ========================================= */
 
-                if (clienteEmEdicao === null) {
+                if (
+                    clienteEmEdicao === null
+                ) {
 
-                    alert("Cliente cadastrado com sucesso!");
+                    alert(
+                        "Cliente cadastrado com sucesso!"
+                    );
 
                 } else {
 
-                    alert("Cliente atualizado com sucesso!");
+                    alert(
+                        "Cliente atualizado com sucesso!"
+                    );
 
                 }
 
+
+                /* =========================================
+                   TERMINAR EDIÇÃO
+                ========================================= */
+
                 clienteEmEdicao = null;
+
 
                 document
                     .querySelector(".formulario")
-                    .classList.remove("editando");
+                    .classList.remove(
+                        "editando"
+                    );
 
-                document.getElementById("tituloFormulario").textContent =
+
+                document
+                    .getElementById(
+                        "tituloFormulario"
+                    )
+                    .textContent =
                     "Novo cliente";
 
-                document.getElementById("botaoFormulario").textContent =
+
+                document
+                    .getElementById(
+                        "botaoFormulario"
+                    )
+                    .textContent =
                     "Cadastrar cliente";
 
 
-                // Coloca o cursor novamente no código
+                /* =========================================
+                   FOCO
+                ========================================= */
 
-                document.getElementById("codigo").focus();
+                document
+                    .getElementById("codigo")
+                    .focus();
 
 
-                // Atualiza a pesquisa
+                /* =========================================
+                   ATUALIZAR ECRÃ
+                ========================================= */
 
                 pesquisarClientes();
+
                 atualizarResumoClientes();
+
             }
 
 

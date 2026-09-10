@@ -1062,6 +1062,106 @@
             color: initial;
         }
 
+        /* =========================================
+   DESTINOS DAS MISSÕES
+========================================= */
+
+        .icone-destino {
+            background: transparent;
+            border: none;
+        }
+
+        .marcador-destino {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 27px;
+
+            cursor: pointer;
+
+            filter:
+                drop-shadow(0 3px 4px rgba(15, 23, 42, 0.35));
+        }
+
+        .popup-destino {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            min-width: 140px;
+        }
+
+        .popup-destino strong {
+            color: #0f172a;
+            font-size: 13px;
+        }
+
+        .popup-destino span {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        /* =========================================
+   CLIENTES NO MAPA
+========================================= */
+
+        .icone-cliente {
+            background: transparent;
+            border: none;
+        }
+
+        .marcador-cliente {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            filter:
+                drop-shadow(0 3px 4px rgba(15, 23, 42, 0.30));
+        }
+
+        .popup-cliente {
+            display: flex;
+            flex-direction: column;
+
+            gap: 4px;
+
+            min-width: 170px;
+        }
+
+        .popup-cliente strong {
+            color: #0f172a;
+            font-size: 13px;
+        }
+
+        .popup-cliente span {
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .popup-cliente small {
+            color: #64748b;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        .popup-destino small {
+            color: #64748b;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
         @keyframes pulsoDrone {
 
             0% {
@@ -4790,6 +4890,11 @@
                 return;
             }
 
+            const coordenadasBase = [
+                41.6232128,
+                -8.3472675
+            ];
+
             const mapa =
                 L.map(
                     "mapaOperacional",
@@ -4800,6 +4905,165 @@
                     [41.6232128, -8.3472675],
                     14
                 );
+
+            /* =========================================
+CLIENTES / PONTOS DE ENTREGA
+========================================= */
+
+            const clientes =
+                JSON.parse(
+                    localStorage.getItem("clientes")
+                ) || [];
+
+
+            clientes.forEach(
+                function (cliente) {
+
+                    if (
+                        !cliente.latitude ||
+                        !cliente.longitude
+                    ) {
+                        return;
+                    }
+
+
+                    const iconeCliente =
+                        L.divIcon({
+
+                            className: "icone-cliente",
+
+                            html: `
+                    <div class="marcador-cliente">
+                        📍
+                    </div>
+                `,
+
+                            iconSize: [34, 34],
+                            iconAnchor: [17, 30]
+
+                        });
+
+
+                    const marcadorCliente =
+                        L.marker(
+                            [
+                                Number(cliente.latitude),
+                                Number(cliente.longitude)
+                            ],
+                            {
+                                icon: iconeCliente
+                            }
+                        )
+                            .addTo(mapa);
+
+
+                    marcadorCliente.bindPopup(`
+            <div class="popup-cliente">
+
+                <strong>
+                    ${cliente.nome}
+                </strong>
+
+                <span>
+                    Cliente ${cliente.codigo}
+                </span>
+
+                <small>
+                    ${cliente.endereco}
+                </small>
+
+            </div>
+        `);
+
+                }
+            );
+
+            /* =========================================
+   DISTRIBUIÇÕES / CLIENTES REAIS
+========================================= */
+
+            const clientesCadastrados =
+                JSON.parse(
+                    localStorage.getItem("clientes")
+                ) || [];
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem("distribuicoes")
+                ) || [];
+
+
+            /* PEGAR UMA DISTRIBUIÇÃO PARA TESTE */
+
+            const distribuicaoTeste =
+                [...distribuicoes]
+                    .reverse()
+                    .find(
+                        function (distribuicao) {
+
+                            return (
+                                distribuicao.clientes &&
+                                distribuicao.clientes.length > 0
+                            );
+
+                        }
+                    );
+
+
+            let destinoReal = null;
+
+
+            if (distribuicaoTeste) {
+
+                const clienteDistribuicao =
+                    distribuicaoTeste.clientes[0];
+
+
+                const clienteCompleto =
+                    clientesCadastrados.find(
+                        function (cliente) {
+
+                            return (
+                                cliente.codigo ===
+                                clienteDistribuicao.codigo
+                            );
+
+                        }
+                    );
+
+
+                if (
+                    clienteCompleto &&
+                    clienteCompleto.latitude != null &&
+                    clienteCompleto.longitude != null
+                ) {
+
+                    destinoReal = {
+
+                        codigo:
+                            clienteCompleto.codigo,
+
+                        nome:
+                            clienteCompleto.nome,
+
+                        endereco:
+                            clienteCompleto.endereco,
+
+                        latitude:
+                            Number(
+                                clienteCompleto.latitude
+                            ),
+
+                        longitude:
+                            Number(
+                                clienteCompleto.longitude
+                            )
+
+                    };
+
+                }
+
+            }
 
             /* =========================================
 DRONES - DADOS DE DEMONSTRAÇÃO
@@ -4824,7 +5088,9 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     ligacao: "Excelente",
 
                     entregasConcluidas: 3,
-                    entregasTotal: 5
+                    entregasTotal: 5,
+
+                    destino: destinoReal
                 },
 
                 {
@@ -4950,6 +5216,41 @@ DRONES - DADOS DE DEMONSTRAÇÃO
             drones.forEach(
                 function (drone) {
 
+                    /* ROTA DO DRONE */
+
+                    let corRota = "#2563eb";
+
+                    if (drone.status === "Retornando") {
+                        corRota = "#f59e0b";
+                    }
+
+                    if (drone.bateria < 20) {
+                        corRota = "#dc2626";
+                    }
+
+
+                    const rotaDrone =
+                        L.polyline(
+                            [
+                                coordenadasBase,
+
+                                [
+                                    drone.latitude,
+                                    drone.longitude
+                                ]
+                            ],
+                            {
+                                color: corRota,
+
+                                weight: 3,
+
+                                opacity: 0.75,
+
+                                dashArray: "8, 8"
+                            }
+                        )
+                            .addTo(mapa);
+
                     const marcador =
                         L.marker(
                             [
@@ -4983,6 +5284,89 @@ DRONES - DADOS DE DEMONSTRAÇÃO
 
                         }
                     );
+
+                    /* =========================================
+   DESTINO DA MISSÃO
+========================================= */
+
+                    if (drone.destino) {
+
+                        const iconeDestino =
+                            L.divIcon({
+
+                                className: "icone-destino",
+
+                                html: `
+                <div class="marcador-destino">
+                    📍
+                </div>
+            `,
+
+                                iconSize: [36, 36],
+                                iconAnchor: [18, 32]
+
+                            });
+
+
+                        const marcadorDestino =
+                            L.marker(
+                                [
+                                    drone.destino.latitude,
+                                    drone.destino.longitude
+                                ],
+                                {
+                                    icon: iconeDestino
+                                }
+                            )
+                                .addTo(mapa);
+
+
+                        marcadorDestino.bindPopup(`
+    <div class="popup-destino">
+
+        <strong>
+            ${drone.destino.nome}
+        </strong>
+
+        <span>
+            Cliente ${drone.destino.codigo}
+        </span>
+
+        <small>
+            ${drone.destino.endereco}
+        </small>
+
+        <small>
+            Destino da missão ${drone.id}
+        </small>
+
+    </div>
+`);
+
+
+                        /* TRAJETO RESTANTE ATÉ AO CLIENTE */
+
+                        L.polyline(
+                            [
+                                [
+                                    drone.latitude,
+                                    drone.longitude
+                                ],
+
+                                [
+                                    drone.destino.latitude,
+                                    drone.destino.longitude
+                                ]
+                            ],
+                            {
+                                color: "#22c55e",
+                                weight: 3,
+                                opacity: 0.85
+                            }
+                        )
+                            .addTo(mapa);
+
+                    }
 
                 }
             );
@@ -5018,7 +5402,7 @@ DRONES - DADOS DE DEMONSTRAÇÃO
 
             const basePrimoPecas =
                 L.marker(
-                    [41.6232128, -8.3472675],
+                    coordenadasBase,
                     {
                         icon: iconeBase
                     }
