@@ -7,13 +7,13 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nova Distribuição</title>
+    <title>Nova Missão</title>
 
 </head>
 
 <body>
 
-    <h1>Nova Distribuição</h1>
+    <h1>Nova Missão</h1>
 
     <div id="dadosDistribuicao"></div>
 
@@ -114,7 +114,7 @@
 
             selectDistribuidor.innerHTML = `
         <option value="">
-            Selecione o distribuidor
+            Selecione o operador
         </option>
     `;
 
@@ -127,12 +127,7 @@
 
             }
 
-
-            const tipoVeiculo =
-                veiculo.toLowerCase().startsWith("carro")
-                    ? "carro"
-                    : "moto";
-
+            const tipoVeiculo = "drone";
 
             const distribuidoresDisponiveis =
                 distribuidores.filter(function (distribuidor) {
@@ -200,7 +195,7 @@
 
                 selectDistribuidor.innerHTML = `
             <option value="">
-                Nenhum distribuidor disponível
+                Nenhum operador disponível
             </option>
         `;
 
@@ -223,14 +218,14 @@
         dados.innerHTML = `
 
         <h2>
-            Clientes selecionados
+            Pontos de entrega
         </h2>
 
         <p>
             ${clientesSelecionados.length}
             ${clientesSelecionados.length === 1
-                ? "cliente selecionado"
-                : "clientes selecionados"
+                ? "ponto de entrega selecionado"
+                : "pontos de entrega selecionados"
             }
         </p>
 
@@ -240,20 +235,25 @@
 
         <div id="areaVeiculo">
 
-            <h2>
-                Veículo
-            </h2>
+    <h2>
+        Drone
+    </h2>
 
-            <select
-                id="veiculoDistribuicao"
-                onchange="atualizarDistribuidores()"
-            >
+    <select
+        id="veiculoDistribuicao"
+        onchange="atualizarDistribuidores()"
+    >
 
-                <option value="">
-                    Selecione o veículo
-                </option>
+        <option value="">
+            Selecione o drone
+        </option>
 
-                ${veiculos.map(function (veiculo) {
+        ${[
+                "DRN-001",
+                "DRN-002",
+                "DRN-003",
+                "DRN-004"
+            ].map(function (drone) {
 
                 const distribuicoes =
                     JSON.parse(
@@ -265,7 +265,7 @@
                     distribuicoes.some(function (distribuicao) {
 
                         return (
-                            distribuicao.veiculo === veiculo &&
+                            distribuicao.veiculo === drone &&
                             distribuicao.status === "Em andamento"
                         );
 
@@ -273,28 +273,56 @@
 
 
                 return `
-        <option
-            value="${veiculo}"
-            ${ocupado ? "disabled" : ""}
-        >
-            ${veiculo}${ocupado
-                        ? " — 🔴 Em distribuição"
+                <option
+                    value="${drone}"
+                    ${ocupado ? "disabled" : ""}
+                >
+                    ${drone}${ocupado
+                        ? " — 🔴 Em missão"
                         : ""
                     }
-        </option>
-    `;
+                </option>
+            `;
 
             }).join("")}
 
-            </select>
+    </select>
 
-        </div>
+</div>
+
+<div id="areaModoOperacao">
+
+    <h2>
+        Modo de operação
+    </h2>
+
+    <select id="modoOperacaoDistribuicao">
+
+        <option value="">
+            Selecione o modo de operação
+        </option>
+
+        <option value="manual">
+            Manual
+        </option>
+
+        <option value="assistido">
+            Assistido
+        </option>
+
+        <option value="autonomo">
+            Autónomo
+        </option>
+
+    </select>
+
+</div>
 
 
         <div id="areaDistribuidor">
 
             <h2>
-                Distribuidor
+                Operador
             </h2>
 
             <select
@@ -381,11 +409,26 @@
                     "veiculoDistribuicao"
                 ).value;
 
+            const modoOperacao =
+                document.getElementById(
+                    "modoOperacaoDistribuicao"
+                ).value;
+
+            if (!modoOperacao) {
+
+                alert(
+                    "Selecione o modo de operação."
+                );
+
+                return;
+
+            }
+
 
             if (!veiculo) {
 
                 alert(
-                    "Selecione um veículo."
+                    "Selecione um drone."
                 );
 
                 return;
@@ -396,7 +439,7 @@
             if (!distribuidor) {
 
                 alert(
-                    "Selecione um distribuidor."
+                    "Selecione um operador."
                 );
 
                 return;
@@ -425,7 +468,7 @@
             if (veiculoOcupado) {
 
                 alert(
-                    "Este veículo já está em distribuição."
+                    "Este drone já está em missão."
                 );
 
                 return;
@@ -448,7 +491,7 @@
             if (distribuidorOcupado) {
 
                 alert(
-                    "Este distribuidor já está em distribuição."
+                    "Este operador já está numa missão."
                 );
 
                 return;
@@ -486,11 +529,14 @@
                 clientes:
                     clientesSelecionados,
 
-                distribuidor:
+
                     distribuidor,
 
                 veiculo:
                     veiculo,
+
+                modoOperacao:
+                    modoOperacao,
 
                 data:
                     agora.toLocaleDateString(
@@ -534,7 +580,7 @@
 
 
             alert(
-                "Distribuição criada com sucesso!"
+                "Missão criada com sucesso!"
             );
 
 

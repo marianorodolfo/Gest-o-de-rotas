@@ -681,21 +681,21 @@
 
         <div class="abas-distribuicoes">
 
+            <button id="abaNovaMissao" class="aba-distribuicao">
+                ➕ Nova missão
+            </button>
 
             <button id="abaEmAndamento" class="aba-distribuicao ativa">
                 Em andamento
             </button>
 
-
             <button id="abaHistorico" class="aba-distribuicao">
                 Histórico
             </button>
 
-
             <button id="abaGestao" class="aba-distribuicao">
                 ⚙️ Gestão
             </button>
-
 
         </div>
 
@@ -1159,7 +1159,7 @@
                                 </p>
 
 
-                                <p>
+                                <p>     
 
                                     Veículo:
 
@@ -1548,7 +1548,7 @@
                         "
                     >
 
-                        Estado:
+                        Status:
 
 
                         <span
@@ -1925,6 +1925,18 @@
 
             }
         );
+
+        const abaNovaMissao =
+            document.getElementById("abaNovaMissao");
+
+        abaNovaMissao.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            window.location.href = "distribuicao.html";
+
+        });
 
 
         /* =========================================

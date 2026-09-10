@@ -1192,6 +1192,38 @@
             font-weight: 800 !important;
         }
 
+        /* =========================================
+   DESTINOS NUMERADOS DA MISSÃO
+========================================= */
+
+        .icone-destino-missao {
+            background: transparent;
+            border: none;
+        }
+
+        .marcador-destino-missao {
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #22c55e;
+            color: #ffffff;
+
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.30);
+        }
+
 
         /* =========================================
    RESPONSIVO - CENTRO DE OPERAÇÕES
@@ -4910,73 +4942,63 @@
 CLIENTES / PONTOS DE ENTREGA
 ========================================= */
 
-            const clientes =
-                JSON.parse(
-                    localStorage.getItem("clientes")
-                ) || [];
+            /*
+const clientes =
+    JSON.parse(
+        localStorage.getItem("clientes")
+    ) || [];
 
+clientes.forEach(
+    function (cliente) {
 
-            clientes.forEach(
-                function (cliente) {
+        if (
+            !cliente.latitude ||
+            !cliente.longitude
+        ) {
+            return;
+        }
 
-                    if (
-                        !cliente.latitude ||
-                        !cliente.longitude
-                    ) {
-                        return;
-                    }
-
-
-                    const iconeCliente =
-                        L.divIcon({
-
-                            className: "icone-cliente",
-
-                            html: `
+        const iconeCliente =
+            L.divIcon({
+                className: "icone-cliente",
+                html: `
                     <div class="marcador-cliente">
                         📍
                     </div>
                 `,
+                iconSize: [34, 34],
+                iconAnchor: [17, 30]
+            });
 
-                            iconSize: [34, 34],
-                            iconAnchor: [17, 30]
+        const marcadorCliente =
+            L.marker(
+                [
+                    Number(cliente.latitude),
+                    Number(cliente.longitude)
+                ],
+                {
+                    icon: iconeCliente
+                }
+            )
+            .addTo(mapa);
 
-                        });
-
-
-                    const marcadorCliente =
-                        L.marker(
-                            [
-                                Number(cliente.latitude),
-                                Number(cliente.longitude)
-                            ],
-                            {
-                                icon: iconeCliente
-                            }
-                        )
-                            .addTo(mapa);
-
-
-                    marcadorCliente.bindPopup(`
+        marcadorCliente.bindPopup(`
             <div class="popup-cliente">
-
                 <strong>
                     ${cliente.nome}
                 </strong>
-
                 <span>
                     Cliente ${cliente.codigo}
                 </span>
-
                 <small>
                     ${cliente.endereco}
                 </small>
-
             </div>
         `);
 
-                }
-            );
+    }
+);
+*/
 
             /* =========================================
    DISTRIBUIÇÕES / CLIENTES REAIS
@@ -4995,73 +5017,93 @@ CLIENTES / PONTOS DE ENTREGA
 
             /* PEGAR UMA DISTRIBUIÇÃO PARA TESTE */
 
-            const distribuicaoTeste =
+            const missaoAtiva =
                 [...distribuicoes]
                     .reverse()
                     .find(
                         function (distribuicao) {
 
                             return (
-                                distribuicao.clientes &&
-                                distribuicao.clientes.length > 0
+                                Array.isArray(
+                                    distribuicao.clientes
+                                ) &&
+                                distribuicao.clientes.length > 0 &&
+                                distribuicao.status !== "Concluída"
                             );
 
                         }
                     );
 
 
-            let destinoReal = null;
+            /* =========================================
+   DESTINOS REAIS DA MISSÃO
+========================================= */
+
+            let destinosReais = [];
 
 
-            if (distribuicaoTeste) {
+            if (missaoAtiva) {
 
-                const clienteDistribuicao =
-                    distribuicaoTeste.clientes[0];
+                missaoAtiva.clientes.forEach(
+                    function (clienteDistribuicao) {
 
+                        if (
+                            String(clienteDistribuicao.codigo) !== "1125"
+                        ) {
+                            return;
+                        }
 
-                const clienteCompleto =
-                    clientesCadastrados.find(
-                        function (cliente) {
+                        const clienteCompleto =
+                            clientesCadastrados.find(
+                                function (cliente) {
 
-                            return (
-                                cliente.codigo ===
-                                clienteDistribuicao.codigo
+                                    return (
+                                        cliente.codigo ===
+                                        clienteDistribuicao.codigo
+                                    );
+
+                                }
                             );
 
+
+                        if (
+                            clienteCompleto &&
+                            clienteCompleto.latitude != null &&
+                            clienteCompleto.longitude != null
+                        ) {
+
+                            destinosReais.push({
+
+                                codigo:
+                                    clienteCompleto.codigo,
+
+                                nome:
+                                    clienteCompleto.nome,
+
+                                endereco:
+                                    clienteCompleto.endereco,
+
+                                latitude:
+                                    Number(
+                                        clienteCompleto.latitude
+                                    ),
+
+                                longitude:
+                                    Number(
+                                        clienteCompleto.longitude
+                                    )
+
+                            });
+
                         }
-                    );
 
+                    }
+                );
 
-                if (
-                    clienteCompleto &&
-                    clienteCompleto.latitude != null &&
-                    clienteCompleto.longitude != null
-                ) {
-
-                    destinoReal = {
-
-                        codigo:
-                            clienteCompleto.codigo,
-
-                        nome:
-                            clienteCompleto.nome,
-
-                        endereco:
-                            clienteCompleto.endereco,
-
-                        latitude:
-                            Number(
-                                clienteCompleto.latitude
-                            ),
-
-                        longitude:
-                            Number(
-                                clienteCompleto.longitude
-                            )
-
-                    };
-
-                }
+                console.log(
+                    "DESTINOS REAIS:",
+                    destinosReais
+                );
 
             }
 
@@ -5090,7 +5132,11 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     entregasConcluidas: 3,
                     entregasTotal: 5,
 
-                    destino: destinoReal
+                    destinos:
+                        missaoAtiva &&
+                            missaoAtiva.veiculo === "DRN-001"
+                            ? destinosReais
+                            : []
                 },
 
                 {
@@ -5110,7 +5156,13 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     ligacao: "Boa",
 
                     entregasConcluidas: 1,
-                    entregasTotal: 4
+                    entregasTotal: 4,
+
+                    destinos:
+                        missaoAtiva &&
+                            missaoAtiva.veiculo === "DRN-002"
+                            ? destinosReais
+                            : []
                 },
 
                 {
@@ -5130,7 +5182,13 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     ligacao: "Boa",
 
                     entregasConcluidas: 4,
-                    entregasTotal: 4
+                    entregasTotal: 4,
+
+                    destinos:
+                        missaoAtiva &&
+                            missaoAtiva.veiculo === "DRN-003"
+                            ? destinosReais
+                            : []
                 },
 
                 {
@@ -5150,10 +5208,21 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     ligacao: "Instável",
 
                     entregasConcluidas: 2,
-                    entregasTotal: 5
+                    entregasTotal: 5,
+
+                    destinos:
+                        missaoAtiva &&
+                            missaoAtiva.veiculo === "DRN-004"
+                            ? destinosReais
+                            : []
                 }
 
             ];
+
+            console.log(
+                "DRN-001:",
+                drones[0]
+            );
 
 
             /* =========================================
@@ -5216,40 +5285,56 @@ DRONES - DADOS DE DEMONSTRAÇÃO
             drones.forEach(
                 function (drone) {
 
-                    /* ROTA DO DRONE */
+                    /* =========================================
+                       ROTA BASE → DRONE
+                    ========================================= */
 
                     let corRota = "#2563eb";
 
-                    if (drone.status === "Retornando") {
+
+                    if (
+                        drone.status === "Retornando"
+                    ) {
+
                         corRota = "#f59e0b";
+
                     }
 
-                    if (drone.bateria < 20) {
+
+                    if (
+                        drone.bateria < 20
+                    ) {
+
                         corRota = "#dc2626";
+
                     }
 
 
-                    const rotaDrone =
-                        L.polyline(
+                    L.polyline(
+                        [
+                            coordenadasBase,
+
                             [
-                                coordenadasBase,
+                                drone.latitude,
+                                drone.longitude
+                            ]
+                        ],
+                        {
+                            color: corRota,
 
-                                [
-                                    drone.latitude,
-                                    drone.longitude
-                                ]
-                            ],
-                            {
-                                color: corRota,
+                            weight: 3,
 
-                                weight: 3,
+                            opacity: 0.75,
 
-                                opacity: 0.75,
+                            dashArray: "8, 8"
+                        }
+                    )
+                        .addTo(mapa);
 
-                                dashArray: "8, 8"
-                            }
-                        )
-                            .addTo(mapa);
+
+                    /* =========================================
+                       MARCADOR DO DRONE
+                    ========================================= */
 
                     const marcador =
                         L.marker(
@@ -5258,7 +5343,10 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                                 drone.longitude
                             ],
                             {
-                                icon: criarIconeDrone(drone)
+                                icon:
+                                    criarIconeDrone(
+                                        drone
+                                    )
                             }
                         )
                             .addTo(mapa);
@@ -5268,11 +5356,16 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                         drone.id,
                         {
                             permanent: true,
+
                             direction: "bottom",
+
                             offset: [0, 12],
-                            className: "tooltip-drone"
+
+                            className:
+                                "tooltip-drone"
                         }
                     );
+
 
                     marcador.on(
                         "click",
@@ -5285,83 +5378,134 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                         }
                     );
 
+
                     /* =========================================
-   DESTINO DA MISSÃO
-========================================= */
+                       DESTINOS DA MISSÃO
+                    ========================================= */
 
-                    if (drone.destino) {
+                    if (
+                        Array.isArray(
+                            drone.destinos
+                        ) &&
+                        drone.destinos.length > 0
+                    ) {
 
-                        const iconeDestino =
-                            L.divIcon({
+                        const pontosRota = [
 
-                                className: "icone-destino",
+                            [
+                                drone.latitude,
+                                drone.longitude
+                            ]
 
-                                html: `
-                <div class="marcador-destino">
-                    📍
-                </div>
-            `,
-
-                                iconSize: [36, 36],
-                                iconAnchor: [18, 32]
-
-                            });
+                        ];
 
 
-                        const marcadorDestino =
-                            L.marker(
-                                [
-                                    drone.destino.latitude,
-                                    drone.destino.longitude
-                                ],
-                                {
-                                    icon: iconeDestino
-                                }
-                            )
-                                .addTo(mapa);
+                        drone.destinos.forEach(
+                            function (
+                                destino,
+                                indice
+                            ) {
+
+                                /* -------------------------
+                                   ÍCONE DO DESTINO
+                                ------------------------- */
+
+                                const iconeDestino =
+                                    L.divIcon({
+
+                                        className:
+                                            "icone-destino-missao",
+
+                                        html: `
+                                <div class="marcador-destino-missao">
+                                    ${indice + 1}
+                                </div>
+                            `,
+
+                                        iconSize:
+                                            [34, 34],
+
+                                        iconAnchor:
+                                            [17, 17]
+
+                                    });
 
 
-                        marcadorDestino.bindPopup(`
-    <div class="popup-destino">
+                                /* -------------------------
+                                   MARCADOR
+                                ------------------------- */
 
-        <strong>
-            ${drone.destino.nome}
-        </strong>
-
-        <span>
-            Cliente ${drone.destino.codigo}
-        </span>
-
-        <small>
-            ${drone.destino.endereco}
-        </small>
-
-        <small>
-            Destino da missão ${drone.id}
-        </small>
-
-    </div>
-`);
+                                const marcadorDestino =
+                                    L.marker(
+                                        [
+                                            destino.latitude,
+                                            destino.longitude
+                                        ],
+                                        {
+                                            icon:
+                                                iconeDestino
+                                        }
+                                    )
+                                        .addTo(mapa);
 
 
-                        /* TRAJETO RESTANTE ATÉ AO CLIENTE */
+                                /* -------------------------
+                                   POPUP
+                                ------------------------- */
+
+                                marcadorDestino.bindPopup(`
+                        <div class="popup-destino">
+
+                            <strong>
+                                ${indice + 1}. ${destino.nome}
+                            </strong>
+
+                            <span>
+                                Cliente ${destino.codigo}
+                            </span>
+
+                            <small>
+                                ${destino.endereco}
+                            </small>
+
+                            <small>
+                                Missão ${drone.id}
+                            </small>
+
+                        </div>
+                    `);
+
+
+                                /* -------------------------
+                                   ADICIONAR À ROTA
+                                ------------------------- */
+
+                                pontosRota.push(
+                                    [
+                                        destino.latitude,
+                                        destino.longitude
+                                    ]
+                                );
+
+                            }
+                        );
+
+
+                        /* =================================
+                           DRONE → CLIENTES
+                        ================================= */
 
                         L.polyline(
-                            [
-                                [
-                                    drone.latitude,
-                                    drone.longitude
-                                ],
-
-                                [
-                                    drone.destino.latitude,
-                                    drone.destino.longitude
-                                ]
-                            ],
+                            pontosRota,
                             {
-                                color: "#22c55e",
-                                weight: 3,
-                                opacity: 0.85
+                                color:
+                                    "#22c55e",
+
+                                weight:
+                                    3,
+
+                                opacity:
+                                    0.85
                             }
                         )
                             .addTo(mapa);
@@ -5370,6 +5514,8 @@ DRONES - DADOS DE DEMONSTRAÇÃO
 
                 }
             );
+
+
 
             L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -5382,8 +5528,8 @@ DRONES - DADOS DE DEMONSTRAÇÃO
             ).addTo(mapa);
 
             /* =========================================
-   BASE PRIMO PEÇAS
-========================================= */
+    BASE PRIMO PEÇAS
+    ========================================= */
 
             const iconeBase =
                 L.divIcon({
