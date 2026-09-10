@@ -514,22 +514,146 @@
         }
 
         /* =========================================
+   CABEÇALHO - CENTRO DE OPERAÇÕES
+========================================= */
+
+        .cabecalho-dashboard {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+
+            width: 100%;
+
+            margin-bottom: 18px;
+        }
+
+        .titulo-dashboard {
+            min-width: 0;
+        }
+
+        .titulo-dashboard h1 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .titulo-dashboard p {
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================================
+   FILTROS DO CENTRO DE OPERAÇÕES
+========================================= */
+
+        .filtros-dashboard {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+
+            flex-shrink: 0;
+
+            gap: 8px;
+
+            width: auto;
+            margin: 0;
+        }
+
+        .filtros-dashboard .filtro-dashboard {
+            display: flex;
+            flex-direction: column;
+
+            width: auto;
+            min-width: 0;
+
+            gap: 4px;
+
+            margin: 0;
+        }
+
+        .filtros-dashboard .filtro-dashboard label {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            line-height: 1;
+        }
+
+        .filtros-dashboard .filtro-dashboard input,
+        .filtros-dashboard .filtro-dashboard select {
+            box-sizing: border-box;
+
+            width: 125px;
+            min-width: 0;
+            height: 34px;
+
+            margin: 0;
+            padding: 0 9px;
+
+            border: 1px solid #dbe2ea;
+            border-radius: 7px;
+
+            background: #ffffff;
+            color: #0f172a;
+
+            font-size: 12px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .filtros-dashboard .filtro-dashboard:first-child input {
+            width: 135px;
+        }
+
+        .filtros-dashboard .filtro-dashboard input:focus,
+        .filtros-dashboard .filtro-dashboard select:focus {
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 3px rgba(59, 130, 246, 0.10);
+        }
+
+
+        /* =========================================
    CENTRO DE OPERAÇÕES - DRONES
 ========================================= */
 
         .centro-operacoes {
             display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+
+            grid-template-columns:
+                minmax(0, 2fr) minmax(320px, 1fr);
+
             gap: 20px;
+
             margin-bottom: 24px;
         }
 
         .painel-mapa-drone,
         .painel-drone {
             background: #ffffff;
+
             border: 1px solid #e5e7eb;
             border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+
+            box-shadow:
+                0 8px 24px rgba(15, 23, 42, 0.06);
         }
 
         .painel-mapa-drone {
@@ -540,37 +664,54 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 15px;
+
             margin-bottom: 16px;
         }
 
         .cabecalho-painel h2 {
             margin: 0;
+
             font-size: 18px;
+
             color: #0f172a;
         }
 
         .cabecalho-painel p {
             margin: 4px 0 0;
+
             font-size: 13px;
+
             color: #64748b;
         }
 
         .estado-sistema {
+            padding: 7px 10px;
+
+            border-radius: 999px;
+
+            background: #dcfce7;
+            color: #15803d;
+
             font-size: 12px;
             font-weight: 700;
-            color: #15803d;
-            background: #dcfce7;
-            padding: 7px 10px;
-            border-radius: 999px;
+
             white-space: nowrap;
         }
 
         .mapa-operacional {
             position: relative;
+            z-index: 1;
+
+            width: 100%;
+            height: 430px;
             min-height: 430px;
+
             overflow: hidden;
+
             border-radius: 12px;
+
             background:
                 linear-gradient(rgba(15, 23, 42, 0.04) 1px,
                     transparent 1px),
@@ -578,22 +719,29 @@
                     rgba(15, 23, 42, 0.04) 1px,
                     transparent 1px),
                 #f1f5f9;
+
             background-size: 30px 30px;
         }
 
         .mapa-placeholder {
             position: absolute;
+
             inset: 0;
+
             display: flex;
             flex-direction: column;
+
             justify-content: center;
             align-items: center;
+
             gap: 8px;
+
             color: #64748b;
         }
 
         .mapa-placeholder strong {
             color: #1e293b;
+
             font-size: 18px;
         }
 
@@ -602,7 +750,9 @@
         }
 
 
-        /* PAINEL DO DRONE */
+        /* =========================================
+   PAINEL DO DRONE
+========================================= */
 
         .painel-drone {
             padding: 20px;
@@ -610,59 +760,81 @@
 
         .cabecalho-drone {
             display: flex;
+
             justify-content: space-between;
             align-items: flex-start;
+
             gap: 10px;
+
             margin-bottom: 16px;
         }
 
         .rotulo-drone {
             display: block;
+
             margin-bottom: 4px;
+
+            color: #64748b;
+
             font-size: 10px;
             font-weight: 800;
+
             letter-spacing: 1px;
-            color: #64748b;
         }
 
         .cabecalho-drone h2 {
             margin: 0;
+
             color: #0f172a;
+
             font-size: 22px;
         }
 
         .status-drone {
             padding: 6px 9px;
+
             border-radius: 999px;
+
             font-size: 10px;
             font-weight: 800;
+
             letter-spacing: 0.5px;
         }
 
         .status-voo {
-            color: #166534;
             background: #dcfce7;
+            color: #166534;
         }
 
 
-        /* CÂMARA */
+        /* =========================================
+   CÂMARA
+========================================= */
 
         .camera-drone {
             height: 180px;
+
             margin-bottom: 18px;
+
             overflow: hidden;
+
             border-radius: 12px;
+
             background: #0f172a;
         }
 
         .camera-placeholder {
             width: 100%;
             height: 100%;
+
             display: flex;
             flex-direction: column;
+
             justify-content: center;
             align-items: center;
+
             gap: 5px;
+
             color: #ffffff;
         }
 
@@ -679,35 +851,269 @@
         }
 
 
-        /* TELEMETRIA */
+        /* =========================================
+   TELEMETRIA
+========================================= */
 
         .telemetria-drone {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 10px;
         }
 
         .telemetria-item {
             padding: 12px;
+
             border: 1px solid #e5e7eb;
             border-radius: 10px;
+
             background: #f8fafc;
         }
 
         .telemetria-item span {
             display: block;
+
             margin-bottom: 5px;
-            font-size: 11px;
+
             color: #64748b;
+
+            font-size: 11px;
         }
 
         .telemetria-item strong {
             color: #0f172a;
+
             font-size: 15px;
         }
 
+        /* =========================================
+   CORREÇÃO DO MAPA LEAFLET
+========================================= */
 
-        /* RESPONSIVO */
+        #mapaOperacional {
+            width: 100%;
+            height: 430px;
+            min-height: 430px;
+        }
+
+        #mapaOperacional .leaflet-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        #mapaOperacional img.leaflet-tile {
+            max-width: none !important;
+            max-height: none !important;
+        }
+
+        .leaflet-tile {
+            width: 256px !important;
+            height: 256px !important;
+        }
+
+        /* =========================================
+   BASE PRIMO PEÇAS - MAPA
+========================================= */
+
+        .icone-base-primo {
+            background: transparent;
+            border: none;
+        }
+
+        .marcador-base {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f97316;
+
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, 0.30);
+
+            font-size: 19px;
+
+            cursor: pointer;
+        }
+
+        .popup-base {
+            display: flex;
+            flex-direction: column;
+
+            gap: 3px;
+
+            min-width: 120px;
+        }
+
+        .popup-base strong {
+            color: #0f172a;
+
+            font-size: 13px;
+        }
+
+        .popup-base span {
+            color: #64748b;
+
+            font-size: 11px;
+        }
+
+        /* =========================================
+   DRONES NO MAPA
+========================================= */
+
+        .icone-drone {
+            background: transparent;
+            border: none;
+        }
+
+        .marcador-drone {
+            position: relative;
+
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+
+            font-size: 19px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, 0.30);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .marcador-drone:hover {
+            transform: scale(1.12);
+        }
+
+
+        /* OPERAÇÃO NORMAL */
+
+        .drone-normal {
+            background: #2563eb;
+        }
+
+
+        /* ATENÇÃO / RETORNANDO */
+
+        .drone-atencao {
+            background: #f59e0b;
+        }
+
+
+        /* BATERIA CRÍTICA */
+
+        .drone-critico {
+            background: #dc2626;
+        }
+
+        .marcador-drone>span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .pulso-drone {
+            position: absolute;
+
+            inset: -6px;
+
+            border: 2px solid currentColor;
+            border-radius: 50%;
+
+            opacity: 0.45;
+
+            animation:
+                pulsoDrone 2s infinite;
+        }
+
+        .drone-normal {
+            color: #2563eb;
+        }
+
+        .drone-atencao {
+            color: #f59e0b;
+        }
+
+        .drone-critico {
+            color: #dc2626;
+        }
+
+        .marcador-drone>span {
+            position: relative;
+            z-index: 2;
+
+            color: initial;
+        }
+
+        @keyframes pulsoDrone {
+
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+
+        }
+
+        .tooltip-drone {
+            padding: 4px 7px !important;
+
+            border: none !important;
+            border-radius: 6px !important;
+
+            background: #0f172a !important;
+            color: #ffffff !important;
+
+            box-shadow:
+                0 3px 10px rgba(15, 23, 42, 0.25) !important;
+
+            font-size: 10px !important;
+            font-weight: 800 !important;
+        }
+
+
+        /* =========================================
+   RESPONSIVO - CENTRO DE OPERAÇÕES
+========================================= */
+
+        @media (max-width: 1100px) {
+
+            .cabecalho-dashboard {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 14px;
+            }
+
+            .filtros-dashboard {
+                width: 100%;
+
+                justify-content: flex-start;
+            }
+
+        }
+
 
         @media (max-width: 1000px) {
 
@@ -721,7 +1127,74 @@
 
         }
 
+
+        /* =========================================
+   RESPONSIVO GERAL
+========================================= */
+
+        @media (max-width: 900px) {
+
+            #conteudo {
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .indicadores-dashboard {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .dashboard-colunas {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-inferior {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
         @media (max-width: 600px) {
+
+            #conteudo {
+                padding: 15px;
+            }
+
+            .cabecalho-dashboard {
+                width: 100%;
+
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 14px;
+            }
+
+            .titulo-dashboard h1 {
+                font-size: 23px;
+            }
+
+            .filtros-dashboard {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                width: 100%;
+
+                gap: 8px;
+            }
+
+            .filtros-dashboard .filtro-dashboard {
+                width: 100%;
+            }
+
+            .filtros-dashboard .filtro-dashboard input,
+            .filtros-dashboard .filtro-dashboard select,
+            .filtros-dashboard .filtro-dashboard:first-child input {
+                width: 100%;
+            }
 
             .cabecalho-painel {
                 align-items: flex-start;
@@ -736,52 +1209,10 @@
                 min-height: 300px;
             }
 
-        }
-
-        /* =========================================
-           RESPONSIVO
-        ========================================= */
-
-        @media (max-width: 900px) {
-
-            #conteudo {
-                margin-left: 0;
-                padding: 20px;
-            }
-
             .indicadores-dashboard {
-                grid-template-columns: repeat(2, 1fr);
-            }
+                grid-template-columns:
+                    1fr 1fr;
 
-            .dashboard-colunas {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-inferior {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-        @media (max-width: 600px) {
-
-            #conteudo {
-                padding: 15px;
-            }
-
-            .cabecalho-dashboard {
-                align-items: flex-start;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .filtro-dashboard {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .indicadores-dashboard {
-                grid-template-columns: 1fr 1fr;
                 gap: 10px;
             }
 
@@ -807,11 +1238,13 @@
             }
 
             .informacao-meta {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns:
+                    1fr 1fr;
             }
 
             .desempenho-operacional {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns:
+                    1fr 1fr;
             }
 
             .lider-conteudo {
@@ -828,7 +1261,23 @@
             }
 
         }
+
+
+        @media (max-width: 420px) {
+
+            .filtros-dashboard {
+                grid-template-columns: 1fr;
+            }
+
+        }
     </style>
+
+    <!-- LEAFLET - MAPA OPERACIONAL -->
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="">
+    </script>
 
 </head>
 
@@ -850,8 +1299,8 @@
     <main id="conteudo">
 
         <!-- =====================================
-         CENTRO DE OPERAÇÕES
-    ====================================== -->
+     CENTRO DE OPERAÇÕES
+====================================== -->
 
         <div class="cabecalho-dashboard">
 
@@ -868,45 +1317,158 @@
             </div>
 
 
-            <div class="filtro-dashboard">
+            <!-- FILTROS -->
 
-                <label for="filtroDataDashboard">
-                    Data:
-                </label>
+            <div class="filtros-dashboard">
 
-                <input type="date" id="filtroDataDashboard">
+                <div class="filtro-dashboard">
 
-            </div>
+                    <label for="filtroDataDashboard">
+                        Data
+                    </label>
 
+                    <input type="date" id="filtroDataDashboard">
 
-            <div class="filtro-dashboard">
-
-                <label for="filtroPeriodo">
-                    Período:
-                </label>
-
-                <select id="filtroPeriodo">
-                    <option value="dia">Dia</option>
-                    <option value="semana">Semana</option>
-                    <option value="mes">Mês</option>
-                </select>
-
-            </div>
+                </div>
 
 
-            <div class="filtro-dashboard">
+                <div class="filtro-dashboard">
 
-                <label for="filtroDistribuidor">
-                    Operador:
-                </label>
+                    <label for="filtroPeriodo">
+                        Período
+                    </label>
 
-                <select id="filtroDistribuidor">
-                    <option value="">Todos</option>
-                </select>
+                    <select id="filtroPeriodo">
+
+                        <option value="dia">
+                            Dia
+                        </option>
+
+                        <option value="semana">
+                            Semana
+                        </option>
+
+                        <option value="mes">
+                            Mês
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filtro-dashboard">
+
+                    <label for="filtroDistribuidor">
+                        Operador
+                    </label>
+
+                    <select id="filtroDistribuidor">
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                    </select>
+
+                </div>
 
             </div>
 
         </div>
+
+
+        <!-- =====================================
+     INDICADORES PRINCIPAIS
+====================================== -->
+
+        <section class="indicadores-operacao">
+
+            <div class="card-operacao">
+
+                <span class="card-operacao-titulo">
+                    Entregas hoje
+                </span>
+
+                <strong id="indicadorEntregasHoje">
+                    0
+                </strong>
+
+                <small>
+                    Total concluído no dia
+                </small>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <span class="card-operacao-titulo">
+                    Missões concluídas
+                </span>
+
+                <strong id="indicadorMissoesConcluidas">
+                    0
+                </strong>
+
+                <small>
+                    Operações finalizadas
+                </small>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <span class="card-operacao-titulo">
+                    Drones em voo
+                </span>
+
+                <strong id="indicadorDronesVoo">
+                    0
+                </strong>
+
+                <small>
+                    Missões ativas
+                </small>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <span class="card-operacao-titulo">
+                    Tempo médio
+                </span>
+
+                <strong id="indicadorTempoMedio">
+                    --
+                </strong>
+
+                <small>
+                    Por missão concluída
+                </small>
+
+            </div>
+
+
+            <div class="card-operacao">
+
+                <span class="card-operacao-titulo">
+                    Alertas ativos
+                </span>
+
+                <strong id="indicadorAlertas">
+                    0
+                </strong>
+
+                <small>
+                    Requerem atenção
+                </small>
+
+            </div>
+
+        </section>
 
         <!-- =====================================
      MONITORIZAÇÃO DE DRONES
@@ -934,19 +1496,6 @@
                 </div>
 
                 <div class="mapa-operacional" id="mapaOperacional">
-
-                    <div class="mapa-placeholder">
-
-                        <strong>
-                            Mapa operacional
-                        </strong>
-
-                        <span>
-                            Os drones em voo aparecerão aqui
-                        </span>
-
-                    </div>
-
                 </div>
 
             </div>
@@ -4153,6 +4702,366 @@
 
         preencherFiltroDistribuidor();
         carregarDashboard();
+
+        /* =========================================
+   MAPA OPERACIONAL - DRONES
+========================================= */
+        /* =========================================
+   ATUALIZAR PAINEL DO DRONE
+========================================= */
+
+        function atualizarPainelDrone(drone) {
+
+            const droneSelecionado =
+                document.getElementById("droneSelecionado");
+
+            const statusDrone =
+                document.getElementById("statusDrone");
+
+            const droneBateria =
+                document.getElementById("droneBateria");
+
+            const droneAutonomia =
+                document.getElementById("droneAutonomia");
+
+            const droneVelocidade =
+                document.getElementById("droneVelocidade");
+
+            const droneAltitude =
+                document.getElementById("droneAltitude");
+
+            const droneLigacao =
+                document.getElementById("droneLigacao");
+
+            const droneEntregas =
+                document.getElementById("droneEntregas");
+
+
+            if (droneSelecionado) {
+                droneSelecionado.textContent =
+                    drone.id;
+            }
+
+            if (statusDrone) {
+                statusDrone.textContent =
+                    drone.status.toUpperCase();
+            }
+
+            if (droneBateria) {
+                droneBateria.textContent =
+                    `${drone.bateria}%`;
+            }
+
+            if (droneAutonomia) {
+                droneAutonomia.textContent =
+                    `${drone.autonomia} min`;
+            }
+
+            if (droneVelocidade) {
+                droneVelocidade.textContent =
+                    `${drone.velocidade} km/h`;
+            }
+
+            if (droneAltitude) {
+                droneAltitude.textContent =
+                    `${drone.altitude} m`;
+            }
+
+            if (droneLigacao) {
+                droneLigacao.textContent =
+                    drone.ligacao;
+            }
+
+            if (droneEntregas) {
+                droneEntregas.textContent =
+                    `${drone.entregasConcluidas} / ${drone.entregasTotal}`;
+            }
+
+        }
+
+        function iniciarMapaOperacional() {
+
+            const elementoMapa =
+                document.getElementById(
+                    "mapaOperacional"
+                );
+
+            if (!elementoMapa) {
+                return;
+            }
+
+            const mapa =
+                L.map(
+                    "mapaOperacional",
+                    {
+                        zoomControl: true
+                    }
+                ).setView(
+                    [41.6232128, -8.3472675],
+                    14
+                );
+
+            /* =========================================
+DRONES - DADOS DE DEMONSTRAÇÃO
+========================================= */
+
+            const drones = [
+
+                {
+                    id: "DRN-001",
+
+                    latitude: 41.6305,
+                    longitude: -8.3560,
+
+                    status: "Em voo",
+
+                    bateria: 83,
+                    autonomia: 18,
+
+                    velocidade: 42,
+                    altitude: 62,
+
+                    ligacao: "Excelente",
+
+                    entregasConcluidas: 3,
+                    entregasTotal: 5
+                },
+
+                {
+                    id: "DRN-002",
+
+                    latitude: 41.6158,
+                    longitude: -8.3385,
+
+                    status: "Em voo",
+
+                    bateria: 61,
+                    autonomia: 14,
+
+                    velocidade: 34,
+                    altitude: 55,
+
+                    ligacao: "Boa",
+
+                    entregasConcluidas: 1,
+                    entregasTotal: 4
+                },
+
+                {
+                    id: "DRN-003",
+
+                    latitude: 41.6348,
+                    longitude: -8.3300,
+
+                    status: "Retornando",
+
+                    bateria: 27,
+                    autonomia: 7,
+
+                    velocidade: 39,
+                    altitude: 48,
+
+                    ligacao: "Boa",
+
+                    entregasConcluidas: 4,
+                    entregasTotal: 4
+                },
+
+                {
+                    id: "DRN-004",
+
+                    latitude: 41.6105,
+                    longitude: -8.3595,
+
+                    status: "Em voo",
+
+                    bateria: 16,
+                    autonomia: 4,
+
+                    velocidade: 31,
+                    altitude: 51,
+
+                    ligacao: "Instável",
+
+                    entregasConcluidas: 2,
+                    entregasTotal: 5
+                }
+
+            ];
+
+
+            /* =========================================
+               ÍCONE DO DRONE
+            ========================================= */
+
+            /* =========================================
+   CRIAR ÍCONE DO DRONE
+========================================= */
+
+            function criarIconeDrone(drone) {
+
+                let classeEstado =
+                    "drone-normal";
+
+
+                if (drone.status === "Retornando") {
+
+                    classeEstado =
+                        "drone-atencao";
+
+                }
+
+
+                if (drone.bateria < 20) {
+
+                    classeEstado =
+                        "drone-critico";
+
+                }
+
+
+                return L.divIcon({
+
+                    className: "icone-drone",
+
+                    html: `
+            <div class="marcador-drone ${classeEstado}">
+
+                <span>🚁</span>
+
+                <div class="pulso-drone"></div>
+
+            </div>
+        `,
+
+                    iconSize: [44, 44],
+
+                    iconAnchor: [22, 22]
+
+                });
+
+            }
+
+
+            /* =========================================
+               COLOCAR DRONES NO MAPA
+            ========================================= */
+
+            drones.forEach(
+                function (drone) {
+
+                    const marcador =
+                        L.marker(
+                            [
+                                drone.latitude,
+                                drone.longitude
+                            ],
+                            {
+                                icon: criarIconeDrone(drone)
+                            }
+                        )
+                            .addTo(mapa);
+
+
+                    marcador.bindTooltip(
+                        drone.id,
+                        {
+                            permanent: true,
+                            direction: "bottom",
+                            offset: [0, 12],
+                            className: "tooltip-drone"
+                        }
+                    );
+
+                    marcador.on(
+                        "click",
+                        function () {
+
+                            atualizarPainelDrone(
+                                drone
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    maxZoom: 19,
+
+                    attribution:
+                        "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(mapa);
+
+            /* =========================================
+   BASE PRIMO PEÇAS
+========================================= */
+
+            const iconeBase =
+                L.divIcon({
+                    className: "icone-base-primo",
+
+                    html: `
+            <div class="marcador-base">
+                <span>🏢</span>
+            </div>
+        `,
+
+                    iconSize: [46, 46],
+                    iconAnchor: [23, 23]
+                });
+
+
+            const basePrimoPecas =
+                L.marker(
+                    [41.6232128, -8.3472675],
+                    {
+                        icon: iconeBase
+                    }
+                )
+                    .addTo(mapa);
+
+
+            basePrimoPecas.bindPopup(`
+    <div class="popup-base">
+
+        <strong>
+            PRIMO PEÇAS
+        </strong>
+
+        <span>
+            Base de Operações
+        </span>
+
+        <small>
+            Ferreiros · 4720-608
+        </small>
+
+    </div>
+`);
+
+            setTimeout(
+                function () {
+
+                    mapa.invalidateSize();
+
+                },
+                300
+            );
+
+        }
+
+
+        /* INICIAR MAPA */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            iniciarMapaOperacional
+        );
 
     </script>
 

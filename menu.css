@@ -74,6 +74,117 @@
     object-fit: contain;
 }
 
+/* =========================================
+   INDICADORES PRINCIPAIS - OPERAÇÃO
+========================================= */
+
+.indicadores-operacao {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card-operacao {
+    position: relative;
+    min-width: 0;
+    padding: 18px;
+    overflow: hidden;
+
+    background: #0f1b2d;
+    border: 1px solid #1e3350;
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card-operacao:hover {
+    transform: translateY(-2px);
+    border-color: #2563eb;
+
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.18);
+}
+
+.card-operacao::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 18px;
+    right: 18px;
+
+    height: 2px;
+
+    background: #3b82f6;
+    border-radius: 0 0 4px 4px;
+}
+
+.card-operacao-titulo {
+    display: block;
+    margin-bottom: 10px;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.card-operacao strong {
+    display: block;
+    margin-bottom: 6px;
+
+    color: #f8fafc;
+
+    font-size: 28px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+.card-operacao small {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 1200px) {
+
+    .indicadores-operacao {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 750px) {
+
+    .indicadores-operacao {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .indicadores-operacao {
+        grid-template-columns: 1fr;
+    }
+
+}
+
 
 
 @media (max-width: 700px) {
