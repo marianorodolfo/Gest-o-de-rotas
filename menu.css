@@ -88,7 +88,7 @@
 .card-operacao {
     position: relative;
     min-width: 0;
-    padding: 18px;
+    padding: 6px;
     overflow: hidden;
 
     background: #0f1b2d;
@@ -154,6 +154,35 @@
 
     font-size: 11px;
     line-height: 1.4;
+}
+
+/* =====================================
+   CARTÃO DE ALERTAS ATIVOS
+===================================== */
+
+.card-operacao.card-alerta-ativo {
+    border: 1px solid #ef4444 !important;
+
+    background:
+        linear-gradient(135deg,
+            rgba(127, 29, 29, 0.95),
+            rgba(69, 10, 10, 0.95)) !important;
+
+    box-shadow:
+        0 0 0 1px rgba(239, 68, 68, .15),
+        0 8px 22px rgba(239, 68, 68, .20) !important;
+}
+
+.card-operacao.card-alerta-ativo .card-operacao-titulo {
+    color: #fecaca !important;
+}
+
+.card-operacao.card-alerta-ativo #indicadorAlertas {
+    color: #ffffff !important;
+}
+
+.card-operacao.card-alerta-ativo small {
+    color: #fca5a5 !important;
 }
 
 

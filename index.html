@@ -562,7 +562,7 @@
 
             flex-shrink: 0;
 
-            gap: 8px;
+            gap: 4px;
 
             width: auto;
             margin: 0;
@@ -594,31 +594,28 @@
         .filtros-dashboard .filtro-dashboard input,
         .filtros-dashboard .filtro-dashboard select {
             box-sizing: border-box;
-
-            width: 125px;
+            width: 105px;
             min-width: 0;
-            height: 34px;
-
+            height: 15px;
             margin: 0;
-            padding: 0 9px;
+            padding: 0 7px;
 
             border: 1px solid #dbe2ea;
-            border-radius: 7px;
+            border-radius: 6px;
 
-            background: #ffffff;
+            background: #fff;
             color: #0f172a;
 
-            font-size: 12px;
-
+            font-size: 11px;
             outline: none;
 
             transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
+                border-color .2s ease,
+                box-shadow .2s ease;
         }
 
         .filtros-dashboard .filtro-dashboard:first-child input {
-            width: 135px;
+            width: 90px;
         }
 
         .filtros-dashboard .filtro-dashboard input:focus,
@@ -705,8 +702,8 @@
             z-index: 1;
 
             width: 100%;
-            height: 520px;
-            min-height: 520px;
+            height: 560px;
+            min-height: 560px;
 
             overflow: hidden;
 
@@ -812,7 +809,7 @@
 ========================================= */
 
         .camera-drone {
-            height: 180px;
+            height: 250px;
 
             margin-bottom: 18px;
 
@@ -927,14 +924,93 @@
             transition: width .35s ease;
         }
 
+        /* =====================================
+   ESTADOS DA BATERIA
+===================================== */
+
+        #cardBateriaDrone {
+            transition:
+                background .3s ease,
+                border-color .3s ease,
+                box-shadow .3s ease;
+        }
+
+        /* Bateria em atenção: 20% a 40% */
+
+        .bateria-atencao {
+            background: #fffbeb !important;
+            border-color: #f59e0b !important;
+        }
+
+        .bateria-atencao #droneBateria {
+            color: #b45309;
+        }
+
+
+        /* Bateria crítica: abaixo de 20% */
+
+        .bateria-critica {
+            background: #fef2f2 !important;
+            border-color: #dc2626 !important;
+            box-shadow:
+                0 0 0 2px rgba(220, 38, 38, .08),
+                0 0 16px rgba(220, 38, 38, .16);
+
+            animation:
+                alertaBateriaCritica 1.5s ease-in-out infinite;
+        }
+
+        .bateria-critica #droneBateria {
+            color: #dc2626;
+        }
+
+        .bateria-critica #iconeBateriaDrone {
+            display: inline-block;
+            animation:
+                iconeBateriaCritica 1.5s ease-in-out infinite;
+        }
+
+
+        /* Pulsação suave */
+
+        @keyframes alertaBateriaCritica {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 0 0 2px rgba(220, 38, 38, .08),
+                    0 0 12px rgba(220, 38, 38, .10);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 0 3px rgba(220, 38, 38, .18),
+                    0 0 22px rgba(220, 38, 38, .28);
+            }
+
+        }
+
+        @keyframes iconeBateriaCritica {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.18);
+            }
+
+        }
+
         /* =========================================
    CORREÇÃO DO MAPA LEAFLET
 ========================================= */
 
         #mapaOperacional {
             width: 100%;
-            height: 520px;
-            min-height: 520px;
+            height: 560px;
+            min-height: 560px;
         }
 
         #mapaOperacional .leaflet-container {
@@ -1648,8 +1724,7 @@
             </div>
 
 
-            <div class="card-operacao">
-
+            <div class="card-operacao" id="cardAlertasAtivos" style="cursor: pointer;">
                 <span class="card-operacao-titulo">
                     Alertas ativos
                 </span>
@@ -1661,7 +1736,6 @@
                 <small>
                     Requerem atenção
                 </small>
-
             </div>
 
         </section>
@@ -1727,17 +1801,9 @@
                 <div class="camera-drone">
 
                     <div class="camera-placeholder">
-
                         <span>📹</span>
-
-                        <strong>
-                            Câmara ao vivo
-                        </strong>
-
-                        <small>
-                            DRN-001
-                        </small>
-
+                        <strong id="cameraDroneTitulo">Câmara ao vivo</strong>
+                        <small id="cameraDroneId">DRN-001</small>
                     </div>
 
                 </div>
@@ -1746,9 +1812,12 @@
                 <!-- TELEMETRIA -->
 
                 <div class="telemetria-drone">
+                    <div class="telemetria-item" id="cardBateriaDrone">
+                        <span>
+                            <span id="iconeBateriaDrone">🔋</span>
+                            Bateria
+                        </span>
 
-                    <div class="telemetria-item">
-                        <span>🔋 Bateria</span>
                         <strong id="droneBateria">
                             74%
                         </strong>
@@ -4584,55 +4653,6 @@
 
         }
 
-        function confirmarChegadaBase(idDistribuicao) {
-
-            const distribuicoes =
-                JSON.parse(
-                    localStorage.getItem("distribuicoes")
-                ) || [];
-
-            const distribuicao =
-                distribuicoes.find(
-                    function (item) {
-                        return (
-                            String(item.id) ===
-                            String(idDistribuicao)
-                        );
-                    }
-                );
-
-            if (!distribuicao) {
-                alert("Missão não encontrada.");
-                return;
-            }
-
-            distribuicao.retornoBase =
-                "Concluído";
-
-            distribuicao.horaChegadaBase =
-                new Date().toLocaleTimeString(
-                    "pt-PT",
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    }
-                );
-
-            localStorage.setItem(
-                "distribuicoes",
-                JSON.stringify(distribuicoes)
-            );
-
-            alert(
-                "Chegada à base confirmada."
-            );
-
-            abrirDistribuicao(
-                idDistribuicao
-            );
-
-        }
-
 
         /* =========================================
            ABRIR DISTRIBUIÇÃO
@@ -5031,10 +5051,44 @@
             const droneProgressoBarra =
                 document.getElementById("droneProgressoBarra");
 
+            const cameraDroneId =
+                document.getElementById("cameraDroneId");
+
+            const cameraDroneTitulo =
+                document.getElementById("cameraDroneTitulo");
+
+            const cardBateriaDrone =
+                document.getElementById("cardBateriaDrone");
+
+            const iconeBateriaDrone =
+                document.getElementById("iconeBateriaDrone");
+
 
             if (droneSelecionado) {
                 droneSelecionado.textContent =
                     drone.id;
+            }
+
+            if (cameraDroneTitulo && cameraDroneId) {
+
+                if (drone.status === "Disponível") {
+
+                    cameraDroneTitulo.textContent =
+                        "Câmara";
+
+                    cameraDroneId.textContent =
+                        "Drone na base";
+
+                } else {
+
+                    cameraDroneTitulo.textContent =
+                        "Câmara ao vivo";
+
+                    cameraDroneId.textContent =
+                        drone.id;
+
+                }
+
             }
 
             if (statusDrone) {
@@ -5066,8 +5120,49 @@
             }
 
             if (droneBateria) {
+
                 droneBateria.textContent =
                     `${drone.bateria}%`;
+
+                if (cardBateriaDrone) {
+
+                    cardBateriaDrone.classList.remove(
+                        "bateria-atencao",
+                        "bateria-critica"
+                    );
+
+                    if (drone.bateria < 20) {
+
+                        cardBateriaDrone.classList.add(
+                            "bateria-critica"
+                        );
+
+                    } else if (drone.bateria <= 40) {
+
+                        cardBateriaDrone.classList.add(
+                            "bateria-atencao"
+                        );
+
+                    }
+
+                }
+
+                if (iconeBateriaDrone) {
+
+                    if (drone.bateria < 20) {
+
+                        iconeBateriaDrone.textContent =
+                            "🪫";
+
+                    } else {
+
+                        iconeBateriaDrone.textContent =
+                            "🔋";
+
+                    }
+
+                }
+
             }
 
             if (droneAutonomia) {
@@ -5076,18 +5171,51 @@
             }
 
             if (droneVelocidade) {
-                droneVelocidade.textContent =
-                    `${drone.velocidade} km/h`;
+
+                if (drone.status === "Disponível") {
+
+                    droneVelocidade.textContent =
+                        "0 km/h";
+
+                } else {
+
+                    droneVelocidade.textContent =
+                        `${drone.velocidade} km/h`;
+
+                }
+
             }
 
             if (droneAltitude) {
-                droneAltitude.textContent =
-                    `${drone.altitude} m`;
+
+                if (drone.status === "Disponível") {
+
+                    droneAltitude.textContent =
+                        "0 m";
+
+                } else {
+
+                    droneAltitude.textContent =
+                        `${drone.altitude} m`;
+
+                }
+
             }
 
             if (droneLigacao) {
-                droneLigacao.textContent =
-                    drone.ligacao;
+
+                if (drone.status === "Disponível") {
+
+                    droneLigacao.textContent =
+                        "Base";
+
+                } else {
+
+                    droneLigacao.textContent =
+                        drone.ligacao;
+
+                }
+
             }
 
             if (droneEntregas) {
@@ -5443,20 +5571,54 @@ clientes.forEach(
 
             function obterMissaoDoDrone(idDrone) {
 
-                return (
+                /*
+                 * 1. Procura primeiro uma missão ativa
+                 */
+
+                const missaoAtiva =
                     [...missoesAtivas]
+                        .reverse()
+                        .find(
+                            function (missao) {
+                                return (
+                                    String(missao.veiculo) ===
+                                    String(idDrone)
+                                );
+                            }
+                        );
+
+                if (missaoAtiva) {
+                    return missaoAtiva;
+                }
+
+
+                /*
+                 * 2. Se não houver missão ativa,
+                 * procura uma missão concluída
+                 * cujo drone ainda está retornando
+                 */
+
+                const missaoRetornando =
+                    [...distribuicoes]
                         .reverse()
                         .find(
                             function (missao) {
 
                                 return (
                                     String(missao.veiculo) ===
-                                    String(idDrone)
+                                    String(idDrone) &&
+
+                                    missao.status ===
+                                    "Concluída" &&
+
+                                    missao.retornoBase ===
+                                    "Em andamento"
                                 );
 
                             }
-                        ) || null
-                );
+                        );
+
+                return missaoRetornando || null;
 
             }
 
@@ -5649,14 +5811,144 @@ clientes.forEach(
 
             ];
 
+            /*
+ * Alertas ativos
+ * Por enquanto:
+ * - bateria abaixo de 20%
+ */
+
+            /*
+ * Alertas ativos
+ */
+
+            const alertasAtivos = [];
+
+            drones.forEach(function (drone) {
+
+                if (drone.bateria < 20) {
+                    alertasAtivos.push({
+                        drone: drone.id,
+                        tipo: "🪫 Bateria crítica",
+                        valor: `${drone.bateria}%`
+                    });
+                }
+
+                if (
+                    drone.status !== "Disponível" &&
+                    drone.ligacao === "Instável"
+                ) {
+                    alertasAtivos.push({
+                        drone: drone.id,
+                        tipo: "📡 Ligação instável",
+                        valor: drone.ligacao
+                    });
+                }
+
+            });
+
+
+            const indicadorAlertas =
+                document.getElementById(
+                    "indicadorAlertas"
+                );
+
+            if (indicadorAlertas) {
+                indicadorAlertas.textContent =
+                    alertasAtivos.length;
+            }
+
+
+            const cardAlertasAtivos =
+                document.getElementById(
+                    "cardAlertasAtivos"
+                );
+
+            if (cardAlertasAtivos) {
+
+                if (alertasAtivos.length > 0) {
+                    cardAlertasAtivos.classList.add(
+                        "card-alerta-ativo"
+                    );
+                } else {
+                    cardAlertasAtivos.classList.remove(
+                        "card-alerta-ativo"
+                    );
+                }
+
+
+                cardAlertasAtivos.addEventListener(
+                    "click",
+                    function () {
+
+                        if (alertasAtivos.length === 0) {
+                            alert(
+                                "Não existem alertas ativos."
+                            );
+                            return;
+                        }
+
+                        let mensagem =
+                            "ALERTAS ATIVOS\n\n";
+
+                        alertasAtivos.forEach(
+                            function (alerta) {
+
+                                mensagem +=
+                                    `${alerta.drone} — ${alerta.tipo} — ${alerta.valor}\n`;
+
+                            }
+                        );
+
+                        alert(mensagem);
+
+                    }
+                );
+
+            }
+            /*
+    /*
+    * Drones disponíveis ficam organizados
+    * visualmente à volta da base
+    */
+
+            const posicoesBaseDrones = {
+                "DRN-001": [0.00065, 0],
+                "DRN-002": [0, 0.00080],
+                "DRN-003": [-0.00065, 0],
+                "DRN-004": [0, -0.00080]
+            };
+
+            drones.forEach(
+                function (drone) {
+
+                    if (
+                        drone.status === "Disponível"
+                    ) {
+
+                        const deslocamento =
+                            posicoesBaseDrones[drone.id] ||
+                            [0, 0];
+
+                        drone.latitude =
+                            coordenadasBase[0] +
+                            deslocamento[0];
+
+                        drone.longitude =
+                            coordenadasBase[1] +
+                            deslocamento[1];
+
+                    }
+
+                }
+            );
 
             /* =========================================
                ÍCONE DO DRONE
             ========================================= */
 
             /* =========================================
-   CRIAR ÍCONE DO DRONE
-========================================= */
+    CRIAR ÍCONE DO DRONE
+    ========================================= */
 
             function criarIconeDrone(drone) {
 
@@ -5731,49 +6023,78 @@ clientes.forEach(
                        ROTA BASE → DRONE
                     ========================================= */
 
-                    let corRota = "#2563eb";
+                    let corRota =
+                        obterCorProgressoDrone(drone.id);
+
+                    let estiloTracejado =
+                        "8, 8";
+
+                    let espessuraRota =
+                        3;
 
 
-                    if (
-                        drone.status === "Retornando"
-                    ) {
+                    /*
+                     * Drone retornando à base
+                     */
 
-                        corRota = "#f59e0b";
+                    if (drone.status === "Retornando") {
+
+                        corRota =
+                            "#f59e0b";
+
+                        estiloTracejado =
+                            null;
+
+                        espessuraRota =
+                            4;
 
                     }
 
 
-                    if (
-                        drone.bateria < 20
-                    ) {
+                    /*
+                     * Bateria crítica
+                     */
 
-                        corRota = "#dc2626";
+                    if (drone.bateria < 20) {
+
+                        corRota =
+                            "#dc2626";
 
                     }
 
 
-                    L.polyline(
-                        [
-                            coordenadasBase,
-
+                    const rotaDroneBase =
+                        L.polyline(
                             [
-                                drone.latitude,
-                                drone.longitude
-                            ]
-                        ],
-                        {
-                            color: corRota,
+                                [drone.latitude, drone.longitude],
+                                coordenadasBase
+                            ],
+                            {
+                                color:
+                                    corRota,
 
-                            weight: 3,
+                                weight:
+                                    espessuraRota,
 
-                            opacity: 0.75,
+                                opacity:
+                                    .85,
 
-                            dashArray: "8, 8"
-                        }
-                    )
-                        .addTo(mapa);
+                                dashArray:
+                                    estiloTracejado
+                            }
+                        ).addTo(mapa);
 
 
+                    if (drone.status === "Retornando") {
+
+                        rotaDroneBase.bindTooltip(
+                            `🏠 ${drone.id} retornando à base`,
+                            {
+                                sticky: true
+                            }
+                        );
+
+                    }
                     /* =========================================
                        MARCADOR DO DRONE
                     ========================================= */

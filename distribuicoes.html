@@ -1766,25 +1766,20 @@
                         </button>
 
 
-            ${
-    distribuicao.status === "Concluída" &&
-    distribuicao.retornoBase === "Em andamento"
+            ${distribuicao.status === "Concluída" &&
+                    distribuicao.retornoBase === "Em andamento"
 
-    ? `
+                    ? `
         <button
-            type="button"
-            onclick="
-                confirmarChegadaBase(
-                    '${distribuicao.id}'
-                )
-            "
-        >
-            🏠 Confirmar chegada à base
-        </button>
+    type="button"
+    id="confirmarChegadaBase"
+>
+    🏠 Confirmar chegada à base
+</button>
     `
 
-    : ""
-}
+                    : ""
+                }
                         <button
                             class="
                                 btn-voltar-distribuicoes
@@ -1914,6 +1909,53 @@
 
                         mostrarLista(
                             "historico"
+                        );
+
+                    }
+                );
+
+            }
+
+            /* =====================================
+   BOTÃO CONFIRMAR CHEGADA À BASE
+====================================== */
+
+            const botaoChegadaBase =
+                document.getElementById(
+                    "confirmarChegadaBase"
+                );
+
+            if (botaoChegadaBase) {
+
+                botaoChegadaBase.addEventListener(
+                    "click",
+                    function () {
+
+                        distribuicao.retornoBase =
+                            "Concluído";
+
+                        distribuicao.horaChegadaBase =
+                            new Date().toLocaleTimeString(
+                                "pt-PT",
+                                {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            );
+
+                        localStorage.setItem(
+                            "distribuicoes",
+                            JSON.stringify(
+                                distribuicoes
+                            )
+                        );
+
+                        alert(
+                            "Chegada à base confirmada."
+                        );
+
+                        abrirDistribuicao(
+                            distribuicao.id
                         );
 
                     }
