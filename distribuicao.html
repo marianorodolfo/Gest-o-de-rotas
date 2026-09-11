@@ -144,11 +144,9 @@
                             : tipoVeiculo;
 
 
-                    if (tipo !== tipoVeiculo) {
-
-                        return false;
-
-                    }
+                    // if (tipo !== tipoVeiculo) {
+                    //     return false;
+                    // }
 
 
                     const ocupado =
@@ -331,7 +329,7 @@
             >
 
                 <option value="">
-                    Primeiro selecione o veículo
+                Primeiro selecione o drone
                 </option>
 
             </select>
@@ -344,7 +342,7 @@
             <button
                 onclick="criarDistribuicao()"
             >
-                Criar distribuição
+                Iniciar missão
             </button>
 
         </div>
@@ -475,29 +473,6 @@
 
             }
 
-            const distribuidorOcupado =
-                distribuicoesExistentes.some(
-                    function (distribuicao) {
-
-                        return (
-                            distribuicao.distribuidor === distribuidor &&
-                            distribuicao.status === "Em andamento"
-                        );
-
-                    }
-                );
-
-
-            if (distribuidorOcupado) {
-
-                alert(
-                    "Este operador já está numa missão."
-                );
-
-                return;
-
-            }
-
 
             if (clientesSelecionados.length === 0) {
 
@@ -530,7 +505,7 @@
                     clientesSelecionados,
 
 
-                    distribuidor,
+                distribuidor,
 
                 veiculo:
                     veiculo,

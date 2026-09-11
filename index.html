@@ -889,6 +889,44 @@
             font-size: 15px;
         }
 
+        .progresso-missao {
+            grid-column: 1 / -1;
+            margin-top: 6px;
+            padding-top: 14px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .progresso-missao-cabecalho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .progresso-missao-cabecalho strong {
+            color: #0f172a;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .progresso-missao-barra {
+            width: 100%;
+            height: 8px;
+            overflow: hidden;
+            background: #e2e8f0;
+            border-radius: 999px;
+        }
+
+        .progresso-missao-preenchimento {
+            width: 0%;
+            height: 100%;
+            border-radius: 999px;
+            transition: width .35s ease;
+        }
+
         /* =========================================
    CORREÇÃO DO MAPA LEAFLET
 ========================================= */
@@ -1160,6 +1198,22 @@
             color: #64748b;
             font-size: 10px;
             line-height: 1.4;
+        }
+
+        .destino-drn-001 {
+            background: #22c55e;
+        }
+
+        .destino-drn-002 {
+            background: #2563eb;
+        }
+
+        .destino-drn-003 {
+            background: #f59e0b;
+        }
+
+        .destino-drn-004 {
+            background: #dc2626;
         }
 
         @keyframes pulsoDrone {
@@ -1723,6 +1777,31 @@
                         <strong id="droneEntregas">
                             3 / 5
                         </strong>
+                    </div>
+
+
+
+                    <div class="telemetria-item">
+                        <span>👤 Operador</span>
+                        <strong id="droneOperador">--</strong>
+                    </div>
+
+                    <div class="telemetria-item">
+                        <span>⚙️ Modo</span>
+                        <strong id="droneModoOperacao">--</strong>
+                    </div>
+
+                    <div class="progresso-missao">
+
+                        <div class="progresso-missao-cabecalho">
+                            <span>Progresso da missão</span>
+                            <strong id="droneProgressoPercentagem">0%</strong>
+                        </div>
+
+                        <div class="progresso-missao-barra">
+                            <div class="progresso-missao-preenchimento" id="droneProgressoBarra"></div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -4835,6 +4914,19 @@
         preencherFiltroDistribuidor();
         carregarDashboard();
 
+        function obterCorProgressoDrone(idDrone) {
+
+            const cores = {
+                "DRN-001": "#2563eb",
+                "DRN-002": "#8b5cf6",
+                "DRN-003": "#06b6d4",
+                "DRN-004": "#22c55e"
+            };
+
+            return cores[idDrone] || "#64748b";
+
+        }
+
         /* =========================================
    MAPA OPERACIONAL - DRONES
 ========================================= */
@@ -4867,6 +4959,18 @@
 
             const droneEntregas =
                 document.getElementById("droneEntregas");
+
+            const droneOperador =
+                document.getElementById("droneOperador");
+
+            const droneModoOperacao =
+                document.getElementById("droneModoOperacao");
+
+            const droneProgressoPercentagem =
+                document.getElementById("droneProgressoPercentagem");
+
+            const droneProgressoBarra =
+                document.getElementById("droneProgressoBarra");
 
 
             if (droneSelecionado) {
@@ -4905,8 +5009,105 @@
             }
 
             if (droneEntregas) {
-                droneEntregas.textContent =
-                    `${drone.entregasConcluidas} / ${drone.entregasTotal}`;
+
+                if (
+                    drone.missao &&
+                    Array.isArray(drone.missao.clientes)
+                ) {
+
+                    const entregasConcluidas =
+                        drone.missao.clientes.filter(
+                            function (cliente) {
+
+                                return (
+                                    cliente.statusEntrega ===
+                                    "Concluída"
+                                );
+
+                            }
+                        ).length;
+
+                    const totalEntregas =
+                        drone.missao.clientes.length;
+
+                    const percentagemProgresso =
+                        totalEntregas > 0
+                            ? Math.round(
+                                (entregasConcluidas / totalEntregas) * 100
+                            )
+                            : 0;
+
+                    if (droneProgressoPercentagem) {
+                        droneProgressoPercentagem.textContent =
+                            `${percentagemProgresso}%`;
+                    }
+
+                    if (droneProgressoBarra) {
+
+                        droneProgressoBarra.style.width =
+                            `${percentagemProgresso}%`;
+
+                        droneProgressoBarra.style.background =
+                            obterCorProgressoDrone(drone.id);
+
+                    }
+
+                    droneEntregas.textContent =
+                        `${entregasConcluidas} / ${totalEntregas}`;
+
+                } else {
+
+                    droneEntregas.textContent =
+                        "--";
+
+                    if (droneProgressoPercentagem) {
+                        droneProgressoPercentagem.textContent = "0%";
+                    }
+
+                    if (droneProgressoBarra) {
+                        droneProgressoBarra.style.width = "0%";
+                    }
+
+                }
+
+            }
+
+            if (droneOperador) {
+
+                droneOperador.textContent =
+                    drone.missao &&
+                        drone.missao.distribuidor
+                        ? drone.missao.distribuidor
+                        : "--";
+
+            }
+
+            if (droneModoOperacao) {
+
+                let modoFormatado = "--";
+
+                if (
+                    drone.missao &&
+                    drone.missao.modoOperacao
+                ) {
+
+                    if (drone.missao.modoOperacao === "manual") {
+                        modoFormatado = "Manual";
+                    }
+
+                    if (drone.missao.modoOperacao === "assistido") {
+                        modoFormatado = "Assistido";
+                    }
+
+                    if (drone.missao.modoOperacao === "autonomo") {
+                        modoFormatado = "Autónomo";
+                    }
+
+                }
+
+                droneModoOperacao.textContent =
+                    modoFormatado;
+
             }
 
         }
@@ -5015,40 +5216,94 @@ clientes.forEach(
                 ) || [];
 
 
-            /* PEGAR UMA DISTRIBUIÇÃO PARA TESTE */
+            /* =========================================
+   MISSÕES ATIVAS
+========================================= */
 
-            const missaoAtiva =
-                [...distribuicoes]
-                    .reverse()
-                    .find(
-                        function (distribuicao) {
+            const missoesAtivas =
+                distribuicoes.filter(
+                    function (distribuicao) {
 
-                            return (
-                                Array.isArray(
-                                    distribuicao.clientes
-                                ) &&
-                                distribuicao.clientes.length > 0 &&
-                                distribuicao.status !== "Concluída"
-                            );
+                        return (
+                            Array.isArray(distribuicao.clientes) &&
+                            distribuicao.clientes.length > 0 &&
+                            distribuicao.status === "Em andamento"
+                        );
 
+                    }
+                );
+
+            const dronesEmMissao =
+                new Set(
+                    missoesAtivas.map(
+                        function (missao) {
+                            return missao.veiculo;
                         }
-                    );
+                    )
+                );
+
+
+            const indicadorDronesVoo =
+                document.getElementById("indicadorDronesVoo");
+
+
+            if (indicadorDronesVoo) {
+
+                indicadorDronesVoo.textContent =
+                    dronesEmMissao.size;
+
+            }
+
+            console.log(
+                "MISSÕES ATIVAS:",
+                missoesAtivas.map(function (missao) {
+                    return {
+                        drone: missao.veiculo,
+                        clientes: missao.clientes.map(function (cliente) {
+                            return cliente.codigo;
+                        })
+                    };
+                })
+            );
 
 
             /* =========================================
-   DESTINOS REAIS DA MISSÃO
-========================================= */
+               DESTINOS DA MISSÃO DE CADA DRONE
+            ========================================= */
 
-            let destinosReais = [];
+            function obterDestinosDoDrone(idDrone) {
+
+                const missao =
+                    [...missoesAtivas]
+                        .reverse()
+                        .find(
+                            function (distribuicao) {
+
+                                return (
+                                    String(distribuicao.veiculo) ===
+                                    String(idDrone)
+                                );
+
+                            }
+                        );
 
 
-            if (missaoAtiva) {
+                if (!missao) {
 
-                missaoAtiva.clientes.forEach(
-                    function (clienteDistribuicao) {
+                    return [];
+
+                }
+
+
+                const destinos = [];
+
+
+                missao.clientes.forEach(
+                    function (clienteDistribuicao, indiceOriginal) {
 
                         if (
-                            String(clienteDistribuicao.codigo) !== "1125"
+                            clienteDistribuicao.statusEntrega ===
+                            "Concluída"
                         ) {
                             return;
                         }
@@ -5058,8 +5313,8 @@ clientes.forEach(
                                 function (cliente) {
 
                                     return (
-                                        cliente.codigo ===
-                                        clienteDistribuicao.codigo
+                                        String(cliente.codigo) ===
+                                        String(clienteDistribuicao.codigo)
                                     );
 
                                 }
@@ -5072,7 +5327,10 @@ clientes.forEach(
                             clienteCompleto.longitude != null
                         ) {
 
-                            destinosReais.push({
+                            destinos.push({
+
+                                ordem:
+                                    indiceOriginal + 1,
 
                                 codigo:
                                     clienteCompleto.codigo,
@@ -5084,14 +5342,10 @@ clientes.forEach(
                                     clienteCompleto.endereco,
 
                                 latitude:
-                                    Number(
-                                        clienteCompleto.latitude
-                                    ),
+                                    Number(clienteCompleto.latitude),
 
                                 longitude:
-                                    Number(
-                                        clienteCompleto.longitude
-                                    )
+                                    Number(clienteCompleto.longitude)
 
                             });
 
@@ -5100,21 +5354,60 @@ clientes.forEach(
                     }
                 );
 
-                console.log(
-                    "DESTINOS REAIS:",
-                    destinosReais
+
+                return destinos;
+
+            }
+
+            function obterMissaoDoDrone(idDrone) {
+
+                return (
+                    [...missoesAtivas]
+                        .reverse()
+                        .find(
+                            function (missao) {
+
+                                return (
+                                    String(missao.veiculo) ===
+                                    String(idDrone)
+                                );
+
+                            }
+                        ) || null
                 );
 
             }
 
             /* =========================================
-DRONES - DADOS DE DEMONSTRAÇÃO
+   CORES DOS DRONES
 ========================================= */
+
+            const coresDrones = {
+                "DRN-001": "#2563eb",
+                "DRN-002": "#8b5cf6",
+                "DRN-003": "#06b6d4",
+                "DRN-004": "#22c55e"
+            };
+
+
+            function obterCorDrone(idDrone) {
+
+                return coresDrones[idDrone] || "#64748b";
+
+            }
+
+
+            /* =========================================
+               DRONES - DADOS DE DEMONSTRAÇÃO
+            ========================================= */
 
             const drones = [
 
                 {
                     id: "DRN-001",
+
+                    missao:
+                        obterMissaoDoDrone("DRN-001"),
 
                     latitude: 41.6305,
                     longitude: -8.3560,
@@ -5133,14 +5426,14 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     entregasTotal: 5,
 
                     destinos:
-                        missaoAtiva &&
-                            missaoAtiva.veiculo === "DRN-001"
-                            ? destinosReais
-                            : []
+                        obterDestinosDoDrone("DRN-001")
                 },
 
                 {
                     id: "DRN-002",
+
+                    missao:
+                        obterMissaoDoDrone("DRN-002"),
 
                     latitude: 41.6158,
                     longitude: -8.3385,
@@ -5159,14 +5452,14 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     entregasTotal: 4,
 
                     destinos:
-                        missaoAtiva &&
-                            missaoAtiva.veiculo === "DRN-002"
-                            ? destinosReais
-                            : []
+                        obterDestinosDoDrone("DRN-002")
                 },
 
                 {
                     id: "DRN-003",
+
+                    missao:
+                        obterMissaoDoDrone("DRN-003"),
 
                     latitude: 41.6348,
                     longitude: -8.3300,
@@ -5185,14 +5478,14 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     entregasTotal: 4,
 
                     destinos:
-                        missaoAtiva &&
-                            missaoAtiva.veiculo === "DRN-003"
-                            ? destinosReais
-                            : []
+                        obterDestinosDoDrone("DRN-003")
                 },
 
                 {
                     id: "DRN-004",
+
+                    missao:
+                        obterMissaoDoDrone("DRN-004"),
 
                     latitude: 41.6105,
                     longitude: -8.3595,
@@ -5211,18 +5504,10 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     entregasTotal: 5,
 
                     destinos:
-                        missaoAtiva &&
-                            missaoAtiva.veiculo === "DRN-004"
-                            ? destinosReais
-                            : []
+                        obterDestinosDoDrone("DRN-004")
                 }
 
             ];
-
-            console.log(
-                "DRN-001:",
-                drones[0]
-            );
 
 
             /* =========================================
@@ -5235,11 +5520,18 @@ DRONES - DADOS DE DEMONSTRAÇÃO
 
             function criarIconeDrone(drone) {
 
-                let classeEstado =
-                    "drone-normal";
+                let corDrone =
+                    obterCorDrone(drone.id);
 
+                let classeEstado =
+                    "drone-identificado";
+
+
+                /* ALERTA: DRONE A RETORNAR */
 
                 if (drone.status === "Retornando") {
+
+                    corDrone = "#f59e0b";
 
                     classeEstado =
                         "drone-atencao";
@@ -5247,7 +5539,11 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                 }
 
 
+                /* ALERTA CRÍTICO: BATERIA BAIXA */
+
                 if (drone.bateria < 20) {
+
+                    corDrone = "#dc2626";
 
                     classeEstado =
                         "drone-critico";
@@ -5260,7 +5556,13 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                     className: "icone-drone",
 
                     html: `
-            <div class="marcador-drone ${classeEstado}">
+            <div
+    class="marcador-drone ${classeEstado}"
+    style="
+        background: ${corDrone};
+        color: ${corDrone};
+    "
+>
 
                 <span>🚁</span>
 
@@ -5410,25 +5712,24 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                                    ÍCONE DO DESTINO
                                 ------------------------- */
 
-                                const iconeDestino =
-                                    L.divIcon({
+                                const corDestino =
+                                    obterCorDrone(drone.id);
 
-                                        className:
-                                            "icone-destino-missao",
+                                const iconeDestino = L.divIcon({
+                                    className: "icone-destino-missao",
 
-                                        html: `
-                                <div class="marcador-destino-missao">
-                                    ${indice + 1}
-                                </div>
-                            `,
+                                    html: `
+        <div
+            class="marcador-destino-missao"
+            style="background: ${corDestino};"
+        >
+            ${destino.ordem}
+        </div>
+    `,
 
-                                        iconSize:
-                                            [34, 34],
-
-                                        iconAnchor:
-                                            [17, 17]
-
-                                    });
+                                    iconSize: [34, 34],
+                                    iconAnchor: [17, 17]
+                                });
 
 
                                 /* -------------------------
@@ -5495,20 +5796,17 @@ DRONES - DADOS DE DEMONSTRAÇÃO
                            DRONE → CLIENTES
                         ================================= */
 
+                        const corRotaMissao =
+                            obterCorDrone(drone.id);
+
                         L.polyline(
                             pontosRota,
                             {
-                                color:
-                                    "#22c55e",
-
-                                weight:
-                                    3,
-
-                                opacity:
-                                    0.85
+                                color: corRotaMissao,
+                                weight: 3,
+                                opacity: .85
                             }
-                        )
-                            .addTo(mapa);
+                        ).addTo(mapa);
 
                     }
 

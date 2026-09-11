@@ -13,7 +13,7 @@
 
 <body>
 
-    <h1>Rotas de Distribuição</h1>
+    <h1>Planeamento da Missão</h1>
 
     <div id="listaRotas"></div>
 
@@ -69,8 +69,12 @@
     </strong>
 
     <span>
-        ${quantidadeClientes} clientes
-    </span>
+    ${quantidadeClientes}
+    ${quantidadeClientes === 1
+                    ? "ponto de entrega"
+                    : "pontos de entrega"
+                }
+</span>
 
 </div>
 
@@ -140,8 +144,8 @@
                     clientesSelecionados.length +
                     (
                         clientesSelecionados.length === 1
-                            ? " cliente selecionado"
-                            : " clientes selecionados"
+                            ? " ponto de entrega selecionado"
+                            : " pontos de entrega selecionados"
                     );
 
             }
@@ -168,7 +172,7 @@
         onclick="gerarDistribuicao()"
         ${clientesSelecionados.length === 0 ? "disabled" : ""}
     >
-        Gerar distribuição
+        Criar missão
     </button>
 
     <hr>
@@ -197,8 +201,12 @@
                 </strong>
 
                 <span>
-                    ${quantidadeClientes} clientes
-                </span>
+    ${quantidadeClientes}
+    ${quantidadeClientes === 1
+                        ? "ponto de entrega"
+                        : "pontos de entrega"
+                    }
+</span>
 
             </div>
 
@@ -212,7 +220,7 @@
 
             if (clientesSelecionados.length === 0) {
 
-                alert("Selecione pelo menos um cliente.");
+                alert("Selecione pelo menos um ponto de entrega.");
 
                 return;
 
@@ -265,11 +273,15 @@
         </h2>
 
         <p id="contadorSelecionados">
-            ${clientesSelecionados.length} selecionados
-        </p>
+    ${clientesSelecionados.length}
+    ${clientesSelecionados.length === 1
+                    ? "ponto de entrega selecionado"
+                    : "pontos de entrega selecionados"
+                }
+</p>
 
         <button onclick="gerarDistribuicao()">
-            Gerar distribuição
+            Criar missão
         </button>
 
         <hr>

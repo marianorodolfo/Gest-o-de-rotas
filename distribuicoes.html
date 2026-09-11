@@ -1308,6 +1308,120 @@
 
         }
 
+        function concluirEntrega(idDistribuicao, codigoCliente) {
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+            const distribuicao =
+                distribuicoes.find(
+                    function (item) {
+
+                        return (
+                            String(item.id) ===
+                            String(idDistribuicao)
+                        );
+
+                    }
+                );
+
+
+            if (!distribuicao) {
+                return;
+            }
+
+
+            const cliente =
+                distribuicao.clientes.find(
+                    function (item) {
+
+                        return (
+                            String(item.codigo) ===
+                            String(codigoCliente)
+                        );
+
+                    }
+                );
+
+
+            if (!cliente) {
+                return;
+            }
+
+
+            cliente.statusEntrega =
+                "Concluída";
+
+            cliente.horaEntrega =
+                new Date().toLocaleTimeString(
+                    "pt-PT",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+            const todasEntregasConcluidas =
+                distribuicao.clientes.every(
+                    function (cliente) {
+
+                        return (
+                            cliente.statusEntrega ===
+                            "Concluída"
+                        );
+
+                    }
+                );
+
+
+            if (todasEntregasConcluidas) {
+
+                const agora =
+                    new Date();
+
+                distribuicao.status =
+                    "Concluída";
+
+                distribuicao.horaFim =
+                    agora.toLocaleTimeString(
+                        "pt-PT",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+
+                distribuicao.fimTimestamp =
+                    agora.getTime();
+
+
+                if (distribuicao.inicioTimestamp) {
+
+                    distribuicao.duracao =
+                        Math.floor(
+                            (
+                                distribuicao.fimTimestamp -
+                                distribuicao.inicioTimestamp
+                            ) / 1000
+                        );
+
+                }
+
+            }
+
+
+            localStorage.setItem(
+                "distribuicoes",
+                JSON.stringify(distribuicoes)
+            );
+
+
+            abrirDistribuicao(
+                idDistribuicao
+            );
+
+        }
+
 
         /* =========================================
            ABRIR DISTRIBUIÇÃO
@@ -1388,7 +1502,7 @@
                 >
 
                     <h1>
-                        Distribuição
+                        Missão
                     </h1>
 
 
@@ -1472,7 +1586,7 @@
 
                     <h3>
 
-                        Clientes da distribuição
+                        Pontos de entrega
 
                     </h3>
 
@@ -1490,34 +1604,56 @@
                                 indice
                             ) {
 
+                                const statusEntrega =
+                                    cliente.statusEntrega || "Pendente";
+
                                 return `
 
-                                                <div
-                                                    class="
-                                                        cliente-distribuicao
-                                                    "
-                                                >
+    <div
+        class="
+            cliente-distribuicao
+        "
+    >
 
-                                                    <strong>
+        <strong>
 
-                                                        ${indice + 1}.
+            ${indice + 1}.
 
-                                                        ${cliente.codigo ||
-                                    ""
+            ${cliente.codigo || ""}
+
+            -
+
+            ${cliente.nome || ""}
+
+        </strong>
+
+        <span>
+            ${statusEntrega}
+        </span>
+
+        ${statusEntrega !== "Concluída"
+
+                                        ? `
+        <button
+            type="button"
+            onclick="
+                event.stopPropagation();
+                concluirEntrega(
+                    '${distribuicao.id}',
+                    '${cliente.codigo}'
+                );
+            "
+        >
+            ✓ Concluir entrega
+        </button>
+    `
+
+                                        : ""
                                     }
 
-                                                        -
+    </div>
 
-                                                        ${cliente.nome ||
-                                    ""
-                                    }
-
-                                                    </strong>
-
-                                                </div>
-
-                                            `;
-
+`;
                             }
                         )
                         .join("")
@@ -1530,7 +1666,7 @@
                                         "
                                     >
 
-                                        Nenhum cliente
+                                        Nenhum ponto de entrega
                                         registado.
 
                                     </div>
@@ -1619,9 +1755,9 @@
                             ${distribuicao.status ===
                     "Concluída"
 
-                    ? "Distribuição concluída"
+                    ? "Missão concluída"
 
-                    : "Finalizar distribuição"
+                    : "Finalizar missão"
                 }
 
                         </button>
@@ -1685,6 +1821,19 @@
                         distribuicao.fimTimestamp =
                             agora.getTime();
 
+                        if (Array.isArray(distribuicao.clientes)) {
+
+                            distribuicao.clientes.forEach(
+                                function (cliente) {
+
+                                    cliente.statusEntrega =
+                                        "Concluída";
+
+                                }
+                            );
+
+                        }
+
 
                         distribuicao.status =
                             "Concluída";
@@ -1718,7 +1867,7 @@
 
 
                         alert(
-                            "Distribuição finalizada com sucesso!"
+                            "Missão finalizada com sucesso!"
                         );
 
 
@@ -1934,7 +2083,7 @@
             event.preventDefault();
             event.stopPropagation();
 
-            window.location.href = "distribuicao.html";
+            window.location.href = "rotas.html";
 
         });
 
