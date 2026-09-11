@@ -705,8 +705,8 @@
             z-index: 1;
 
             width: 100%;
-            height: 430px;
-            min-height: 430px;
+            height: 520px;
+            min-height: 520px;
 
             overflow: hidden;
 
@@ -802,8 +802,8 @@
         }
 
         .status-voo {
-            background: #dcfce7;
-            color: #166534;
+            background: #dbeafe;
+            color: #1d4ed8;
         }
 
 
@@ -933,8 +933,8 @@
 
         #mapaOperacional {
             width: 100%;
-            height: 430px;
-            min-height: 430px;
+            height: 520px;
+            min-height: 520px;
         }
 
         #mapaOperacional .leaflet-container {
@@ -1276,6 +1276,16 @@
 
             box-shadow:
                 0 4px 12px rgba(15, 23, 42, 0.30);
+        }
+
+        .status-disponivel {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-retornando {
+            background: #fef3c7;
+            color: #92400e;
         }
 
 
@@ -4574,6 +4584,55 @@
 
         }
 
+        function confirmarChegadaBase(idDistribuicao) {
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem("distribuicoes")
+                ) || [];
+
+            const distribuicao =
+                distribuicoes.find(
+                    function (item) {
+                        return (
+                            String(item.id) ===
+                            String(idDistribuicao)
+                        );
+                    }
+                );
+
+            if (!distribuicao) {
+                alert("Missão não encontrada.");
+                return;
+            }
+
+            distribuicao.retornoBase =
+                "Concluído";
+
+            distribuicao.horaChegadaBase =
+                new Date().toLocaleTimeString(
+                    "pt-PT",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+            localStorage.setItem(
+                "distribuicoes",
+                JSON.stringify(distribuicoes)
+            );
+
+            alert(
+                "Chegada à base confirmada."
+            );
+
+            abrirDistribuicao(
+                idDistribuicao
+            );
+
+        }
+
 
         /* =========================================
            ABRIR DISTRIBUIÇÃO
@@ -4979,8 +5038,31 @@
             }
 
             if (statusDrone) {
+
                 statusDrone.textContent =
                     drone.status.toUpperCase();
+
+                statusDrone.className =
+                    "status-drone";
+
+                if (drone.status === "Em voo") {
+                    statusDrone.classList.add(
+                        "status-voo"
+                    );
+                }
+
+                if (drone.status === "Disponível") {
+                    statusDrone.classList.add(
+                        "status-disponivel"
+                    );
+                }
+
+                if (drone.status === "Retornando") {
+                    statusDrone.classList.add(
+                        "status-retornando"
+                    );
+                }
+
             }
 
             if (droneBateria) {
@@ -5396,6 +5478,64 @@ clientes.forEach(
 
             }
 
+            function obterStatusDrone(idDrone) {
+
+                const distribuicoes =
+                    JSON.parse(
+                        localStorage.getItem("distribuicoes")
+                    ) || [];
+
+                const missoesDoDrone =
+                    distribuicoes.filter(
+                        function (missao) {
+                            return (
+                                String(missao.veiculo) ===
+                                String(idDrone)
+                            );
+                        }
+                    );
+
+                if (missoesDoDrone.length === 0) {
+                    return "Disponível";
+                }
+
+                const ultimaMissao =
+                    missoesDoDrone[
+                    missoesDoDrone.length - 1
+                    ];
+
+                if (
+                    ultimaMissao.status ===
+                    "Em andamento"
+                ) {
+                    return "Em voo";
+                }
+
+                if (
+                    ultimaMissao.status ===
+                    "Concluída"
+                ) {
+
+                    if (
+                        ultimaMissao.retornoBase ===
+                        "Em andamento"
+                    ) {
+                        return "Retornando";
+                    }
+
+                    if (
+                        ultimaMissao.retornoBase ===
+                        "Concluído"
+                    ) {
+                        return "Disponível";
+                    }
+
+                    return "Disponível";
+                }
+
+                return "Disponível";
+            }
+
 
             /* =========================================
                DRONES - DADOS DE DEMONSTRAÇÃO
@@ -5412,7 +5552,7 @@ clientes.forEach(
                     latitude: 41.6305,
                     longitude: -8.3560,
 
-                    status: "Em voo",
+                    status: obterStatusDrone("DRN-001"),
 
                     bateria: 83,
                     autonomia: 18,
@@ -5438,7 +5578,7 @@ clientes.forEach(
                     latitude: 41.6158,
                     longitude: -8.3385,
 
-                    status: "Em voo",
+                    status: obterStatusDrone("DRN-002"),
 
                     bateria: 61,
                     autonomia: 14,
@@ -5464,7 +5604,7 @@ clientes.forEach(
                     latitude: 41.6348,
                     longitude: -8.3300,
 
-                    status: "Retornando",
+                    status: obterStatusDrone("DRN-003"),
 
                     bateria: 27,
                     autonomia: 7,
@@ -5490,7 +5630,7 @@ clientes.forEach(
                     latitude: 41.6105,
                     longitude: -8.3595,
 
-                    status: "Em voo",
+                    status: obterStatusDrone("DRN-004"),
 
                     bateria: 16,
                     autonomia: 4,

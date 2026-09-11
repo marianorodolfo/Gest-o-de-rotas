@@ -1382,6 +1382,9 @@
                 distribuicao.status =
                     "Concluída";
 
+                distribuicao.retornoBase =
+                    "Em andamento";
+
                 distribuicao.horaFim =
                     agora.toLocaleTimeString(
                         "pt-PT",
@@ -1763,6 +1766,25 @@
                         </button>
 
 
+            ${
+    distribuicao.status === "Concluída" &&
+    distribuicao.retornoBase === "Em andamento"
+
+    ? `
+        <button
+            type="button"
+            onclick="
+                confirmarChegadaBase(
+                    '${distribuicao.id}'
+                )
+            "
+        >
+            🏠 Confirmar chegada à base
+        </button>
+    `
+
+    : ""
+}
                         <button
                             class="
                                 btn-voltar-distribuicoes
