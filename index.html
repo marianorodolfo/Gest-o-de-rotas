@@ -655,6 +655,7 @@
 
         .painel-mapa-drone {
             padding: 20px;
+            align-self: start;
         }
 
         .cabecalho-painel {
@@ -1009,8 +1010,10 @@
 
         #mapaOperacional {
             width: 100%;
-            height: 560px;
-            min-height: 560px;
+            height: 250px;
+            min-height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         #mapaOperacional .leaflet-container {
@@ -1588,6 +1591,113 @@
             color: #ea580c;
         }
 
+        .acoes-mapa {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .botao-expandir-mapa {
+            height: 30px;
+            padding: 0 10px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 7px;
+
+            background: #eff6ff;
+            color: #123b63;
+
+            font-size: 9px;
+            font-weight: 900;
+
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .botao-expandir-mapa:hover {
+            background: #dbeafe;
+            border-color: #bfdbfe;
+        }
+
+        .botao-voltar-mapa {
+            display: none;
+
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 10002;
+
+            height: 40px;
+            padding: 0 16px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #123b63;
+            color: #ffffff;
+
+            font-size: 10px;
+            font-weight: 900;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 24px rgba(15, 23, 42, .20);
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .botao-voltar-mapa:hover {
+            background: #0f3152;
+        }
+
+        .painel-mapa-drone.mapa-tela-inteira {
+            position: fixed;
+            inset: 0;
+
+            z-index: 10000;
+
+            width: 100vw;
+            height: 100vh;
+
+            padding: 16px;
+
+            border: none;
+            border-radius: 0;
+
+            background: #ffffff;
+
+            box-sizing: border-box;
+        }
+
+        .painel-mapa-drone.mapa-tela-inteira #mapaOperacional {
+            height: calc(100vh - 78px);
+            min-height: 0;
+
+            border-radius: 10px;
+        }
+
+        .painel-mapa-drone.mapa-tela-inteira #botaoExpandirMapa {
+            display: none;
+        }
+
+        .estado-sistema {
+            animation: pulsoSistemaOnline 2s ease-in-out infinite;
+        }
+
+        @keyframes pulsoSistemaOnline {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.55;
+            }
+        }
+
 
         /* =========================================
    RESPONSIVO - CENTRO DE OPERAÇÕES
@@ -2008,14 +2118,26 @@
                         </p>
                     </div>
 
-                    <span class="estado-sistema">
-                        ● Sistema online
-                    </span>
+                    <div class="acoes-mapa">
+
+                        <span class="estado-sistema">
+                            ● Sistema online
+                        </span>
+
+                        <button type="button" class="botao-expandir-mapa" id="botaoExpandirMapa">
+                            ⛶ Expandir mapa
+                        </button>
+
+                    </div>
 
                 </div>
 
                 <div class="mapa-operacional" id="mapaOperacional">
                 </div>
+
+                <button type="button" class="botao-voltar-mapa" id="botaoVoltarMapa">
+                    ↩ Voltar ao Dashboard
+                </button>
 
             </div>
 
@@ -5598,6 +5720,8 @@
                     14
                 );
 
+            window.mapaOperacionalLeaflet = mapa;
+
             /* =========================================
 CLIENTES / PONTOS DE ENTREGA
 ========================================= */
@@ -5915,6 +6039,21 @@ clientes.forEach(
                     missoesDoDrone.length - 1
                     ];
 
+                /*
+                 * PRIORIDADE:
+                 * drone já concluiu as entregas
+                 * e está regressando à base.
+                 */
+                if (
+                    ultimaMissao.retornoBase ===
+                    "Em andamento"
+                ) {
+                    return "Retornando";
+                }
+
+                /*
+                 * Missão ainda em execução.
+                 */
                 if (
                     ultimaMissao.status ===
                     "Em andamento"
@@ -5922,25 +6061,15 @@ clientes.forEach(
                     return "Em voo";
                 }
 
+                /*
+                 * Drone já chegou à base.
+                 */
                 if (
                     ultimaMissao.status ===
-                    "Concluída"
+                    "Concluída" &&
+                    ultimaMissao.retornoBase ===
+                    "Concluído"
                 ) {
-
-                    if (
-                        ultimaMissao.retornoBase ===
-                        "Em andamento"
-                    ) {
-                        return "Retornando";
-                    }
-
-                    if (
-                        ultimaMissao.retornoBase ===
-                        "Concluído"
-                    ) {
-                        return "Disponível";
-                    }
-
                     return "Disponível";
                 }
 
@@ -6487,10 +6616,10 @@ clientes.forEach(
             */
 
             const posicoesBaseDrones = {
-                "DRN-001": [0.00065, 0],
-                "DRN-002": [0, 0.00080],
-                "DRN-003": [-0.00065, 0],
-                "DRN-004": [0, -0.00080]
+                "DRN-001": [0.00400, 0],
+                "DRN-002": [0, 0.00480],
+                "DRN-003": [-0.00400, 0],
+                "DRN-004": [0, -0.00480]
             };
 
             drones.forEach(
@@ -7028,6 +7157,57 @@ clientes.forEach(
             "DOMContentLoaded",
             iniciarMapaOperacional
         );
+
+        const painelMapaDrone =
+            document.querySelector(".painel-mapa-drone");
+
+        const botaoExpandirMapa =
+            document.getElementById("botaoExpandirMapa");
+
+        const botaoVoltarMapa =
+            document.getElementById("botaoVoltarMapa");
+
+        if (
+            painelMapaDrone &&
+            botaoExpandirMapa &&
+            botaoVoltarMapa
+        ) {
+            botaoExpandirMapa.addEventListener(
+                "click",
+                function () {
+                    painelMapaDrone.classList.add(
+                        "mapa-tela-inteira"
+                    );
+
+                    botaoVoltarMapa.style.display =
+                        "inline-flex";
+
+                    setTimeout(function () {
+                        if (window.mapaOperacionalLeaflet) {
+                            window.mapaOperacionalLeaflet.invalidateSize();
+                        }
+                    }, 200);
+                }
+            );
+
+            botaoVoltarMapa.addEventListener(
+                "click",
+                function () {
+                    painelMapaDrone.classList.remove(
+                        "mapa-tela-inteira"
+                    );
+
+                    botaoVoltarMapa.style.display =
+                        "none";
+
+                    setTimeout(function () {
+                        if (window.mapaOperacionalLeaflet) {
+                            window.mapaOperacionalLeaflet.invalidateSize();
+                        }
+                    }, 200);
+                }
+            );
+        }
 
     </script>
 

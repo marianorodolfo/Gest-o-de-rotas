@@ -172,10 +172,7 @@
             border: 1px solid #1e293b;
             border-radius: 16px;
 
-            background:
-                linear-gradient(135deg,
-                    #08111f 0%,
-                    #0f1d32 100%);
+            background: #123b63;
 
             box-shadow:
                 0 10px 30px rgba(15, 23, 42, .12);
@@ -244,6 +241,27 @@
 
             box-shadow:
                 0 0 0 4px rgba(34, 197, 94, .10);
+        }
+
+        .ponto-status-rotas.status-rotas-aguardando {
+            background: #94a3b8;
+
+            box-shadow:
+                0 0 0 3px rgba(148, 163, 184, .15);
+        }
+
+        .ponto-status-rotas.status-rotas-andamento {
+            background: #3b82f6;
+
+            box-shadow:
+                0 0 0 3px rgba(59, 130, 246, .15);
+        }
+
+        .ponto-status-rotas.status-rotas-pronta {
+            background: #22c55e;
+
+            box-shadow:
+                0 0 0 3px rgba(34, 197, 94, .15);
         }
 
         /* ================================
@@ -478,6 +496,42 @@
 
             box-shadow: none;
 
+            cursor: not-allowed;
+        }
+
+        .botao-resumo-missao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            min-height: 34px;
+            padding: 0 11px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            background: #ffffff;
+            color: #334155;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+            transition:
+                border-color .2s ease,
+                background .2s ease,
+                color .2s ease;
+        }
+
+        .botao-resumo-missao:hover:not(:disabled) {
+            border-color: #93c5fd;
+            background: #f8fbff;
+            color: #1d4ed8;
+        }
+
+        .botao-resumo-missao:disabled {
+            opacity: .45;
             cursor: not-allowed;
         }
 
@@ -767,6 +821,151 @@
             font-weight: 800;
         }
 
+        .modal-resumo-missao {
+            position: fixed;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(15, 23, 42, .45);
+
+            z-index: 2000;
+        }
+
+        .modal-resumo-missao.aberto {
+            display: flex;
+        }
+
+        .conteudo-resumo-missao {
+            width: min(680px, 100%);
+            max-height: 85vh;
+            overflow-y: auto;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            background: #ffffff;
+
+            box-shadow: 0 20px 50px rgba(15, 23, 42, .18);
+        }
+
+        .cabecalho-resumo-missao {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+        .cabecalho-resumo-missao span {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #2563eb;
+
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: .1em;
+        }
+
+        .cabecalho-resumo-missao h3 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .botao-fechar-resumo {
+            width: 30px;
+            height: 30px;
+
+            border: 0;
+            border-radius: 8px;
+
+            background: #f1f5f9;
+            color: #475569;
+
+            font-size: 18px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .grade-resumo-missao {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .card-resumo-missao {
+            padding: 10px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+
+            background: #f8fafc;
+        }
+
+        .card-resumo-missao span {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #64748b;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .card-resumo-missao strong {
+            color: #0f172a;
+
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .sequencia-resumo-missao {
+            margin-top: 12px;
+            padding: 11px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+
+            background: #eff6ff;
+        }
+
+        .sequencia-resumo-missao span {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #2563eb;
+
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .sequencia-resumo-missao strong {
+            color: #1e3a8a;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 700px) {
+            .grade-resumo-missao {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         .botao-fechar-modal {
             display: flex;
             align-items: center;
@@ -836,6 +1035,12 @@
             color: #0f172a;
 
             font-size: 12px;
+            font-weight: 700;
+        }
+
+        .item-ponto-info small {
+            color: #64748b;
+            font-size: 9px;
             font-weight: 700;
         }
 
@@ -1389,6 +1594,485 @@
             background: #dbeafe;
         }
 
+        /* ================================
+   ÁREA ROLÁVEL DOS CLIENTES
+================================ */
+
+        .cards-clientes-rota {
+            max-height: 245px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            padding: 3px 4px 3px 3px;
+
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        /* Scrollbar - Chrome / Edge */
+
+        .cards-clientes-rota::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .cards-clientes-rota::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .cards-clientes-rota::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+
+        .cards-clientes-rota::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* ================================
+   CLIENTES — MODO COMPACTO
+================================ */
+
+        .card-cliente-rota {
+            gap: 2px;
+            padding: 7px 9px;
+        }
+
+        .card-cliente-topo {
+            min-height: 18px;
+        }
+
+        .card-cliente-nome {
+            font-size: 10px;
+            line-height: 1.2;
+        }
+
+        .card-cliente-endereco {
+            font-size: 8px;
+            line-height: 1.25;
+        }
+
+        .card-cliente-rodape {
+            margin-top: 2px;
+            padding-top: 4px;
+        }
+
+        .card-cliente-coordenadas,
+        .card-cliente-rota {
+            font-size: 8px;
+        }
+
+        /* ================================
+   SEQUÊNCIA VISUAL DA MISSÃO
+================================ */
+
+        #textoPrevisualizacaoOrdem {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .chip-sequencia {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 24px;
+            padding: 0 7px;
+
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+
+            background: #eff6ff;
+            color: #1d4ed8;
+
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .chip-base {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        .chip-com-tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .chip-sequencia.primeiro-ponto {
+            border-color: #86efac;
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .chip-sequencia.ultimo-ponto {
+            border-color: #fde68a;
+            background: #fffbeb;
+            color: #a16207;
+        }
+
+        .tooltip-sequencia {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 8px);
+
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            min-width: 150px;
+            padding: 7px 9px;
+
+            border-radius: 7px;
+            background: #0f172a;
+            color: #ffffff;
+
+            box-shadow: 0 6px 18px rgba(15, 23, 42, .18);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transform: translateX(-50%) translateY(4px);
+            transition: opacity .15s ease, transform .15s ease;
+
+            z-index: 100;
+        }
+
+        .tooltip-sequencia strong {
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .tooltip-sequencia small {
+            color: #cbd5e1;
+            font-size: 8px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .chip-com-tooltip:hover .tooltip-sequencia {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .seta-sequencia {
+            color: #94a3b8;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* ================================
+   ESTADO DA SEQUÊNCIA
+================================ */
+
+        .indicador-sequencia-manual,
+        .indicador-sequencia-otimizada {
+            display: inline-flex;
+            align-items: center;
+
+            min-height: 24px;
+            padding: 0 7px;
+
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+
+            background: #f0fdf4;
+            color: #15803d;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .indicador-sequencia-manual {
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #475569;
+        }
+
+        .indicador-sequencia-otimizada {
+            border: 1px solid #bbf7d0;
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .item-ponto-cabecalho {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-ponto-ordem {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 24px;
+            height: 20px;
+            padding: 0 5px;
+
+            border-radius: 5px;
+            background: #eff6ff;
+            color: #2563eb;
+
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .indicador-total-paragens {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 24px;
+            padding: 0 7px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 6px;
+
+            background: #f8fbff;
+            color: #475569;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .indicador-modo-modal {
+            display: inline-flex;
+            align-items: center;
+
+            width: fit-content;
+            margin-top: 5px;
+            padding: 4px 7px;
+
+            border-radius: 6px;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .indicador-modo-modal.manual {
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #475569;
+        }
+
+        .indicador-modo-modal.otimizado {
+            border: 1px solid #bbf7d0;
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .titulo-pontos-selecionados {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .titulo-pontos-selecionados h3 {
+            margin: 0;
+        }
+
+        .contador-pontos-modal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 24px;
+            height: 24px;
+            padding: 0 7px;
+
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #2563eb;
+
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .chips-resumo-missao {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+
+            margin-top: 6px;
+        }
+
+        .chips-resumo-missao .chip-sequencia {
+            min-height: 24px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0 7px;
+
+            line-height: 1;
+            text-align: center;
+        }
+
+        .chips-resumo-missao .chip-sequencia:not(.chip-base) {
+            min-width: 42px;
+        }
+
+        .chips-resumo-missao .chip-resumo-cliente {
+            min-width: 58px;
+            min-height: 24px;
+
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            gap: 3px;
+            padding: 3px 7px;
+
+            line-height: 1;
+        }
+
+        .codigo-resumo-cliente {
+            font-size: 9px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .nome-resumo-cliente {
+            display: block;
+
+            max-width: 90px;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            font-size: 7px;
+            font-weight: 600;
+            line-height: 1.15;
+
+            opacity: .72;
+        }
+
+        .rodape-resumo-missao {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+
+            margin-top: 14px;
+            padding-top: 12px;
+
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .botao-fechar-resumo-rodape,
+        .botao-criar-resumo-missao {
+            min-height: 34px;
+            padding: 0 14px;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .botao-fechar-resumo-rodape {
+            border: 1px solid #cbd5e1;
+
+            background: #ffffff;
+            color: #475569;
+        }
+
+        .botao-fechar-resumo-rodape:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        .botao-criar-resumo-missao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+
+            border: 1px solid #2563eb;
+
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .botao-criar-resumo-missao:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+
+        .nota-configuracao-missao {
+            margin-right: auto;
+
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        #statusSistemaRotas {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+
+            min-height: 30px;
+            padding: 0 11px;
+
+            border: 1px solid rgba(255, 255, 255, .16);
+            border-radius: 8px;
+
+            background: rgba(255, 255, 255, .10);
+
+            color: #ffffff !important;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            box-shadow:
+                0 2px 8px rgba(15, 23, 42, .08);
+
+            box-sizing: border-box;
+        }
+
+        #textoStatusRotas {
+            color: #ffffff !important;
+            white-space: nowrap;
+        }
+
+        #pontoStatusRotas {
+            width: 7px !important;
+            height: 7px !important;
+            flex: 0 0 7px;
+
+            border-radius: 50%;
+        }
+
+        /* Em ecrãs menores */
+
+        @media (max-width: 700px) {
+
+            .cards-clientes-rota {
+                max-height: 360px;
+            }
+        }
+
         @media (max-width: 700px) {
 
             .metricas-missao {
@@ -1574,12 +2258,12 @@
 
         </div>
 
-        <div class="cabecalho-planeamento-status">
+        <div class="status-sistema-rotas" id="statusSistemaRotas">
+            <span class="ponto-status-rotas" id="pontoStatusRotas"></span>
 
-            <span class="ponto-status"></span>
-
-            Sistema de rotas disponível
-
+            <span id="textoStatusRotas">
+                Aguardando seleção de pontos
+            </span>
         </div>
 
     </div>
@@ -1612,6 +2296,8 @@
             document.getElementById("listaRotas");
 
         let clientesSelecionados = [];
+
+        let rotaAbertaAtual = null;
 
         const clientes =
             JSON.parse(localStorage.getItem("clientes")) || [];
@@ -1699,6 +2385,8 @@
             atualizarContador();
 
             atualizarPrevisualizacaoOrdem();
+
+            atualizarStatusRotas();
 
         }
 
@@ -1840,6 +2528,8 @@
 
         function mostrarRotas() {
 
+            rotaAbertaAtual = null;
+
             const resultado =
                 document.getElementById("listaRotas");
 
@@ -1873,6 +2563,15 @@
             </div>
 
             <div class="acoes-planeamento">
+
+            <button
+    class="botao-resumo-missao"
+    onclick="abrirResumoMissao()"
+    ${clientesSelecionados.length === 0 ? "disabled" : ""}
+>
+    <span>📋</span>
+    Resumo da missão
+</button>
 
     <button
         class="botao-pontos-selecionados"
@@ -1982,6 +2681,8 @@
         `;
 
             });
+
+            atualizarStatusRotas();
 
         }
 
@@ -2153,18 +2854,40 @@
         function atualizarPrevisualizacaoOrdem() {
 
             const campoPrevisualizacao =
-                document.getElementById("textoPrevisualizacaoOrdem");
+                document.getElementById(
+                    "textoPrevisualizacaoOrdem"
+                );
 
             const campoDistancia =
-                document.getElementById("textoDistanciaMissao");
+                document.getElementById(
+                    "textoDistanciaMissao"
+                );
 
             const campoTempo =
-                document.getElementById("textoTempoMissao");
+                document.getElementById(
+                    "textoTempoMissao"
+                );
 
             if (!campoPrevisualizacao) {
                 return;
             }
 
+            /*
+             * Verificar o modo atualmente selecionado
+             */
+            const radioSelecionado =
+                document.querySelector(
+                    'input[name="modoPlaneamento"]:checked'
+                );
+
+            if (radioSelecionado) {
+                modoPlaneamentoAtual =
+                    radioSelecionado.value;
+            }
+
+            /*
+             * Nenhum cliente selecionado
+             */
             if (clientesSelecionados.length === 0) {
 
                 campoPrevisualizacao.textContent =
@@ -2183,18 +2906,16 @@
                 return;
             }
 
-            const modoPlaneamento =
-                document.querySelector(
-                    'input[name="modoPlaneamento"]:checked'
-                );
-
+            /*
+             * Definir ordem da missão
+             */
             let ordem =
                 [...clientesSelecionados];
 
-            if (
-                modoPlaneamento &&
-                modoPlaneamento.value === "otimizado"
-            ) {
+            const modoOtimizado =
+                modoPlaneamentoAtual === "otimizado";
+
+            if (modoOtimizado) {
 
                 ordem =
                     otimizarOrdemClientes(
@@ -2202,13 +2923,95 @@
                     );
             }
 
-            campoPrevisualizacao.textContent =
-                "Base → " +
-                ordem.join(" → ") +
-                " → Base";
+            /*
+             * Mostrar sequência
+             */
+            campoPrevisualizacao.innerHTML = `
 
+        ${modoOtimizado
+                    ? `
+                    <span class="indicador-sequencia-otimizada">
+                        ✨ Sequência otimizada
+                    </span>
+                `
+                    : `
+                    <span class="indicador-sequencia-manual">
+                        👤 Sequência manual
+                    </span>
+                `
+                }
+
+                <span class="indicador-total-paragens">
+                    📍 ${ordem.length}
+                    ${ordem.length === 1 ? "paragem" : "paragens"}
+                </span>
+
+        <span class="chip-sequencia chip-base">
+            🏠 Base
+        </span>
+
+        ${ordem.map(function (codigo, indice) {
+
+                    const cliente =
+                        clientes.find(function (cliente) {
+                            return String(cliente.codigo) === String(codigo);
+                        });
+
+                    const nomeCliente =
+                        cliente
+                            ? cliente.nome
+                            : "Cliente";
+
+                    const rotaCliente =
+                        cliente
+                            ? "Rota " +
+                            String(cliente.rota).padStart(2, "0") +
+                            " - " +
+                            nomeDaRota(cliente.rota)
+                            : "";
+
+                    const classePosicao =
+                        indice === 0
+                            ? " primeiro-ponto"
+                            : indice === ordem.length - 1
+                                ? " ultimo-ponto"
+                                : "";
+
+                    return `
+        <span class="seta-sequencia">
+            →
+        </span>
+
+        <span class="chip-sequencia chip-com-tooltip${classePosicao}">
+
+            ${codigo}
+
+            <span class="tooltip-sequencia">
+                <strong>${nomeCliente}</strong>
+                <small>${rotaCliente}</small>
+            </span>
+
+        </span>
+    `;
+
+                }).join("")}
+
+        <span class="seta-sequencia">
+            →
+        </span>
+
+        <span class="chip-sequencia chip-base">
+            🏠 Base
+        </span>
+    `;
+
+            /*
+             * Distância estimada
+             */
             const distanciaTotal =
-                calcularDistanciaTotalMissao(ordem);
+                calcularDistanciaTotalMissao(
+                    ordem
+                );
 
             if (campoDistancia) {
 
@@ -2218,15 +3021,21 @@
                     " km";
             }
 
+            /*
+             * Tempo estimado a 65 km/h
+             */
             if (campoTempo) {
 
                 const velocidadeMediaDrone = 65;
 
                 const tempoHoras =
-                    distanciaTotal / velocidadeMediaDrone;
+                    distanciaTotal /
+                    velocidadeMediaDrone;
 
                 const tempoMinutos =
-                    Math.ceil(tempoHoras * 60);
+                    Math.ceil(
+                        tempoHoras * 60
+                    );
 
                 campoTempo.textContent =
                     "⏱️ Tempo estimado: " +
@@ -2322,10 +3131,15 @@
              * Otimizar a ordem da missão
              */
 
-            const modoPlaneamento =
+            const campoModoPlaneamento =
                 document.querySelector(
                     'input[name="modoPlaneamento"]:checked'
-                ).value;
+                );
+
+            const modoPlaneamento =
+                campoModoPlaneamento
+                    ? campoModoPlaneamento.value
+                    : modoPlaneamentoAtual;
 
 
             let ordemFinal = [...clientesSelecionados];
@@ -2353,6 +3167,8 @@
         }
 
         function abrirRota(codigoRota) {
+
+            rotaAbertaAtual = String(codigoRota);
 
             const clientes =
                 JSON.parse(localStorage.getItem("clientes")) || [];
@@ -2421,12 +3237,13 @@
 
         <label class="opcao-planeamento">
 
-            <input
-                type="radio"
-                name="modoPlaneamento"
-                value="manual"
-                checked
-            >
+ <input
+    type="radio"
+    name="modoPlaneamento"
+    value="manual"
+    checked
+    onchange="atualizarPrevisualizacaoOrdem()"
+>
 
             <span class="opcao-planeamento-conteudo">
 
@@ -2449,11 +3266,12 @@
 
         <label class="opcao-planeamento">
 
-            <input
-                type="radio"
-                name="modoPlaneamento"
-                value="otimizado"
-            >
+ <input
+    type="radio"
+    name="modoPlaneamento"
+    value="otimizado"
+    onchange="atualizarPrevisualizacaoOrdem()"
+>
 
             <span class="opcao-planeamento-conteudo">
 
@@ -2856,6 +3674,17 @@
             // Atualizar pré-visualização ao trocar
             // entre Manual e Otimizado
 
+            const radioModoAtual =
+                document.querySelector(
+                    'input[name="modoPlaneamento"][value="' +
+                    modoPlaneamentoAtual +
+                    '"]'
+                );
+
+            if (radioModoAtual) {
+                radioModoAtual.checked = true;
+            }
+
             document
                 .querySelectorAll(
                     'input[name="modoPlaneamento"]'
@@ -2864,14 +3693,20 @@
 
                     radio.addEventListener(
                         "change",
-                        atualizarPrevisualizacaoOrdem
+                        function () {
+
+                            modoPlaneamentoAtual =
+                                radio.value;
+
+                            atualizarPrevisualizacaoOrdem();
+                        }
                     );
 
                 });
 
-
-            // Mostrar a sequência inicial
             atualizarPrevisualizacaoOrdem();
+
+            atualizarStatusRotas();
 
         }
 
@@ -2897,47 +3732,79 @@
         function abrirPontosSelecionados() {
 
             const modal =
-                document.getElementById(
-                    "modalPontosSelecionados"
-                );
+                document.getElementById("modalPontosSelecionados");
 
             const lista =
-                document.getElementById(
-                    "listaPontosSelecionados"
-                );
+                document.getElementById("listaPontosSelecionados");
+
+            const contadorPontosModal =
+                document.getElementById("contadorPontosModal");
+
+            const indicadorModoModal =
+                document.getElementById("indicadorModoModal");
+
+            if (indicadorModoModal) {
+
+                indicadorModoModal.textContent =
+                    modoPlaneamentoAtual === "otimizado"
+                        ? "✨ Sequência otimizada"
+                        : "👤 Ordem manual";
+
+                indicadorModoModal.className =
+                    modoPlaneamentoAtual === "otimizado"
+                        ? "indicador-modo-modal otimizado"
+                        : "indicador-modo-modal manual";
+            }
+
+            if (contadorPontosModal) {
+                contadorPontosModal.textContent =
+                    String(clientesSelecionados.length);
+            }
 
             lista.innerHTML = "";
 
-            clientesSelecionados.forEach(
-                function (codigo) {
+            const ordemPontosSelecionados =
+                modoPlaneamentoAtual === "otimizado"
+                    ? otimizarOrdemClientes(clientesSelecionados)
+                    : [...clientesSelecionados];
 
-                    const cliente =
-                        clientes.find(function (cliente) {
-                            return (
-                                String(cliente.codigo) ===
-                                String(codigo)
-                            );
-                        });
+            ordemPontosSelecionados.forEach(function (codigo, indice) {
 
-                    if (!cliente) {
-                        return;
-                    }
+                const cliente =
+                    clientes.find(function (cliente) {
+                        return (
+                            String(cliente.codigo) ===
+                            String(codigo)
+                        );
+                    });
 
-                    lista.innerHTML += `
+                if (!cliente) {
+                    return;
+                }
+
+                lista.innerHTML += `
 
                 <div class="item-ponto-selecionado">
 
-                    <div class="item-ponto-info">
+      <div class="item-ponto-info">
 
-                        <strong>
-                            ${cliente.codigo}
-                        </strong>
+    <div class="item-ponto-cabecalho">
+        <span class="item-ponto-ordem">
+            ${indice + 1}º
+        </span>
 
-                        <span>
-                            ${cliente.nome}
-                        </span>
+        <strong>
+            ${cliente.codigo}
+        </strong>
+    </div>
 
-                    </div>
+    <span>${cliente.nome}</span>
+
+    <small>
+        Rota ${String(cliente.rota).padStart(2, "0")} - ${nomeDaRota(cliente.rota)}
+    </small>
+
+</div>
 
                     <button
                         class="botao-remover-ponto"
@@ -2950,7 +3817,7 @@
 
             `;
 
-                }
+            }
             );
 
             modal.classList.add("aberto");
@@ -2993,6 +3860,7 @@
             }
 
             atualizarContador();
+            atualizarStatusRotas();
 
             if (clientesSelecionados.length === 0) {
 
@@ -3006,6 +3874,382 @@
             abrirPontosSelecionados();
         }
 
+        function abrirResumoMissao() {
+
+            const modal =
+                document.getElementById("modalResumoMissao");
+
+            const corpo =
+                document.getElementById("corpoResumoMissao");
+
+            if (!modal || !corpo) {
+                return;
+            }
+
+            const ordem =
+                modoPlaneamentoAtual === "otimizado"
+                    ? otimizarOrdemClientes(clientesSelecionados)
+                    : [...clientesSelecionados];
+
+            const distanciaTotal =
+                calcularDistanciaTotalMissao(ordem);
+
+            const velocidadeMediaDrone = 65;
+
+            const tempoMinutos =
+                Math.ceil(
+                    (distanciaTotal / velocidadeMediaDrone) * 60
+                );
+
+            const rotasEnvolvidas =
+                [...new Set(
+                    ordem.map(function (codigo) {
+
+                        const cliente =
+                            clientes.find(function (cliente) {
+                                return String(cliente.codigo) === String(codigo);
+                            });
+
+                        return cliente
+                            ? String(cliente.rota)
+                            : null;
+                    })
+                        .filter(function (rota) {
+                            return rota != null;
+                        })
+                )];
+
+            corpo.innerHTML = `
+        <div class="grade-resumo-missao">
+
+            <div class="card-resumo-missao">
+                <span>Modo</span>
+                <strong>
+                    ${modoPlaneamentoAtual === "otimizado"
+                    ? "✨ Otimizado"
+                    : "👤 Manual"
+                }
+                </strong>
+            </div>
+
+            <div class="card-resumo-missao">
+                <span>Pontos</span>
+                <strong>${ordem.length}</strong>
+            </div>
+
+            <div class="card-resumo-missao">
+                <span>Distância</span>
+                <strong>${distanciaTotal.toFixed(1)} km</strong>
+            </div>
+
+            <div class="card-resumo-missao">
+                <span>Tempo estimado</span>
+                <strong>${tempoMinutos} min</strong>
+            </div>
+
+            <div class="card-resumo-missao">
+                <span>Rotas envolvidas</span>
+                <strong>${rotasEnvolvidas.length}</strong>
+            </div>
+
+        </div>
+
+        <div class="sequencia-resumo-missao">
+
+    <span>SEQUÊNCIA DA MISSÃO</span>
+
+    <div class="chips-resumo-missao">
+
+        <span class="chip-sequencia chip-base">
+            Base
+        </span>
+
+        ${ordem.map(function (codigo, indice) {
+
+                    const classePosicao =
+                        indice === 0
+                            ? " primeiro-ponto"
+                            : indice === ordem.length - 1
+                                ? " ultimo-ponto"
+                                : "";
+
+                    const cliente =
+                        clientes.find(function (cliente) {
+                            return String(cliente.codigo) === String(codigo);
+                        });
+
+                    const nomeCliente =
+                        cliente
+                            ? cliente.nome
+                            : "";
+
+                    return `
+                <span class="seta-sequencia">
+                    →
+                </span>
+
+                <span class="chip-sequencia chip-resumo-cliente${classePosicao}">
+
+    <strong class="codigo-resumo-cliente">
+        ${codigo}
+    </strong>
+
+    <small class="nome-resumo-cliente">
+        ${nomeCliente}
+    </small>
+
+</span>
+            `;
+
+                }).join("")}
+
+        <span class="seta-sequencia">
+            →
+        </span>
+
+        <span class="chip-sequencia chip-base">
+            Base
+        </span>
+
+    </div>
+
+</div>
+    `;
+
+            modal.classList.add("aberto");
+        }
+
+        function fecharResumoMissao() {
+
+            const modal =
+                document.getElementById("modalResumoMissao");
+
+            if (modal) {
+                modal.classList.remove("aberto");
+            }
+        }
+
+        function localizarStatusRotas() {
+
+            let container =
+                document.getElementById(
+                    "statusSistemaRotas"
+                );
+
+            if (!container) {
+                container =
+                    document.querySelector(
+                        ".status-sistema-rotas"
+                    );
+            }
+
+            /*
+             * Compatibilidade com o cabeçalho antigo:
+             * se o indicador ainda estiver apenas com o texto
+             * "Sistema de rotas disponível", localizamos esse
+             * elemento automaticamente.
+             */
+            if (!container) {
+
+                const normalizarTexto =
+                    function (valor) {
+
+                        return String(valor || "")
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "")
+                            .replace(/\s+/g, " ")
+                            .trim()
+                            .toLowerCase();
+                    };
+
+                const candidatos =
+                    Array.from(
+                        document.querySelectorAll(
+                            "div, span, p"
+                        )
+                    );
+
+                container =
+                    candidatos.find(
+                        function (elemento) {
+
+                            const texto =
+                                normalizarTexto(
+                                    elemento.textContent
+                                );
+
+                            return (
+                                texto ===
+                                "sistema de rotas disponivel" ||
+                                texto ===
+                                "aguardando selecao de pontos" ||
+                                texto ===
+                                "missao em planeamento" ||
+                                texto ===
+                                "rota pronta para missao"
+                            );
+                        }
+                    );
+            }
+
+            if (!container) {
+                return null;
+            }
+
+            container.id =
+                "statusSistemaRotas";
+
+            container.style.display =
+                "inline-flex";
+
+            container.style.alignItems =
+                "center";
+
+            container.style.gap =
+                "6px";
+
+
+            let ponto =
+                document.getElementById(
+                    "pontoStatusRotas"
+                );
+
+            let texto =
+                document.getElementById(
+                    "textoStatusRotas"
+                );
+
+
+            if (!ponto || !texto) {
+
+                container.innerHTML = `
+                    <span
+                        class="ponto-status-rotas"
+                        id="pontoStatusRotas"
+                        aria-hidden="true"
+                    ></span>
+
+                    <span id="textoStatusRotas"></span>
+                `;
+
+                ponto =
+                    document.getElementById(
+                        "pontoStatusRotas"
+                    );
+
+                texto =
+                    document.getElementById(
+                        "textoStatusRotas"
+                    );
+            }
+
+
+            return {
+                container: container,
+                ponto: ponto,
+                texto: texto
+            };
+        }
+
+
+        function atualizarStatusRotas() {
+
+            const elementos =
+                localizarStatusRotas();
+
+            if (!elementos) {
+                return;
+            }
+
+            const ponto =
+                elementos.ponto;
+
+            const texto =
+                elementos.texto;
+
+            const quantidade =
+                clientesSelecionados.length;
+
+
+            ponto.style.display =
+                "inline-block";
+
+            ponto.style.width =
+                "7px";
+
+            ponto.style.height =
+                "7px";
+
+            ponto.style.flexShrink =
+                "0";
+
+            ponto.style.borderRadius =
+                "50%";
+
+
+            /*
+             * ROTA PRONTA
+             * Basta existir pelo menos um ponto selecionado,
+             * pois a missão já pode ser criada.
+             */
+            if (quantidade > 0) {
+
+                texto.textContent =
+                    "Rota pronta para missão";
+
+                ponto.className =
+                    "ponto-status-rotas status-rotas-pronta";
+
+                ponto.style.background =
+                    "#22c55e";
+
+                ponto.style.boxShadow =
+                    "0 0 0 3px rgba(34, 197, 94, .15)";
+
+                return;
+            }
+
+
+            /*
+             * EM PLANEAMENTO
+             * Uma rota está aberta, mas ainda não foi
+             * selecionado nenhum ponto.
+             */
+            if (rotaAbertaAtual !== null) {
+
+                texto.textContent =
+                    "Missão em planeamento";
+
+                ponto.className =
+                    "ponto-status-rotas status-rotas-andamento";
+
+                ponto.style.background =
+                    "#3b82f6";
+
+                ponto.style.boxShadow =
+                    "0 0 0 3px rgba(59, 130, 246, .15)";
+
+                return;
+            }
+
+
+            /*
+             * AGUARDANDO
+             * Página inicial de rotas sem pontos selecionados.
+             */
+            texto.textContent =
+                "Aguardando seleção de pontos";
+
+            ponto.className =
+                "ponto-status-rotas status-rotas-aguardando";
+
+            ponto.style.background =
+                "#94a3b8";
+
+            ponto.style.boxShadow =
+                "0 0 0 3px rgba(148, 163, 184, .15)";
+        }
+
     </script>
 
     <div class="modal-pontos" id="modalPontosSelecionados">
@@ -3015,13 +4259,20 @@
             <div class="modal-pontos-cabecalho">
 
                 <div>
-                    <span class="modal-pontos-etiqueta">
-                        MISSÃO ATUAL
+                    <span>MISSÃO ATUAL</span>
+
+                    <div class="titulo-pontos-selecionados">
+                        <h3>📍Pontos selecionados</h3>
+
+                        <strong class="contador-pontos-modal" id="contadorPontosModal">
+                            0
+                        </strong>
+                    </div>
+
+                    <span class="indicador-modo-modal manual" id="indicadorModoModal">
+                        👤 Ordem manual
                     </span>
 
-                    <h3>
-                        📍 Pontos selecionados
-                    </h3>
                 </div>
 
                 <button class="botao-fechar-modal" onclick="fecharPontosSelecionados()">
@@ -3036,6 +4287,44 @@
         </div>
 
     </div>
+
+    <div class="modal-resumo-missao" id="modalResumoMissao">
+        <div class="conteudo-resumo-missao">
+
+            <div class="cabecalho-resumo-missao">
+                <div>
+                    <span>MISSÃO ATUAL</span>
+                    <h3>Resumo da missão</h3>
+                </div>
+
+                <button type="button" class="botao-fechar-resumo" onclick="fecharResumoMissao()">
+                    ×
+                </button>
+            </div>
+
+            <div class="corpo-resumo-missao" id="corpoResumoMissao">
+            </div>
+
+            <div class="rodape-resumo-missao">
+
+                <span class="nota-configuracao-missao">
+                    Drone e operador definidos no passo seguinte
+                </span>
+
+                <button type="button" class="botao-fechar-resumo-rodape" onclick="fecharResumoMissao()">
+                    Fechar
+                </button>
+
+                <button type="button" class="botao-criar-resumo-missao" onclick="gerarDistribuicao()">
+                    <span>🚁</span>
+                    Criar missão
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
 </body>
 
 </html>

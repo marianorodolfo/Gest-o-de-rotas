@@ -1376,39 +1376,11 @@
 
             if (todasEntregasConcluidas) {
 
-                const agora =
-                    new Date();
-
                 distribuicao.status =
-                    "Concluída";
+                    "Em andamento";
 
                 distribuicao.retornoBase =
                     "Em andamento";
-
-                distribuicao.horaFim =
-                    agora.toLocaleTimeString(
-                        "pt-PT",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    );
-
-                distribuicao.fimTimestamp =
-                    agora.getTime();
-
-
-                if (distribuicao.inicioTimestamp) {
-
-                    distribuicao.duracao =
-                        Math.floor(
-                            (
-                                distribuicao.fimTimestamp -
-                                distribuicao.inicioTimestamp
-                            ) / 1000
-                        );
-
-                }
 
             }
 
@@ -1743,42 +1715,34 @@
                         class="acoes-distribuicao"
                     >
 
-                        <button
-                            id="finalizarDistribuicao"
-
-                            ${distribuicao.status ===
-                    "Concluída"
-
-                    ? "disabled"
-
-                    : ""
-                }
-                        >
-
-                            ${distribuicao.status ===
-                    "Concluída"
-
-                    ? "Missão concluída"
-
-                    : "Finalizar missão"
-                }
-
-                        </button>
-
-
-            ${distribuicao.status === "Concluída" &&
-                    distribuicao.retornoBase === "Em andamento"
+                        ${distribuicao.retornoBase === "Em andamento"
 
                     ? `
         <button
-    type="button"
-    id="confirmarChegadaBase"
->
-    🏠 Confirmar chegada à base
-</button>
+            type="button"
+            id="confirmarChegadaBase"
+        >
+            🏠 Confirmar chegada à base
+        </button>
     `
 
-                    : ""
+                    : `
+        <button
+            id="finalizarDistribuicao"
+
+            ${distribuicao.status === "Concluída"
+                        ? "disabled"
+                        : ""
+                    }
+        >
+
+            ${distribuicao.status === "Concluída"
+                        ? "Missão concluída"
+                        : "Finalizar missão"
+                    }
+
+        </button>
+    `
                 }
                         <button
                             class="
@@ -1934,11 +1898,17 @@
                     "click",
                     function () {
 
+                        const agora =
+                            new Date();
+
                         distribuicao.retornoBase =
                             "Concluído";
 
+                        distribuicao.status =
+                            "Concluída";
+
                         distribuicao.horaChegadaBase =
-                            new Date().toLocaleTimeString(
+                            agora.toLocaleTimeString(
                                 "pt-PT",
                                 {
                                     hour: "2-digit",
@@ -1946,19 +1916,45 @@
                                 }
                             );
 
+                        distribuicao.horaFim =
+                            agora.toLocaleTimeString(
+                                "pt-PT",
+                                {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            );
+
+                        distribuicao.fimTimestamp =
+                            agora.getTime();
+
+                        if (distribuicao.inicioTimestamp) {
+
+                            distribuicao.duracao =
+                                Math.floor(
+                                    (
+                                        distribuicao.fimTimestamp -
+                                        distribuicao.inicioTimestamp
+                                    ) / 1000
+                                );
+
+                        }
+
                         localStorage.setItem(
                             "distribuicoes",
-                            JSON.stringify(
-                                distribuicoes
-                            )
+                            JSON.stringify(distribuicoes)
                         );
 
                         alert(
-                            "Chegada à base confirmada."
+                            "Chegada à base confirmada. Missão concluída!"
                         );
 
-                        abrirDistribuicao(
-                            distribuicao.id
+                        ativarAba(
+                            "historico"
+                        );
+
+                        mostrarLista(
+                            "historico"
                         );
 
                     }
