@@ -9,11 +9,1580 @@
 
     <title>Rotas</title>
 
+    <style>
+        /* ================================
+   MODO DE PLANEAMENTO DA MISSÃO
+================================ */
+
+        .modo-planeamento {
+            margin: 20px 0;
+        }
+
+        .modo-planeamento h3 {
+            margin: 0 0 10px;
+            color: #0f172a;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .opcoes-planeamento {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            max-width: 620px;
+        }
+
+        .opcao-planeamento {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .opcao-planeamento input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .opcao-planeamento-conteudo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-height: 64px;
+            padding: 12px 14px;
+
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+
+            background: #ffffff;
+
+            transition:
+                border-color .2s ease,
+                background .2s ease,
+                box-shadow .2s ease,
+                transform .2s ease;
+        }
+
+        .opcao-planeamento-icone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+
+            border-radius: 9px;
+            background: #f1f5f9;
+
+            font-size: 18px;
+        }
+
+        .opcao-planeamento-conteudo>span:last-child {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .opcao-planeamento strong {
+            color: #0f172a;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .opcao-planeamento small {
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        .opcao-planeamento:hover .opcao-planeamento-conteudo {
+            border-color: #94a3b8;
+            transform: translateY(-1px);
+        }
+
+        .opcao-planeamento input:checked+.opcao-planeamento-conteudo {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        .opcao-planeamento input:checked+.opcao-planeamento-conteudo .opcao-planeamento-icone {
+            background: #dbeafe;
+        }
+
+        /* ================================
+   PRÉ-VISUALIZAÇÃO DA SEQUÊNCIA
+================================ */
+
+        .previsualizacao-ordem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+
+            margin-top: 12px;
+            padding: 12px 14px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 10px;
+
+            background: #f8fbff;
+        }
+
+        .previsualizacao-ordem strong {
+            color: #475569;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        #textoPrevisualizacaoOrdem {
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        #textoDistanciaMissao {
+            display: block;
+            width: 100%;
+            margin-top: 6px;
+
+            color: #475569;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ================================
+   CABEÇALHO DO PLANEAMENTO
+================================ */
+
+        .cabecalho-planeamento {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+
+            margin-bottom: 22px;
+            padding: 22px 24px;
+
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+
+            background:
+                linear-gradient(135deg,
+                    #08111f 0%,
+                    #0f1d32 100%);
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, .12);
+        }
+
+        .cabecalho-planeamento-etiqueta {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #60a5fa;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .cabecalho-planeamento h1 {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 25px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .cabecalho-planeamento p {
+            max-width: 620px;
+
+            margin: 8px 0 0;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .cabecalho-planeamento-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            flex-shrink: 0;
+
+            padding: 8px 12px;
+
+            border: 1px solid rgba(34, 197, 94, .25);
+            border-radius: 999px;
+
+            background: rgba(34, 197, 94, .08);
+
+            color: #86efac;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .ponto-status {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 0 4px rgba(34, 197, 94, .10);
+        }
+
+        /* ================================
+   CARTÕES DAS ROTAS
+================================ */
+
+        .card-rota {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            margin-bottom: 10px;
+            padding: 14px 16px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            cursor: pointer;
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        .card-rota:hover {
+            transform: translateY(-2px);
+
+            border-color: #93c5fd;
+
+            background: #f8fbff;
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, .08);
+        }
+
+        .card-rota-icone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background: #eff6ff;
+
+            font-size: 19px;
+        }
+
+        .card-rota-info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .card-rota-codigo {
+            color: #2563eb;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+        }
+
+        .card-rota-info strong {
+            color: #0f172a;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .card-rota-info small {
+            color: #64748b;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .card-rota-acao {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+
+            border-radius: 8px;
+
+            background: #f1f5f9;
+            color: #475569;
+
+            font-size: 22px;
+            font-weight: 700;
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+        .card-rota:hover .card-rota-acao {
+            background: #2563eb;
+            color: #ffffff;
+
+            transform: translateX(2px);
+        }
+
+        /* ================================
+   RESUMO DO PLANEAMENTO
+================================ */
+
+        .resumo-planeamento {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            margin-bottom: 24px;
+            padding: 16px 18px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+
+            background: #ffffff;
+
+            box-shadow: 0 4px 16px rgba(15, 23, 42, .05);
+        }
+
+        .resumo-planeamento-info {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .resumo-planeamento-icone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+
+            border-radius: 11px;
+
+            background: #eff6ff;
+
+            font-size: 20px;
+        }
+
+        .resumo-planeamento-info>div:last-child {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            column-gap: 8px;
+        }
+
+        .resumo-planeamento-rotulo {
+            grid-column: 1 / -1;
+
+            margin-bottom: 2px;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .09em;
+        }
+
+        #contadorSelecionados {
+            color: #0f172a;
+
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .resumo-planeamento-info small {
+            color: #64748b;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* BOTÃO CRIAR MISSÃO */
+
+        .botao-criar-missao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            min-height: 40px;
+            padding: 0 17px;
+
+            border: 0;
+            border-radius: 9px;
+
+            background: #2563eb;
+            color: #ffffff;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow: 0 5px 14px rgba(37, 99, 235, .20);
+
+            transition:
+                background .2s ease,
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .botao-criar-missao:hover:not(:disabled) {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+
+            box-shadow: 0 7px 18px rgba(37, 99, 235, .26);
+        }
+
+        .botao-criar-missao:disabled {
+            background: #cbd5e1;
+            color: #64748b;
+
+            box-shadow: none;
+
+            cursor: not-allowed;
+        }
+
+        /* TÍTULO DAS ROTAS */
+
+        .titulo-rotas-disponiveis {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+
+            margin: 0 2px 13px;
+        }
+
+        .titulo-rotas-disponiveis span {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #2563eb;
+
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .1em;
+        }
+
+        .titulo-rotas-disponiveis h2 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .titulo-rotas-disponiveis small {
+            color: #64748b;
+
+            font-size: 11px;
+        }
+
+        /* ================================
+             GRADE DAS ROTAS
+        ================================ */
+
+        .grade-rotas {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        /* ================================
+   GRADE DAS ROTAS
+================================ */
+
+        .grade-rotas {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .grade-rotas .card-rota {
+            margin-bottom: 0;
+        }
+
+        /* ================================
+   CABEÇALHO MAIS COMPACTO
+================================ */
+
+        .cabecalho-planeamento {
+            margin-bottom: 14px;
+            padding: 13px 18px;
+            border-radius: 12px;
+        }
+
+        .cabecalho-planeamento-etiqueta {
+            margin-bottom: 3px;
+            font-size: 9px;
+        }
+
+        .cabecalho-planeamento h1 {
+            font-size: 21px;
+            line-height: 1.15;
+        }
+
+        .cabecalho-planeamento p {
+            margin-top: 4px;
+            font-size: 11px;
+            line-height: 1.35;
+        }
+
+        .cabecalho-planeamento-status {
+            padding: 6px 10px;
+            font-size: 10px;
+        }
+
+        /* ================================
+   RESUMO DA SELEÇÃO MAIS COMPACTO
+================================ */
+
+        .resumo-planeamento {
+            margin-bottom: 14px;
+            padding: 10px 14px;
+            border-radius: 11px;
+        }
+
+        .resumo-planeamento-info {
+            gap: 10px;
+        }
+
+        .resumo-planeamento-icone {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            font-size: 17px;
+        }
+
+        .resumo-planeamento-rotulo {
+            margin-bottom: 1px;
+            font-size: 8px;
+        }
+
+        #contadorSelecionados {
+            font-size: 19px;
+        }
+
+        .resumo-planeamento-info small {
+            font-size: 10px;
+        }
+
+        .botao-criar-missao {
+            min-height: 34px;
+            padding: 0 14px;
+            font-size: 11px;
+        }
+
+        /* ================================
+            FUNDO PADRÃO DO SISTEMA
+        ================================ */
+
+        body {
+            background: #f4f8fc;
+        }
+
+        /* ================================
+   AÇÕES DO PLANEAMENTO
+================================ */
+
+        .acoes-planeamento {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* BOTÃO PONTOS SELECIONADOS */
+
+        .botao-pontos-selecionados {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+
+            min-height: 34px;
+            padding: 0 12px;
+
+            border: 1px solid #bfdbfe;
+            border-radius: 9px;
+
+            background: #eff6ff;
+            color: #1d4ed8;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
+        }
+
+        .botao-pontos-selecionados strong {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 20px;
+            height: 20px;
+            padding: 0 5px;
+
+            border-radius: 999px;
+
+            background: #2563eb;
+            color: #ffffff;
+
+            font-size: 10px;
+        }
+
+        .botao-pontos-selecionados:hover:not(:disabled) {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            transform: translateY(-1px);
+        }
+
+        .botao-pontos-selecionados:disabled {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            color: #94a3b8;
+
+            cursor: not-allowed;
+        }
+
+        .botao-pontos-selecionados:disabled strong {
+            background: #cbd5e1;
+        }
+
+        /* ================================
+   MODAL DE PONTOS SELECIONADOS
+================================ */
+
+        .modal-pontos {
+            position: fixed;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(15, 23, 42, .45);
+
+            z-index: 9999;
+        }
+
+        .modal-pontos.aberto {
+            display: flex;
+        }
+
+        .modal-pontos-conteudo {
+            width: min(520px, 100%);
+            max-height: 70vh;
+
+            overflow: hidden;
+
+            border: 1px solid #dbeafe;
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 20px 60px rgba(15, 23, 42, .20);
+        }
+
+        .modal-pontos-cabecalho {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 16px 18px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            background: #f8fbff;
+        }
+
+        .modal-pontos-etiqueta {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #2563eb;
+
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .1em;
+        }
+
+        .modal-pontos-cabecalho h3 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .botao-fechar-modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 32px;
+
+            border: 0;
+            border-radius: 8px;
+
+            background: #e2e8f0;
+            color: #475569;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .botao-fechar-modal:hover {
+            background: #cbd5e1;
+        }
+
+        .lista-pontos-selecionados {
+            max-height: 50vh;
+
+            overflow-y: auto;
+
+            padding: 10px;
+        }
+
+        .item-ponto-selecionado {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+
+            padding: 11px 12px;
+
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .item-ponto-selecionado:last-child {
+            border-bottom: 0;
+        }
+
+        .item-ponto-info {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .item-ponto-info strong {
+            padding: 4px 7px;
+
+            border-radius: 6px;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .item-ponto-info span {
+            color: #0f172a;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .botao-remover-ponto {
+            padding: 6px 10px;
+
+            border: 1px solid #fecaca;
+            border-radius: 7px;
+
+            background: #fff1f2;
+            color: #dc2626;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .botao-remover-ponto:hover {
+            background: #fee2e2;
+        }
+
+        /* ================================
+   CABEÇALHO DA ROTA ABERTA
+================================ */
+
+        .cabecalho-rota-aberta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            margin-bottom: 14px;
+            padding: 10px 12px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, .05);
+        }
+
+        .botao-voltar-rotas {
+            min-height: 34px;
+            padding: 0 11px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            background: #f8fafc;
+            color: #475569;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .botao-voltar-rotas:hover {
+            background: #f1f5f9;
+        }
+
+        .cabecalho-rota-info {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .cabecalho-rota-etiqueta {
+            color: #2563eb;
+
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .1em;
+        }
+
+        .cabecalho-rota-info h2 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .cabecalho-rota-selecao {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 6px 9px;
+
+            border-radius: 9px;
+
+            background: #eff6ff;
+        }
+
+        .cabecalho-rota-selecao span {
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .cabecalho-rota-selecao strong {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 22px;
+            height: 22px;
+
+            border-radius: 999px;
+
+            background: #2563eb;
+            color: #ffffff;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        /* ================================
+   ORDEM DA MISSÃO COMPACTA
+================================ */
+
+        .modo-planeamento {
+            margin: 10px 0;
+            padding: 10px 12px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, .04);
+        }
+
+        .modo-planeamento h3 {
+            margin: 0 0 7px;
+
+            font-size: 12px;
+        }
+
+        /* OPÇÕES MANUAL / OTIMIZADA */
+
+        .opcoes-planeamento {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            max-width: none;
+            gap: 8px;
+        }
+
+        .opcao-planeamento-conteudo {
+            min-height: 44px;
+
+            padding: 7px 10px;
+
+            border-radius: 8px;
+        }
+
+        .opcao-planeamento-icone {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        .opcao-planeamento strong {
+            font-size: 11px;
+        }
+
+        .opcao-planeamento small {
+            font-size: 9px;
+        }
+
+        /* PRÉ-VISUALIZAÇÃO DA SEQUÊNCIA */
+
+        .previsualizacao-ordem {
+            margin-top: 8px;
+            padding: 8px 10px;
+
+            border-radius: 8px;
+        }
+
+        .previsualizacao-ordem strong {
+            font-size: 9px;
+        }
+
+        #textoPrevisualizacaoOrdem {
+            font-size: 11px;
+        }
+
+        #textoDistanciaMissao {
+            width: auto;
+
+            margin-top: 0;
+            margin-left: auto;
+
+            font-size: 10px;
+        }
+
+        /* ================================
+   AÇÕES DA ORDEM DA MISSÃO
+================================ */
+
+        .opcoes-planeamento {
+            grid-template-columns:
+                minmax(0, 1fr) minmax(0, 1fr) auto;
+
+            align-items: stretch;
+        }
+
+        .botao-criar-missao-planeamento {
+            min-width: 130px;
+            min-height: 44px;
+
+            align-self: stretch;
+
+            padding: 0 16px;
+
+            border-radius: 8px;
+        }
+
+        /* ================================
+   PAINEL DE CLIENTES DA ROTA
+================================ */
+
+        .painel-clientes-rota {
+            margin-top: 10px;
+            padding: 12px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 4px 14px rgba(15, 23, 42, .04);
+        }
+
+        .cabecalho-clientes-rota {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+
+            margin-bottom: 9px;
+        }
+
+        .cabecalho-clientes-etiqueta {
+            display: block;
+
+            margin-bottom: 2px;
+
+            color: #2563eb;
+
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .1em;
+        }
+
+        .cabecalho-clientes-rota h3 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .total-clientes-rota {
+            padding: 5px 8px;
+
+            border-radius: 999px;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        /* BUSCA */
+
+        .busca-clientes-rota {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 10px;
+            padding: 0 11px;
+
+            min-height: 38px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+
+            background: #f8fafc;
+        }
+
+        .busca-clientes-rota:focus-within {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        .busca-clientes-icone {
+            font-size: 14px;
+        }
+
+        .busca-clientes-rota input {
+            width: 100%;
+
+            border: 0;
+            outline: none;
+
+            background: transparent;
+
+            color: #0f172a;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ÁREA DOS CARDS */
+
+        .cards-clientes-rota {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+
+            gap: 8px;
+        }
+
+        /* ================================
+   CARDS DOS CLIENTES
+================================ */
+
+        .card-cliente-rota {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            min-width: 0;
+            padding: 9px 10px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+
+            background: #ffffff;
+
+            cursor: pointer;
+
+            transition:
+                border-color .2s ease,
+                background .2s ease,
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .card-cliente-rota:hover {
+            border-color: #93c5fd;
+            background: #f8fbff;
+            transform: translateY(-1px);
+        }
+
+        .card-cliente-rota input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .card-cliente-topo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .card-cliente-codigo {
+            color: #2563eb;
+
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: .05em;
+        }
+
+        .card-cliente-check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 18px;
+            height: 18px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+
+            color: transparent;
+
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .card-cliente-nome {
+            overflow: hidden;
+
+            color: #0f172a;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .card-cliente-rota {
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* CLIENTE SELECIONADO */
+
+        .card-cliente-rota:has(input:checked) {
+            border-color: #2563eb;
+            background: #eff6ff;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, .07);
+        }
+
+        .card-cliente-rota:has(input:checked) .card-cliente-check {
+            border-color: #2563eb;
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        /* ================================
+   MÉTRICAS DA MISSÃO
+================================ */
+
+        .metricas-missao {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-left: auto;
+        }
+
+        #textoDistanciaMissao,
+        #textoTempoMissao {
+            width: auto;
+            margin: 0;
+
+            padding: 5px 8px;
+
+            border-radius: 7px;
+
+            background: #f1f5f9;
+            color: #475569;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        /* ================================
+   DETALHES DOS CARDS DOS CLIENTES
+================================ */
+
+        .card-cliente-endereco {
+            overflow: hidden;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 600;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .card-cliente-rodape {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+
+            margin-top: 3px;
+            padding-top: 5px;
+
+            border-top: 1px solid #eef2f7;
+        }
+
+        .card-cliente-coordenadas {
+            overflow: hidden;
+
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 700;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        /* ================================
+   AÇÕES DOS CLIENTES DA ROTA
+================================ */
+
+        .acoes-clientes-rota {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .botao-ver-clientes {
+            min-height: 27px;
+            padding: 0 9px;
+
+            border: 1px solid #bfdbfe;
+            border-radius: 7px;
+
+            background: #eff6ff;
+            color: #1d4ed8;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                border-color .2s ease;
+        }
+
+        .botao-ver-clientes:hover {
+            border-color: #93c5fd;
+            background: #dbeafe;
+        }
+
+        @media (max-width: 700px) {
+
+            .metricas-missao {
+                width: 100%;
+
+                margin-left: 0;
+
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 1100px) {
+
+            .cards-clientes-rota {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .cards-clientes-rota {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .opcoes-planeamento {
+                grid-template-columns: 1fr;
+            }
+
+            .botao-criar-missao-planeamento {
+                width: 100%;
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .opcoes-planeamento {
+                grid-template-columns: 1fr;
+            }
+
+            #textoDistanciaMissao {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .cabecalho-rota-aberta {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .cabecalho-rota-selecao {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .acoes-planeamento {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .botao-pontos-selecionados,
+            .botao-criar-missao {
+                width: 100%;
+            }
+        }
+
+        /* TABLET */
+
+        @media (max-width: 1000px) {
+
+            .grade-rotas {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+        /* TELEMÓVEL */
+
+        @media (max-width: 600px) {
+
+            .grade-rotas {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        /* RESPONSIVO */
+
+        @media (max-width: 600px) {
+
+            .resumo-planeamento {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .botao-criar-missao {
+                width: 100%;
+            }
+
+            .titulo-rotas-disponiveis {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .card-rota {
+                padding: 12px;
+            }
+
+            .card-rota-icone {
+                width: 38px;
+                height: 38px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .cabecalho-planeamento {
+                align-items: flex-start;
+                flex-direction: column;
+
+                padding: 18px;
+            }
+
+            .cabecalho-planeamento h1 {
+                font-size: 21px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .previsualizacao-ordem {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+            .opcoes-planeamento {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
-    <h1>Planeamento da Missão</h1>
+    <div class="cabecalho-planeamento">
+
+        <div class="cabecalho-planeamento-texto">
+
+            <span class="cabecalho-planeamento-etiqueta">
+                PLANEAMENTO OPERACIONAL
+            </span>
+
+            <h1>
+                🗺️ Planeamento de Missões
+            </h1>
+
+            <p>
+                Selecione os pontos de entrega, defina a sequência
+                e prepare a rota operacional do drone.
+            </p>
+
+        </div>
+
+        <div class="cabecalho-planeamento-status">
+
+            <span class="ponto-status"></span>
+
+            Sistema de rotas disponível
+
+        </div>
+
+    </div>
 
     <div id="listaRotas"></div>
 
@@ -129,6 +1698,94 @@
 
             atualizarContador();
 
+            atualizarPrevisualizacaoOrdem();
+
+        }
+
+        function calcularDistanciaTotalMissao(ordemCodigos) {
+
+            const coordenadasBase = {
+                latitude: 41.6232128,
+                longitude: -8.3472675
+            };
+
+            if (ordemCodigos.length === 0) {
+                return 0;
+            }
+
+
+            let distanciaTotal = 0;
+
+            let latitudeAtual =
+                coordenadasBase.latitude;
+
+            let longitudeAtual =
+                coordenadasBase.longitude;
+
+            let encontrouClienteValido = false;
+
+
+            ordemCodigos.forEach(function (codigo) {
+
+                const cliente =
+                    clientes.find(function (cliente) {
+
+                        return (
+                            String(cliente.codigo) ===
+                            String(codigo)
+                        );
+
+                    });
+
+
+                if (
+                    !cliente ||
+                    cliente.latitude == null ||
+                    cliente.longitude == null
+                ) {
+                    return;
+                }
+
+
+                distanciaTotal +=
+                    calcularDistancia(
+                        latitudeAtual,
+                        longitudeAtual,
+                        cliente.latitude,
+                        cliente.longitude
+                    );
+
+
+                latitudeAtual =
+                    Number(cliente.latitude);
+
+                longitudeAtual =
+                    Number(cliente.longitude);
+
+                encontrouClienteValido = true;
+
+            });
+
+
+            /*
+             * Regresso do último ponto
+             * até à Base Primo Peças
+             */
+
+            if (encontrouClienteValido) {
+
+                distanciaTotal +=
+                    calcularDistancia(
+                        latitudeAtual,
+                        longitudeAtual,
+                        coordenadasBase.latitude,
+                        coordenadasBase.longitude
+                    );
+
+            }
+
+
+            return distanciaTotal;
         }
 
 
@@ -137,19 +1794,48 @@
             const contador =
                 document.getElementById("contadorSelecionados");
 
-
             if (contador) {
-
                 contador.textContent =
-                    clientesSelecionados.length +
-                    (
-                        clientesSelecionados.length === 1
-                            ? " ponto de entrega selecionado"
-                            : " pontos de entrega selecionados"
-                    );
-
+                    clientesSelecionados.length;
             }
 
+
+            const botaoPontos =
+                document.querySelector(
+                    ".botao-pontos-selecionados strong"
+                );
+
+            if (botaoPontos) {
+                botaoPontos.textContent =
+                    clientesSelecionados.length;
+            }
+
+
+            const botaoCriarMissao =
+                document.querySelector(
+                    ".botao-criar-missao"
+                );
+
+            const botaoPontosSelecionados =
+                document.querySelector(
+                    ".botao-pontos-selecionados"
+                );
+
+
+            const semSelecionados =
+                clientesSelecionados.length === 0;
+
+
+            if (botaoCriarMissao) {
+                botaoCriarMissao.disabled =
+                    semSelecionados;
+            }
+
+
+            if (botaoPontosSelecionados) {
+                botaoPontosSelecionados.disabled =
+                    semSelecionados;
+            }
         }
 
         function mostrarRotas() {
@@ -157,56 +1843,139 @@
             const resultado =
                 document.getElementById("listaRotas");
 
-            resultado.innerHTML = "";
-
             resultado.innerHTML = `
 
-    <p id="contadorSelecionados">
-        ${clientesSelecionados.length}
-        ${clientesSelecionados.length === 1
-                    ? "cliente selecionado"
-                    : "clientes selecionados"}
-    </p>
+        <div class="resumo-planeamento">
+
+            <div class="resumo-planeamento-info">
+
+                <div class="resumo-planeamento-icone">
+                    📦
+                </div>
+
+                <div>
+                    <span class="resumo-planeamento-rotulo">
+                        PONTOS SELECIONADOS
+                    </span>
+
+                    <strong id="contadorSelecionados">
+                        ${clientesSelecionados.length}
+                    </strong>
+
+                    <small>
+                        ${clientesSelecionados.length === 1
+                    ? "ponto preparado para a missão"
+                    : "pontos preparados para a missão"
+                }
+                    </small>
+                </div>
+
+            </div>
+
+            <div class="acoes-planeamento">
 
     <button
+        class="botao-pontos-selecionados"
+        onclick="abrirPontosSelecionados()"
+        ${clientesSelecionados.length === 0 ? "disabled" : ""}
+    >
+        <span>📍</span>
+        Pontos selecionados
+        <strong>
+            ${clientesSelecionados.length}
+        </strong>
+    </button>
+
+    <button
+        class="botao-criar-missao"
         onclick="gerarDistribuicao()"
         ${clientesSelecionados.length === 0 ? "disabled" : ""}
     >
+        <span>🚁</span>
         Criar missão
     </button>
 
-    <hr>
+</div>
 
-`;
+        </div>
+
+
+        <div class="titulo-rotas-disponiveis">
+
+            <div>
+                <span>PLANEAMENTO</span>
+
+                <h2>
+                    Rotas disponíveis
+                </h2>
+            </div>
+
+            <small>
+                Selecione uma rota para visualizar os pontos de entrega
+            </small>
+
+        </div>
+
+
+        <div
+            class="grade-rotas"
+            id="gradeRotas"
+        ></div>
+
+    `;
+
+
+            const gradeRotas =
+                document.getElementById("gradeRotas");
+
 
             rotas.forEach(function (rota) {
 
                 const quantidadeClientes =
                     clientes.filter(function (cliente) {
 
-                        return cliente.rota === String(rota.codigo);
+                        return (
+                            cliente.rota ===
+                            String(rota.codigo)
+                        );
 
                     }).length;
 
 
-                resultado.innerHTML += `
+                gradeRotas.innerHTML += `
 
             <div
+                class="card-rota"
                 onclick="abrirRota(${rota.codigo})"
-                style="cursor: pointer;"
             >
 
-                <strong>
-                    Rota ${rota.codigo} - ${rota.nome}
-                </strong>
+                <div class="card-rota-icone">
+                    🗺️
+                </div>
 
-                <span>
-    ${quantidadeClientes}
-    ${quantidadeClientes === 1
+                <div class="card-rota-info">
+
+                    <span class="card-rota-codigo">
+                        ROTA ${String(rota.codigo).padStart(2, "0")}
+                    </span>
+
+                    <strong>
+                        ${rota.nome}
+                    </strong>
+
+                    <small>
+                        ${quantidadeClientes}
+                        ${quantidadeClientes === 1
                         ? "ponto de entrega"
                         : "pontos de entrega"
                     }
-</span>
+                    </small>
+
+                </div>
+
+                <div class="card-rota-acao">
+                    ›
+                </div>
 
             </div>
 
@@ -216,20 +1985,365 @@
 
         }
 
-        function gerarDistribuicao() {
+        function calcularDistancia(lat1, lon1, lat2, lon2) {
+
+            const raioTerra = 6371; // km
+
+            const latitude1 =
+                Number(lat1) * Math.PI / 180;
+
+            const latitude2 =
+                Number(lat2) * Math.PI / 180;
+
+            const diferencaLatitude =
+                (Number(lat2) - Number(lat1)) *
+                Math.PI / 180;
+
+            const diferencaLongitude =
+                (Number(lon2) - Number(lon1)) *
+                Math.PI / 180;
+
+
+            const a =
+                Math.sin(diferencaLatitude / 2) *
+                Math.sin(diferencaLatitude / 2) +
+
+                Math.cos(latitude1) *
+                Math.cos(latitude2) *
+
+                Math.sin(diferencaLongitude / 2) *
+                Math.sin(diferencaLongitude / 2);
+
+
+            const c =
+                2 *
+                Math.atan2(
+                    Math.sqrt(a),
+                    Math.sqrt(1 - a)
+                );
+
+
+            return raioTerra * c;
+        }
+
+
+        function otimizarOrdemClientes(
+            codigosSelecionados
+        ) {
+
+            const coordenadasBase = {
+                latitude: 41.6232128,
+                longitude: -8.3472675
+            };
+
+            const clientesSelecionadosCompletos =
+                codigosSelecionados
+                    .map(function (codigo) {
+
+                        return clientes.find(
+                            function (cliente) {
+
+                                return (
+                                    String(cliente.codigo) ===
+                                    String(codigo)
+                                );
+
+                            }
+                        );
+
+                    })
+                    .filter(function (cliente) {
+
+                        return (
+                            cliente &&
+                            cliente.latitude != null &&
+                            cliente.longitude != null
+                        );
+
+                    });
+
+
+            const clientesRestantes =
+                [...clientesSelecionadosCompletos];
+
+
+            const clientesOrdenados = [];
+
+
+            let latitudeAtual =
+                coordenadasBase.latitude;
+
+            let longitudeAtual =
+                coordenadasBase.longitude;
+
+
+            while (
+                clientesRestantes.length > 0
+            ) {
+
+                let indiceMaisProximo = 0;
+
+                let menorDistancia =
+                    Infinity;
+
+
+                clientesRestantes.forEach(
+                    function (
+                        cliente,
+                        indice
+                    ) {
+
+                        const distancia =
+                            calcularDistancia(
+                                latitudeAtual,
+                                longitudeAtual,
+                                cliente.latitude,
+                                cliente.longitude
+                            );
+
+
+                        if (
+                            distancia <
+                            menorDistancia
+                        ) {
+
+                            menorDistancia =
+                                distancia;
+
+                            indiceMaisProximo =
+                                indice;
+
+                        }
+
+                    }
+                );
+
+
+                const proximoCliente =
+                    clientesRestantes.splice(
+                        indiceMaisProximo,
+                        1
+                    )[0];
+
+
+                clientesOrdenados.push(
+                    String(
+                        proximoCliente.codigo
+                    )
+                );
+
+
+                latitudeAtual =
+                    Number(
+                        proximoCliente.latitude
+                    );
+
+                longitudeAtual =
+                    Number(
+                        proximoCliente.longitude
+                    );
+
+            }
+
+
+            return clientesOrdenados;
+
+        }
+
+        function atualizarPrevisualizacaoOrdem() {
+
+            const campoPrevisualizacao =
+                document.getElementById("textoPrevisualizacaoOrdem");
+
+            const campoDistancia =
+                document.getElementById("textoDistanciaMissao");
+
+            const campoTempo =
+                document.getElementById("textoTempoMissao");
+
+            if (!campoPrevisualizacao) {
+                return;
+            }
 
             if (clientesSelecionados.length === 0) {
 
-                alert("Selecione pelo menos um ponto de entrega.");
+                campoPrevisualizacao.textContent =
+                    "Selecione os pontos de entrega";
+
+                if (campoDistancia) {
+                    campoDistancia.textContent =
+                        "📏 Distância estimada: --";
+                }
+
+                if (campoTempo) {
+                    campoTempo.textContent =
+                        "⏱️ Tempo estimado: --";
+                }
+
+                return;
+            }
+
+            const modoPlaneamento =
+                document.querySelector(
+                    'input[name="modoPlaneamento"]:checked'
+                );
+
+            let ordem =
+                [...clientesSelecionados];
+
+            if (
+                modoPlaneamento &&
+                modoPlaneamento.value === "otimizado"
+            ) {
+
+                ordem =
+                    otimizarOrdemClientes(
+                        clientesSelecionados
+                    );
+            }
+
+            campoPrevisualizacao.textContent =
+                "Base → " +
+                ordem.join(" → ") +
+                " → Base";
+
+            const distanciaTotal =
+                calcularDistanciaTotalMissao(ordem);
+
+            if (campoDistancia) {
+
+                campoDistancia.textContent =
+                    "📏 Distância estimada: " +
+                    distanciaTotal.toFixed(1) +
+                    " km";
+            }
+
+            if (campoTempo) {
+
+                const velocidadeMediaDrone = 65;
+
+                const tempoHoras =
+                    distanciaTotal / velocidadeMediaDrone;
+
+                const tempoMinutos =
+                    Math.ceil(tempoHoras * 60);
+
+                campoTempo.textContent =
+                    "⏱️ Tempo estimado: " +
+                    tempoMinutos +
+                    " min";
+            }
+        }
+
+        function gerarDistribuicao() {
+
+            if (
+                clientesSelecionados.length === 0
+            ) {
+
+                alert(
+                    "Selecione pelo menos um ponto de entrega."
+                );
+
+                return;
+
+            }
+
+            /*
+ * Validar coordenadas dos
+ * pontos de entrega selecionados
+ */
+
+            const clientesSemCoordenadas =
+                clientesSelecionados
+                    .map(function (codigo) {
+
+                        return clientes.find(
+                            function (cliente) {
+
+                                return (
+                                    String(cliente.codigo) ===
+                                    String(codigo)
+                                );
+
+                            }
+                        );
+
+                    })
+                    .filter(function (cliente) {
+
+                        return (
+                            !cliente ||
+                            cliente.latitude == null ||
+                            cliente.longitude == null ||
+                            !Number.isFinite(
+                                Number(cliente.latitude)
+                            ) ||
+                            !Number.isFinite(
+                                Number(cliente.longitude)
+                            )
+                        );
+
+                    });
+
+
+            if (clientesSemCoordenadas.length > 0) {
+
+                let mensagem =
+                    "Não é possível criar a missão.\n\n" +
+                    "Os seguintes pontos de entrega não possuem coordenadas válidas:\n\n";
+
+
+                clientesSemCoordenadas.forEach(
+                    function (cliente) {
+
+                        if (cliente) {
+
+                            mensagem +=
+                                `• ${cliente.codigo} - ${cliente.nome}\n`;
+
+                        }
+
+                    }
+                );
+
+
+                mensagem +=
+                    "\nAdicione latitude e longitude no cadastro do ponto de entrega.";
+
+                alert(mensagem);
 
                 return;
 
             }
 
 
+            /*
+             * Otimizar a ordem da missão
+             */
+
+            const modoPlaneamento =
+                document.querySelector(
+                    'input[name="modoPlaneamento"]:checked'
+                ).value;
+
+
+            let ordemFinal = [...clientesSelecionados];
+
+
+            if (modoPlaneamento === "otimizado") {
+
+                ordemFinal =
+                    otimizarOrdemClientes(
+                        clientesSelecionados
+                    );
+
+            }
+
+
             localStorage.setItem(
                 "clientesDistribuicaoTemporaria",
-                JSON.stringify(clientesSelecionados)
+                JSON.stringify(ordemFinal)
             );
 
 
@@ -264,79 +2378,664 @@
 
             resultado.innerHTML = `
 
-        <button onclick="mostrarRotas()">
-            ← Voltar às rotas
-        </button>
+        <div class="cabecalho-rota-aberta">
+
+    <button
+        class="botao-voltar-rotas"
+        onclick="mostrarRotas()"
+    >
+        ← Voltar
+    </button>
+
+    <div class="cabecalho-rota-info">
+
+        <span class="cabecalho-rota-etiqueta">
+            ROTA ${String(codigoRota).padStart(2, "0")}
+        </span>
 
         <h2>
-            Rota ${codigoRota} - ${nomeDaRota(codigoRota)}
+            ${nomeDaRota(codigoRota)}
         </h2>
 
-        <p id="contadorSelecionados">
-    ${clientesSelecionados.length}
-    ${clientesSelecionados.length === 1
-                    ? "ponto de entrega selecionado"
-                    : "pontos de entrega selecionados"
-                }
-</p>
+    </div>
 
-        <button onclick="gerarDistribuicao()">
-            Criar missão
-        </button>
+    <div class="cabecalho-rota-selecao">
 
-        <hr>
+        <span>
+            Pontos selecionados
+        </span>
 
-    `;
+        <strong id="contadorSelecionados">
+            ${clientesSelecionados.length}
+        </strong>
+
+    </div>
+
+</div>
+
+<div class="modo-planeamento">
+
+    <h3>Ordem da missão</h3>
+
+    <div class="opcoes-planeamento">
+
+        <label class="opcao-planeamento">
+
+            <input
+                type="radio"
+                name="modoPlaneamento"
+                value="manual"
+                checked
+            >
+
+            <span class="opcao-planeamento-conteudo">
+
+                <span class="opcao-planeamento-icone">
+                    👤
+                </span>
+
+                <span>
+                    <strong>Ordem manual</strong>
+
+                    <small>
+                        Mantém a sequência escolhida pelo operador
+                    </small>
+                </span>
+
+            </span>
+
+        </label>
 
 
-            clientesDaRota.forEach(function (cliente) {
+        <label class="opcao-planeamento">
+
+            <input
+                type="radio"
+                name="modoPlaneamento"
+                value="otimizado"
+            >
+
+            <span class="opcao-planeamento-conteudo">
+
+                <span class="opcao-planeamento-icone">
+                    ✨
+                </span>
+
+                <span>
+                    <strong>Otimizar rota</strong>
+
+                    <small>
+                        Calcula automaticamente a melhor sequência
+                    </small>
+                </span>
+
+            </span>
+
+        </label>
+
+            <button
+                class="botao-criar-missao botao-criar-missao-planeamento"
+                onclick="gerarDistribuicao()"
+                ${clientesSelecionados.length === 0 ? "disabled" : ""}
+            >
+                <span>🚁</span>
+                Criar missão
+            </button>
+
+    </div>
+
+
+    <div
+        id="previsualizacaoOrdem"
+        class="previsualizacao-ordem"
+    >
+
+        <strong>
+            Sequência da missão:
+        </strong>
+
+        <span id="textoPrevisualizacaoOrdem">
+            Selecione os pontos de entrega
+        </span>
+
+        <div class="metricas-missao">
+    <span id="textoDistanciaMissao">
+        📏 Distância estimada: --
+    </span>
+
+    <span id="textoTempoMissao">
+        ⏱️ Tempo estimado: --
+    </span>
+
+</div>
+
+    </div>
+
+</div>
+
+<hr>
+
+`;
+
+            resultado.innerHTML += `
+
+    <div class="painel-clientes-rota">
+
+        <div class="cabecalho-clientes-rota">
+
+            <div>
+                <span class="cabecalho-clientes-etiqueta">
+                    PONTOS DE ENTREGA
+                </span>
+
+                <h3>
+                    Clientes da rota
+                </h3>
+            </div>
+
+            <div class="acoes-clientes-rota">
+
+    <span class="total-clientes-rota">
+        ${clientesDaRota.length} clientes
+    </span>
+
+    <button
+        type="button"
+        class="botao-ver-clientes"
+        id="botaoVerClientes"
+    >
+        Ver todos
+    </button>
+
+</div>
+
+        </div>
+
+        <div class="busca-clientes-rota">
+
+            <span class="busca-clientes-icone">
+                🔎
+            </span>
+
+            <input
+                type="text"
+                id="buscaClientesRota"
+                placeholder="Buscar por código, nome ou endereço..."
+            >
+
+        </div>
+
+        <div class="cards-clientes-rota" id="cardsClientesRota">
+
+        </div>
+
+    </div>
+
+`;
+
+            const cardsClientesRota =
+                document.getElementById("cardsClientesRota");
+
+            const clientesEmDestaque =
+                clientesDaRota.slice(0, 5);
+
+            clientesEmDestaque.forEach(function (cliente) {
 
                 const estaSelecionado =
                     clientesSelecionados.includes(
                         String(cliente.codigo)
                     );
 
+                cardsClientesRota.innerHTML += `
 
-                resultado.innerHTML += `
+        <label class="card-cliente-rota">
 
-            <div>
+            <input
+                type="checkbox"
+                class="clienteCheckbox"
+                value="${cliente.codigo}"
+                ${estaSelecionado ? "checked" : ""}
+                onchange="alternarCliente('${cliente.codigo}')"
+            >
 
-                <label>
+            <div class="card-cliente-topo">
 
-                    <input
-                        type="checkbox"
-                        class="clienteCheckbox"
-                        value="${cliente.codigo}"
-                        ${estaSelecionado ? "checked" : ""}
-                        onchange="alternarCliente('${cliente.codigo}')"
-                    >
+                <span class="card-cliente-codigo">
+                    ${cliente.codigo}
+                </span>
 
-                    <strong>
-                        ${cliente.codigo} - ${cliente.nome}
-                    </strong>
-
-                </label>
-
-                <br>
-
-                ${cliente.endereco}
-
-                <br>
-
-                Rota: ${cliente.rota} - ${nomeDaRota(cliente.rota)}
+                <span class="card-cliente-check">
+                    ✓
+                </span>
 
             </div>
 
-            <hr>
+            <strong class="card-cliente-nome">
+                ${cliente.nome}
+            </strong>
 
-        `;
+            <span class="card-cliente-endereco">
+                ${cliente.endereco || "Endereço não definido"}
+            </span>
+
+            <div class="card-cliente-rodape">
+
+                <span class="card-cliente-rota">
+                    Rota ${String(cliente.rota).padStart(2, "0")}
+                </span>
+
+                <span class="card-cliente-coordenadas">
+                    ${cliente.latitude != null &&
+                        cliente.longitude != null
+                        ? Number(cliente.latitude).toFixed(5) +
+                        ", " +
+                        Number(cliente.longitude).toFixed(5)
+                        : "Coordenadas indisponíveis"
+                    }
+                </span>
+
+            </div>
+
+        </label>
+
+    `;
 
             });
 
+            const campoBuscaClientes =
+                document.getElementById("buscaClientesRota");
+
+            campoBuscaClientes.addEventListener(
+                "input",
+                function () {
+
+                    const termoBusca =
+                        campoBuscaClientes.value
+                            .trim()
+                            .toLowerCase();
+
+                    let clientesFiltrados =
+                        [...clientesDaRota];
+
+                    if (termoBusca !== "") {
+
+                        clientesFiltrados =
+                            clientesDaRota.filter(
+                                function (cliente) {
+
+                                    const codigo =
+                                        String(cliente.codigo)
+                                            .toLowerCase();
+
+                                    const nome =
+                                        String(cliente.nome || "")
+                                            .toLowerCase();
+
+                                    const endereco =
+                                        String(cliente.endereco || "")
+                                            .toLowerCase();
+
+                                    return (
+                                        codigo.includes(termoBusca) ||
+                                        nome.includes(termoBusca) ||
+                                        endereco.includes(termoBusca)
+                                    );
+
+                                }
+                            );
+
+                    } else {
+
+                        clientesFiltrados =
+                            clientesDaRota.slice(0, 5);
+
+                    }
+
+                    cardsClientesRota.innerHTML = "";
+
+                    clientesFiltrados.forEach(
+                        function (cliente) {
+
+                            const estaSelecionado =
+                                clientesSelecionados.includes(
+                                    String(cliente.codigo)
+                                );
+
+                            cardsClientesRota.innerHTML += `
+
+            <label class="card-cliente-rota">
+
+                <input
+                    type="checkbox"
+                    class="clienteCheckbox"
+                    value="${cliente.codigo}"
+                    ${estaSelecionado ? "checked" : ""}
+                    onchange="alternarCliente('${cliente.codigo}')"
+                >
+
+                <div class="card-cliente-topo">
+
+                    <span class="card-cliente-codigo">
+                        ${cliente.codigo}
+                    </span>
+
+                    <span class="card-cliente-check">
+                        ✓
+                    </span>
+
+                </div>
+
+                <strong class="card-cliente-nome">
+                    ${cliente.nome}
+                </strong>
+
+                <span class="card-cliente-endereco">
+                    ${cliente.endereco || "Endereço não definido"}
+                </span>
+
+                <div class="card-cliente-rodape">
+
+                    <span class="card-cliente-rota">
+                        Rota ${String(cliente.rota).padStart(2, "0")}
+                    </span>
+
+                    <span class="card-cliente-coordenadas">
+                        ${cliente.latitude != null &&
+                                    cliente.longitude != null
+                                    ? Number(cliente.latitude).toFixed(5) +
+                                    ", " +
+                                    Number(cliente.longitude).toFixed(5)
+                                    : "Coordenadas indisponíveis"
+                                }
+                    </span>
+
+                </div>
+
+            </label>
+
+        `;
+
+                        }
+                    );
+
+                }
+            );
+
+            const botaoVerClientes =
+                document.getElementById("botaoVerClientes");
+
+            let mostrarTodosClientes = false;
+
+            botaoVerClientes.addEventListener(
+                "click",
+                function () {
+
+                    mostrarTodosClientes =
+                        !mostrarTodosClientes;
+
+                    campoBuscaClientes.value = "";
+
+                    const clientesParaMostrar =
+                        mostrarTodosClientes
+                            ? clientesDaRota
+                            : clientesDaRota.slice(0, 5);
+
+                    cardsClientesRota.innerHTML = "";
+
+                    clientesParaMostrar.forEach(
+                        function (cliente) {
+
+                            const estaSelecionado =
+                                clientesSelecionados.includes(
+                                    String(cliente.codigo)
+                                );
+
+                            cardsClientesRota.innerHTML += `
+
+                    <label class="card-cliente-rota">
+
+                        <input
+                            type="checkbox"
+                            class="clienteCheckbox"
+                            value="${cliente.codigo}"
+                            ${estaSelecionado ? "checked" : ""}
+                            onchange="alternarCliente('${cliente.codigo}')"
+                        >
+
+                        <div class="card-cliente-topo">
+
+                            <span class="card-cliente-codigo">
+                                ${cliente.codigo}
+                            </span>
+
+                            <span class="card-cliente-check">
+                                ✓
+                            </span>
+
+                        </div>
+
+                        <strong class="card-cliente-nome">
+                            ${cliente.nome}
+                        </strong>
+
+                        <span class="card-cliente-endereco">
+                            ${cliente.endereco || "Endereço não definido"}
+                        </span>
+
+                        <div class="card-cliente-rodape">
+
+                            <span class="card-cliente-rota">
+                                Rota ${String(cliente.rota).padStart(2, "0")}
+                            </span>
+
+                            <span class="card-cliente-coordenadas">
+                                ${cliente.latitude != null &&
+                                    cliente.longitude != null
+                                    ? Number(cliente.latitude).toFixed(5) +
+                                    ", " +
+                                    Number(cliente.longitude).toFixed(5)
+                                    : "Coordenadas indisponíveis"
+                                }
+                            </span>
+
+                        </div>
+
+                    </label>
+
+                `;
+                        }
+                    );
+
+                    botaoVerClientes.textContent =
+                        mostrarTodosClientes
+                            ? "Mostrar menos"
+                            : "Ver todos";
+                }
+            );
+
+            // Atualizar pré-visualização ao trocar
+            // entre Manual e Otimizado
+
+            document
+                .querySelectorAll(
+                    'input[name="modoPlaneamento"]'
+                )
+                .forEach(function (radio) {
+
+                    radio.addEventListener(
+                        "change",
+                        atualizarPrevisualizacaoOrdem
+                    );
+
+                });
+
+
+            // Mostrar a sequência inicial
+            atualizarPrevisualizacaoOrdem();
+
+        }
+
+        /* ================================
+   INICIAR PÁGINA DE ROTAS
+================================ */
+
+        if (document.readyState === "loading") {
+
+            document.addEventListener(
+                "DOMContentLoaded",
+                function () {
+                    mostrarRotas();
+                }
+            );
+
+        } else {
+
+            mostrarRotas();
+
+        }
+
+        function abrirPontosSelecionados() {
+
+            const modal =
+                document.getElementById(
+                    "modalPontosSelecionados"
+                );
+
+            const lista =
+                document.getElementById(
+                    "listaPontosSelecionados"
+                );
+
+            lista.innerHTML = "";
+
+            clientesSelecionados.forEach(
+                function (codigo) {
+
+                    const cliente =
+                        clientes.find(function (cliente) {
+                            return (
+                                String(cliente.codigo) ===
+                                String(codigo)
+                            );
+                        });
+
+                    if (!cliente) {
+                        return;
+                    }
+
+                    lista.innerHTML += `
+
+                <div class="item-ponto-selecionado">
+
+                    <div class="item-ponto-info">
+
+                        <strong>
+                            ${cliente.codigo}
+                        </strong>
+
+                        <span>
+                            ${cliente.nome}
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="botao-remover-ponto"
+                        onclick="removerPontoSelecionado('${cliente.codigo}')"
+                    >
+                        Remover
+                    </button>
+
+                </div>
+
+            `;
+
+                }
+            );
+
+            modal.classList.add("aberto");
+        }
+
+
+        function fecharPontosSelecionados() {
+
+            const modal =
+                document.getElementById(
+                    "modalPontosSelecionados"
+                );
+
+            modal.classList.remove("aberto");
+        }
+
+        function removerPontoSelecionado(codigoCliente) {
+
+            codigoCliente = String(codigoCliente);
+
+            const indice =
+                clientesSelecionados.indexOf(
+                    codigoCliente
+                );
+
+            if (indice !== -1) {
+                clientesSelecionados.splice(
+                    indice,
+                    1
+                );
+            }
+
+            const checkbox =
+                document.querySelector(
+                    `.clienteCheckbox[value="${codigoCliente}"]`
+                );
+
+            if (checkbox) {
+                checkbox.checked = false;
+            }
+
+            atualizarContador();
+
+            if (clientesSelecionados.length === 0) {
+
+                fecharPontosSelecionados();
+
+                mostrarRotas();
+
+                return;
+            }
+
+            abrirPontosSelecionados();
         }
 
     </script>
 
+    <div class="modal-pontos" id="modalPontosSelecionados">
+
+        <div class="modal-pontos-conteudo">
+
+            <div class="modal-pontos-cabecalho">
+
+                <div>
+                    <span class="modal-pontos-etiqueta">
+                        MISSÃO ATUAL
+                    </span>
+
+                    <h3>
+                        📍 Pontos selecionados
+                    </h3>
+                </div>
+
+                <button class="botao-fechar-modal" onclick="fecharPontosSelecionados()">
+                    ×
+                </button>
+
+            </div>
+
+            <div class="lista-pontos-selecionados" id="listaPontosSelecionados">
+            </div>
+
+        </div>
+
+    </div>
 </body>
 
 </html>

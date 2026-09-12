@@ -1176,6 +1176,20 @@
             color: initial;
         }
 
+        /* =====================================
+   DRONE COM BATERIA BAIXA
+===================================== */
+
+        .drone-bateria-baixa {
+            box-shadow:
+                0 0 0 3px rgba(245, 158, 11, .45),
+                0 0 14px rgba(245, 158, 11, .35);
+        }
+
+        .drone-bateria-baixa .pulso-drone {
+            border-color: #f59e0b !important;
+        }
+
         /* =========================================
    DESTINOS DAS MISSÕES
 ========================================= */
@@ -1362,6 +1376,216 @@
         .status-retornando {
             background: #fef3c7;
             color: #92400e;
+        }
+
+        /* =====================================
+   PAINEL DE ALERTAS
+===================================== */
+
+        .painel-alertas {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(2, 6, 23, .68);
+
+            backdrop-filter: blur(4px);
+        }
+
+        .painel-alertas.aberto {
+            display: flex;
+        }
+
+        .painel-alertas-conteudo {
+            width: 100%;
+            max-width: 520px;
+
+            max-height: 80vh;
+            overflow-y: auto;
+
+            padding: 22px;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 24px 60px rgba(15, 23, 42, .28);
+        }
+
+        .painel-alertas-cabecalho {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 18px;
+        }
+
+        .painel-alertas-rotulo {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: #dc2626;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: .08em;
+        }
+
+        .painel-alertas-cabecalho h3 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 20px;
+        }
+
+        .fechar-painel-alertas {
+            width: 34px;
+            height: 34px;
+
+            border: 0;
+            border-radius: 8px;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        .lista-alertas {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+        /* =====================================
+   ITENS DO PAINEL DE ALERTAS
+===================================== */
+
+        .lista-alertas>div {
+            display: grid;
+            grid-template-columns: 1fr auto;
+
+            gap: 4px 12px;
+
+            padding: 14px 16px;
+
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+
+            background: #fff7f7;
+        }
+
+        .lista-alertas>div strong {
+            color: #0f172a;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .lista-alertas>div span {
+            grid-column: 1 / 2;
+
+            color: #b91c1c;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .lista-alertas>div b {
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
+
+            align-self: center;
+
+            color: #dc2626;
+
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        /* =====================================
+   GRAVIDADE DOS ALERTAS
+===================================== */
+
+        /* Bateria crítica — vermelho */
+
+        .lista-alertas>div.alerta-critico {
+            background: #fff7f7;
+            border-color: #fecaca;
+        }
+
+        .lista-alertas>div.alerta-critico span {
+            color: #b91c1c;
+        }
+
+        .lista-alertas>div.alerta-critico b {
+            color: #dc2626;
+        }
+
+
+        /* Ligação instável — laranja */
+
+        .lista-alertas>div.alerta-ligacao {
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+
+        .lista-alertas>div.alerta-ligacao span {
+            color: #b45309;
+        }
+
+        .lista-alertas>div.alerta-ligacao b {
+            color: #d97706;
+        }
+
+        /* Bateria baixa — amarelo/laranja */
+
+        .lista-alertas>div.alerta-bateria-baixa {
+            background: #fffbeb;
+            border-color: #fcd34d;
+        }
+
+        .lista-alertas>div.alerta-bateria-baixa span {
+            color: #a16207;
+        }
+
+        .lista-alertas>div.alerta-bateria-baixa b {
+            color: #d97706;
+        }
+
+        /* Bateria baixa durante retorno — atenção elevada */
+
+        .lista-alertas>div.alerta-retorno-bateria {
+            background: #fff7ed;
+            border-color: #fb923c;
+        }
+
+        .lista-alertas>div.alerta-retorno-bateria span {
+            color: #c2410c;
+        }
+
+        .lista-alertas>div.alerta-retorno-bateria b {
+            color: #ea580c;
         }
 
 
@@ -1739,6 +1963,31 @@
             </div>
 
         </section>
+
+        <div class="painel-alertas" id="painelAlertas">
+            <div class="painel-alertas-conteudo">
+
+                <div class="painel-alertas-cabecalho">
+                    <div>
+                        <span class="painel-alertas-rotulo">
+                            ALERTAS ATIVOS
+                        </span>
+
+                        <h3>
+                            Monitorização da frota
+                        </h3>
+                    </div>
+
+                    <button type="button" id="fecharPainelAlertas" class="fechar-painel-alertas">
+                        ✕
+                    </button>
+                </div>
+
+                <div class="lista-alertas" id="listaAlertas">
+                </div>
+
+            </div>
+        </div>
 
         <!-- =====================================
      MONITORIZAÇÃO DE DRONES
@@ -5812,14 +6061,172 @@ clientes.forEach(
             ];
 
             /*
- * Alertas ativos
- * Por enquanto:
- * - bateria abaixo de 20%
+ * Posicionamento visual dos drones
+ * sobre a rota da missão
  */
 
+            drones.forEach(function (drone) {
+
+                /*
+     * Drone retornando:
+     * posiciona no último cliente entregue
+     */
+
+                if (
+                    drone.status === "Retornando" &&
+                    drone.missao &&
+                    Array.isArray(drone.missao.clientes) &&
+                    drone.missao.clientes.length > 0
+                ) {
+
+                    const ultimoClienteMissao =
+                        drone.missao.clientes[
+                        drone.missao.clientes.length - 1
+                        ];
+
+                    const ultimoClienteCompleto =
+                        clientesCadastrados.find(
+                            function (cliente) {
+                                return (
+                                    String(cliente.codigo) ===
+                                    String(ultimoClienteMissao.codigo)
+                                );
+                            }
+                        );
+
+                    if (
+                        ultimoClienteCompleto &&
+                        ultimoClienteCompleto.latitude != null &&
+                        ultimoClienteCompleto.longitude != null
+                    ) {
+
+                        drone.latitude =
+                            Number(
+                                ultimoClienteCompleto.latitude
+                            );
+
+                        drone.longitude =
+                            Number(
+                                ultimoClienteCompleto.longitude
+                            );
+
+                    }
+
+                    return;
+                }
+
+                if (
+                    drone.status !== "Em voo" ||
+                    !drone.missao ||
+                    !Array.isArray(drone.missao.clientes) ||
+                    drone.missao.clientes.length === 0
+                ) {
+                    return;
+                }
+
+                const totalEntregas =
+                    drone.missao.clientes.length;
+
+                const entregasConcluidas =
+                    drone.missao.clientes.filter(
+                        function (cliente) {
+                            return cliente.statusEntrega === "Concluída";
+                        }
+                    ).length;
+
+                /*
+                 * Ainda nenhuma entrega concluída:
+                 * drone fica entre a base e o primeiro destino.
+                 */
+
+                if (
+                    entregasConcluidas === 0 &&
+                    drone.destinos.length > 0
+                ) {
+
+                    const primeiroDestino =
+                        drone.destinos[0];
+
+                    drone.latitude =
+                        coordenadasBase[0] +
+                        (
+                            primeiroDestino.latitude -
+                            coordenadasBase[0]
+                        ) * 0.45;
+
+                    drone.longitude =
+                        coordenadasBase[1] +
+                        (
+                            primeiroDestino.longitude -
+                            coordenadasBase[1]
+                        ) * 0.45;
+
+                    return;
+                }
+
+                /*
+                 * Se algumas entregas já foram concluídas,
+                 * posiciona o drone entre o último ponto
+                 * concluído e o próximo destino.
+                 */
+
+                if (
+                    entregasConcluidas > 0 &&
+                    entregasConcluidas < totalEntregas &&
+                    drone.destinos.length > 0
+                ) {
+
+                    const clienteAnterior =
+                        drone.missao.clientes[
+                        entregasConcluidas - 1
+                        ];
+
+                    const clienteAnteriorCompleto =
+                        clientesCadastrados.find(
+                            function (cliente) {
+                                return (
+                                    String(cliente.codigo) ===
+                                    String(clienteAnterior.codigo)
+                                );
+                            }
+                        );
+
+                    const proximoDestino =
+                        drone.destinos[0];
+
+                    if (clienteAnteriorCompleto) {
+
+                        drone.latitude =
+                            Number(
+                                clienteAnteriorCompleto.latitude
+                            ) +
+                            (
+                                proximoDestino.latitude -
+                                Number(
+                                    clienteAnteriorCompleto.latitude
+                                )
+                            ) * 0.45;
+
+                        drone.longitude =
+                            Number(
+                                clienteAnteriorCompleto.longitude
+                            ) +
+                            (
+                                proximoDestino.longitude -
+                                Number(
+                                    clienteAnteriorCompleto.longitude
+                                )
+                            ) * 0.45;
+
+                    }
+
+                }
+
+            });
+
             /*
- * Alertas ativos
- */
+      * Alertas ativos
+      */
 
             const alertasAtivos = [];
 
@@ -5833,6 +6240,30 @@ clientes.forEach(
                     });
                 }
 
+                if (
+                    drone.bateria >= 20 &&
+                    drone.bateria <= 40
+                ) {
+
+                    if (drone.status === "Retornando") {
+
+                        alertasAtivos.push({
+                            drone: drone.id,
+                            tipo: "⚠️ Bateria baixa durante retorno",
+                            valor: `${drone.bateria}%`
+                        });
+
+                    } else {
+
+                        alertasAtivos.push({
+                            drone: drone.id,
+                            tipo: "🔋 Bateria baixa",
+                            valor: `${drone.bateria}%`
+                        });
+
+                    }
+
+                }
                 if (
                     drone.status !== "Disponível" &&
                     drone.ligacao === "Instável"
@@ -5865,51 +6296,195 @@ clientes.forEach(
 
             if (cardAlertasAtivos) {
 
-                if (alertasAtivos.length > 0) {
+                /* Limpa estados anteriores */
+
+                cardAlertasAtivos.classList.remove(
+                    "card-alerta-ativo",
+                    "card-alerta-atencao"
+                );
+
+
+                /* Existe pelo menos um alerta crítico? */
+
+                const existeAlertaCritico =
+                    alertasAtivos.some(
+                        function (alerta) {
+                            return alerta.tipo.includes(
+                                "Bateria crítica"
+                            );
+                        }
+                    );
+
+
+                if (existeAlertaCritico) {
+
+                    /* 🔴 Existe situação crítica */
+
                     cardAlertasAtivos.classList.add(
                         "card-alerta-ativo"
                     );
-                } else {
-                    cardAlertasAtivos.classList.remove(
-                        "card-alerta-ativo"
-                    );
-                }
 
+                } else if (alertasAtivos.length > 0) {
+
+                    /* 🟡 Existem apenas alertas de atenção */
+
+                    cardAlertasAtivos.classList.add(
+                        "card-alerta-atencao"
+                    );
+
+                }
 
                 cardAlertasAtivos.addEventListener(
                     "click",
                     function () {
 
-                        if (alertasAtivos.length === 0) {
-                            alert(
-                                "Não existem alertas ativos."
+                        const painelAlertas =
+                            document.getElementById(
+                                "painelAlertas"
                             );
+
+                        const listaAlertas =
+                            document.getElementById(
+                                "listaAlertas"
+                            );
+
+                        if (!painelAlertas || !listaAlertas) {
                             return;
                         }
 
-                        let mensagem =
-                            "ALERTAS ATIVOS\n\n";
+                        listaAlertas.innerHTML = "";
 
-                        alertasAtivos.forEach(
-                            function (alerta) {
 
-                                mensagem +=
-                                    `${alerta.drone} — ${alerta.tipo} — ${alerta.valor}\n`;
+                        if (alertasAtivos.length === 0) {
 
-                            }
+                            listaAlertas.innerHTML = `
+                    <div>
+                        Não existem alertas ativos.
+                    </div>
+                `;
+
+                        } else {
+
+                            alertasAtivos.forEach(
+                                function (alerta) {
+
+                                    const item =
+                                        document.createElement(
+                                            "div"
+                                        );
+
+                                    if (
+                                        alerta.tipo.includes(
+                                            "Bateria crítica"
+                                        )
+                                    ) {
+                                        item.classList.add(
+                                            "alerta-critico"
+                                        );
+                                    }
+
+                                    if (
+                                        alerta.tipo.includes(
+                                            "Bateria baixa durante retorno"
+                                        )
+                                    ) {
+                                        item.classList.add(
+                                            "alerta-retorno-bateria"
+                                        );
+                                    }
+
+                                    if (
+                                        alerta.tipo.includes(
+                                            "Bateria baixa"
+                                        ) &&
+                                        !alerta.tipo.includes(
+                                            "durante retorno"
+                                        )
+                                    ) {
+                                        item.classList.add(
+                                            "alerta-bateria-baixa"
+                                        );
+                                    }
+
+                                    if (
+                                        alerta.tipo.includes(
+                                            "Ligação instável"
+                                        )
+                                    ) {
+                                        item.classList.add(
+                                            "alerta-ligacao"
+                                        );
+                                    }
+
+                                    item.innerHTML = `
+                            <strong>
+                                ${alerta.drone}
+                            </strong>
+
+                            <span>
+                                ${alerta.tipo}
+                            </span>
+
+                            <b>
+                                ${alerta.valor}
+                            </b>
+                        `;
+
+                                    listaAlertas.appendChild(
+                                        item
+                                    );
+
+                                }
+                            );
+
+                        }
+
+
+                        painelAlertas.classList.add(
+                            "aberto"
                         );
-
-                        alert(mensagem);
 
                     }
                 );
 
             }
+
             /*
-    /*
-    * Drones disponíveis ficam organizados
-    * visualmente à volta da base
-    */
+ * Fechar painel de alertas
+ */
+
+            const fecharPainelAlertas =
+                document.getElementById(
+                    "fecharPainelAlertas"
+                );
+
+            const painelAlertas =
+                document.getElementById(
+                    "painelAlertas"
+                );
+
+            if (
+                fecharPainelAlertas &&
+                painelAlertas
+            ) {
+
+                fecharPainelAlertas.addEventListener(
+                    "click",
+                    function () {
+
+                        painelAlertas.classList.remove(
+                            "aberto"
+                        );
+
+                    }
+                );
+
+            }
+
+            /*
+            * Drones disponíveis ficam organizados
+            * visualmente à volta da base
+            */
 
             const posicoesBaseDrones = {
                 "DRN-001": [0.00065, 0],
@@ -5959,27 +6534,22 @@ clientes.forEach(
                     "drone-identificado";
 
 
-                /* ALERTA: DRONE A RETORNAR */
-
                 if (drone.status === "Retornando") {
-
                     corDrone = "#f59e0b";
-
-                    classeEstado =
-                        "drone-atencao";
-
+                    classeEstado = "drone-atencao";
                 }
 
-
-                /* ALERTA CRÍTICO: BATERIA BAIXA */
+                if (
+                    drone.bateria >= 20 &&
+                    drone.bateria <= 40 &&
+                    drone.status !== "Retornando"
+                ) {
+                    classeEstado = "drone-bateria-baixa";
+                }
 
                 if (drone.bateria < 20) {
-
                     corDrone = "#dc2626";
-
-                    classeEstado =
-                        "drone-critico";
-
+                    classeEstado = "drone-critico";
                 }
 
 
@@ -6032,6 +6602,21 @@ clientes.forEach(
                     let espessuraRota =
                         3;
 
+                    /*
+ * Bateria baixa
+ * Mantém a cor do drone,
+ * mas torna o tracejado mais evidente.
+ */
+
+                    if (
+                        drone.bateria >= 20 &&
+                        drone.bateria <= 40 &&
+                        drone.status !== "Retornando"
+                    ) {
+                        estiloTracejado = "4, 6";
+                        espessuraRota = 4;
+                    }
+
 
                     /*
                      * Drone retornando à base
@@ -6063,29 +6648,46 @@ clientes.forEach(
                     }
 
 
-                    const rotaDroneBase =
-                        L.polyline(
-                            [
-                                [drone.latitude, drone.longitude],
-                                coordenadasBase
-                            ],
-                            {
-                                color:
-                                    corRota,
-
-                                weight:
-                                    espessuraRota,
-
-                                opacity:
-                                    .85,
-
-                                dashArray:
-                                    estiloTracejado
-                            }
-                        ).addTo(mapa);
-
+                    /*
+ * ROTA DE RETORNO À BASE
+ * Só aparece quando o drone
+ * está realmente retornando.
+ */
 
                     if (drone.status === "Retornando") {
+
+                        let corRotaRetorno =
+                            "#f59e0b";
+
+                        if (drone.bateria < 20) {
+                            corRotaRetorno =
+                                "#dc2626";
+                        }
+
+                        const rotaDroneBase =
+                            L.polyline(
+                                [
+                                    [
+                                        drone.latitude,
+                                        drone.longitude
+                                    ],
+                                    coordenadasBase
+                                ],
+                                {
+                                    color:
+                                        corRotaRetorno,
+
+                                    weight:
+                                        4,
+
+                                    opacity:
+                                        .9,
+
+                                    dashArray:
+                                        "8, 8"
+                                }
+                            )
+                                .addTo(mapa);
 
                         rotaDroneBase.bindTooltip(
                             `🏠 ${drone.id} retornando à base`,
@@ -6153,14 +6755,89 @@ clientes.forEach(
                         drone.destinos.length > 0
                     ) {
 
-                        const pontosRota = [
+                        const pontosRota = [];
 
-                            [
-                                drone.latitude,
-                                drone.longitude
-                            ]
 
-                        ];
+                        /*
+                         * Define de onde começa o trecho
+                         * atual da rota da missão.
+                         */
+
+                        if (
+                            drone.missao &&
+                            Array.isArray(drone.missao.clientes)
+                        ) {
+
+                            const entregasConcluidas =
+                                drone.missao.clientes.filter(
+                                    function (cliente) {
+                                        return (
+                                            cliente.statusEntrega ===
+                                            "Concluída"
+                                        );
+                                    }
+                                );
+
+                            /*
+                             * Nenhuma entrega concluída:
+                             * rota começa na base.
+                             */
+
+                            if (entregasConcluidas.length === 0) {
+
+                                pontosRota.push([
+                                    coordenadasBase[0],
+                                    coordenadasBase[1]
+                                ]);
+
+                            } else {
+
+                                /*
+                                 * Já houve entrega:
+                                 * rota começa no último
+                                 * cliente concluído.
+                                 */
+
+                                const ultimoClienteConcluido =
+                                    entregasConcluidas[
+                                    entregasConcluidas.length - 1
+                                    ];
+
+                                const clienteCompleto =
+                                    clientesCadastrados.find(
+                                        function (cliente) {
+                                            return (
+                                                String(cliente.codigo) ===
+                                                String(
+                                                    ultimoClienteConcluido.codigo
+                                                )
+                                            );
+                                        }
+                                    );
+
+                                if (
+                                    clienteCompleto &&
+                                    clienteCompleto.latitude != null &&
+                                    clienteCompleto.longitude != null
+                                ) {
+
+                                    pontosRota.push([
+                                        Number(clienteCompleto.latitude),
+                                        Number(clienteCompleto.longitude)
+                                    ]);
+
+                                } else {
+
+                                    pontosRota.push([
+                                        coordenadasBase[0],
+                                        coordenadasBase[1]
+                                    ]);
+
+                                }
+
+                            }
+
+                        }
 
 
                         drone.destinos.forEach(

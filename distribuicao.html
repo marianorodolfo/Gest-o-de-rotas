@@ -47,13 +47,26 @@
 
 
         const clientesSelecionados =
-            clientes.filter(function (cliente) {
+            codigosSelecionados
+                .map(function (codigo) {
 
-                return codigosSelecionados.includes(
-                    String(cliente.codigo)
-                );
+                    return clientes.find(
+                        function (cliente) {
 
-            });
+                            return (
+                                String(cliente.codigo) ===
+                                String(codigo)
+                            );
+
+                        }
+                    );
+
+                })
+                .filter(function (cliente) {
+
+                    return cliente != null;
+
+                });
 
 
         const dados =
