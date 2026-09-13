@@ -166,6 +166,9 @@
         ========================================= */
 
         .detalhe-distribuicao {
+            grid-column: 1 / -1;
+            width: 100%;
+
             background: #ffffff;
 
             border: 1px solid #e1e6eb;
@@ -176,7 +179,7 @@
             box-shadow:
                 0 2px 8px rgba(16, 24, 40, 0.06);
 
-            max-width: 900px;
+            max-width: 600px;
         }
 
 
@@ -216,7 +219,7 @@
 
             flex-direction: column;
 
-            gap: 8px;
+            gap: 5px;
 
             margin-bottom: 15px;
 
@@ -225,18 +228,60 @@
 
         .cliente-distribuicao {
 
-            padding: 10px 12px;
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr) auto auto;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 7px 10px;
 
             background: #f8fafc;
 
-            border: 1px solid #e5e7eb;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #2563eb;
 
             border-radius: 8px;
 
             color: #1f2933;
 
-            font-size: 14px;
+            font-size: 12px;
 
+        }
+
+        .cliente-distribuicao button {
+            height: 26px;
+
+            padding: 0 9px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.18s ease,
+                transform 0.18s ease;
+        }
+
+
+        .cliente-distribuicao button:hover {
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
         }
 
 
@@ -354,8 +399,11 @@
             display: flex;
 
             align-items: center;
+            justify-content: flex-end;
 
             gap: 8px;
+
+            width: 100%;
 
             margin-top: 10px;
 
@@ -565,73 +613,294 @@
 
 
         /* =========================================
-           FILTRO DO HISTÓRICO
-        ========================================= */
+   FILTRO DO HISTÓRICO
+========================================= */
 
         #filtroHistorico {
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
-            margin-bottom: 20px;
+            width: fit-content;
 
-            padding: 14px;
+            margin-bottom: 12px;
+            padding: 8px 10px;
 
-            background: white;
+            background: #ffffff;
 
-            border: 1px solid #e1e6eb;
+            border: 1px solid #dbe3ec;
+            border-radius: 9px;
 
-            border-radius: 10px;
-
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, 0.05);
         }
 
 
         #filtroHistorico label {
+            margin: 0 2px 0 0;
 
-            color: #667085;
+            color: #475569;
 
-            font-size: 13px;
+            font-size: 10px;
+            font-weight: 800;
 
-            margin-right: 8px;
-
+            white-space: nowrap;
         }
 
 
         #filtroDataHistorico {
+            height: 30px;
 
-            padding: 6px 8px;
+            padding: 0 8px;
 
-            border:
-                1px solid #d5dce3;
-
+            border: 1px solid #cbd5e1;
             border-radius: 6px;
 
-            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
 
+            font-family:
+                Arial,
+                sans-serif;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            outline: none;
+
+            transition:
+                border-color 0.18s ease,
+                box-shadow 0.18s ease,
+                background 0.18s ease;
+        }
+
+
+        #filtroDataHistorico:focus {
+            background: #ffffff;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, 0.10);
         }
 
 
         #filtroHistorico button {
+            height: 30px;
 
-            margin-left: 8px;
+            margin: 0;
+            padding: 0 10px;
 
-            padding: 6px 10px;
-
-            border:
-                1px solid #d5dce3;
-
-            background: white;
-
-            color: #667085;
-
+            border: 1px solid #cbd5e1;
             border-radius: 6px;
+
+            background: #f8fafc;
+            color: #475569;
+
+            font-size: 10px;
+            font-weight: 800;
 
             cursor: pointer;
 
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease;
         }
 
 
         #filtroHistorico button:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+            color: #123b63;
+        }
 
-            background: #f0f4f7;
+        /* Garantir grelha do resumo da missão */
 
+        .detalhe-distribuicao .grade-detalhe-missao {
+            display: grid !important;
+
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr)) !important;
+
+            gap: 10px;
+
+            width: 100%;
+        }
+
+        .grade-detalhe-missao {
+            display: grid !important;
+
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr)) !important;
+
+            gap: 0;
+
+            width: 100%;
+
+            margin-bottom: 1px;
+
+            padding: 6px 0px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+
+        .item-resumo-missao {
+            display: flex;
+            align-items: center;
+
+            gap: 5px;
+
+            min-width: 0;
+
+            padding: 2px 10px;
+
+            background: transparent;
+
+            border: none;
+
+            margin: 0;
+        }
+
+
+        .item-resumo-missao:not(:first-child) {
+            border-left: 1px solid #cbd5e1;
+        }
+
+
+        .item-resumo-missao span {
+            color: #64748b;
+
+            font-size: 9.5px;
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        .item-resumo-missao strong {
+            color: #123b63;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .status-ponto {
+            padding: 3px 7px;
+
+            border-radius: 999px;
+
+            font-size: 9.5px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        .status-ponto-pendente {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+
+        .status-ponto-concluido {
+            background: #ecfdf3;
+            color: #15803d;
+        }
+
+        .status-detalhe-missao {
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+        }
+
+
+        .status-detalhe-rotulo {
+            color: #64748b;
+
+            font-size: 10.5px;
+            font-weight: 700;
+        }
+
+        .cabecalho-detalhe-missao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 16px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .rotulo-detalhe-missao {
+            display: block;
+
+            margin-bottom: 2px;
+
+            color: #64748b;
+
+            font-size: 9.5px;
+            font-weight: 700;
+
+            letter-spacing: 0.7px;
+        }
+
+
+        .cabecalho-detalhe-missao h1 {
+            margin: 0;
+
+            color: #123b63;
+
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+
+        .estado-detalhe-missao {
+            padding: 4px 9px;
+
+            border-radius: 999px;
+
+            font-size: 10.5px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        .estado-detalhe-andamento {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+
+        .estado-detalhe-retornando {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .estado-detalhe-concluido {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .total-pontos-entrega {
+            color: #64748b;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        body:has(.detalhe-distribuicao) #filtroHistorico {
+            display: none !important;
         }
 
 
@@ -815,19 +1084,27 @@
 
         <div id="filtroHistorico" style="display: none;">
 
-            <label for="filtroDataHistorico">
+            <label for="filtroClienteHistorico">
 
-                Filtrar histórico por dia
+                Cliente
 
             </label>
 
+            <input type="text" id="filtroClienteHistorico" placeholder="Nome ou nº do cliente">
+
+
+            <label for="filtroDataHistorico">
+
+                Data
+
+            </label>
 
             <input type="date" id="filtroDataHistorico">
 
 
             <button type="button" id="btnLimparFiltroHistorico">
 
-                Todos os dias
+                Limpar filtros
 
             </button>
 
@@ -977,12 +1254,26 @@
            MOSTRAR LISTA
         ========================================= */
 
+
         function mostrarLista(
             tipo,
             dataForcada
         ) {
 
             lista.innerHTML = "";
+
+            const filtroHistorico =
+                document.getElementById(
+                    "filtroHistorico"
+                );
+
+            if (filtroHistorico) {
+
+                filtroHistorico.style.display =
+                    tipo === "historico"
+                        ? ""
+                        : "none";
+            }
 
 
             /* =====================================
@@ -1067,6 +1358,58 @@
                                 filtroDataHistorico.value
                             );
 
+                            const pesquisaCliente =
+                                (
+                                    document.getElementById(
+                                        "filtroClienteHistorico"
+                                    )?.value || ""
+                                )
+                                    .trim()
+                                    .toLowerCase();
+
+
+                            if (pesquisaCliente) {
+
+                                const encontrouCliente =
+                                    Array.isArray(
+                                        distribuicao.clientes
+                                    ) &&
+                                    distribuicao.clientes.some(
+                                        function (cliente) {
+
+                                            const codigo =
+                                                String(
+                                                    cliente.codigo || ""
+                                                )
+                                                    .toLowerCase();
+
+                                            const nome =
+                                                String(
+                                                    cliente.nome || ""
+                                                )
+                                                    .toLowerCase();
+
+
+                                            return (
+                                                codigo.includes(
+                                                    pesquisaCliente
+                                                ) ||
+                                                nome.includes(
+                                                    pesquisaCliente
+                                                )
+                                            );
+
+                                        }
+                                    );
+
+
+                                if (!encontrouCliente) {
+                                    return false;
+                                }
+
+                            }
+
+
                             const dataFiltro =
                                 dataForcada ||
                                 (
@@ -1090,10 +1433,12 @@
                                     partes[0];
 
 
-                                return (
-                                    distribuicao.data ===
+                                if (
+                                    distribuicao.data !==
                                     dataFormatada
-                                );
+                                ) {
+                                    return false;
+                                }
 
                             }
 
@@ -1451,6 +1796,12 @@
                 return;
             }
 
+            document.getElementById(
+                "filtroHistorico"
+            )?.style.setProperty(
+                "display",
+                "none"
+            );
 
             const cliente =
                 distribuicao.clientes.find(
@@ -1518,6 +1869,7 @@
 
         }
 
+        let abaRetornoDetalhe = "andamento";
 
         /* =========================================
            ABRIR DISTRIBUIÇÃO
@@ -1554,6 +1906,36 @@
 
             }
 
+            /*
+ * Registar detalhe da missão
+ * no histórico do navegador
+ */
+
+            const abaOrigem =
+                distribuicao.status === "Concluída"
+                    ? "historico"
+                    : "andamento";
+
+
+            history.replaceState(
+                {
+                    tela: "lista-missoes",
+                    aba: abaOrigem
+                },
+                "",
+                window.location.href
+            );
+
+
+            history.pushState(
+                {
+                    tela: "detalhe-missao",
+                    id: String(id),
+                    aba: abaOrigem
+                },
+                "",
+                window.location.href
+            );
 
             /* =====================================
                CLIENTES
@@ -1579,94 +1961,138 @@
                     class="detalhe-distribuicao"
                 >
 
-                    <h1>
-                        Missão
-                    </h1>
+     <div class="cabecalho-detalhe-missao">
 
+    <div>
+        <span class="rotulo-detalhe-missao">
+            MISSÃO OPERACIONAL
+        </span>
 
-                    <h2>
+        <h1>
+            Missão
+        </h1>
+    </div>
 
-                        ${distribuicao.distribuidor ||
-                "Distribuidor"
+    <div class="status-detalhe-missao">
+
+    <span class="status-detalhe-rotulo">
+        Status:
+    </span>
+
+    <span
+    class="
+        estado-detalhe-missao
+        ${distribuicao.status === "Concluída"
+                    ? "estado-detalhe-concluido"
+                    : distribuicao.retornoBase === "Em andamento"
+                        ? "estado-detalhe-retornando"
+                        : "estado-detalhe-andamento"
                 }
+    "
+>
+    ${distribuicao.status === "Concluída"
+                    ? "Missão concluída"
+                    : distribuicao.retornoBase === "Em andamento"
+                        ? "Retornando à base"
+                        : "Em andamento"
+                }
+</span>
 
-                    </h2>
+</div>
+
+</div>
 
 
-                    <div class="detalhe-item">
+<div class="grade-detalhe-missao">
 
-                        Veículo:
+<div class="item-resumo-missao">
 
-                        <strong>
+        <span>Operador</span>
 
-                            ${distribuicao.veiculo ||
+        <strong>
+            ${distribuicao.distribuidor ||
                 "Não registado"
                 }
-
-                        </strong>
-
-                    </div>
+        </strong>
+    </div>
 
 
-                    <div class="detalhe-item">
+<div class="item-resumo-missao">
 
-                        Data:
+        <span>Aeronave</span>
 
-                        <strong>
-
-                            ${distribuicao.data ||
+        <strong>
+            ${distribuicao.veiculo ||
                 "Não registada"
                 }
-
-                        </strong>
-
-                    </div>
+        </strong>
+    </div>
 
 
-                    <div class="detalhe-item">
+<div class="item-resumo-missao">
 
-                        Início:
+        <span>Data</span>
 
-                        <strong>
+        <strong>
+            ${distribuicao.data ||
+                "Não registada"
+                }
+        </strong>
+    </div>
 
-                            ${distribuicao.horaInicio ||
+
+<div class="item-resumo-missao">
+
+        <span>Início</span>
+
+        <strong>
+            ${distribuicao.horaInicio ||
                 "Não registado"
                 }
-
-                        </strong>
-
-                    </div>
+        </strong>
+    </div>
 
 
-                    ${distribuicao.horaFim
+    ${distribuicao.horaFim
 
                     ? `
 
-                                <div
-                                    class="detalhe-item"
-                                >
+            <div class="item-resumo-missao">
 
-                                    Fim:
+                <span>Fim</span>
 
-                                    <strong>
+                <strong>
+                    ${distribuicao.horaFim}
+                </strong>
 
-                                        ${distribuicao.horaFim}
+            </div>
 
-                                    </strong>
-
-                                </div>
-
-                            `
+        `
 
                     : ""
                 }
 
+</div>
 
-                    <h3>
 
-                        Pontos de entrega
+                   <div class="cabecalho-pontos-entrega">
 
-                    </h3>
+    <div>
+
+        <h3>
+            Pontos de entrega
+            <span class="total-pontos-entrega">
+                -
+                ${clientesDaDistribuicao.length}
+                ${clientesDaDistribuicao.length === 1
+                    ? "entrega"
+                    : "entregas"
+                }
+            </span>
+        </h3>
+    </div>
+
+</div>
 
 
                     <div
@@ -1705,9 +2131,17 @@
 
         </strong>
 
-        <span>
-            ${statusEntrega}
-        </span>
+        <span
+    class="
+        status-ponto
+        ${statusEntrega === "Concluída"
+                                        ? "status-ponto-concluido"
+                                        : "status-ponto-pendente"
+                                    }
+    "
+>
+    ${statusEntrega}
+</span>
 
         ${statusEntrega !== "Concluída"
 
@@ -1755,38 +2189,6 @@
                     </div>
 
 
-                    <div
-                        class="detalhe-item"
-                        style="
-                            margin-top: 10px;
-                        "
-                    >
-
-                        Status:
-
-
-                        <span
-                            class="
-                                estado-distribuicao
-                                ${distribuicao.status ===
-                    "Em andamento"
-
-                    ? "estado-em-andamento"
-
-                    : ""
-                }
-                            "
-                        >
-
-                            ${distribuicao.status ||
-                "Concluída"
-                }
-
-                        </span>
-
-                    </div>
-
-
                     ${distribuicao.duracao !==
                     undefined
 
@@ -1829,23 +2231,17 @@
         </button>
     `
 
-                    : `
-        <button
-            id="finalizarDistribuicao"
+                    : distribuicao.status !== "Concluída"
 
-            ${distribuicao.status === "Concluída"
-                        ? "disabled"
+                        ? `
+            <button
+                id="finalizarDistribuicao"
+            >
+                Finalizar missão
+            </button>
+        `
+
                         : ""
-                    }
-        >
-
-            ${distribuicao.status === "Concluída"
-                        ? "Missão concluída"
-                        : "Finalizar missão"
-                    }
-
-        </button>
-    `
                 }
                         <button
                             class="
@@ -1976,7 +2372,6 @@
                         filtroDataHistorico.value =
                             "";
 
-
                         mostrarLista(
                             "historico"
                         );
@@ -2076,13 +2471,40 @@
                 );
 
 
-            if (
-                botaoVoltar
-            ) {
+            if (botaoVoltar) {
 
                 botaoVoltar.addEventListener(
                     "click",
                     function () {
+
+                        if (
+                            history.state &&
+                            history.state.tela ===
+                            "detalhe-missao"
+                        ) {
+
+                            history.back();
+
+                            return;
+                        }
+
+
+                        if (
+                            distribuicao.status ===
+                            "Concluída"
+                        ) {
+
+                            ativarAba(
+                                "historico"
+                            );
+
+                            mostrarLista(
+                                "historico"
+                            );
+
+                            return;
+                        }
+
 
                         mostrarDistribuicoes();
 
@@ -2093,7 +2515,10 @@
 
         }
 
-
+        /*
+ * Voltar pelo navegador
+ * do detalhe para a lista de missões
+ */
         /* =========================================
            ATIVAR ABA
         ========================================= */
@@ -2255,8 +2680,8 @@
 
 
         /* =========================================
-           FILTRO POR DATA
-        ========================================= */
+   FILTRO POR DATA
+========================================= */
 
         filtroDataHistorico.addEventListener(
             "change",
@@ -2271,6 +2696,31 @@
 
 
         /* =========================================
+           FILTRO POR CLIENTE
+        ========================================= */
+
+        const filtroClienteHistorico =
+            document.getElementById(
+                "filtroClienteHistorico"
+            );
+
+
+        if (filtroClienteHistorico) {
+
+            filtroClienteHistorico.addEventListener(
+                "input",
+                function () {
+
+                    mostrarLista(
+                        "historico"
+                    );
+
+                }
+            );
+
+        }
+
+        /* =========================================
            LIMPAR FILTRO
         ========================================= */
 
@@ -2281,6 +2731,9 @@
                 filtroDataHistorico.value =
                     "";
 
+                if (filtroClienteHistorico) {
+                    filtroClienteHistorico.value = "";
+                }
 
                 mostrarLista(
                     "historico"
@@ -2896,6 +3349,37 @@
         /* =========================================
            INICIAR
         ========================================= */
+
+        window.addEventListener(
+            "popstate",
+            function (event) {
+
+                const estado =
+                    event.state;
+
+
+                if (
+                    estado &&
+                    estado.tela === "lista-missoes" &&
+                    estado.aba === "historico"
+                ) {
+
+                    ativarAba(
+                        "historico"
+                    );
+
+                    mostrarLista(
+                        "historico"
+                    );
+
+                    return;
+                }
+
+
+                mostrarDistribuicoes();
+
+            }
+        );
 
         inicializarAPartirDaURL();
 

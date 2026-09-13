@@ -92,6 +92,40 @@
             font-weight: 800;
         }
 
+        .cabecalho-configuracao-status {
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        /* Aguardando */
+
+        .cabecalho-configuracao-status.status-aguardando {
+            background: rgba(148, 163, 184, 0.10);
+            border-color: rgba(203, 213, 225, 0.18);
+            color: #cbd5e1;
+        }
+
+
+        /* Em configuração */
+
+        .cabecalho-configuracao-status.status-andamento {
+            background: rgba(59, 130, 246, 0.14);
+            border-color: rgba(147, 197, 253, 0.28);
+            color: #bfdbfe;
+        }
+
+
+        /* Completa */
+
+        .cabecalho-configuracao-status.status-completo {
+            background: rgba(34, 197, 94, 0.14);
+            border-color: rgba(134, 239, 172, 0.28);
+            color: #bbf7d0;
+        }
+
         .ponto-status-configuracao {
             width: 7px;
             height: 7px;
@@ -293,6 +327,16 @@
             width: 100%;
         }
 
+
+        .grade-detalhe-missao .detalhe-item strong {
+            color: #123b63;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
         #areaVeiculo,
         #areaModoOperacao,
         #areaDistribuidor {
@@ -306,6 +350,19 @@
             background: #f8fafc;
 
             box-sizing: border-box;
+        }
+
+        /* Campo de configuração concluído */
+
+        #areaVeiculo.configurado,
+        #areaModoOperacao.configurado,
+        #areaDistribuidor.configurado {
+            border-color: #93c5fd;
+
+            background: #f8fbff;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, 0.08);
         }
 
         #areaVeiculo h2,
@@ -1139,13 +1196,73 @@
                     ".ponto-status-configuracao"
                 );
 
+            const statusConfiguracao =
+                document.querySelector(
+                    ".cabecalho-configuracao-status"
+                );
+
             const botao =
                 document.getElementById(
                     "botaoIniciarMissao"
                 );
 
+            const areaDrone =
+                document.getElementById(
+                    "areaVeiculo"
+                );
+
+            const areaModo =
+                document.getElementById(
+                    "areaModoOperacao"
+                );
+
+            const areaOperador =
+                document.getElementById(
+                    "areaDistribuidor"
+                );
+
+
+            if (areaDrone) {
+
+                areaDrone.classList.toggle(
+                    "configurado",
+                    Boolean(drone)
+                );
+
+            }
+
+
+            if (areaModo) {
+
+                areaModo.classList.toggle(
+                    "configurado",
+                    Boolean(modo)
+                );
+
+            }
+
+
+            if (areaOperador) {
+
+                areaOperador.classList.toggle(
+                    "configurado",
+                    Boolean(operador)
+                );
+
+            }
+
             if (!texto || !ponto) {
                 return;
+            }
+
+            if (statusConfiguracao) {
+
+                statusConfiguracao.classList.remove(
+                    "status-aguardando",
+                    "status-andamento",
+                    "status-completo"
+                );
+
             }
 
             const configuracaoCompleta =
@@ -1164,6 +1281,12 @@
                 ponto.className =
                     "ponto-status-configuracao status-completo";
 
+                if (statusConfiguracao) {
+                    statusConfiguracao.classList.add(
+                        "status-completo"
+                    );
+                }
+
                 return;
             }
 
@@ -1175,6 +1298,12 @@
                 ponto.className =
                     "ponto-status-configuracao status-andamento";
 
+                if (statusConfiguracao) {
+                    statusConfiguracao.classList.add(
+                        "status-andamento"
+                    );
+                }
+
                 return;
             }
 
@@ -1183,6 +1312,13 @@
 
             ponto.className =
                 "ponto-status-configuracao status-aguardando";
+
+            if (statusConfiguracao) {
+                statusConfiguracao.classList.add(
+                    "status-aguardando"
+                );
+            }
+
         }
 
         atualizarDistribuidores();
