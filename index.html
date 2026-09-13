@@ -24,8 +24,8 @@
         }
 
         #conteudo {
-            margin-left: 230px;
-            padding: 70px 30px 30px 30px;
+            margin-left: 185px;
+            padding: 70px 16px 24px 16px;
         }
 
         /* =========================================
@@ -83,36 +83,58 @@
 
         .indicadores-dashboard {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 8px;
+            margin-bottom: 0;
         }
 
         .indicador-dashboard {
+            min-width: 0;
+
             background: white;
-            border-radius: 12px;
-            padding: 22px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 9px;
+
+            padding: 10px 12px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.06);
+
             cursor: pointer;
+
             transition:
                 transform 0.2s ease,
                 box-shadow 0.2s ease;
         }
 
         .indicador-dashboard:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 14px rgba(0, 0, 0, 0.09);
         }
 
         .indicador-dashboard strong {
             display: block;
-            font-size: 32px;
-            margin-bottom: 8px;
+
+            font-size: 22px;
+            line-height: 1;
+
+            margin-bottom: 4px;
         }
 
         .indicador-dashboard span {
+            display: block;
+
             color: #667085;
-            font-size: 15px;
+
+            font-size: 9px;
+            line-height: 1.15;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .indicador-andamento strong {
@@ -138,40 +160,43 @@
         .dashboard-colunas {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
+            gap: 15px;
             margin-bottom: 25px;
         }
 
         .bloco-dashboard {
             background: white;
             border-radius: 12px;
-            padding: 22px;
+            padding: 3px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .bloco-dashboard h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
+            margin: 2px 0 5px 0;
+            font-size: 15px;
+            line-height: 1.1;
         }
 
         /* =========================================
-           DISTRIBUIDORES
-        ========================================= */
+   OPERADORES EM MISSÃO
+========================================= */
 
         .lista-estafetas {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 6px;
         }
 
         .linha-estado {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            padding: 13px;
+            min-width: 0;
+            gap: 10px;
+            padding: 6px 5px;
             border: 1px solid #e5e7eb;
-            border-radius: 9px;
+            border-radius: 8px;
             cursor: pointer;
             transition:
                 transform 0.2s ease,
@@ -180,32 +205,42 @@
         }
 
         .linha-estado:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             background: #f8fafc;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-        }
-
-        .nome-estado {
-            font-weight: bold;
-            color: #1f2933;
+            box-shadow:
+                0 3px 8px rgba(0, 0, 0, 0.05);
         }
 
         .informacao-estafeta {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            min-width: 0;
+            gap: 2px;
+        }
+
+        .nome-estado {
+            color: #1f2933;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .detalhe-estafeta {
-            font-size: 12px;
             color: #667085;
+            font-size: 9px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .estado {
-            padding: 6px 10px;
+            flex-shrink: 0;
+            padding: 5px 7px;
             border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
+            font-size: 9px;
+            font-weight: 800;
             white-space: nowrap;
         }
 
@@ -214,7 +249,13 @@
             color: #991b1b;
         }
 
+        .estado-retornando {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
         .sem-dados {
+            grid-column: 1 / -1;
             color: #667085;
             font-style: italic;
         }
@@ -226,28 +267,28 @@
         .meta-dia {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 9px;
         }
 
         .meta-numero {
             display: flex;
             align-items: baseline;
-            gap: 8px;
+            gap: 6px;
         }
 
         .meta-numero strong {
-            font-size: 34px;
+            font-size: 28px;
             color: #2563eb;
         }
 
         .meta-numero span {
             color: #667085;
-            font-size: 14px;
+            font-size: 11px;
         }
 
         .barra-meta {
             width: 100%;
-            height: 12px;
+            height: 8px;
             background: #e5e7eb;
             border-radius: 20px;
             overflow: hidden;
@@ -264,40 +305,41 @@
         .informacao-meta {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
         .item-meta {
             background: #f8fafc;
             border-radius: 8px;
-            padding: 12px;
+            padding: 8px 10px;
         }
 
         .item-meta span {
             display: block;
             color: #667085;
-            font-size: 13px;
-            margin-bottom: 5px;
+            font-size: 10px;
+            margin-bottom: 3px;
         }
 
         .item-meta strong {
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .mensagem-meta {
-            font-size: 14px;
+            font-size: 9px;
+            margin-left: 5px;
             color: #667085;
         }
 
         /* =========================================
            ÁREA INFERIOR
         ========================================= */
-
         .dashboard-inferior {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 25px;
+            gap: 14px;
+            margin-top: 14px;
+            align-items: start;
         }
 
         /* =========================================
@@ -307,15 +349,15 @@
         .desempenho-operacional {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 8px;
         }
 
         .item-desempenho {
             background: #f8fafc;
-            border-radius: 9px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 10px 12px;
             border: 1px solid #eef2f6;
-            min-height: 105px;
+            min-height: 72px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -324,24 +366,24 @@
         .item-desempenho span {
             display: block;
             color: #667085;
-            font-size: 13px;
-            margin-bottom: 8px;
+            font-size: 10px;
+            margin-bottom: 4px;
         }
 
         .item-desempenho strong {
-            font-size: 24px;
+            font-size: 13px;
+            line-height: 1;
             color: #1f2933;
         }
 
         .item-desempenho small {
             display: block;
-            margin-top: 5px;
+            margin-top: 3px;
             color: #98a2b3;
-            font-size: 12px;
+            font-size: 9px;
         }
 
         .item-lider {
-            grid-column: 1 / -1;
             background:
                 linear-gradient(135deg,
                     #f8fafc,
@@ -352,21 +394,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .lider-nome {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 7px;
         }
 
         .lider-trofeu {
-            font-size: 30px;
+            font-size: 22px;
         }
 
         .lider-nome strong {
-            font-size: 21px;
+            font-size: 15px;
+            line-height: 1.1;
         }
 
         .lider-entregas {
@@ -375,14 +418,15 @@
 
         .lider-entregas strong {
             color: #2563eb;
-            font-size: 25px;
+            font-size: 19px;
+            line-height: 1;
         }
 
         .lider-entregas span {
             display: block;
-            margin: 0;
+            margin: 2px 0 0;
             color: #667085;
-            font-size: 12px;
+            font-size: 9px;
         }
 
         /* =========================================
@@ -393,26 +437,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 18px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .planeamento-resumo strong {
-            font-size: 25px;
+            font-size: 20px;
+            line-height: 1;
         }
 
         .planeamento-resumo span {
             color: #667085;
-            font-size: 13px;
+            font-size: 10px;
         }
 
         .barra-mensal {
             width: 100%;
-            height: 10px;
+            height: 7px;
             background: #e5e7eb;
             border-radius: 20px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .barra-mensal-progresso {
@@ -431,8 +476,8 @@
             display: flex;
             align-items: flex-end;
             gap: 2px;
-            height: 210px;
-            padding: 15px 5px 5px 5px;
+            height: 145px;
+            padding: 8px 5px 4px 5px;
             border-bottom: 1px solid #e5e7eb;
             overflow-x: hidden;
         }
@@ -450,8 +495,8 @@
 
         .coluna-dia {
             width: 100%;
-            max-width: 24px;
-            height: 150px;
+            max-width: 22px;
+            height: 100px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
@@ -633,12 +678,9 @@
 
         .centro-operacoes {
             display: grid;
-
             grid-template-columns:
-                minmax(0, 2fr) minmax(320px, 1fr);
-
-            gap: 20px;
-
+                minmax(0, 1.65fr) minmax(380px, 1fr);
+            gap: 6px;
             margin-bottom: 24px;
         }
 
@@ -654,8 +696,8 @@
         }
 
         .painel-mapa-drone {
-            padding: 20px;
-            align-self: start;
+            padding: 10px;
+            align-self: stretch;
         }
 
         .cabecalho-painel {
@@ -762,9 +804,9 @@
             justify-content: space-between;
             align-items: flex-start;
 
-            gap: 10px;
+            gap: 8px;
 
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
 
         .rotulo-drone {
@@ -810,13 +852,13 @@
 ========================================= */
 
         .camera-drone {
-            height: 250px;
+            height: 145px;
 
-            margin-bottom: 18px;
+            margin-bottom: 8px;
 
             overflow: hidden;
 
-            border-radius: 12px;
+            border-radius: 10px;
 
             background: #0f172a;
         }
@@ -831,21 +873,22 @@
             justify-content: center;
             align-items: center;
 
-            gap: 5px;
+            gap: 3px;
 
             color: #ffffff;
         }
 
         .camera-placeholder>span {
-            font-size: 28px;
+            font-size: 22px;
         }
 
         .camera-placeholder strong {
-            font-size: 14px;
+            font-size: 11px;
         }
 
         .camera-placeholder small {
             color: #94a3b8;
+            font-size: 9px;
         }
 
 
@@ -857,16 +900,18 @@
             display: grid;
 
             grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+                repeat(4, minmax(0, 1fr));
 
-            gap: 10px;
+            gap: 6px;
         }
 
         .telemetria-item {
-            padding: 12px;
+            min-width: 0;
+
+            padding: 7px 8px;
 
             border: 1px solid #e5e7eb;
-            border-radius: 10px;
+            border-radius: 8px;
 
             background: #f8fafc;
         }
@@ -874,17 +919,27 @@
         .telemetria-item span {
             display: block;
 
-            margin-bottom: 5px;
+            margin-bottom: 3px;
 
             color: #64748b;
 
-            font-size: 11px;
+            font-size: 9px;
+            line-height: 1.1;
+
+            white-space: nowrap;
         }
 
         .telemetria-item strong {
+            display: block;
+
             color: #0f172a;
 
-            font-size: 15px;
+            font-size: 12px;
+            line-height: 1.1;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .progresso-missao {
@@ -1591,6 +1646,17 @@
             color: #ea580c;
         }
 
+        /* Drone retornando — laranja */
+
+        .lista-alertas>div.drone-retornando {
+            background: #fff7ed;
+            border-color: #fb923c;
+        }
+
+        .lista-alertas>div.drone-retornando span {
+            color: #c2410c;
+        }
+
         .acoes-mapa {
             display: flex;
             align-items: center;
@@ -1684,6 +1750,85 @@
 
         .estado-sistema {
             animation: pulsoSistemaOnline 2s ease-in-out infinite;
+        }
+
+        .coluna-mapa-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .topo-conteudo {
+            display: flex;
+            align-items: center;
+
+            width: 100%;
+            height: 100%;
+
+            gap: 18px;
+        }
+
+        .titulo-topo-dashboard {
+            min-width: 250px;
+            margin-left: 22px;
+        }
+
+        .titulo-topo-dashboard h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 21px;
+            line-height: 1.1;
+            font-weight: 900;
+        }
+
+        .titulo-topo-dashboard span {
+            display: block;
+            margin-top: 4px;
+            margin-left: 38px;
+            color: #cbd5e1;
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+        .filtros-topo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .filtros-topo .filtro-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filtros-topo .filtro-dashboard label {
+            color: #cbd5e1;
+            font-size: 7px;
+            font-weight: 800;
+        }
+
+        .filtros-topo .filtro-dashboard input,
+        .filtros-topo .filtro-dashboard select {
+            height: 14px;
+            padding: 0 6px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            border-radius: 5px;
+            background: #ffffff;
+            color: #123b63;
+            font-size: 8px;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .filtros-topo .filtro-dashboard input,
+        .filtros-topo .filtro-dashboard select {
+            border: 1px solid #3b82f6;
+
+            box-shadow:
+                0 0 0 2px rgba(59, 130, 246, .18);
         }
 
         @keyframes pulsoSistemaOnline {
@@ -1892,40 +2037,25 @@
 
     <header class="topo">
 
-        <div class="logo">
-            <img src="img/logo-primo-pecas.jpeg/WhatsApp Image 2026-09-09 at 22.52.06.jpeg">
-        </div>
+        <div class="topo-conteudo">
 
-    </header>
+            <div class="logo">
+                <img src="img/logo-primo-pecas.jpeg/WhatsApp Image 2026-09-09 at 22.52.06.jpeg">
+            </div>
 
-
-    <div id="menu-container"></div>
-
-
-    <main id="conteudo">
-
-        <!-- =====================================
-     CENTRO DE OPERAÇÕES
-====================================== -->
-
-        <div class="cabecalho-dashboard">
-
-            <div class="titulo-dashboard">
+            <div class="titulo-topo-dashboard">
 
                 <h1>
                     🛰️ Centro de Operações
                 </h1>
 
-                <p>
+                <span>
                     Monitorização e gestão da frota de drones
-                </p>
+                </span>
 
             </div>
 
-
-            <!-- FILTROS -->
-
-            <div class="filtros-dashboard">
+            <div class="filtros-dashboard filtros-topo">
 
                 <div class="filtro-dashboard">
 
@@ -1936,7 +2066,6 @@
                     <input type="date" id="filtroDataDashboard">
 
                 </div>
-
 
                 <div class="filtro-dashboard">
 
@@ -1962,7 +2091,6 @@
 
                 </div>
 
-
                 <div class="filtro-dashboard">
 
                     <label for="filtroDistribuidor">
@@ -1983,6 +2111,13 @@
 
         </div>
 
+    </header>
+
+
+    <div id="menu-container"></div>
+
+
+    <main id="conteudo">
 
         <!-- =====================================
      INDICADORES PRINCIPAIS
@@ -2024,7 +2159,7 @@
             </div>
 
 
-            <div class="card-operacao">
+            <div class="card-operacao" id="cardDronesVoo" style="cursor: pointer;">
 
                 <span class="card-operacao-titulo">
                     Drones em voo
@@ -2099,45 +2234,102 @@
             </div>
         </div>
 
+        <div class="painel-alertas" id="painelDronesVoo">
+            <div class="painel-alertas-conteudo">
+
+                <div class="painel-alertas-cabecalho">
+                    <div>
+                        <span class="painel-alertas-rotulo">
+                            DRONES EM VOO
+                        </span>
+
+                        <h3>
+                            Missões ativas
+                        </h3>
+                    </div>
+
+                    <button type="button" id="fecharPainelDronesVoo" class="fechar-painel-alertas">
+                        ✕
+                    </button>
+                </div>
+
+                <div class="lista-alertas" id="listaDronesVoo">
+                </div>
+
+            </div>
+        </div>
+
         <!-- =====================================
      MONITORIZAÇÃO DE DRONES
 ====================================== -->
 
         <section class="centro-operacoes">
 
-            <!-- MAPA OPERACIONAL -->
+            <div class="coluna-mapa-dashboard">
 
-            <div class="painel-mapa-drone">
+                <!-- MAPA OPERACIONAL -->
 
-                <div class="cabecalho-painel">
+                <div class="painel-mapa-drone">
 
-                    <div>
-                        <h2>🗺️ Operação em tempo real</h2>
-                        <p>
-                            Posição, rotas e missões ativas
-                        </p>
+                    <div class="cabecalho-painel">
+
+                        <div>
+                            <h2>🗺️ Operação em tempo real</h2>
+                            <p>
+                                Posição, rotas e missões ativas
+                            </p>
+                        </div>
+
+                        <div class="acoes-mapa">
+
+                            <span class="estado-sistema">
+                                ● Sistema online
+                            </span>
+
+                            <button type="button" class="botao-expandir-mapa" id="botaoExpandirMapa">
+                                ⛶ Expandir mapa
+                            </button>
+
+                        </div>
+
                     </div>
 
-                    <div class="acoes-mapa">
-
-                        <span class="estado-sistema">
-                            ● Sistema online
-                        </span>
-
-                        <button type="button" class="botao-expandir-mapa" id="botaoExpandirMapa">
-                            ⛶ Expandir mapa
-                        </button>
-
+                    <div class="mapa-operacional" id="mapaOperacional">
                     </div>
+
+                    <button type="button" class="botao-voltar-mapa" id="botaoVoltarMapa">
+                        ↩ Voltar ao Dashboard
+                    </button>
 
                 </div>
 
-                <div class="mapa-operacional" id="mapaOperacional">
-                </div>
+                <div class="indicadores-dashboard" id="indicadoresDashboard">
 
-                <button type="button" class="botao-voltar-mapa" id="botaoVoltarMapa">
-                    ↩ Voltar ao Dashboard
-                </button>
+                    <div class="indicador-dashboard indicador-andamento" onclick="abrirPendentes()"
+                        title="Abrir distribuições pendentes">
+                        <strong id="totalAndamento">0</strong>
+                        <span>Entregas pendentes</span>
+                    </div>
+
+                    <div class="indicador-dashboard indicador-concluidas" onclick="abrirAnaliseDistribuicoes()"
+                        title="Abrir análise das distribuições">
+                        <strong id="totalConcluidas">0</strong>
+                        <span>Distribuições realizadas</span>
+                    </div>
+
+                    <div class="indicador-dashboard indicador-clientes" onclick="abrirClientesDia()"
+                        title="Abrir clientes atendidos">
+                        <strong id="totalClientes">0</strong>
+                        <span>Clientes atendidos</span>
+                    </div>
+
+                    <div class="indicador-dashboard indicador-entregas" onclick="abrirHistoricoDia()"
+                        title="Abrir entregas do dia">
+                        <strong id="totalEntregas">0</strong>
+                        <span>Total de entregas</span>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -2185,13 +2377,13 @@
                 <div class="telemetria-drone">
                     <div class="telemetria-item" id="cardBateriaDrone">
                         <span>
-                            <span id="iconeBateriaDrone">🔋</span>
-                            Bateria
-                        </span>
+                            <span id="iconeBateriaDrone">🔋
+                                Bateria
+                            </span>
 
-                        <strong id="droneBateria">
-                            74%
-                        </strong>
+                            <strong id="droneBateria">
+                                74%
+                            </strong>
                     </div>
 
                     <div class="telemetria-item">
@@ -2262,79 +2454,6 @@
 
 
         <!-- =====================================
-             INDICADORES
-        ====================================== -->
-
-        <div class="indicadores-dashboard" id="indicadoresDashboard">
-
-
-            <div class="
-                    indicador-dashboard
-                    indicador-andamento
-                " onclick="abrirPendentes()" title="Abrir distribuições pendentes">
-
-                <strong id="totalAndamento">
-                    0
-                </strong>
-
-                <span>
-                    Entregas pendentes
-                </span>
-
-            </div>
-
-
-            <div class="
-                    indicador-dashboard
-                    indicador-concluidas
-                " onclick="abrirAnaliseDistribuicoes()" title="Abrir análise das distribuições">
-
-                <strong id="totalConcluidas">
-                    0
-                </strong>
-
-                <span>
-                    Distribuições realizadas
-                </span>
-
-            </div>
-
-
-            <div class="
-                    indicador-dashboard
-                    indicador-clientes
-                " onclick="abrirClientesDia()" title="Abrir clientes atendidos">
-
-                <strong id="totalClientes">
-                    0
-                </strong>
-
-                <span>
-                    Clientes Atendidos
-                </span>
-
-            </div>
-
-
-            <div class="
-                    indicador-dashboard
-                    indicador-entregas
-                " onclick="abrirHistoricoDia()" title="Abrir entregas do dia">
-
-                <strong id="totalEntregas">
-                    0
-                </strong>
-
-                <span>
-                    Total de entregas
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================
              DISTRIBUIDORES / META
         ====================================== -->
 
@@ -2344,13 +2463,13 @@
             <section class="bloco-dashboard">
 
                 <h2>
-                    👤 Distribuidores nas entregas
+                    👤 Operadores em missão
                 </h2>
 
                 <div id="listaDistribuidores" class="lista-estafetas">
 
                     <p class="sem-dados">
-                        Nenhum distribuidor em distribuição.
+                        Nenhum operador em missão.
                     </p>
 
                 </div>
@@ -2361,7 +2480,7 @@
             <section class="bloco-dashboard">
 
                 <h2>
-                    🎯 Meta do dia
+                    🎯 Meta operacional do dia
                 </h2>
 
                 <div class="meta-dia">
@@ -2381,7 +2500,7 @@
                                 0
                             </strong>
 
-                            entregas
+                            entregas concluidas
 
                         </span>
 
@@ -2452,7 +2571,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            ⏱️ Tempo médio das distribuições
+                            ⏱️ Tempo médio das missões
                         </span>
 
                         <strong id="tempoMedioDistribuicoes">
@@ -2460,7 +2579,7 @@
                         </strong>
 
                         <small>
-                            distribuições concluídas
+                            Missões concluídas
                         </small>
 
                     </div>
@@ -2477,7 +2596,7 @@
                         </strong>
 
                         <small>
-                            entregas por hora
+                            Entregas por hora
                         </small>
 
                     </div>
@@ -2486,7 +2605,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            👤 Média de entregas por distribuidor
+                            👤 Média de entregas por operador
                         </span>
 
                         <strong id="mediaEntregasDistribuidor">
@@ -2563,7 +2682,7 @@
                         </strong>
 
                         <span>
-                            entregas realizadas
+                            entregas concluídas
                         </span>
 
                     </div>
@@ -3601,6 +3720,7 @@
              * Distribuições concluídas
              */
 
+
             const concluidas =
                 distribuicoes.filter(
                     function (distribuicao) {
@@ -4019,7 +4139,7 @@
                 lista.innerHTML = `
 
                     <p class="sem-dados">
-                        Nenhum distribuidor em distribuição.
+                        Nenhum operador em missão.
                     </p>
 
                 `;
@@ -4089,7 +4209,7 @@
                             <span class="detalhe-estafeta">
 
                                 ${quantidadeClientes}
-                                clientes
+${quantidadeClientes === 1 ? "entrega" : "entregas"}
 
                                 ${distribuicao.horaInicio
                             ? " · início " +
@@ -4105,15 +4225,19 @@
 
 
                         <span
-                            class="
-                                estado
-                                estado-ocupado
-                            "
-                        >
-
-                            🔴 Em distribuição
-
-                        </span>
+    class="
+        estado
+        ${distribuicao.retornoBase === "Em andamento"
+                            ? "estado-retornando"
+                            : "estado-ocupado"
+                        }
+    "
+>
+    ${distribuicao.retornoBase === "Em andamento"
+                            ? "🟠 Retornando"
+                            : "🔴 Em missão"
+                        }
+</span>
 
                     `;
 
@@ -6610,6 +6734,159 @@ clientes.forEach(
 
             }
 
+            /*
+ * Abrir e fechar painel de drones em voo
+ */
+
+            const cardDronesVoo =
+                document.getElementById(
+                    "cardDronesVoo"
+                );
+
+            const painelDronesVoo =
+                document.getElementById(
+                    "painelDronesVoo"
+                );
+
+            const fecharPainelDronesVoo =
+                document.getElementById(
+                    "fecharPainelDronesVoo"
+                );
+
+
+            if (
+                cardDronesVoo &&
+                painelDronesVoo
+            ) {
+
+                cardDronesVoo.addEventListener(
+                    "click",
+                    function () {
+
+                        const listaDronesVoo =
+                            document.getElementById(
+                                "listaDronesVoo"
+                            );
+
+                        if (!listaDronesVoo) {
+                            return;
+                        }
+
+                        listaDronesVoo.innerHTML = "";
+
+                        if (dronesEmMissao.size === 0) {
+
+                            listaDronesVoo.innerHTML = `
+                <div>
+                    Não existem drones em voo.
+                </div>
+            `;
+
+                        } else {
+
+                            dronesEmMissao.forEach(
+                                function (idDrone) {
+
+                                    const item =
+                                        document.createElement(
+                                            "div"
+                                        );
+
+                                    const missaoDrone =
+                                        missoesAtivas.find(
+                                            function (missao) {
+                                                return missao.veiculo === idDrone;
+                                            }
+                                        );
+
+                                    const estaRetornando =
+                                        missaoDrone &&
+                                        missaoDrone.retornoBase === "Em andamento";
+
+                                    const estadoDrone =
+                                        estaRetornando
+                                            ? "🟠 Retornando"
+                                            : "🔴 Em missão";
+
+                                    if (estaRetornando) {
+                                        item.classList.add(
+                                            "drone-retornando"
+                                        );
+                                    }
+                                    const agora =
+                                        Date.now();
+
+                                    const minutosDecorridos =
+                                        Math.floor(
+                                            (
+                                                agora -
+                                                missaoDrone.inicioTimestamp
+                                            ) / 60000
+                                        );
+
+                                    const tempoRestante =
+                                        Math.max(
+                                            0,
+                                            missaoDrone.tempoEstimadoMinutos -
+                                            minutosDecorridos
+                                        );
+
+                                    item.innerHTML = `
+    <strong>
+        ${idDrone}
+    </strong>
+
+    <span>
+        ${estadoDrone}
+    </span>
+
+    <small>
+        Início ${missaoDrone?.horaInicio || "--:--"}
+        ·
+        ${estaRetornando
+            ? "Chegada estimada em"
+            : "Retorno estimado em"
+        }
+        ${tempoRestante} min
+    </small>
+`;
+
+                                    listaDronesVoo.appendChild(
+                                        item
+                                    );
+
+                                }
+                            );
+
+                        }
+
+                        painelDronesVoo.classList.add(
+                            "aberto"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            if (
+                fecharPainelDronesVoo &&
+                painelDronesVoo
+            ) {
+
+                fecharPainelDronesVoo.addEventListener(
+                    "click",
+                    function () {
+
+                        painelDronesVoo.classList.remove(
+                            "aberto"
+                        );
+
+                    }
+                );
+
+            }
             /*
             * Drones disponíveis ficam organizados
             * visualmente à volta da base

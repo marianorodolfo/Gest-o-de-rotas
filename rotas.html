@@ -3160,6 +3160,25 @@
                 JSON.stringify(ordemFinal)
             );
 
+            /*
+ * Guardar tempo estimado da missão
+ * para utilização na configuração
+ */
+
+            const distanciaFinalMissao =
+                calcularDistanciaTotalMissao(
+                    ordemFinal
+                );
+
+            const tempoEstimadoMissao =
+                Math.ceil(
+                    (distanciaFinalMissao / 65) * 60
+                );
+
+            localStorage.setItem(
+                "tempoEstimadoMissaoTemporaria",
+                String(tempoEstimadoMissao)
+            );
 
             window.location.href =
                 "distribuicao.html";

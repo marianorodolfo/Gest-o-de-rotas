@@ -1071,6 +1071,13 @@
                 inicioTimestamp:
                     agora.getTime(),
 
+                tempoEstimadoMinutos:
+                    Number(
+                        localStorage.getItem(
+                            "tempoEstimadoMissaoTemporaria"
+                        )
+                    ) || null,
+
                 status:
                     "Em andamento"
 

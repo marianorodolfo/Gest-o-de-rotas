@@ -23,25 +23,27 @@
 }
 
 .menu {
-    width: 230px;
+    width: 185px;
     position: fixed;
     top: 64px;
     left: 0;
     bottom: 0;
     background: white;
     border-right: 1px solid #e1e6eb;
-    padding: 20px 12px;
+    padding: 14px 8px;
+    box-sizing: border-box;
 }
 
 .menu a {
     display: block;
-    padding: 12px 14px;
-    margin-bottom: 5px;
-    border-radius: 8px;
+    padding: 10px 9px;
+    margin-bottom: 4px;
+    border-radius: 7px;
     text-decoration: none;
     color: #344054;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 .menu a:hover {
