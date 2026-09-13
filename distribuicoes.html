@@ -54,7 +54,7 @@
             display: grid;
 
             grid-template-columns:
-                repeat(5, minmax(0, 1fr));
+                repeat(4, minmax(0, 1fr));
 
             gap: 10px;
 
@@ -472,9 +472,11 @@
 
             gap: 10px;
 
+            margin-top: -5px;
+
             margin-bottom: 14px;
 
-            padding: 10px;
+            padding: 8px;
 
             background: white;
 
@@ -487,7 +489,7 @@
 
 
         .aba-distribuicao {
-            min-height: 54px;
+            min-height: 46px;
 
             display: flex;
             align-items: center;
@@ -497,7 +499,7 @@
             background: white;
             color: #334155;
 
-            padding: 9px 14px;
+            padding: 6px 14px;
 
             border-radius: 12px;
 
@@ -619,9 +621,10 @@
         #filtroHistorico {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
 
-            width: fit-content;
+            width: 100%;
+            box-sizing: border-box;
 
             margin-bottom: 12px;
             padding: 8px 10px;
@@ -633,6 +636,10 @@
 
             box-shadow:
                 0 2px 7px rgba(15, 23, 42, 0.05);
+        }
+
+        #filtroHistorico label:not(:first-child) {
+            margin-left: 8px;
         }
 
 
@@ -648,10 +655,15 @@
         }
 
 
-        #filtroDataHistorico {
+        #filtroClienteHistorico,
+        #filtroDataHistorico,
+        #filtroOperadorHistorico,
+        #filtroAeronaveHistorico {
             height: 30px;
 
-            padding: 0 8px;
+            box-sizing: border-box;
+
+            padding: 0 16px;
 
             border: 1px solid #cbd5e1;
             border-radius: 6px;
@@ -674,14 +686,35 @@
                 background 0.18s ease;
         }
 
+        #filtroClienteHistorico {
+            width: 180px;
+        }
 
-        #filtroDataHistorico:focus {
-            background: #ffffff;
+        #filtroDataHistorico {
+            width: 125px;
+        }
+
+        #filtroOperadorHistorico {
+            width: 170px;
+        }
+
+        #filtroAeronaveHistorico {
+            width: 145px;
+        }
+
+
+        #filtroClienteHistorico.filtro-ativo,
+        #filtroDataHistorico.filtro-ativo,
+        #filtroOperadorHistorico.filtro-ativo,
+        #filtroAeronaveHistorico.filtro-ativo {
+            background: #eff6ff;
 
             border-color: #2563eb;
 
+            color: #1d4ed8;
+
             box-shadow:
-                0 0 0 2px rgba(37, 99, 235, 0.10);
+                0 0 0 1px rgba(37, 99, 235, 0.10);
         }
 
 
@@ -689,6 +722,7 @@
             height: 30px;
 
             margin: 0;
+            margin-left: auto;
             padding: 0 10px;
 
             border: 1px solid #cbd5e1;
@@ -863,6 +897,61 @@
             font-weight: 800;
         }
 
+        .cabecalho-cartao-missao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .titulo-data-missao {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .cabecalho-cartao-missao h2 {
+            margin: 0;
+
+            color: #123b63;
+
+            font-size: 15px;
+            font-weight: 900;
+
+            white-space: nowrap;
+        }
+
+        .data-missao-historico {
+            color: #94a3b8;
+
+            font-size: 9.5px;
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+        .estado-distribuicao.estado-historico-concluido {
+            margin-left: auto;
+
+            padding: 2px 6px;
+
+            background: #dcfce7;
+            color: #166534;
+
+            font-size: 8.5px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .estado-historico-concluido {
+            margin-left: auto;
+            background: #dcfce7;
+            color: #166534;
+            white-space: nowrap;
+        }
+
 
         .estado-detalhe-missao {
             padding: 4px 9px;
@@ -901,6 +990,84 @@
 
         body:has(.detalhe-distribuicao) #filtroHistorico {
             display: none !important;
+        }
+
+        .resumo-operacional-historico {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            margin: 3px 0 2px;
+
+            color: #334155;
+
+            font-size: 10.5px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .resumo-operacional-historico strong {
+            color: #123b63;
+            font-weight: 800;
+        }
+
+        .resumo-operacional-historico span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .tempo-historico-missao {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            margin: 1px 0 2px;
+
+            color: #64748b;
+
+            font-size: 9.5px;
+
+            white-space: nowrap;
+            flex-wrap: nowrap;
+        }
+
+        .tempo-historico-missao span {
+            white-space: nowrap;
+        }
+
+        .historico-sem-resultados {
+            grid-column: 1 / -1;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 110px;
+
+            padding: 18px;
+
+            background: #ffffff;
+
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+
+            text-align: center;
+        }
+
+        .historico-sem-resultados strong {
+            color: #123b63;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .historico-sem-resultados span {
+            margin-top: 4px;
+
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 600;
         }
 
 
@@ -1101,6 +1268,31 @@
 
             <input type="date" id="filtroDataHistorico">
 
+            <label for="filtroOperadorHistorico">
+                Operador
+            </label>
+
+            <select id="filtroOperadorHistorico">
+                <option value="">
+                    Todos os operadores
+                </option>
+            </select>
+
+            <label for="filtroAeronaveHistorico">
+                Aeronave
+            </label>
+
+            <select id="filtroAeronaveHistorico">
+                <option value="">
+                    Todas as aeronaves
+                </option>
+            </select>
+
+            <button type="button" id="btnFiltroMensal">
+
+                Filtro mensal
+                
+            </button>
 
             <button type="button" id="btnLimparFiltroHistorico">
 
@@ -1409,6 +1601,46 @@
 
                             }
 
+                            const operadorFiltro =
+                                document.getElementById(
+                                    "filtroOperadorHistorico"
+                                )?.value || "";
+
+
+                            if (operadorFiltro) {
+
+                                if (
+                                    String(
+                                        distribuicao.distribuidor || ""
+                                    ) !== operadorFiltro
+                                ) {
+
+                                    return false;
+
+                                }
+
+                            }
+
+                            const aeronaveFiltro =
+                                document.getElementById(
+                                    "filtroAeronaveHistorico"
+                                )?.value || "";
+
+
+                            if (aeronaveFiltro) {
+
+                                if (
+                                    String(
+                                        distribuicao.veiculo || ""
+                                    ) !== aeronaveFiltro
+                                ) {
+
+                                    return false;
+
+                                }
+
+                            }
+
 
                             const dataFiltro =
                                 dataForcada ||
@@ -1495,24 +1727,62 @@
             ) {
 
                 if (
-                    tipo ===
-                    "andamento"
+                    tipo === "andamento"
                 ) {
 
                     tituloLista.textContent =
                         distribuicoesFiltradas.length +
-                        " missões em andamento";
+                        (
+                            distribuicoesFiltradas.length === 1
+                                ? " missão em andamento"
+                                : " missões em andamento"
+                        );
 
                 } else {
 
-                    tituloLista.textContent =
-                        distribuicoesFiltradas.length +
-                        " missões concluídas";
+                    const pesquisaClienteAtiva =
+                        (
+                            document.getElementById(
+                                "filtroClienteHistorico"
+                            )?.value || ""
+                        ).trim() !== "";
+
+                    const dataAtiva =
+                        Boolean(
+                            dataForcada ||
+                            filtroDataHistorico?.value
+                        );
+
+                    const filtrosAtivos =
+                        pesquisaClienteAtiva ||
+                        dataAtiva;
+
+
+                    if (filtrosAtivos) {
+
+                        tituloLista.textContent =
+                            distribuicoesFiltradas.length +
+                            (
+                                distribuicoesFiltradas.length === 1
+                                    ? " missão encontrada"
+                                    : " missões encontradas"
+                            );
+
+                    } else {
+
+                        tituloLista.textContent =
+                            distribuicoesFiltradas.length +
+                            (
+                                distribuicoesFiltradas.length === 1
+                                    ? " missão concluída"
+                                    : " missões concluídas"
+                            );
+
+                    }
 
                 }
 
             }
-
 
             /* =====================================
                SEM RESULTADOS
@@ -1534,11 +1804,16 @@
                         `
 
                         : `
-                            <p>
-                                Nenhuma distribuição
-                                encontrada.
-                            </p>
-                        `;
+    <div class="historico-sem-resultados">
+        <strong>
+            Nenhuma missão encontrada
+        </strong>
+
+        <span>
+            Altere ou limpe os filtros para ver outras missões.
+        </span>
+    </div>
+`;
 
                 return;
 
@@ -1581,67 +1856,118 @@
     "
 >
 
-                            <h2>
+                            <div class="cabecalho-cartao-missao">
 
-                                Missão
-                                ${indice + 1}
+    <div class="titulo-data-missao">
 
-                            </h2>
+        <h2>
+            Missão ${indice + 1}
+        </h2>
+
+        ${tipo === "historico"
+                            ? `
+                <span class="data-missao-historico">
+                    ${distribuicao.data || "-"}
+                </span>
+              `
+                            : ""
+                        }
+
+    </div>
+
+
+    ${tipo === "historico"
+                            ? `
+            <span class="estado-distribuicao estado-historico-concluido">
+                Concluída
+            </span>
+          `
+                            : ""
+                        }
+
+</div>
 
 
                             <div
                                 class="info-distribuicao"
                             >
 
-                                <p>
-
-    Data:
-
-    <strong>
-        ${distribuicao.data || "-"}
-    </strong>
-
-    <span style="margin-left: 8px;">
-        · Início:
-    </span>
-
-    <strong>
-        ${distribuicao.horaInicio || "-"}
-    </strong>
-
-</p>
+                                ${tipo !== "historico"
+                            ? `
+        
+      `
+                            : ""
+                        }
 
 
-                                <p>
+                                ${tipo === "historico"
 
-                                    Operador:
+                            ? `
 
-                                    <strong>
+        <p class="resumo-operacional-historico">
 
-                                        ${distribuicao.distribuidor || "-"}
+            <strong>
+                ${distribuicao.veiculo || "-"}
+            </strong>
 
-                                    </strong>
+            <span>·</span>
 
-                                </p>
+            <span>
+                ${distribuicao.distribuidor || "-"}
+            </span>
 
+            <span>·</span>
 
-                                <p>
-
-    Aeronave:
-
-    <strong>
-        ${distribuicao.veiculo || "-"}
-    </strong>
-
-    <span style="margin-left: 8px;">
-        · Pontos:
-    </span>
-
+            <span>
     <strong>
         ${clientes.length}
     </strong>
 
-</p>
+    &nbsp;
+
+    ${clientes.length === 1
+                                ? "entrega"
+                                : "entregas"
+                            }
+</span>
+
+        </p>
+
+    `
+
+                            : `
+
+        <p>
+
+            Operador:
+
+            <strong>
+                ${distribuicao.distribuidor || "-"}
+            </strong>
+
+        </p>
+
+
+        <p>
+
+            Aeronave:
+
+            <strong>
+                ${distribuicao.veiculo || "-"}
+            </strong>
+
+            <span style="margin-left: 8px;">
+                · Pontos:
+            </span>
+
+            <strong>
+                ${clientes.length}
+            </strong>
+
+        </p>
+
+    `
+                        }
 
 
                                 ${tipo ===
@@ -1649,86 +1975,39 @@
 
                             ? `
 
-                                            <div
-                                                style="
-                                                    display:
-                                                        flex;
-                                                    gap:
-                                                        20px;
-                                                    flex-wrap:
-                                                        wrap;
-                                                "
-                                            >
+                                            <p class="tempo-historico-missao">
 
-                                                ${distribuicao.horaInicio
+    <span>
+        Início:
+        <strong>
+            ${distribuicao.horaInicio || "-"}
+        </strong>
+    </span>
 
-                                ? `
+    <span>·</span>
 
-                                                            <p>
+    <span>
+        Fim:
+        <strong>
+            ${distribuicao.horaFim || "-"}
+        </strong>
+    </span>
 
-                                                                Iniciada:
+    <span>·</span>
 
-                                                                <strong>
-
-                                                                    ${distribuicao.horaInicio}
-
-                                                                </strong>
-
-                                                            </p>
-
-                                                        `
-
-                                : ""
-                            }
-
-
-                                                ${distribuicao.horaFim
-
-                                ? `
-
-                                                            <p>
-
-                                                                Finalizada:
-
-                                                                <strong>
-
-                                                                    ${distribuicao.horaFim}
-
-                                                                </strong>
-
-                                                            </p>
-
-                                                        `
-
-                                : ""
-                            }
-
-                                            </div>
-
-
-                                            ${distribuicao.duracao !==
-                                undefined
-
-                                ? `
-
-                                                        <p>
-
-                                                            Duração:
-
-                                                            <strong>
-
-                                                                ${formatarDuracao(
+    <span>
+        Duração:
+        <strong>
+            ${distribuicao.duracao !== undefined
+                                ? formatarDuracao(
                                     distribuicao.duracao
-                                )}
-
-                                                            </strong>
-
-                                                        </p>
-
-                                                    `
-
-                                : ""
+                                )
+                                : "-"
                             }
+        </strong>
+    </span>
+
+</p>
 
                                         `
 
@@ -1736,31 +2015,30 @@
                         }
 
 
-                                <span
-    class="
-        estado-distribuicao
+                                ${tipo !== "historico"
+                            ? `
+        <span
+            class="
+                estado-distribuicao
 
-        ${distribuicao.retornoBase === "Em andamento"
+                ${distribuicao.retornoBase === "Em andamento"
+                                ? "estado-retornando"
+                                : distribuicao.status === "Em andamento"
+                                    ? "estado-em-andamento"
+                                    : ""
+                            }
+            "
+        >
 
-                            ? "estado-retornando"
+            ${distribuicao.retornoBase === "Em andamento"
+                                ? "Retornando à base"
+                                : distribuicao.status || "Concluída"
+                            }
 
-                            : distribuicao.status === "Em andamento"
-
-                                ? "estado-em-andamento"
-
-                                : ""
+        </span>
+      `
+                            : ""
                         }
-    "
->
-
-    ${distribuicao.retornoBase === "Em andamento"
-
-                            ? "Retornando à base"
-
-                            : distribuicao.status || "Concluída"
-                        }
-
-</span>
 
 
                             </div>
@@ -2721,6 +2999,220 @@
         }
 
         /* =========================================
+   OPERADORES DO HISTÓRICO
+========================================= */
+
+        const filtroOperadorHistorico =
+            document.getElementById(
+                "filtroOperadorHistorico"
+            );
+
+
+        if (filtroOperadorHistorico) {
+
+            const distribuidoresCadastrados =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+
+            const operadoresHistorico =
+                distribuidoresCadastrados
+                    .map(
+                        function (distribuidor) {
+
+                            if (
+                                typeof distribuidor ===
+                                "object"
+                            ) {
+
+                                return String(
+                                    distribuidor.nome || ""
+                                ).trim();
+
+                            }
+
+                            return String(
+                                distribuidor || ""
+                            ).trim();
+
+                        }
+                    )
+                    .filter(
+                        function (operador) {
+
+                            return operador !== "";
+
+                        }
+                    )
+                    .sort(
+                        function (a, b) {
+
+                            return a.localeCompare(
+                                b,
+                                "pt-PT"
+                            );
+
+                        }
+                    );
+
+
+            operadoresHistorico.forEach(
+                function (operador) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        operador;
+
+                    option.textContent =
+                        operador;
+
+                    filtroOperadorHistorico.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+        /* =========================================
+   AERONAVES DO HISTÓRICO
+========================================= */
+
+        const filtroAeronaveHistorico =
+            document.getElementById(
+                "filtroAeronaveHistorico"
+            );
+
+
+        if (filtroAeronaveHistorico) {
+
+            const aeronavesHistorico = [
+                "DRN-001",
+                "DRN-002",
+                "DRN-003",
+                "DRN-004"
+            ];
+
+
+            aeronavesHistorico.forEach(
+                function (aeronave) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        aeronave;
+
+                    option.textContent =
+                        aeronave;
+
+                    filtroAeronaveHistorico.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+        /* =========================================
+   FILTRO POR OPERADOR
+========================================= */
+
+        if (filtroOperadorHistorico) {
+
+            filtroOperadorHistorico.addEventListener(
+                "change",
+                function () {
+
+                    mostrarLista(
+                        "historico"
+                    );
+
+                }
+            );
+
+        }
+
+        /* =========================================
+   FILTRO POR AERONAVE
+========================================= */
+
+        if (filtroAeronaveHistorico) {
+
+            filtroAeronaveHistorico.addEventListener(
+                "change",
+                function () {
+
+                    mostrarLista(
+                        "historico"
+                    );
+
+                }
+            );
+
+        }
+
+        /* =========================================
+   DESTAQUE DOS FILTROS ATIVOS
+========================================= */
+
+        const camposFiltroHistorico = [
+            "filtroClienteHistorico",
+            "filtroDataHistorico",
+            "filtroOperadorHistorico",
+            "filtroAeronaveHistorico"
+        ];
+
+
+        function atualizarDestaqueFiltros() {
+
+            camposFiltroHistorico.forEach(
+                function (id) {
+
+                    const campo =
+                        document.getElementById(id);
+
+                    if (!campo) {
+                        return;
+                    }
+
+                    campo.classList.toggle(
+                        "filtro-ativo",
+                        String(campo.value).trim() !== ""
+                    );
+
+                }
+            );
+
+        }
+
+
+        if (filtroHistorico) {
+
+            filtroHistorico.addEventListener(
+                "input",
+                atualizarDestaqueFiltros
+            );
+
+            filtroHistorico.addEventListener(
+                "change",
+                atualizarDestaqueFiltros
+            );
+
+        }
+
+        /* =========================================
            LIMPAR FILTRO
         ========================================= */
 
@@ -2732,8 +3224,21 @@
                     "";
 
                 if (filtroClienteHistorico) {
-                    filtroClienteHistorico.value = "";
+                    filtroClienteHistorico.value =
+                        "";
                 }
+
+                if (filtroOperadorHistorico) {
+                    filtroOperadorHistorico.value =
+                        "";
+                }
+
+                if (filtroAeronaveHistorico) {
+                    filtroAeronaveHistorico.value =
+                        "";
+                }
+
+                atualizarDestaqueFiltros();
 
                 mostrarLista(
                     "historico"
@@ -2769,43 +3274,21 @@
                 );
 
 
-            const segundosRestantes =
-                segundos % 60;
-
-
-            if (
-                horas > 0
-            ) {
+            if (horas > 0) {
 
                 return (
                     horas +
                     "h " +
                     minutos +
-                    "min " +
-                    segundosRestantes +
-                    "s"
-                );
-
-            }
-
-
-            if (
-                minutos > 0
-            ) {
-
-                return (
-                    minutos +
-                    "min " +
-                    segundosRestantes +
-                    "s"
+                    "m"
                 );
 
             }
 
 
             return (
-                segundosRestantes +
-                " segundos"
+                minutos +
+                "m"
             );
 
         }
@@ -3176,12 +3659,30 @@
                             "
                         >
 
-                            <h2>
+                            <div class="cabecalho-cartao-missao">
 
-                                Distribuição
-                                ${indice + 1}
+    <div class="titulo-data-missao">
 
-                            </h2>
+        <h2>
+            Missão ${indice + 1}
+        </h2>
+
+        <span class="data-missao-historico">
+            ${distribuicao.data || "-"}
+        </span>
+
+    </div>
+
+    <span
+        class="
+            estado-distribuicao
+            estado-historico-concluido
+        "
+    >
+        Concluída
+    </span>
+
+</div>
 
 
                             <div
@@ -3201,43 +3702,34 @@
                                 </p>
 
 
-                                <p>
+                                <p class="resumo-operacional-historico">
 
-                                    Distribuidor:
+    <strong>
+        ${distribuicao.veiculo || "-"}
+    </strong>
 
-                                    <strong>
+    <span>·</span>
 
-                                        ${distribuicao.distribuidor || "-"}
+    <span>
+        ${distribuicao.distribuidor || "-"}
+    </span>
 
-                                    </strong>
+    <span>·</span>
 
-                                </p>
+    <span>
+        <strong>
+            ${clientes.length}
+        </strong>
 
+        &nbsp;
 
-                                <p>
+        ${clientes.length === 1
+                            ? "entrega"
+                            : "entregas"
+                        }
+    </span>
 
-                                    Veículo:
-
-                                    <strong>
-
-                                        ${distribuicao.veiculo || "-"}
-
-                                    </strong>
-
-                                </p>
-
-
-                                <p>
-
-                                    <strong>
-
-                                        ${clientes.length}
-
-                                        clientes
-
-                                    </strong>
-
-                                </p>
+</p>
 
 
                                 <div
@@ -3255,66 +3747,39 @@
 
                             ? `
 
-                                                <p>
+                                                <p class="tempo-historico-missao">
 
-                                                    Iniciada:
+    <span>
+        Início:
+        <strong>
+            ${distribuicao.horaInicio || "-"}
+        </strong>
+    </span>
 
-                                                    <strong>
+    <span>·</span>
 
-                                                        ${distribuicao.horaInicio}
+    <span>
+        Fim:
+        <strong>
+            ${distribuicao.horaFim || "-"}
+        </strong>
+    </span>
 
-                                                    </strong>
+    <span>·</span>
 
-                                                </p>
+    <span>
+        Duração:
+        <strong>
+            ${distribuicao.duracao !== undefined
+                                ? formatarDuracao(
+                                    distribuicao.duracao
+                                )
+                                : "-"
+                            }
+        </strong>
+    </span>
 
-                                            `
-
-                            : ""
-                        }
-
-
-                                    ${distribuicao.horaFim
-
-                            ? `
-
-                                                <p>
-
-                                                    Finalizada:
-
-                                                    <strong>
-
-                                                        ${distribuicao.horaFim}
-
-                                                    </strong>
-
-                                                </p>
-
-                                            `
-
-                            : ""
-                        }
-
-                                </div>
-
-
-                                ${distribuicao.duracao !==
-                            undefined
-
-                            ? `
-
-                                            <p>
-
-                                                Duração:
-
-                                                <strong>
-
-                                                    ${formatarDuracao(
-                                distribuicao.duracao
-                            )}
-
-                                                </strong>
-
-                                            </p>
+</p>
 
                                         `
 
@@ -3322,17 +3787,30 @@
                         }
 
 
-                                <span
-                                    class="
-                                        estado-distribuicao
-                                    "
-                                >
+                                ${tipo !== "historico"
+                            ? `
+        <span
+            class="
+                estado-distribuicao
 
-                                    ${distribuicao.status ||
-                        "Concluída"
+                ${distribuicao.retornoBase === "Em andamento"
+                                ? "estado-retornando"
+                                : distribuicao.status === "Em andamento"
+                                    ? "estado-em-andamento"
+                                    : ""
+                            }
+            "
+        >
+
+            ${distribuicao.retornoBase === "Em andamento"
+                                ? "Retornando à base"
+                                : distribuicao.status || "Concluída"
+                            }
+
+        </span>
+      `
+                            : ""
                         }
-
-                                </span>
 
                             </div>
 
