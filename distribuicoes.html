@@ -27,9 +27,9 @@
 
         #conteudo {
 
-            margin-left: 230px;
+            margin-left: 200px;
 
-            padding: 78px 30px 24px;
+            padding: 75px 10px 24px 0px;
 
         }
 
@@ -621,7 +621,10 @@
         #filtroHistorico {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 3px;
+
+            flex-wrap: nowrap !important;
+            overflow: visible;
 
             width: 100%;
             box-sizing: border-box;
@@ -663,6 +666,9 @@
 
             box-sizing: border-box;
 
+            flex-shrink: 1;
+            min-width: 0;
+
             padding: 0 16px;
 
             border: 1px solid #cbd5e1;
@@ -686,20 +692,31 @@
                 background 0.18s ease;
         }
 
+        #filtroOperadorHistorico,
+        #filtroAeronaveHistorico {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        #filtroClienteHistorico,
+        #filtroDataHistorico {
+            flex-shrink: 0;
+        }
+
         #filtroClienteHistorico {
             width: 180px;
         }
 
         #filtroDataHistorico {
-            width: 125px;
+            width: 135px;
         }
 
         #filtroOperadorHistorico {
-            width: 170px;
+            width: 190px;
         }
 
         #filtroAeronaveHistorico {
-            width: 145px;
+            width: 165px;
         }
 
 
@@ -722,7 +739,8 @@
             height: 30px;
 
             margin: 0;
-            margin-left: auto;
+            white-space: nowrap;
+            flex-shrink: 0;
             padding: 0 10px;
 
             border: 1px solid #cbd5e1;
@@ -740,6 +758,87 @@
                 background 0.18s ease,
                 border-color 0.18s ease,
                 color 0.18s ease;
+        }
+
+        #btnFiltroMensal {
+            margin-left: auto !important;
+
+            background: #eff6ff !important;
+            border-color: #93c5fd !important;
+            color: #1d4ed8 !important;
+        }
+
+        #btnFiltroMensal:hover {
+            background: #dbeafe !important;
+            border-color: #60a5fa !important;
+            color: #1e40af !important;
+        }
+
+        .grupo-filtro-mensal {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        #areaFiltroMensal {
+            position: absolute;
+
+            top: calc(100% + 7px);
+            right: 0;
+
+            z-index: 20;
+
+            width: 190px;
+            box-sizing: border-box;
+
+            padding: 10px;
+
+            background: #ffffff;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, 0.12);
+        }
+
+        #areaFiltroMensal label {
+            display: block;
+
+            margin: 0 0 6px 0 !important;
+
+            color: #475569;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        #filtroMesHistorico {
+            width: 100%;
+            height: 30px;
+
+            box-sizing: border-box;
+
+            padding: 0 8px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+
+            background: #f8fafc;
+            color: #0f172a;
+
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+
+            outline: none;
+        }
+
+        #filtroMesHistorico:focus {
+            background: #eff6ff;
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 1px rgba(37, 99, 235, 0.10);
         }
 
 
@@ -1288,11 +1387,21 @@
                 </option>
             </select>
 
-            <button type="button" id="btnFiltroMensal">
+            <div class="grupo-filtro-mensal">
 
-                Filtro mensal
-                
-            </button>
+                <button type="button" id="btnFiltroMensal">
+                    Filtro mensal
+                </button>
+
+                <div id="areaFiltroMensal" style="display:none;">
+                    <label for="filtroMesHistorico">
+                        Selecionar mês
+                    </label>
+
+                    <input type="month" id="filtroMesHistorico">
+                </div>
+
+            </div>
 
             <button type="button" id="btnLimparFiltroHistorico">
 
@@ -1426,6 +1535,21 @@
                 "btnLimparFiltroHistorico"
             );
 
+        const btnFiltroMensal =
+            document.getElementById(
+                "btnFiltroMensal"
+            );
+
+        const areaFiltroMensal =
+            document.getElementById(
+                "areaFiltroMensal"
+            );
+
+        const filtroMesHistorico =
+            document.getElementById(
+                "filtroMesHistorico"
+            );
+
 
         /* =========================================
            LER DISTRIBUIÇÕES
@@ -1478,7 +1602,7 @@
 
                 filtroHistorico.style.display =
                     tipo === "historico"
-                        ? "block"
+                        ? "flex"
                         : "none";
 
             }
@@ -1639,6 +1763,26 @@
 
                                 }
 
+                            }
+
+                            const mesFiltro =
+                                filtroMesHistorico
+                                    ? filtroMesHistorico.value
+                                    : "";
+
+                            if (mesFiltro) {
+
+                                const dataISO =
+                                    converterDataParaISO(
+                                        distribuicao.data
+                                    );
+
+                                if (
+                                    dataISO.substring(0, 7) !==
+                                    mesFiltro
+                                ) {
+                                    return false;
+                                }
                             }
 
 
@@ -3164,6 +3308,29 @@
         }
 
         /* =========================================
+   FILTRO POR MÊS
+========================================= */
+
+        if (filtroMesHistorico) {
+
+            filtroMesHistorico.addEventListener(
+                "change",
+                function () {
+
+                    mostrarLista(
+                        "historico"
+                    );
+
+                    if (areaFiltroMensal) {
+                        areaFiltroMensal.style.display =
+                            "none";
+                    }
+
+                }
+            );
+        }
+
+        /* =========================================
    DESTAQUE DOS FILTROS ATIVOS
 ========================================= */
 
@@ -3213,6 +3380,30 @@
         }
 
         /* =========================================
+   FILTRO MENSAL
+========================================= */
+
+        if (
+            btnFiltroMensal &&
+            areaFiltroMensal
+        ) {
+            btnFiltroMensal.addEventListener(
+                "click",
+                function () {
+
+                    const estaAberto =
+                        areaFiltroMensal.style.display !==
+                        "none";
+
+                    areaFiltroMensal.style.display =
+                        estaAberto
+                            ? "none"
+                            : "block";
+                }
+            );
+        }
+
+        /* =========================================
            LIMPAR FILTRO
         ========================================= */
 
@@ -3236,6 +3427,16 @@
                 if (filtroAeronaveHistorico) {
                     filtroAeronaveHistorico.value =
                         "";
+                }
+
+                if (filtroMesHistorico) {
+                    filtroMesHistorico.value =
+                        "";
+                }
+
+                if (areaFiltroMensal) {
+                    areaFiltroMensal.style.display =
+                        "none";
                 }
 
                 atualizarDestaqueFiltros();
