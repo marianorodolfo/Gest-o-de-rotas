@@ -22,6 +22,47 @@
     font-weight: 700;
 }
 
+.topo-distribuicoes {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-left: 32px;
+
+    min-width: 0;
+}
+
+
+.topo-distribuicoes h1 {
+    margin: 0;
+
+    color: white;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+.topo-distribuicoes #tituloListaDistribuicoes {
+    margin: 0;
+
+    padding-left: 14px;
+
+    border-left:
+        1px solid rgba(255, 255, 255, 0.28);
+
+    color:
+        rgba(255, 255, 255, 0.78);
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 1;
+}
+
 .menu {
     width: 185px;
     position: fixed;
