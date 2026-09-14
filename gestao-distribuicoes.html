@@ -31,6 +31,54 @@
 
         }
 
+        /* ================================
+   TOPO INSTITUCIONAL
+================================= */
+
+        .topo-gestao {
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 25px;
+
+            background: #123b63;
+
+            box-shadow:
+                0 2px 8px rgba(15, 23, 42, 0.12);
+        }
+
+        .identidade-topo-gestao {
+            display: flex;
+            align-items: center;
+
+            gap: 16px;
+        }
+
+        .imagem-logo-gestao {
+            height: 38px;
+            width: auto;
+
+            display: block;
+
+            object-fit: contain;
+        }
+
+        .identidade-topo-gestao h1 {
+            margin: 0;
+
+            padding-left: 16px;
+
+            border-left:
+                1px solid rgba(255, 255, 255, 0.35);
+
+            color: #ffffff;
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
 
         #conteudo {
 
@@ -38,7 +86,7 @@
 
             margin: 0 auto;
 
-            padding: 35px 25px 60px;
+            padding: 24px 25px 60px;
 
         }
 
@@ -322,6 +370,180 @@
 
         }
 
+        /* ================================
+   CABEÇALHO DA GESTÃO
+================================= */
+
+        .cabecalho-gestao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 18px;
+            padding: 18px 20px;
+
+            background: #ffffff;
+
+            border: 1px solid #dbe4ee;
+            border-radius: 14px;
+
+            box-shadow:
+                0 3px 12px rgba(15, 23, 42, 0.06);
+        }
+
+        .rotulo-gestao {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 0.8px;
+        }
+
+        .cabecalho-gestao h1 {
+            margin: 0;
+
+            color: #123b63;
+
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .cabecalho-gestao p {
+            margin: 4px 0 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .botao-voltar-gestao {
+            height: 34px;
+
+            padding: 0 14px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #123b63;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .botao-voltar-gestao:hover {
+            background: #09243d;
+        }
+
+
+        /* ================================
+   ABAS DA GESTÃO
+================================= */
+
+        .abas-gestao {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+
+            padding: 8px;
+
+            background: #ffffff;
+
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+
+        .aba-gestao {
+            min-height: 42px;
+
+            border: 1px solid #dbe4ee;
+            border-radius: 8px;
+
+            background: #f8fafc;
+            color: #475569;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .aba-gestao:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .aba-gestao.ativa {
+            background: #2563eb;
+            color: #ffffff;
+
+            border-color: #2563eb;
+        }
+
+
+        /* ================================
+   SECÇÕES DA GESTÃO
+================================= */
+
+        .secao-gestao {
+            padding: 16px 18px;
+
+            background: #ffffff;
+
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 8px rgba(15, 23, 42, 0.05);
+        }
+
+        .cabecalho-secao-gestao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 12px;
+        }
+
+        .cabecalho-secao-gestao span {
+            display: block;
+
+            margin-bottom: 2px;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+        }
+
+        .cabecalho-secao-gestao h2 {
+            margin: 0;
+
+            color: #123b63;
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
 
         /* ================================
            TABLET
@@ -441,7 +663,6 @@
             }
 
         }
-        
     </style>
 
 </head>
@@ -449,75 +670,120 @@
 
 <body>
 
+    <header class="topo-gestao">
+
+        <div class="identidade-topo-gestao">
+
+            <img src="IMG_2610.jpeg" alt="PRIMO PEÇAS" class="imagem-logo-gestao">
+
+            <h1>
+                Gestão
+            </h1>
+
+        </div>
+
+    </header>
 
     <main id="conteudo">
 
-        <h1>
-            Gestão de Distribuições
-        </h1>
+        <div class="cabecalho-gestao">
 
+            <div>
 
-        <!-- ================================
-         DISTRIBUIDORES DE CARRO
-    ================================= -->
+                <span class="rotulo-gestao">
+                    GESTÃO OPERACIONAL
+                </span>
 
-        <h2>
-            🚗 Distribuidores de carro
-        </h2>
+                <h1>
+                    Gestão de Drones
+                </h1>
 
-        <div id="listaDistribuidoresCarro"></div>
+                <p>
+                    Administração da frota aérea e dos operadores.
+                </p>
 
-        <div class="formulario-gestao">
+            </div>
 
-            <input type="text" id="novoDistribuidorCarro" placeholder="Nome do distribuidor">
-
-            <button onclick="adicionarDistribuidor('carro')">
-                + Adicionar distribuidor
+            <button class="botao-voltar-gestao" onclick="window.location.href='Distribuicoes.html'">
+                ← Voltar
             </button>
 
         </div>
 
 
-        <!-- ================================
-         DISTRIBUIDORES DE MOTO
-    ================================= -->
+        <div class="abas-gestao">
 
-        <h2>
-            🏍️ Distribuidores de moto
-        </h2>
+            <button type="button" class="aba-gestao ativa" id="abaAeronaves">
+                🚁 Aeronaves
+            </button>
 
-        <div id="listaDistribuidoresMoto"></div>
-
-        <div class="formulario-gestao">
-
-            <input type="text" id="novoDistribuidorMoto" placeholder="Nome do distribuidor">
-
-            <button onclick="adicionarDistribuidor('moto')">
-                + Adicionar distribuidor
+            <button type="button" class="aba-gestao" id="abaOperadores">
+                👤 Operadores
             </button>
 
         </div>
 
 
-        <!-- ================================
-         VEÍCULOS
-    ================================= -->
+        <section id="secaoAeronaves" class="secao-gestao">
 
-        <h2>
-            🚚 Veículos
-        </h2>
+            <div class="cabecalho-secao-gestao">
 
-        <div id="listaVeiculos"></div>
+                <div>
+                    <span>
+                        FROTA
+                    </span>
 
-        <div class="formulario-gestao">
+                    <h2>
+                        Aeronaves
+                    </h2>
+                </div>
 
-            <input type="text" id="novoVeiculo" placeholder="Nome do veículo">
+            </div>
 
-            <button onclick="adicionarVeiculo()">
-                + Adicionar veículo
-            </button>
+            <div id="listaVeiculos"></div>
 
-        </div>
+            <div class="formulario-gestao">
+
+                <input type="text" id="novoVeiculo" placeholder="Identificação da aeronave">
+
+                <button onclick="adicionarVeiculo()">
+                    + Adicionar aeronave
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <section id="secaoOperadores" class="secao-gestao" style="display: none;">
+
+            <div class="cabecalho-secao-gestao">
+
+                <div>
+                    <span>
+                        EQUIPA
+                    </span>
+
+                    <h2>
+                        Operadores
+                    </h2>
+                </div>
+
+            </div>
+
+            <div id="listaOperadores"></div>
+
+            <div class="formulario-gestao">
+
+                <input type="text" id="novoOperador" placeholder="Nome do operador">
+
+                <button onclick="adicionarOperador()">
+                    + Adicionar operador
+                </button>
+
+            </div>
+
+        </section>
 
     </main>
 

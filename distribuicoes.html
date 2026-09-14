@@ -44,6 +44,10 @@
 
         }
 
+        .topo-distribuicoes h1 {
+            font-size: 20px;
+        }
+
 
         /* =========================================
            LISTA DE DISTRIBUIÇÕES
@@ -1394,7 +1398,7 @@
 
         <div class="topo-distribuicoes">
 
-            <h1>
+            <h1 id="tituloTopoDistribuicoes">
                 Missões
             </h1>
 
@@ -3094,6 +3098,21 @@
         function ativarAba(
             tipo
         ) {
+
+            const tituloTopo =
+                document.getElementById(
+                    "tituloTopoDistribuicoes"
+                );
+
+
+            if (tituloTopo) {
+
+                tituloTopo.textContent =
+                    tipo === "historico"
+                        ? "Histórico de missões"
+                        : "Missões";
+
+            }
 
             abaEmAndamento
                 .classList
