@@ -2299,6 +2299,61 @@
 
         let rotaAbertaAtual = null;
 
+        let modoPlaneamentoAtual = "manual";
+
+        const parametrosURL =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const idMissaoEdicao =
+            parametrosURL.get(
+                "editar"
+            );
+
+        if (idMissaoEdicao) {
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+            const missaoEdicao =
+                distribuicoes.find(
+                    function (distribuicao) {
+
+                        return (
+                            String(distribuicao.id) ===
+                            String(idMissaoEdicao)
+                        );
+
+                    }
+                );
+
+            if (
+                missaoEdicao &&
+                Array.isArray(
+                    missaoEdicao.clientes
+                )
+            ) {
+
+                clientesSelecionados =
+                    missaoEdicao.clientes
+                        .map(
+                            function (cliente) {
+
+                                return String(
+                                    cliente.codigo
+                                );
+
+                            }
+                        );
+
+            }
+        }
+
         const clientes =
             JSON.parse(localStorage.getItem("clientes")) || [];
 
@@ -3180,14 +3235,35 @@
                 String(tempoEstimadoMissao)
             );
 
-            window.location.href =
-                "distribuicao.html";
+            if (idMissaoEdicao) {
+
+                window.location.href =
+                    "distribuicao.html?editar=" +
+                    encodeURIComponent(
+                        idMissaoEdicao
+                    );
+
+            } else {
+
+                window.location.href =
+                    "distribuicao.html";
+
+            }
 
         }
 
         function abrirRota(codigoRota) {
 
             rotaAbertaAtual = String(codigoRota);
+
+            history.pushState(
+                {
+                    tela: "rota-aberta",
+                    codigoRota: String(codigoRota)
+                },
+                "",
+                window.location.href
+            );
 
             const clientes =
                 JSON.parse(localStorage.getItem("clientes")) || [];
@@ -3738,11 +3814,28 @@
             document.addEventListener(
                 "DOMContentLoaded",
                 function () {
+
+                    history.replaceState(
+                        {
+                            tela: "lista-rotas"
+                        },
+                        "",
+                        window.location.href
+                    );
+
                     mostrarRotas();
                 }
             );
 
         } else {
+
+            history.replaceState(
+                {
+                    tela: "lista-rotas"
+                },
+                "",
+                window.location.href
+            );
 
             mostrarRotas();
 
@@ -3755,6 +3848,10 @@
 
             const lista =
                 document.getElementById("listaPontosSelecionados");
+
+            if (!modal || !lista) {
+                return;
+            }
 
             const contadorPontosModal =
                 document.getElementById("contadorPontosModal");
@@ -4268,6 +4365,24 @@
             ponto.style.boxShadow =
                 "0 0 0 3px rgba(148, 163, 184, .15)";
         }
+
+        window.addEventListener(
+            "popstate",
+            function (event) {
+
+                const estado =
+                    event.state;
+
+                if (
+                    estado &&
+                    estado.tela === "lista-rotas"
+                ) {
+
+                    mostrarRotas();
+
+                }
+            }
+        );
 
     </script>
 

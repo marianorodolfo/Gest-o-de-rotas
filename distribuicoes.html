@@ -231,7 +231,7 @@
             display: grid;
 
             grid-template-columns:
-                minmax(0, 1fr) auto auto;
+                170px 75px minmax(0, 1fr);
 
             align-items: center;
 
@@ -250,6 +250,20 @@
 
             font-size: 12px;
 
+        }
+
+        .nome-cliente-entrega {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cliente-distribuicao .status-ponto {
+            justify-self: start;
+        }
+
+        .cliente-distribuicao button {
+            justify-self: end;
         }
 
         .cliente-distribuicao button {
@@ -301,7 +315,7 @@
 
             height: 32px;
 
-            margin-top: 10px;
+            margin-top: 0px;
 
             padding: 0 12px;
 
@@ -348,10 +362,7 @@
 
 
         .btn-voltar-distribuicoes {
-
-            position: relative;
-
-            top: -2px;
+            position: static;
 
             display: block !important;
 
@@ -359,7 +370,7 @@
 
             height: 32px !important;
 
-            margin-top: 15px;
+            margin-top: 0px;
 
             margin-left: 0 !important;
 
@@ -407,6 +418,38 @@
 
             margin-top: 10px;
 
+        }
+
+        #editarDistribuicao {
+            height: 34px;
+            padding: 0 13px;
+
+            border: 1px solid #2563EB;
+            border-radius: 7px;
+
+            background: #eff6ff;
+            color: #2563EB;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background 0.18s ease,
+                color 0.18s ease,
+                border-color 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        #editarDistribuicao:hover {
+            background: #2563EB;
+            color: #ffffff;
+            border-color: #2563EB;
+        }
+
+        #editarDistribuicao:active {
+            transform: translateY(1px);
         }
 
 
@@ -1016,6 +1059,17 @@
             min-width: 0;
         }
 
+        .hora-inicio-cartao {
+            margin-left: auto;
+
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
         .cabecalho-cartao-missao h2 {
             margin: 0;
 
@@ -1173,6 +1227,46 @@
             color: #94a3b8;
             font-size: 10px;
             font-weight: 600;
+        }
+
+        #confirmarChegadaBase {
+            height: 32px;
+
+            padding: 0 12px;
+
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+
+            background: #f59e0b;
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 2px 6px rgba(245, 158, 11, 0.18);
+
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                transform 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        #confirmarChegadaBase:hover {
+            background: #d97706;
+            border-color: #d97706;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 10px rgba(217, 119, 6, 0.22);
+        }
+
+        #confirmarChegadaBase:active {
+            transform: translateY(0);
         }
 
 
@@ -2029,8 +2123,7 @@
 
                         ? `
                             <p>
-                                Nenhuma distribuição
-                                em andamento.
+                                Nenhuma missão em andamento.
                             </p>
                         `
 
@@ -2113,7 +2206,11 @@
                 Concluída
             </span>
           `
-                            : ""
+                            : `
+            <span class="hora-inicio-cartao">
+                Início ${distribuicao.horaInicio || "-"}
+            </span>
+          `
                         }
 
 </div>
@@ -2415,6 +2512,8 @@
 
             }
 
+
+
             /*
  * Registar detalhe da missão
  * no histórico do navegador
@@ -2512,7 +2611,16 @@
 </div>
 
 
-<div class="grade-detalhe-missao">
+<div
+    class="grade-detalhe-missao"
+    style="
+        grid-template-columns:
+            repeat(
+                ${distribuicao.horaFim ? 5 : 4},
+                minmax(0, 1fr)
+            ) !important;
+    "
+>
 
 <div class="item-resumo-missao">
 
@@ -2552,14 +2660,22 @@
 
 <div class="item-resumo-missao">
 
-        <span>Início</span>
+    <span>Início</span>
 
-        <strong>
-            ${distribuicao.horaInicio ||
+    <strong>
+        ${distribuicao.horaInicio ||
                 "Não registado"
                 }
-        </strong>
-    </div>
+
+        ${distribuicao.tempoEstimadoMinutos
+                    ? `
+                · ${distribuicao.tempoEstimadoMinutos} min
+              `
+                    : ""
+                }
+    </strong>
+
+</div>
 
 
     ${distribuicao.horaFim
@@ -2628,19 +2744,21 @@
         "
     >
 
-        <strong>
+       <strong class="nome-cliente-entrega">
 
-            ${indice + 1}.
+    ${indice + 1}.
 
-            ${cliente.codigo || ""}
+    ${cliente.codigo || ""}
 
-            -
+    -
 
-            ${cliente.nome || ""}
+    ${cliente.nome || ""}
 
-        </strong>
+    
 
-        <span
+</strong>
+
+<span
     class="
         status-ponto
         ${statusEntrega === "Concluída"
@@ -2736,21 +2854,33 @@
             type="button"
             id="confirmarChegadaBase"
         >
-            🏠 Confirmar chegada à base
+            Chegada à base
         </button>
     `
 
-                    : distribuicao.status !== "Concluída"
+                    : ""
+                }
 
-                        ? `
-            <button
-                id="finalizarDistribuicao"
-            >
-                Finalizar missão
-            </button>
-        `
-
-                        : ""
+                ${distribuicao.status === "Em andamento" &&
+                    distribuicao.retornoBase !== "Em andamento" &&
+                    Array.isArray(distribuicao.clientes) &&
+                    !distribuicao.clientes.some(
+                        function (cliente) {
+                            return (
+                                cliente.statusEntrega ===
+                                "Concluída"
+                            );
+                        }
+                    )
+                    ? `
+        <button
+            type="button"
+            id="editarDistribuicao"
+        >
+            Editar
+        </button>
+      `
+                    : ""
                 }
                         <button
                             class="
@@ -2771,128 +2901,9 @@
 
             `;
 
-
             /* =====================================
-               BOTÃO FINALIZAR
+                BOTÃO CONFIRMAR CHEGADA À BASE
             ====================================== */
-
-            const botaoFinalizar =
-                document.getElementById(
-                    "finalizarDistribuicao"
-                );
-
-
-            if (
-                botaoFinalizar
-            ) {
-
-                botaoFinalizar.addEventListener(
-                    "click",
-                    function () {
-
-                        const agora =
-                            new Date();
-
-
-                        distribuicao.horaFim =
-                            agora.toLocaleTimeString(
-                                "pt-PT",
-                                {
-                                    hour:
-                                        "2-digit",
-
-                                    minute:
-                                        "2-digit"
-                                }
-                            );
-
-
-                        distribuicao.fimTimestamp =
-                            agora.getTime();
-
-                        if (Array.isArray(distribuicao.clientes)) {
-
-                            distribuicao.clientes.forEach(
-                                function (cliente) {
-
-                                    cliente.statusEntrega =
-                                        "Concluída";
-
-                                }
-                            );
-
-                        }
-
-
-                        distribuicao.status =
-                            "Concluída";
-
-                        distribuicao.retornoBase =
-                            "Em andamento";
-
-
-                        if (
-                            distribuicao.inicioTimestamp
-                        ) {
-
-                            const duracaoMilissegundos =
-                                distribuicao.fimTimestamp -
-                                distribuicao.inicioTimestamp;
-
-
-                            distribuicao.duracao =
-                                Math.floor(
-                                    duracaoMilissegundos /
-                                    1000
-                                );
-
-                        }
-
-
-                        localStorage.setItem(
-                            "distribuicoes",
-
-                            JSON.stringify(
-                                distribuicoes
-                            )
-                        );
-
-
-                        alert(
-                            "Missão finalizada com sucesso!"
-                        );
-
-
-                        /*
-                         * Depois de finalizar,
-                         * mostramos o histórico.
-                         */
-
-                        ativarAba(
-                            "historico"
-                        );
-
-
-                        /*
-                         * Mantém o histórico
-                         * sem filtro.
-                         */
-
-                        filtroDataHistorico.value =
-                            "";
-
-                        mostrarLista(
-                            "historico"
-                        );
-
-                    }
-                );
-
-            }
-
-            /* =====================================
-   BOTÃO CONFIRMAR CHEGADA À BASE
-====================================== */
 
             const botaoChegadaBase =
                 document.getElementById(
@@ -2956,17 +2967,65 @@
                             "Chegada à base confirmada. Missão concluída!"
                         );
 
-                        ativarAba(
-                            "historico"
-                        );
+                        const existemMissoesEmAndamento =
+                            distribuicoes.some(
+                                function (item) {
 
-                        mostrarLista(
-                            "historico"
-                        );
+                                    return (
+                                        item.status ===
+                                        "Em andamento"
+                                    );
+
+                                }
+                            );
+
+
+                        if (existemMissoesEmAndamento) {
+
+                            ativarAba(
+                                "andamento"
+                            );
+
+                            mostrarLista(
+                                "andamento"
+                            );
+
+                        } else {
+
+                            ativarAba(
+                                "historico"
+                            );
+
+                            mostrarLista(
+                                "historico"
+                            );
+
+                        }
 
                     }
                 );
 
+            }
+
+            const botaoEditar =
+                document.getElementById(
+                    "editarDistribuicao"
+                );
+
+            if (botaoEditar) {
+
+                botaoEditar.addEventListener(
+                    "click",
+                    function () {
+
+                        window.location.href =
+                            "rotas.html?editar=" +
+                            encodeURIComponent(
+                                distribuicao.id
+                            );
+
+                    }
+                );
             }
 
 
@@ -3956,8 +4015,7 @@
 
                     <p>
 
-                        Nenhuma distribuição
-                        concluída neste mês.
+                        Nenhuma missão concluída neste mês.
 
                     </p>
 

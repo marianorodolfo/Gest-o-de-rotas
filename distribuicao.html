@@ -569,6 +569,36 @@
 
 
     <script>
+        const parametrosURL =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const idMissaoEdicao =
+            parametrosURL.get(
+                "editar"
+            );
+
+        const distribuicoesExistentes =
+            JSON.parse(
+                localStorage.getItem(
+                    "distribuicoes"
+                )
+            ) || [];
+
+        const missaoEdicao =
+            idMissaoEdicao
+                ? distribuicoesExistentes.find(
+                    function (distribuicao) {
+
+                        return (
+                            String(distribuicao.id) ===
+                            String(idMissaoEdicao)
+                        );
+
+                    }
+                )
+                : null;
 
         const distribuidores =
             JSON.parse(
@@ -917,14 +947,17 @@
     <div id="areaBotao">
 
     <button
-        class="botao-iniciar-missao"
-        id="botaoIniciarMissao"
-        onclick="criarDistribuicao()"
-        disabled
-    >
-        <span>🚁</span>
-        Iniciar missão
-    </button>
+    class="botao-iniciar-missao"
+    id="botaoIniciarMissao"
+    onclick="criarDistribuicao()"
+    disabled
+>
+    <span>🚁</span>
+    ${missaoEdicao
+                ? "Salvar alterações"
+                : "Iniciar missão"
+            }
+</button>
 
 </div>
 
@@ -1052,7 +1085,13 @@
                 distribuicoesExistentes.some(
                     function (distribuicao) {
 
+                        const mesmaMissao =
+                            missaoEdicao &&
+                            String(distribuicao.id) ===
+                            String(missaoEdicao.id);
+
                         return (
+                            !mesmaMissao &&
                             distribuicao.veiculo === veiculo &&
                             distribuicao.status === "Em andamento"
                         );
@@ -1094,56 +1133,105 @@
                 ) || [];
 
 
-            const novaDistribuicao = {
+            if (missaoEdicao) {
 
-                id:
-                    Date.now(),
+                const indiceMissaoEdicao =
+                    distribuicoes.findIndex(
+                        function (distribuicao) {
 
-                clientes:
-                    clientesSelecionados,
+                            return (
+                                String(distribuicao.id) ===
+                                String(idMissaoEdicao)
+                            );
 
-
-                distribuidor,
-
-                veiculo:
-                    veiculo,
-
-                modoOperacao:
-                    modoOperacao,
-
-                data:
-                    agora.toLocaleDateString(
-                        "pt-PT"
-                    ),
-
-                horaInicio:
-                    agora.toLocaleTimeString(
-                        "pt-PT",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
                         }
-                    ),
+                    );
 
-                inicioTimestamp:
-                    agora.getTime(),
+                if (indiceMissaoEdicao !== -1) {
 
-                tempoEstimadoMinutos:
-                    Number(
-                        localStorage.getItem(
-                            "tempoEstimadoMissaoTemporaria"
-                        )
-                    ) || null,
+                    distribuicoes[
+                        indiceMissaoEdicao
+                    ].clientes =
+                        clientesSelecionados;
 
-                status:
-                    "Em andamento"
+                    distribuicoes[
+                        indiceMissaoEdicao
+                    ].distribuidor =
+                        distribuidor;
 
-            };
+                    distribuicoes[
+                        indiceMissaoEdicao
+                    ].veiculo =
+                        veiculo;
 
+                    distribuicoes[
+                        indiceMissaoEdicao
+                    ].modoOperacao =
+                        modoOperacao;
 
-            distribuicoes.push(
-                novaDistribuicao
-            );
+                    distribuicoes[
+                        indiceMissaoEdicao
+                    ].tempoEstimadoMinutos =
+                        Number(
+                            localStorage.getItem(
+                                "tempoEstimadoMissaoTemporaria"
+                            )
+                        ) || null;
+
+                }
+
+            } else {
+
+                const novaDistribuicao = {
+
+                    id:
+                        Date.now(),
+
+                    clientes:
+                        clientesSelecionados,
+
+                    distribuidor,
+
+                    veiculo:
+                        veiculo,
+
+                    modoOperacao:
+                        modoOperacao,
+
+                    data:
+                        agora.toLocaleDateString(
+                            "pt-PT"
+                        ),
+
+                    horaInicio:
+                        agora.toLocaleTimeString(
+                            "pt-PT",
+                            {
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }
+                        ),
+
+                    inicioTimestamp:
+                        agora.getTime(),
+
+                    tempoEstimadoMinutos:
+                        Number(
+                            localStorage.getItem(
+                                "tempoEstimadoMissaoTemporaria"
+                            )
+                        ) || null,
+
+                    status:
+                        "Em andamento"
+
+                };
+
+                distribuicoes.push(
+                    novaDistribuicao
+                );
+
+            }
 
 
             localStorage.setItem(
@@ -1160,7 +1248,9 @@
 
 
             alert(
-                "Missão criada com sucesso!"
+                missaoEdicao
+                    ? "Missão atualizada com sucesso!"
+                    : "Missão criada com sucesso!"
             );
 
 
@@ -1322,6 +1412,47 @@
         }
 
         atualizarDistribuidores();
+
+        if (missaoEdicao) {
+
+            const selectVeiculo =
+                document.getElementById(
+                    "veiculoDistribuicao"
+                );
+
+            const selectModo =
+                document.getElementById(
+                    "modoOperacaoDistribuicao"
+                );
+
+            const selectDistribuidor =
+                document.getElementById(
+                    "distribuidorDistribuicao"
+                );
+
+
+            if (selectVeiculo) {
+                selectVeiculo.value =
+                    missaoEdicao.veiculo || "";
+            }
+
+
+            atualizarDistribuidores();
+
+
+            if (selectModo) {
+                selectModo.value =
+                    missaoEdicao.modoOperacao || "";
+            }
+
+
+            if (selectDistribuidor) {
+                selectDistribuidor.value =
+                    missaoEdicao.distribuidor || "";
+            }
+
+        }
+
         atualizarStatusConfiguracao();
 
     </script>
