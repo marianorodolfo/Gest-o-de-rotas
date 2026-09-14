@@ -1831,6 +1831,290 @@
                 0 0 0 2px rgba(59, 130, 246, .18);
         }
 
+        .card-configuracao-meta {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            padding: 10px 11px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, .04);
+        }
+
+        .card-configuracao-meta::before {
+            content: "";
+
+            position: absolute;
+            top: 8px;
+            bottom: 8px;
+            left: 0;
+
+            width: 3px;
+
+            border-radius: 0 3px 3px 0;
+
+            background: #2563eb;
+        }
+
+        .card-configuracao-meta span {
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .card-configuracao-meta input {
+            width: 100%;
+            height: 30px;
+
+            padding: 0 8px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+
+            background: #ffffff;
+
+            color: #123b63;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            box-sizing: border-box;
+            outline: none;
+
+            transition:
+                border-color .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .card-configuracao-meta input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, .10);
+        }
+
+        .informacao-meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .item-meta {
+            padding: 10px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, .04);
+        }
+
+        .cabecalho-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            margin-bottom: 6px;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        .icone-item-meta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 20px;
+            height: 20px;
+
+            border-radius: 6px;
+
+            background: #eff6ff;
+
+            font-size: 11px;
+        }
+
+        .item-meta input {
+            width: 100%;
+            height: 30px;
+
+            padding: 0 8px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+
+            background: #ffffff;
+
+            color: #123b63;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            box-sizing: border-box;
+            outline: none;
+
+            transition:
+                border-color .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .item-meta input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, .10);
+        }
+
+        .planeamento-resumo {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .item-planeamento-resumo {
+            padding: 10px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, .04);
+        }
+
+        .cabecalho-planeamento-resumo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            margin-bottom: 5px;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        .icone-planeamento-resumo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 20px;
+            height: 20px;
+
+            border-radius: 6px;
+
+            background: #eff6ff;
+
+            font-size: 11px;
+        }
+
+        .item-planeamento-resumo strong {
+            display: block;
+
+            color: #123b63;
+
+            font-size: 18px;
+            font-weight: 900;
+
+            line-height: 1.1;
+        }
+
+        .painel-grafico-planeamento {
+            margin-top: 8px;
+            padding: 10px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 10px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            box-shadow:
+                0 2px 8px rgba(15, 23, 42, .04);
+        }
+
+        .grafico-planeamento {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .legenda-grafico {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            gap: 8px;
+
+            margin-top: 8px;
+        }
+
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            padding: 6px 8px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+
+            background: #ffffff;
+
+            color: #475569;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        .legenda-quadrado {
+            width: 8px;
+            height: 8px;
+
+            flex: 0 0 8px;
+
+            border-radius: 3px;
+        }
+
         @keyframes pulsoSistemaOnline {
 
             0%,
@@ -2518,9 +2802,17 @@
 
                         <div class="item-meta">
 
-                            <span>
-                                Objetivo mensal
-                            </span>
+                            <div class="cabecalho-item-meta">
+
+                                <span class="icone-item-meta">
+                                    🎯
+                                </span>
+
+                                <span>
+                                    Objetivo mensal
+                                </span>
+
+                            </div>
 
                             <input type="number" id="metaMensal" value="6000" min="1">
 
@@ -2529,9 +2821,17 @@
 
                         <div class="item-meta">
 
-                            <span>
-                                Dias de trabalho
-                            </span>
+                            <div class="cabecalho-item-meta">
+
+                                <span class="icone-item-meta">
+                                    📅
+                                </span>
+
+                                <span>
+                                    Dias de trabalho
+                                </span>
+
+                            </div>
 
                             <input type="number" id="diasTrabalho" value="31" min="1" max="31">
 
@@ -2675,28 +2975,44 @@
 
                 <div class="planeamento-resumo">
 
-                    <div>
+                    <div class="item-planeamento-resumo">
+
+                        <div class="cabecalho-planeamento-resumo">
+
+                            <span class="icone-planeamento-resumo">
+                                ✅
+                            </span>
+
+                            <span>
+                                Entregas concluídas
+                            </span>
+
+                        </div>
 
                         <strong id="planeamentoRealizado">
                             0
                         </strong>
 
-                        <span>
-                            entregas concluídas
-                        </span>
-
                     </div>
 
 
-                    <div style="text-align:right;">
+                    <div class="item-planeamento-resumo">
+
+                        <div class="cabecalho-planeamento-resumo">
+
+                            <span class="icone-planeamento-resumo">
+                                🎯
+                            </span>
+
+                            <span>
+                                Meta mensal
+                            </span>
+
+                        </div>
 
                         <strong id="planeamentoMeta">
                             6.000
                         </strong>
-
-                        <span>
-                            meta mensal
-                        </span>
 
                     </div>
 
@@ -2710,37 +3026,46 @@
                 </div>
 
 
-                <div class="grafico-planeamento" id="graficoPlaneamento"></div>
+                <div class="painel-grafico-planeamento">
+
+                    <div class="grafico-planeamento" id="graficoPlaneamento"></div>
+
+                    <div class="legenda-grafico">
+
+                        <div class="legenda-item">
+
+                            <span class="
+                legenda-quadrado
+                legenda-meta
+            "></span>
+
+                            <span>
+                                Meta diária
+                            </span>
+
+                        </div>
 
 
-                <div class="legenda-grafico">
+                        <div class="legenda-item">
 
-                    <div class="legenda-item">
+                            <span class="
+                legenda-quadrado
+                legenda-realizado
+            "></span>
 
-                        <span class="
-                                legenda-quadrado
-                                legenda-meta
-                            "></span>
+                            <span>
+                                Realizado
+                            </span>
 
-                        Meta diária
-
-                    </div>
-
-
-                    <div class="legenda-item">
-
-                        <span class="
-                                legenda-quadrado
-                                legenda-realizado
-                            "></span>
-
-                        Realizado
+                        </div>
 
                     </div>
 
                 </div>
 
-            </section>
+        </div>
+
+        </section>
 
         </div>
 
@@ -6123,17 +6448,9 @@ clientes.forEach(
    CORES DOS DRONES
 ========================================= */
 
-            const coresDrones = {
-                "DRN-001": "#2563eb",
-                "DRN-002": "#8b5cf6",
-                "DRN-003": "#06b6d4",
-                "DRN-004": "#22c55e"
-            };
+            function obterCorDrone() {
 
-
-            function obterCorDrone(idDrone) {
-
-                return coresDrones[idDrone] || "#64748b";
+                return "#64748b";
 
             }
 
@@ -6200,118 +6517,173 @@ clientes.forEach(
                 return "Disponível";
             }
 
+            /* =========================================
+   PERFIS DE TELEMETRIA DOS DRONES
+========================================= */
+
+            const perfisDrones = {
+
+                "DRN-001": {
+                    bateria: 83,
+                    autonomia: 18,
+                    velocidade: 42,
+                    altitude: 62,
+                    ligacao: "Excelente"
+                },
+
+                "DRN-002": {
+                    bateria: 61,
+                    autonomia: 14,
+                    velocidade: 34,
+                    altitude: 55,
+                    ligacao: "Boa"
+                },
+
+                "DRN-003": {
+                    bateria: 27,
+                    autonomia: 7,
+                    velocidade: 39,
+                    altitude: 48,
+                    ligacao: "Boa"
+                },
+
+                "DRN-004": {
+                    bateria: 16,
+                    autonomia: 4,
+                    velocidade: 31,
+                    altitude: 51,
+                    ligacao: "Instável"
+                },
+
+                "DRN-005": {
+                    bateria: 94,
+                    autonomia: 21,
+                    velocidade: 0,
+                    altitude: 0,
+                    ligacao: "Excelente"
+                },
+
+                "DRN-006": {
+                    bateria: 88,
+                    autonomia: 20,
+                    velocidade: 0,
+                    altitude: 0,
+                    ligacao: "Excelente"
+                },
+
+                "DRN-007": {
+                    bateria: 76,
+                    autonomia: 17,
+                    velocidade: 0,
+                    altitude: 0,
+                    ligacao: "Boa"
+                },
+
+                "DRN-008": {
+                    bateria: 91,
+                    autonomia: 21,
+                    velocidade: 0,
+                    altitude: 0,
+                    ligacao: "Excelente"
+                },
+
+                "DRN-009": {
+                    bateria: 69,
+                    autonomia: 15,
+                    velocidade: 0,
+                    altitude: 0,
+                    ligacao: "Boa"
+                },
+
+                "DRN-010": {
+                    bateria: 85,
+                    autonomia: 19,
+                    velocidade: 0,
+                    altitude: 0,
+                    ligacao: "Excelente"
+                }
+
+            };
+
 
             /* =========================================
                DRONES - DADOS DE DEMONSTRAÇÃO
             ========================================= */
 
-            const drones = [
+            const veiculosCadastrados =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
 
-                {
-                    id: "DRN-001",
 
-                    missao:
-                        obterMissaoDoDrone("DRN-001"),
+            const drones =
+                veiculosCadastrados.map(
+                    function (idDrone) {
 
-                    latitude: 41.6305,
-                    longitude: -8.3560,
 
-                    status: obterStatusDrone("DRN-001"),
+                        const perfil =
+                            perfisDrones[idDrone] || {
+                                bateria: perfil.bateria,
 
-                    bateria: 83,
-                    autonomia: 18,
+                                autonomia: perfil.autonomia,
 
-                    velocidade: 42,
-                    altitude: 62,
+                                velocidade: perfil.velocidade,
 
-                    ligacao: "Excelente",
+                                altitude: perfil.altitude,
 
-                    entregasConcluidas: 3,
-                    entregasTotal: 5,
+                                ligacao: perfil.ligacao,
+                            };
 
-                    destinos:
-                        obterDestinosDoDrone("DRN-001")
-                },
+                        return {
 
-                {
-                    id: "DRN-002",
+                            id: idDrone,
 
-                    missao:
-                        obterMissaoDoDrone("DRN-002"),
+                            missao:
+                                obterMissaoDoDrone(
+                                    idDrone
+                                ),
 
-                    latitude: 41.6158,
-                    longitude: -8.3385,
+                            latitude:
+                                coordenadasBase[0],
 
-                    status: obterStatusDrone("DRN-002"),
+                            longitude:
+                                coordenadasBase[1],
 
-                    bateria: 61,
-                    autonomia: 14,
+                            status:
+                                obterStatusDrone(
+                                    idDrone
+                                ),
 
-                    velocidade: 34,
-                    altitude: 55,
+                            bateria:
+                                perfil.bateria,
 
-                    ligacao: "Boa",
+                            autonomia:
+                                perfil.autonomia,
 
-                    entregasConcluidas: 1,
-                    entregasTotal: 4,
+                            velocidade:
+                                perfil.velocidade,
 
-                    destinos:
-                        obterDestinosDoDrone("DRN-002")
-                },
+                            altitude:
+                                perfil.altitude,
 
-                {
-                    id: "DRN-003",
+                            ligacao:
+                                perfil.ligacao,
 
-                    missao:
-                        obterMissaoDoDrone("DRN-003"),
+                            entregasConcluidas: 0,
 
-                    latitude: 41.6348,
-                    longitude: -8.3300,
+                            entregasTotal: 0,
 
-                    status: obterStatusDrone("DRN-003"),
+                            destinos:
+                                obterDestinosDoDrone(
+                                    idDrone
+                                )
 
-                    bateria: 27,
-                    autonomia: 7,
+                        };
 
-                    velocidade: 39,
-                    altitude: 48,
-
-                    ligacao: "Boa",
-
-                    entregasConcluidas: 4,
-                    entregasTotal: 4,
-
-                    destinos:
-                        obterDestinosDoDrone("DRN-003")
-                },
-
-                {
-                    id: "DRN-004",
-
-                    missao:
-                        obterMissaoDoDrone("DRN-004"),
-
-                    latitude: 41.6105,
-                    longitude: -8.3595,
-
-                    status: obterStatusDrone("DRN-004"),
-
-                    bateria: 16,
-                    autonomia: 4,
-
-                    velocidade: 31,
-                    altitude: 51,
-
-                    ligacao: "Instável",
-
-                    entregasConcluidas: 2,
-                    entregasTotal: 5,
-
-                    destinos:
-                        obterDestinosDoDrone("DRN-004")
-                }
-
-            ];
+                    }
+                );
 
             /*
  * Posicionamento visual dos drones
@@ -6844,9 +7216,9 @@ clientes.forEach(
         Início ${missaoDrone?.horaInicio || "--:--"}
         ·
         ${estaRetornando
-            ? "Chegada estimada em"
-            : "Retorno estimado em"
-        }
+                                            ? "Chegada estimada em"
+                                            : "Retorno estimado em"
+                                        }
         ${tempoRestante} min
     </small>
 `;
@@ -6896,7 +7268,15 @@ clientes.forEach(
                 "DRN-001": [0.00400, 0],
                 "DRN-002": [0, 0.00480],
                 "DRN-003": [-0.00400, 0],
-                "DRN-004": [0, -0.00480]
+                "DRN-004": [0, -0.00480],
+
+                "DRN-005": [0.00320, 0.00320],
+                "DRN-006": [-0.00320, 0.00320],
+                "DRN-007": [-0.00320, -0.00320],
+                "DRN-008": [0.00320, -0.00320],
+
+                "DRN-009": [0.00620, 0.00220],
+                "DRN-010": [-0.00620, -0.00220]
             };
 
             drones.forEach(
@@ -6940,9 +7320,18 @@ clientes.forEach(
                     "drone-identificado";
 
 
+                if (drone.status === "Em voo") {
+
+                    corDrone = "#2563eb";
+
+                }
+
+
                 if (drone.status === "Retornando") {
+
                     corDrone = "#f59e0b";
                     classeEstado = "drone-atencao";
+
                 }
 
                 if (
@@ -6991,6 +7380,7 @@ clientes.forEach(
             /* =========================================
                COLOCAR DRONES NO MAPA
             ========================================= */
+            const rotasMissoes = {};
 
             drones.forEach(
                 function (drone) {
@@ -7141,6 +7531,94 @@ clientes.forEach(
                     marcador.on(
                         "click",
                         function () {
+
+                            Object.keys(
+                                rotasMissoes
+                            ).forEach(
+                                function (idDrone) {
+
+                                    const rota =
+                                        rotasMissoes[
+                                        idDrone
+                                        ];
+
+                                    if (
+                                        idDrone ===
+                                        drone.id
+                                    ) {
+
+                                        rota.setStyle({
+                                            weight: 4,
+                                            opacity: .95
+                                        });
+
+                                        rota.bringToFront();
+
+                                    } else {
+
+                                        rota.setStyle({
+                                            weight: 2,
+                                            opacity: .28
+                                        });
+
+                                    }
+
+                                }
+                            );
+
+
+                            /*
+                             * Focar visualmente
+                             * na missão selecionada
+                             */
+
+                            const rotaSelecionada =
+                                rotasMissoes[
+                                drone.id
+                                ];
+
+                            if (rotaSelecionada) {
+
+                                const limitesMissao =
+                                    rotaSelecionada.getBounds();
+
+                                if (
+                                    limitesMissao.isValid()
+                                ) {
+
+                                    mapa.fitBounds(
+                                        limitesMissao,
+                                        {
+                                            padding: [35, 35],
+                                            maxZoom: 14,
+                                            animate: true
+                                        }
+                                    );
+
+                                    setTimeout(
+                                        function () {
+
+                                            if (
+                                                mapa.getZoom() < 13
+                                            ) {
+
+                                                mapa.setZoom(
+                                                    13,
+                                                    {
+                                                        animate: true
+                                                    }
+                                                );
+
+                                            }
+
+                                        },
+                                        350
+                                    );
+
+                                }
+
+                            }
+
 
                             atualizarPainelDrone(
                                 drone
@@ -7341,16 +7819,21 @@ clientes.forEach(
                         ================================= */
 
                         const corRotaMissao =
-                            obterCorDrone(drone.id);
+                            "#2563eb";
 
-                        L.polyline(
-                            pontosRota,
-                            {
-                                color: corRotaMissao,
-                                weight: 3,
-                                opacity: .85
-                            }
-                        ).addTo(mapa);
+                        const rotaMissao =
+                            L.polyline(
+                                pontosRota,
+                                {
+                                    color: corRotaMissao,
+                                    weight: 2,
+                                    opacity: .28
+                                }
+                            )
+                                .addTo(mapa);
+
+                        rotasMissoes[drone.id] =
+                            rotaMissao;
 
                     }
 

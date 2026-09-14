@@ -36,6 +36,12 @@
 ================================= */
 
         .topo-gestao {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
             height: 58px;
 
             display: flex;
@@ -47,47 +53,145 @@
 
             box-shadow:
                 0 2px 8px rgba(15, 23, 42, 0.12);
+
+            z-index: 200;
         }
 
         .identidade-topo-gestao {
             display: flex;
             align-items: center;
-
             gap: 16px;
         }
 
         .imagem-logo-gestao {
             height: 38px;
             width: auto;
-
             display: block;
-
             object-fit: contain;
         }
 
-        .identidade-topo-gestao h1 {
-            margin: 0;
-
+        .titulo-topo-gestao {
             padding-left: 16px;
 
             border-left:
                 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .titulo-topo-gestao span {
+            display: block;
+
+            margin-bottom: 1px;
+
+            color:
+                rgba(255, 255, 255, 0.70);
+
+            font-size: 9px;
+            font-weight: 800;
+
+            letter-spacing: 0.7px;
+
+            text-transform: uppercase;
+        }
+
+        .titulo-topo-gestao h1 {
+            margin: 0;
 
             color: #ffffff;
 
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 800;
         }
 
+        .titulo-topo-gestao p {
+            margin: 1px 0 0;
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* ================================
+   MENU LATERAL
+================================= */
+
+        .menu {
+            position: fixed;
+
+            top: 58px;
+            left: 0;
+            bottom: 0;
+
+            width: 185px;
+
+            padding: 14px 10px;
+
+            background: #ffffff;
+
+            border-right:
+                1px solid #dbe4ee;
+
+            z-index: 100;
+        }
+
+        .menu a {
+            display: block;
+
+            margin-bottom: 5px;
+            padding: 10px 11px;
+
+            border-radius: 7px;
+
+            color: #475569;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-decoration: none;
+
+            transition:
+                background 0.18s ease,
+                color 0.18s ease;
+        }
+
+        .menu a:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .menu a.ativo {
+            background: #123b63;
+            color: #ffffff;
+        }
+
+
+        /* ================================
+   MENU MOBILE
+================================= */
+
+        .menu-mobile {
+            display: none;
+        }
+
+        .botao-menu {
+            border: none;
+
+            background: #123b63;
+            color: #ffffff;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
 
         #conteudo {
-
             max-width: 1200px;
 
-            margin: 0 auto;
+            margin-left: 185px;
+            margin-right: auto;
 
-            padding: 24px 25px 60px;
-
+            padding: 82px 25px 60px;
         }
 
 
@@ -544,6 +648,50 @@
             font-weight: 800;
         }
 
+        .dados-aeronave-gestao {
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 3px;
+
+            min-width: 0;
+        }
+
+        .dados-aeronave-gestao span {
+            font-size: 14px;
+            font-weight: 700;
+
+            color: #263247;
+        }
+
+        .estado-aeronave-gestao {
+            width: fit-content;
+
+            padding: 2px 7px;
+
+            border-radius: 999px;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .estado-aeronave-disponivel {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .estado-aeronave-missao {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .estado-aeronave-retornando {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
 
         /* ================================
            TABLET
@@ -674,24 +822,13 @@
 
         <div class="identidade-topo-gestao">
 
-            <img src="IMG_2610.jpeg" alt="PRIMO PEÇAS" class="imagem-logo-gestao">
+            <img src="img/logo-primo-pecas.jpeg/WhatsApp Image 2026-09-09 at 22.52.06.jpeg" alt="PRIMO PEÇAS"
+                class="imagem-logo-gestao">
 
-            <h1>
-                Gestão
-            </h1>
+            <div class="titulo-topo-gestao">
 
-        </div>
-
-    </header>
-
-    <main id="conteudo">
-
-        <div class="cabecalho-gestao">
-
-            <div>
-
-                <span class="rotulo-gestao">
-                    GESTÃO OPERACIONAL
+                <span>
+                    Gestão operacional
                 </span>
 
                 <h1>
@@ -699,16 +836,66 @@
                 </h1>
 
                 <p>
-                    Administração da frota aérea e dos operadores.
+                    Administração da frota aérea e dos operadores
                 </p>
 
             </div>
 
-            <button class="botao-voltar-gestao" onclick="window.location.href='Distribuicoes.html'">
-                ← Voltar
-            </button>
-
         </div>
+
+    </header>
+
+    <div class="menu-mobile">
+
+        <button class="botao-menu" id="botaoMenu" onclick="
+            document
+                .getElementById('menu')
+                .classList
+                .toggle('aberto')
+        ">
+            ☰
+        </button>
+
+    </div>
+
+
+    <nav class="menu" id="menu">
+
+        <a href="index.html">
+            🛰️ Centro de Operações
+        </a>
+
+        <a href="operacoes.html">
+            📡 Operações ao Vivo
+        </a>
+
+        <a href="Distribuicoes.html">
+            🚁 Missões
+        </a>
+
+        <a href="clientes.html">
+            📍 Pontos de Entrega
+        </a>
+
+        <a href="drones.html">
+            🤖 Drones
+        </a>
+
+        <a href="rotas.html">
+            🗺️ Planeamento de Rotas
+        </a>
+
+        <a href="desempenho.html">
+            📊 Análises
+        </a>
+
+        <a href="gestao-distribuicoes.html" class="ativo">
+            ⚙️ Gestão
+        </a>
+
+    </nav>
+
+    <main id="conteudo">
 
 
         <div class="abas-gestao">
@@ -822,21 +1009,16 @@
         ================================= */
 
         const veiculosIniciais = [
-            "Carro 1",
-            "Carro 2",
-            "Carro 3",
-            "Carro 4",
-            "Carro 5",
-            "Carro 6",
-            "Moto 1",
-            "Moto 2",
-            "Moto 3",
-            "Moto 4",
-            "Moto 5",
-            "Moto 6",
-            "Moto 7",
-            "Moto 8",
-            "Moto 9"
+            "DRN-001",
+            "DRN-002",
+            "DRN-003",
+            "DRN-004",
+            "DRN-005",
+            "DRN-006",
+            "DRN-007",
+            "DRN-008",
+            "DRN-009",
+            "DRN-010"
         ];
 
 
@@ -955,6 +1137,76 @@
             );
 
         }
+
+        /* ================================
+   MIGRAÇÃO DA FROTA PARA DRONES
+================================= */
+
+        const veiculosAtuais =
+            JSON.parse(
+                localStorage.getItem(
+                    "veiculos"
+                )
+            ) || [];
+
+
+        const possuiFrotaAntiga =
+            veiculosAtuais.some(
+                function (veiculo) {
+
+                    return (
+                        veiculo.startsWith("Carro ") ||
+                        veiculo.startsWith("Moto ")
+                    );
+
+                }
+            );
+
+
+        if (possuiFrotaAntiga) {
+
+            localStorage.setItem(
+                "veiculos",
+                JSON.stringify(
+                    veiculosIniciais
+                )
+            );
+
+        }
+
+        const frotaAtual =
+            JSON.parse(
+                localStorage.getItem(
+                    "veiculos"
+                )
+            ) || [];
+
+
+        veiculosIniciais.forEach(
+            function (drone) {
+
+                if (
+                    !frotaAtual.includes(
+                        drone
+                    )
+                ) {
+
+                    frotaAtual.push(
+                        drone
+                    );
+
+                }
+
+            }
+        );
+
+
+        localStorage.setItem(
+            "veiculos",
+            JSON.stringify(
+                frotaAtual
+            )
+        );
 
 
         /* ================================
@@ -1325,6 +1577,76 @@
 
         }
 
+        /* ================================
+   ABAS DA GESTÃO
+================================= */
+
+        const abaAeronaves =
+            document.getElementById(
+                "abaAeronaves"
+            );
+
+        const abaOperadores =
+            document.getElementById(
+                "abaOperadores"
+            );
+
+        const secaoAeronaves =
+            document.getElementById(
+                "secaoAeronaves"
+            );
+
+        const secaoOperadores =
+            document.getElementById(
+                "secaoOperadores"
+            );
+
+
+        abaAeronaves.addEventListener(
+            "click",
+            function () {
+
+                abaAeronaves
+                    .classList
+                    .add("ativa");
+
+                abaOperadores
+                    .classList
+                    .remove("ativa");
+
+
+                secaoAeronaves.style.display =
+                    "block";
+
+                secaoOperadores.style.display =
+                    "none";
+
+            }
+        );
+
+
+        abaOperadores.addEventListener(
+            "click",
+            function () {
+
+                abaOperadores
+                    .classList
+                    .add("ativa");
+
+                abaAeronaves
+                    .classList
+                    .remove("ativa");
+
+
+                secaoOperadores.style.display =
+                    "block";
+
+                secaoAeronaves.style.display =
+                    "none";
+
+            }
+        );
+
 
         /* ================================
            MOSTRAR VEÍCULOS
@@ -1336,6 +1658,13 @@
                 JSON.parse(
                     localStorage.getItem(
                         "veiculos"
+                    )
+                ) || [];
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
                     )
                 ) || [];
 
@@ -1355,21 +1684,80 @@
                     indice
                 ) {
 
+                    const missaoAtiva =
+                        distribuicoes.find(
+                            function (distribuicao) {
+
+                                return (
+                                    distribuicao.veiculo === veiculo &&
+                                    distribuicao.status === "Em andamento"
+                                );
+
+                            }
+                        );
+
+
+                    let estadoAeronave =
+                        "Disponível";
+
+
+                    let classeEstado =
+                        "estado-aeronave-disponivel";
+
+
+                    if (missaoAtiva) {
+
+                        if (
+                            missaoAtiva.retornoBase ===
+                            "Em andamento"
+                        ) {
+
+                            estadoAeronave =
+                                "Retornando";
+
+                            classeEstado =
+                                "estado-aeronave-retornando";
+
+                        } else {
+
+                            estadoAeronave =
+                                "Em missão";
+
+                            classeEstado =
+                                "estado-aeronave-missao";
+
+                        }
+
+                    }
+
                     area.innerHTML += `
 
                     <div class="item-gestao">
 
-                        <span>
+                        <div class="dados-aeronave-gestao">
 
-                            ${String(
+    <span>
+
+        ${String(
                         indice + 1
                     ).padStart(2, "0")}
 
-                            ·
+        ·
 
-                            ${veiculo}
+        ${veiculo}
 
-                        </span>
+    </span>
+
+    <small
+        class="
+            estado-aeronave-gestao
+            ${classeEstado}
+        "
+    >
+        ${estadoAeronave}
+    </small>
+
+</div>
 
 
                         <button
@@ -1414,7 +1802,7 @@
             if (!nome) {
 
                 alert(
-                    "Digite o nome do veículo."
+                    "Digite a identificação da aeronave."
                 );
 
                 return;
@@ -1446,7 +1834,7 @@
             if (existe) {
 
                 alert(
-                    "Esse veículo já existe."
+                    "Essa aeronave já existe."
                 );
 
                 return;
@@ -1491,7 +1879,7 @@
 
             const novoNome =
                 prompt(
-                    "Novo nome do veículo:",
+                    "Nova identificação da aeronave:",
                     nomeAtual
                 );
 
@@ -1538,7 +1926,7 @@
             if (existe) {
 
                 alert(
-                    "Esse veículo já existe."
+                    "Essa aeronave já existe."
                 );
 
                 return;
@@ -1580,7 +1968,7 @@
 
             const confirmar =
                 confirm(
-                    'Tem a certeza que pretende excluir "' +
+                    'Tem a certeza que pretende excluir a aeronave "' +
                     nome +
                     '"?'
                 );
@@ -1613,8 +2001,6 @@
         /* ================================
            INICIAR
         ================================= */
-
-        mostrarDistribuidores();
 
         mostrarVeiculos();
 
