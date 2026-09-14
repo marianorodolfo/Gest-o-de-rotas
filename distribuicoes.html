@@ -774,6 +774,12 @@
             color: #1e40af !important;
         }
 
+        #btnFiltroMensal.filtro-ativo {
+            background: #2563eb !important;
+            border-color: #2563eb !important;
+            color: #ffffff !important;
+        }
+
         .grupo-filtro-mensal {
             position: relative;
             flex-shrink: 0;
@@ -1897,12 +1903,93 @@
                             filtroDataHistorico?.value
                         );
 
+                    const operadorAtivo =
+                        Boolean(
+                            filtroOperadorHistorico?.value
+                        );
+
+                    const aeronaveAtiva =
+                        Boolean(
+                            filtroAeronaveHistorico?.value
+                        );
+
+                    const mesAtivo =
+                        Boolean(
+                            filtroMesHistorico?.value
+                        );
+
                     const filtrosAtivos =
                         pesquisaClienteAtiva ||
-                        dataAtiva;
+                        dataAtiva ||
+                        operadorAtivo ||
+                        aeronaveAtiva ||
+                        mesAtivo;
 
 
-                    if (filtrosAtivos) {
+                    if (mesAtivo) {
+
+                        const totalEntregasMes =
+                            distribuicoesFiltradas.reduce(
+                                function (total, distribuicao) {
+
+                                    const clientes =
+                                        Array.isArray(
+                                            distribuicao.clientes
+                                        )
+                                            ? distribuicao.clientes
+                                            : [];
+
+                                    return (
+                                        total +
+                                        clientes.length
+                                    );
+                                },
+                                0
+                            );
+
+
+                        const partesMes =
+                            filtroMesHistorico.value.split("-");
+
+                        const dataMes =
+                            new Date(
+                                Number(partesMes[0]),
+                                Number(partesMes[1]) - 1,
+                                1
+                            );
+
+                        let nomeMes =
+                            dataMes.toLocaleDateString(
+                                "pt-PT",
+                                {
+                                    month: "long",
+                                    year: "numeric"
+                                }
+                            );
+
+                        nomeMes =
+                            nomeMes.charAt(0).toUpperCase() +
+                            nomeMes.slice(1);
+
+
+                        tituloLista.textContent =
+                            distribuicoesFiltradas.length +
+                            (
+                                distribuicoesFiltradas.length === 1
+                                    ? " missão"
+                                    : " missões"
+                            ) +
+                            " · " +
+                            totalEntregasMes +
+                            (
+                                totalEntregasMes === 1
+                                    ? " entrega"
+                                    : " entregas"
+                            ) +
+                            " · " +
+                            nomeMes;
+
+                    } else if (filtrosAtivos) {
 
                         tituloLista.textContent =
                             distribuicoesFiltradas.length +
@@ -3037,33 +3124,38 @@
                 );
 
 
-                /*
-                 * Só limpar o filtro quando o utilizador
-                 * clicar manualmente na aba Histórico.
-                 *
-                 * Se a página foi aberta pelo Dashboard
-                 * com ?modo=historico&data=..., não devemos
-                 * apagar a data recebida pela URL.
-                 */
+                /* Limpar todos os filtros */
 
-                const parametros =
-                    new URLSearchParams(
-                        window.location.search
-                    );
+                filtroDataHistorico.value =
+                    "";
 
-
-                const dataURL =
-                    parametros.get(
-                        "data"
-                    );
-
-
-                if (!dataURL) {
-
-                    filtroDataHistorico.value =
+                if (filtroClienteHistorico) {
+                    filtroClienteHistorico.value =
                         "";
-
                 }
+
+                if (filtroOperadorHistorico) {
+                    filtroOperadorHistorico.value =
+                        "";
+                }
+
+                if (filtroAeronaveHistorico) {
+                    filtroAeronaveHistorico.value =
+                        "";
+                }
+
+                if (filtroMesHistorico) {
+                    filtroMesHistorico.value =
+                        "";
+                }
+
+                if (areaFiltroMensal) {
+                    areaFiltroMensal.style.display =
+                        "none";
+                }
+
+
+                atualizarDestaqueFiltros();
 
 
                 mostrarLista(
@@ -3362,6 +3454,17 @@
                 }
             );
 
+            if (btnFiltroMensal && filtroMesHistorico) {
+
+                btnFiltroMensal.classList.toggle(
+                    "filtro-ativo",
+                    String(
+                        filtroMesHistorico.value
+                    ).trim() !== ""
+                );
+
+            }
+
         }
 
 
@@ -3402,6 +3505,37 @@
                 }
             );
         }
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    !btnFiltroMensal ||
+                    !areaFiltroMensal
+                ) {
+                    return;
+                }
+
+                const clicouNoBotao =
+                    btnFiltroMensal.contains(
+                        event.target
+                    );
+
+                const clicouNaCaixa =
+                    areaFiltroMensal.contains(
+                        event.target
+                    );
+
+                if (
+                    !clicouNoBotao &&
+                    !clicouNaCaixa
+                ) {
+                    areaFiltroMensal.style.display =
+                        "none";
+                }
+            }
+        );
 
         /* =========================================
            LIMPAR FILTRO
