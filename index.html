@@ -3395,7 +3395,7 @@
                         <div>
                             <h2>🗺️ Operação em tempo real</h2>
                             <p>
-                                Posição, rotas e missões ativas
+                                Rotas e drones em missão
                             </p>
                         </div>
 
@@ -3780,7 +3780,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            🚚 Média de entregas por hora
+                            🚁 Média de pontos por hora
                         </span>
 
                         <strong id="mediaEntregasHora">
@@ -3797,7 +3797,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            👤 Média de entregas por operador
+                            👤 Média de pontos por operador
                         </span>
 
                         <strong id="mediaEntregasDistribuidor">
@@ -3844,7 +3844,7 @@
                                 </strong>
 
                                 <span>
-                                    entregas
+                                    Pontos
                                 </span>
 
                             </div>
@@ -4525,17 +4525,57 @@
 
 
             /*
-             * Se existir uma duração guardada,
-             * tentamos interpretar o valor.
-             *
-             * Valores muito grandes:
-             * assumimos milissegundos.
-             *
-             * Valores intermédios:
-             * assumimos minutos.
-             *
-             * Valores pequenos:
-             * assumimos horas.
+             * Prioridade 1:
+             * timestamps reais da missão.
+             */
+
+            const inicioTimestamp =
+                Number(
+                    distribuicao.inicioTimestamp
+                );
+
+            const fimTimestamp =
+                Number(
+                    distribuicao.fimTimestamp
+                );
+
+
+            if (
+                Number.isFinite(inicioTimestamp) &&
+                Number.isFinite(fimTimestamp) &&
+                inicioTimestamp > 0 &&
+                fimTimestamp > inicioTimestamp
+            ) {
+
+                return (
+                    fimTimestamp -
+                    inicioTimestamp
+                ) / 3600000;
+
+            }
+
+
+            /*
+             * Prioridade 2:
+             * horas de início e fim.
+             */
+
+            if (
+                distribuicao.horaInicio &&
+                distribuicao.horaFim
+            ) {
+
+                return calcularDuracaoHoras(
+                    distribuicao.horaInicio,
+                    distribuicao.horaFim
+                );
+
+            }
+
+
+            /*
+             * Prioridade 3:
+             * duração guardada em segundos.
              */
 
             if (
@@ -4555,41 +4595,9 @@
                     valor > 0
                 ) {
 
-                    if (valor > 10000) {
-
-                        return valor / 3600000;
-
-                    }
-
-
-                    /*
-                     * Na estrutura atualmente
-                     * utilizada pelo dashboard,
-                     * durações abaixo de 10.000
-                     * são tratadas como minutos.
-                     */
-
-                    return valor / 60;
+                    return valor / 3600;
 
                 }
-
-            }
-
-
-            /*
-             * Se não houver duração guardada,
-             * calculamos através das horas.
-             */
-
-            if (
-                distribuicao.horaInicio &&
-                distribuicao.horaFim
-            ) {
-
-                return calcularDuracaoHoras(
-                    distribuicao.horaInicio,
-                    distribuicao.horaFim
-                );
 
             }
 
@@ -5598,7 +5606,7 @@
                             <span class="detalhe-estafeta">
 
                                 ${quantidadeClientes}
-${quantidadeClientes === 1 ? "entrega" : "entregas"}
+${quantidadeClientes === 1 ? "ponto" : "pontos"}
 
                                 ${distribuicao.horaInicio
                             ? " · início " +
@@ -6235,8 +6243,9 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
 
                             if (
                                 !distribuicao ||
-                                distribuicao.status !==
-                                "Concluída"
+                                !Array.isArray(
+                                    distribuicao.clientes
+                                )
                             ) {
 
                                 return;
@@ -6251,16 +6260,21 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
                                 )
                             ) {
 
-                                if (
-                                    Array.isArray(
-                                        distribuicao.clientes
-                                    )
-                                ) {
+                                const pontosAtendidos =
+                                    distribuicao.clientes.filter(
+                                        function (cliente) {
 
-                                    totalRealizado +=
-                                        distribuicao.clientes.length;
+                                            return (
+                                                cliente.statusEntrega ===
+                                                "Concluída"
+                                            );
 
-                                }
+                                        }
+                                    ).length;
+
+
+                                totalRealizado +=
+                                    pontosAtendidos;
 
                             }
 
@@ -6369,8 +6383,9 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
 
                             if (
                                 !distribuicao ||
-                                distribuicao.status !==
-                                "Concluída"
+                                !Array.isArray(
+                                    distribuicao.clientes
+                                )
                             ) {
 
                                 return;
@@ -6385,16 +6400,21 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
                                 )
                             ) {
 
-                                if (
-                                    Array.isArray(
-                                        distribuicao.clientes
-                                    )
-                                ) {
+                                const pontosAtendidos =
+                                    distribuicao.clientes.filter(
+                                        function (cliente) {
 
-                                    realizado +=
-                                        distribuicao.clientes.length;
+                                            return (
+                                                cliente.statusEntrega ===
+                                                "Concluída"
+                                            );
 
-                                }
+                                        }
+                                    ).length;
+
+
+                                realizado +=
+                                    pontosAtendidos;
 
                             }
 
@@ -6569,7 +6589,7 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
         ========================================= */
 
         function abrirDistribuicao(
-
+            id
         ) {
 
             window.location.href =

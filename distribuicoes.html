@@ -2032,21 +2032,66 @@
 
                     if (mesAtivo) {
 
-                        const totalEntregasMes =
-                            distribuicoesFiltradas.reduce(
-                                function (total, distribuicao) {
+                        const mesSelecionado =
+                            filtroMesHistorico.value;
 
-                                    const clientes =
-                                        Array.isArray(
+
+                        const totalEntregasMes =
+                            distribuicoes.reduce(
+                                function (
+                                    total,
+                                    distribuicao
+                                ) {
+
+                                    if (
+                                        !distribuicao ||
+                                        !Array.isArray(
                                             distribuicao.clientes
                                         )
-                                            ? distribuicao.clientes
-                                            : [];
+                                    ) {
+
+                                        return total;
+
+                                    }
+
+
+                                    const dataISO =
+                                        converterDataParaISO(
+                                            distribuicao.data
+                                        );
+
+
+                                    if (
+                                        dataISO.substring(
+                                            0,
+                                            7
+                                        ) !==
+                                        mesSelecionado
+                                    ) {
+
+                                        return total;
+
+                                    }
+
+
+                                    const pontosAtendidos =
+                                        distribuicao.clientes.filter(
+                                            function (cliente) {
+
+                                                return (
+                                                    cliente.statusEntrega ===
+                                                    "Concluída"
+                                                );
+
+                                            }
+                                        ).length;
+
 
                                     return (
                                         total +
-                                        clientes.length
+                                        pontosAtendidos
                                     );
+
                                 },
                                 0
                             );
@@ -4496,21 +4541,57 @@
                 0;
 
 
-            distribuicoesFiltradas.forEach(
+            distribuicoes.forEach(
                 function (
                     distribuicao
                 ) {
 
                     if (
-                        Array.isArray(
+                        !distribuicao ||
+                        !Array.isArray(
                             distribuicao.clientes
                         )
                     ) {
 
-                        totalEntregasMes +=
-                            distribuicao.clientes.length;
+                        return;
 
                     }
+
+
+                    const dataISO =
+                        converterDataParaISO(
+                            distribuicao.data
+                        );
+
+
+                    if (
+                        dataISO.substring(
+                            0,
+                            7
+                        ) !==
+                        mesSelecionado
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const pontosAtendidos =
+                        distribuicao.clientes.filter(
+                            function (cliente) {
+
+                                return (
+                                    cliente.statusEntrega ===
+                                    "Concluída"
+                                );
+
+                            }
+                        ).length;
+
+
+                    totalEntregasMes +=
+                        pontosAtendidos;
 
                 }
             );
