@@ -21,136 +21,13 @@
             font-family: Arial, sans-serif;
             background: #f4f6f8;
             color: #1f2933;
+
+            overflow-x: hidden;
         }
 
         #conteudo {
             margin-left: 185px;
             padding: 70px 16px 24px 16px;
-        }
-
-        /* =========================================
-           CABEÇALHO
-        ========================================= */
-
-        .cabecalho-dashboard {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .titulo-dashboard h1 {
-            margin: 0;
-        }
-
-        .titulo-dashboard p {
-            margin-top: 6px;
-            color: #667085;
-        }
-
-        /* =========================================
-           FILTRO DE DATA
-        ========================================= */
-
-        .filtro-dashboard {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .filtro-dashboard label {
-            font-size: 13px;
-            color: #667085;
-        }
-
-        .filtro-dashboard input {
-            border: none;
-            outline: none;
-            background: transparent;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: #1f2933;
-        }
-
-        /* =========================================
-           INDICADORES
-        ========================================= */
-
-        .indicadores-dashboard {
-            display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
-            gap: 8px;
-            margin-bottom: 0;
-        }
-
-        .indicador-dashboard {
-            min-width: 0;
-
-            background: white;
-            border-radius: 9px;
-
-            padding: 10px 12px;
-
-            box-shadow:
-                0 2px 8px rgba(0, 0, 0, 0.06);
-
-            cursor: pointer;
-
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .indicador-dashboard:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 5px 14px rgba(0, 0, 0, 0.09);
-        }
-
-        .indicador-dashboard strong {
-            display: block;
-
-            font-size: 22px;
-            line-height: 1;
-
-            margin-bottom: 4px;
-        }
-
-        .indicador-dashboard span {
-            display: block;
-
-            color: #667085;
-
-            font-size: 9px;
-            line-height: 1.15;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .indicador-andamento strong {
-            color: #dc2626;
-        }
-
-        .indicador-concluidas strong {
-            color: #16a34a;
-        }
-
-        .indicador-clientes strong {
-            color: #2563eb;
-        }
-
-        .indicador-entregas strong {
-            color: #9333ea;
         }
 
         /* =========================================
@@ -271,19 +148,83 @@
         }
 
         .meta-numero {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 8px;
         }
 
-        .meta-numero strong {
-            font-size: 28px;
-            color: #2563eb;
+        .meta-indicador {
+            position: relative;
+
+            min-width: 0;
+
+            padding: 9px 10px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            overflow: hidden;
         }
 
-        .meta-numero span {
-            color: #667085;
-            font-size: 11px;
+        .meta-indicador::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 3px;
+
+            background: #22c55e;
+        }
+
+        .meta-indicador span {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #64748b;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        .meta-indicador strong {
+            display: block;
+
+            color: #123b63;
+
+            font-size: 18px;
+            font-weight: 900;
+
+            line-height: 1;
+        }
+
+        .meta-indicador small {
+            display: block;
+
+            margin-top: 4px;
+
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+        .meta-indicador-meta::before {
+            background: #2563eb;
         }
 
         .barra-meta {
@@ -302,28 +243,6 @@
             transition: width 0.4s ease;
         }
 
-        .informacao-meta {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-        }
-
-        .item-meta {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 8px 10px;
-        }
-
-        .item-meta span {
-            display: block;
-            color: #667085;
-            font-size: 10px;
-            margin-bottom: 3px;
-        }
-
-        .item-meta strong {
-            font-size: 16px;
-        }
 
         .mensagem-meta {
             font-size: 9px;
@@ -336,119 +255,263 @@
         ========================================= */
         .dashboard-inferior {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 14px;
             margin-top: 14px;
             align-items: start;
         }
 
         /* =========================================
-           DESEMPENHO OPERACIONAL
+            DESEMPENHO OPERACIONAL
         ========================================= */
 
         .desempenho-operacional {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
             gap: 8px;
         }
 
+        #painelDesempenhoOperacional.destaque-desempenho {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, .10),
+                0 8px 20px rgba(37, 99, 235, .12);
+
+            transition:
+                border-color .25s ease,
+                box-shadow .25s ease;
+        }
+
+        .titulo-bloco-dashboard {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .icone-titulo-dashboard {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: #eff6ff;
+
+            font-size: 17px;
+        }
+
+
+        .titulo-bloco-dashboard strong {
+            display: block;
+
+            color: #123b63;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+
+        .titulo-bloco-dashboard small {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #64748b;
+
+            font-size: 11px;
+            font-weight: 500;
+        }
+
         .item-desempenho {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 10px 12px;
-            border: 1px solid #eef2f6;
+            position: relative;
+
+            min-width: 0;
             min-height: 72px;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
+
+            padding: 10px 12px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, .04);
+
+            overflow: hidden;
+
+            transition:
+                transform .18s ease,
+                background .18s ease,
+                border-color .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .item-desempenho::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 3px;
+
+            background: #2563eb;
+        }
+
+        .item-desempenho:hover {
+            transform: translateY(-1px);
+
+            background: #f8fbff;
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, .10);
         }
 
         .item-desempenho span {
             display: block;
-            color: #667085;
-            font-size: 10px;
+
             margin-bottom: 4px;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            line-height: 1.1;
+
+            text-transform: uppercase;
+            letter-spacing: .03em;
         }
 
         .item-desempenho strong {
-            font-size: 13px;
-            line-height: 1;
-            color: #1f2933;
+            display: block;
+
+            color: #123b63;
+
+            font-size: 16px;
+            font-weight: 900;
+
+            line-height: 1.05;
         }
 
         .item-desempenho small {
             display: block;
-            margin-top: 3px;
-            color: #98a2b3;
-            font-size: 9px;
+
+            margin-top: 4px;
+
+            color: #94a3b8;
+
+            font-size: 8.5px;
+            font-weight: 600;
+
+            line-height: 1.15;
         }
+
+
+        /* CARD DO LÍDER */
 
         .item-lider {
             background:
-                linear-gradient(135deg,
-                    #f8fafc,
-                    #eef6ff);
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+        }
+
+        .item-lider::before {
+            background: #f59e0b;
+        }
+
+        .item-lider:hover {
+            border-color: #fde68a;
         }
 
         .lider-conteudo {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             gap: 10px;
+
+            min-width: 0;
         }
 
         .lider-nome {
             display: flex;
             align-items: center;
+
+            min-width: 0;
+
             gap: 7px;
         }
 
         .lider-trofeu {
-            font-size: 22px;
+            flex: 0 0 auto;
+
+            font-size: 21px;
         }
 
         .lider-nome strong {
+            min-width: 0;
+
+            color: #123b63;
+
             font-size: 15px;
+            font-weight: 900;
+
             line-height: 1.1;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .lider-entregas {
+            flex: 0 0 auto;
+
             text-align: right;
         }
 
         .lider-entregas strong {
             color: #2563eb;
-            font-size: 19px;
+
+            font-size: 18px;
+            font-weight: 900;
+
             line-height: 1;
         }
 
         .lider-entregas span {
             display: block;
-            margin: 2px 0 0;
-            color: #667085;
-            font-size: 9px;
-        }
 
-        /* =========================================
-           PLANEAMENTO MENSAL
-        ========================================= */
+            margin: 3px 0 0;
 
-        .planeamento-resumo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
+            color: #64748b;
 
-        .planeamento-resumo strong {
-            font-size: 20px;
-            line-height: 1;
-        }
+            font-size: 8px;
+            font-weight: 700;
 
-        .planeamento-resumo span {
-            color: #667085;
-            font-size: 10px;
+            text-transform: uppercase;
         }
 
         .barra-mensal {
@@ -473,81 +536,366 @@
         ========================================= */
 
         .grafico-planeamento {
+            position: relative;
+
             display: flex;
             align-items: flex-end;
-            gap: 2px;
-            height: 145px;
-            padding: 8px 5px 4px 5px;
-            border-bottom: 1px solid #e5e7eb;
-            overflow-x: hidden;
+
+            gap: 3px;
+
+            height: 150px;
+
+            padding: 12px 8px 7px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+
+            background:
+                repeating-linear-gradient(to bottom,
+                    transparent 0,
+                    transparent 27px,
+                    rgba(148, 163, 184, .12) 28px),
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            overflow: visible;
         }
+
+
+        /* CADA DIA */
 
         .dia-grafico {
             flex: 1;
-            min-width: 0px;
+
+            min-width: 0;
             height: 100%;
+
             display: flex;
             flex-direction: column;
+
             justify-content: flex-end;
             align-items: center;
+
             gap: 5px;
+
+            padding: 4px 1px 2px;
+
+            border-radius: 6px;
+
+            transition:
+                background .18s ease,
+                transform .18s ease;
         }
 
+        .dia-grafico:hover {
+            background:
+                rgba(37, 99, 235, .05);
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* ÁREA DA COLUNA */
+
         .coluna-dia {
-            width: 100%;
-            max-width: 22px;
-            height: 100px;
+            position: relative;
+
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            position: relative;
+
+            width: 100%;
+            max-width: 18px;
+
+            height: 105px;
         }
+
+        .tooltip-grafico-dia {
+            position: absolute;
+
+            left: 50%;
+            bottom: calc(100% + 8px);
+
+            transform:
+                translateX(-50%) translateY(4px);
+
+            z-index: 20;
+
+            min-width: 105px;
+
+            padding: 8px 9px;
+
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+
+            background:
+                rgba(15, 23, 42, .96);
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, .18);
+
+            opacity: 0;
+            visibility: hidden;
+
+            pointer-events: none;
+
+            transition:
+                opacity .16s ease,
+                transform .16s ease,
+                visibility .16s ease;
+        }
+
+        .tooltip-grafico-dia::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            top: 100%;
+
+            transform:
+                translateX(-50%);
+
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(15, 23, 42, .96);
+        }
+
+        .coluna-dia:hover .tooltip-grafico-dia {
+            opacity: 1;
+            visibility: visible;
+
+            transform:
+                translateX(-50%) translateY(0);
+        }
+
+        .tooltip-dia-titulo {
+            display: block;
+
+            margin-bottom: 6px;
+            padding-bottom: 5px;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, .10);
+
+            color: #ffffff;
+
+            font-size: 9px;
+            font-weight: 900;
+
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        .tooltip-dia-linha {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 12px;
+
+            margin-top: 4px;
+        }
+
+        .tooltip-dia-linha span {
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .tooltip-dia-linha strong {
+            color: #ffffff;
+
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+
+        /* META DIÁRIA */
 
         .meta-coluna {
             position: absolute;
+
             bottom: 0;
-            width: 100%;
-            border-radius: 4px 4px 0 0;
-            background: #dbeafe;
+
+            width: 82%;
+
+            max-height: 100%;
+
+            border-radius:
+                5px 5px 2px 2px;
+
+            background:
+                rgba(37, 99, 235, .13);
+
+            border:
+                1px solid rgba(37, 99, 235, .10);
+
+            overflow: hidden;
+
+            transition:
+                height .28s ease;
         }
+
+
+        /* REALIZADO */
 
         .realizado-coluna {
             position: absolute;
+
             bottom: 0;
-            width: 70%;
-            border-radius: 4px 4px 0 0;
-            background: #2563eb;
+
+            width: 65%;
+
+            border-radius:
+                5px 5px 2px 2px;
+
+            background:
+                linear-gradient(180deg,
+                    #3b82f6 0%,
+                    #2563eb 100%);
+
+            box-shadow:
+                0 2px 5px rgba(37, 99, 235, .18);
+
             z-index: 2;
+
+            transition:
+                height .28s ease,
+                width .18s ease,
+                box-shadow .18s ease;
         }
+
+        .dia-grafico:hover .realizado-coluna {
+            width: 76%;
+
+            box-shadow:
+                0 3px 8px rgba(37, 99, 235, .25);
+        }
+
+
+        /* NÚMERO DO DIA */
 
         .dia-label {
-            font-size: 10px;
-            color: #667085;
+            min-width: 16px;
+
+            padding: 2px 3px;
+
+            border-radius: 4px;
+
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 700;
+
+            line-height: 1;
+
+            text-align: center;
+
+            transition:
+                background .18s ease,
+                color .18s ease;
         }
 
-        .dia-selecionado {
-            font-weight: bold;
-            color: #2563eb;
+
+        /* DIA SELECIONADO */
+
+        .dia-label.dia-selecionado {
+            background: #2563eb;
+            color: #ffffff;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 2px 5px rgba(37, 99, 235, .20);
         }
 
         .legenda-grafico {
-            display: flex;
-            gap: 18px;
-            margin-top: 15px;
-            font-size: 12px;
-            color: #667085;
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 8px;
+
+            margin-top: 8px;
         }
 
         .legenda-item {
+            position: relative;
+
             display: flex;
             align-items: center;
-            gap: 6px;
+
+            gap: 7px;
+
+            min-width: 0;
+
+            padding: 7px 9px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+
+            background:
+                linear-gradient(180deg,
+                    #ffffff 0%,
+                    #f8fbff 100%);
+
+            color: #475569;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            letter-spacing: .03em;
+            text-transform: uppercase;
+
+            box-shadow:
+                0 2px 6px rgba(15, 23, 42, .03);
+
+            transition:
+                border-color .18s ease,
+                background .18s ease,
+                transform .18s ease;
+        }
+
+        .legenda-item:hover {
+            transform: translateY(-1px);
+
+            background: #f8fbff;
+
+            border-color: #bfdbfe;
         }
 
         .legenda-quadrado {
-            width: 10px;
-            height: 10px;
-            border-radius: 2px;
+            position: relative;
+
+            width: 9px;
+            height: 9px;
+
+            flex: 0 0 9px;
+
+            border-radius: 3px;
+        }
+
+        .legenda-meta {
+            background:
+                rgba(37, 99, 235, .13);
+
+            border:
+                1px solid rgba(37, 99, 235, .18);
+        }
+
+        .legenda-realizado {
+            background:
+                linear-gradient(180deg,
+                    #3b82f6 0%,
+                    #2563eb 100%);
+
+            box-shadow:
+                0 1px 3px rgba(37, 99, 235, .18);
         }
 
         .legenda-meta {
@@ -596,80 +944,6 @@
         }
 
 
-        /* =========================================
-   FILTROS DO CENTRO DE OPERAÇÕES
-========================================= */
-
-        .filtros-dashboard {
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-
-            flex-shrink: 0;
-
-            gap: 4px;
-
-            width: auto;
-            margin: 0;
-        }
-
-        .filtros-dashboard .filtro-dashboard {
-            display: flex;
-            flex-direction: column;
-
-            width: auto;
-            min-width: 0;
-
-            gap: 4px;
-
-            margin: 0;
-        }
-
-        .filtros-dashboard .filtro-dashboard label {
-            margin: 0;
-
-            color: #64748b;
-
-            font-size: 10px;
-            font-weight: 700;
-
-            line-height: 1;
-        }
-
-        .filtros-dashboard .filtro-dashboard input,
-        .filtros-dashboard .filtro-dashboard select {
-            box-sizing: border-box;
-            width: 105px;
-            min-width: 0;
-            height: 15px;
-            margin: 0;
-            padding: 0 7px;
-
-            border: 1px solid #dbe2ea;
-            border-radius: 6px;
-
-            background: #fff;
-            color: #0f172a;
-
-            font-size: 11px;
-            outline: none;
-
-            transition:
-                border-color .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .filtros-dashboard .filtro-dashboard:first-child input {
-            width: 90px;
-        }
-
-        .filtros-dashboard .filtro-dashboard input:focus,
-        .filtros-dashboard .filtro-dashboard select:focus {
-            border-color: #3b82f6;
-
-            box-shadow:
-                0 0 0 3px rgba(59, 130, 246, 0.10);
-        }
 
 
         /* =========================================
@@ -1793,42 +2067,110 @@
 
         .filtros-topo {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            align-items: flex-end;
+
+            gap: 5px;
+
             margin-left: auto;
         }
 
         .filtros-topo .filtro-dashboard {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            align-items: stretch;
+
+            width: auto;
+            min-width: 0;
+
+            gap: 2px;
+            margin: 0;
+            padding: 0;
+
+            background: transparent;
+            border: none;
         }
 
         .filtros-topo .filtro-dashboard label {
-            color: #cbd5e1;
+            margin: 0;
+
+            color: rgba(255, 255, 255, .55);
+
             font-size: 7px;
-            font-weight: 800;
+            font-weight: 600;
+
+            line-height: 1;
         }
 
         .filtros-topo .filtro-dashboard input,
         .filtros-topo .filtro-dashboard select {
-            height: 14px;
-            padding: 0 6px;
-            border: 1px solid rgba(255, 255, 255, .18);
+            box-sizing: border-box;
+
+            height: 18px;
+
+            padding: 0 5px;
+
+            border:
+                1px solid rgba(147, 197, 253, .50);
+
             border-radius: 5px;
-            background: #ffffff;
-            color: #123b63;
-            font-size: 8px;
-            font-weight: 700;
-            outline: none;
-        }
 
-        .filtros-topo .filtro-dashboard input,
-        .filtros-topo .filtro-dashboard select {
-            border: 1px solid #3b82f6;
+            background:
+                rgba(255, 255, 255, .08);
+
+            color: #ffffff;
+
+            font-size: 8px;
+            font-weight: 600;
+
+            outline: none;
 
             box-shadow:
-                0 0 0 2px rgba(59, 130, 246, .18);
+                0 0 0 1px rgba(37, 99, 235, .08);
+
+            transition:
+                background .18s ease,
+                border-color .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .filtros-topo .filtro-dashboard select option {
+            background: #ffffff;
+            color: #123b63;
+        }
+
+        .filtros-topo .filtro-dashboard input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: .72;
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        #filtroDataDashboard {
+            width: 100px;
+        }
+
+        #filtroPeriodo {
+            width: 68px;
+        }
+
+        #filtroDistribuidor {
+            width: 88px;
+        }
+
+        .filtros-topo .filtro-dashboard input:hover,
+        .filtros-topo .filtro-dashboard select:hover {
+            background:
+                rgba(255, 255, 255, .12);
+
+            border-color:
+                rgba(147, 197, 253, .80);
+        }
+
+        .filtros-topo .filtro-dashboard input:focus,
+        .filtros-topo .filtro-dashboard select:focus {
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 2px rgba(96, 165, 250, .14);
         }
 
         .card-configuracao-meta {
@@ -1994,6 +2336,7 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 8px;
+            margin-bottom: 10px;
         }
 
         .item-planeamento-resumo {
@@ -2115,6 +2458,462 @@
             border-radius: 3px;
         }
 
+        .indicadores-dashboard {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 0;
+        }
+
+        .indicador-dashboard {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            min-width: 0;
+            padding: 10px 11px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, .04);
+
+            cursor: pointer;
+
+            overflow: hidden;
+
+            transition:
+                transform .18s ease,
+                box-shadow .18s ease,
+                border-color .18s ease;
+        }
+
+        .indicador-dashboard::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 3px;
+
+            background: #94a3b8;
+        }
+
+        .indicador-dashboard:hover {
+            transform: translateY(-1px);
+
+            background: #f8fbff;
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, .10);
+        }
+
+        .icone-indicador-dashboard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            flex: 0 0 30px;
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .dados-indicador-dashboard {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .dados-indicador-dashboard strong {
+            color: #0f172a;
+
+            font-size: 17px;
+            font-weight: 900;
+
+            line-height: 1;
+        }
+
+        .dados-indicador-dashboard span {
+            margin-top: 4px;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            line-height: 1.15;
+        }
+
+        /* PENDENTES */
+
+        .indicador-andamento::before {
+            background: #f59e0b;
+        }
+
+        .indicador-andamento .icone-indicador-dashboard {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .indicador-andamento:hover {
+            border-color: #fed7aa;
+        }
+
+
+        /* MISSÕES CONCLUÍDAS */
+
+        .indicador-concluidas::before {
+            background: #22c55e;
+        }
+
+        .indicador-concluidas .icone-indicador-dashboard {
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .indicador-concluidas:hover {
+            border-color: #bbf7d0;
+        }
+
+
+        /* PONTOS ATENDIDOS */
+
+        .indicador-clientes::before {
+            background: #2563eb;
+        }
+
+        .indicador-clientes .icone-indicador-dashboard {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .indicador-clientes:hover {
+            border-color: #bfdbfe;
+        }
+
+
+        /* ENTREGAS CONCLUÍDAS */
+
+        .indicador-entregas::before {
+            background: #123b63;
+        }
+
+        .indicador-entregas .icone-indicador-dashboard {
+            background: #eef4fb;
+            color: #123b63;
+        }
+
+        .indicador-entregas:hover {
+            border-color: #bfd1e3;
+        }
+
+        .indicadores-operacao {
+            display: grid;
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .card-operacao {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            min-width: 0;
+            padding: 10px 11px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 2px 7px rgba(15, 23, 42, .04);
+
+            overflow: hidden;
+
+            transition:
+                transform .18s ease,
+                background .18s ease,
+                border-color .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .card-operacao::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 3px;
+
+            background: #94a3b8;
+        }
+
+        .card-operacao:hover {
+            transform: translateY(-1px);
+
+            background: #f8fbff;
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, .10);
+        }
+
+        .icone-card-operacao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            flex: 0 0 30px;
+
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            font-size: 14px;
+        }
+
+        .dados-card-operacao {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+        }
+
+        .card-operacao-titulo {
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            line-height: 1.1;
+        }
+
+        .dados-card-operacao strong {
+            margin-top: 2px;
+
+            color: #0f172a;
+
+            font-size: 17px;
+            font-weight: 900;
+
+            line-height: 1;
+        }
+
+        .dados-card-operacao small {
+            margin-top: 3px;
+
+            color: #94a3b8;
+
+            font-size: 8.5px;
+            font-weight: 600;
+
+            line-height: 1.1;
+        }
+
+
+        /* DRONES DISPONÍVEIS */
+
+        .card-entregas-hoje,
+        .card-missoes-concluidas {
+            cursor: pointer;
+        }
+
+        .card-entregas-hoje::before {
+            background: #22c55e;
+        }
+
+        .card-entregas-hoje .icone-card-operacao {
+            background: #f0fdf4;
+        }
+
+
+        /* DRONES RETORNANDO */
+
+        .card-missoes-concluidas::before {
+            background: #f59e0b;
+        }
+
+        .card-missoes-concluidas .icone-card-operacao {
+            background: #fff7ed;
+        }
+
+
+        /* DRONES EM VOO */
+
+        .card-drones-voo::before {
+            background: #2563eb;
+        }
+
+        .card-drones-voo .icone-card-operacao {
+            background: #eff6ff;
+        }
+
+        #listaDronesVoo>div {
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                border-color .18s ease,
+                transform .18s ease,
+                box-shadow .18s ease;
+        }
+
+        #listaDronesVoo>div:hover {
+            background: #eaf2fb;
+
+            border-color: #bfdbfe;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 10px rgba(37, 99, 235, .08);
+        }
+
+
+        /* TEMPO MÉDIO */
+
+        .card-tempo-medio::before {
+            background: #123b63;
+        }
+
+        .card-tempo-medio .icone-card-operacao {
+            background: #eef4fb;
+        }
+
+
+        /* ALERTAS */
+
+        .card-alertas::before {
+            background: #f59e0b;
+        }
+
+        .card-alertas .icone-card-operacao {
+            background: #fff7ed;
+        }
+
+        /* =========================================
+   BORDAS DOS 5 CARDS OPERACIONAIS
+========================================= */
+
+        /* Drones disponíveis */
+        .card-entregas-hoje {
+            border-color: #bbf7d0;
+        }
+
+        .card-entregas-hoje:hover {
+            border-color: #86efac;
+        }
+
+
+        /* Drones retornando */
+        .card-missoes-concluidas {
+            border-color: #fed7aa;
+        }
+
+        .card-missoes-concluidas:hover {
+            border-color: #fdba74;
+        }
+
+
+        /* Drones em voo */
+        .card-drones-voo {
+            border-color: #bfdbfe;
+        }
+
+        .card-drones-voo:hover {
+            border-color: #93c5fd;
+        }
+
+
+        /* Tempo médio */
+        .card-tempo-medio {
+            border-color: #cbd5e1;
+        }
+
+        .card-tempo-medio:hover {
+            border-color: #94a3b8;
+        }
+
+
+        /* Alertas ativos */
+        .card-alertas {
+            border-color: #fde68a;
+        }
+
+        .card-alertas:hover {
+            border-color: #fcd34d;
+        }
+
+
+        /* =========================================
+           ESTADOS DINÂMICOS DO CARD DE ALERTAS
+        ========================================= */
+
+        .card-alerta-atencao {
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+
+        .card-alerta-atencao::before {
+            background: #f59e0b;
+        }
+
+        .card-alerta-atencao .icone-card-operacao {
+            background: #fff7ed;
+        }
+
+        .card-alerta-atencao .dados-card-operacao strong {
+            color: #b45309;
+        }
+
+        .card-alerta-ativo {
+            background: #fff7f7;
+            border-color: #fecaca;
+
+            box-shadow:
+                0 3px 10px rgba(220, 38, 38, .08);
+        }
+
+        .card-alerta-ativo::before {
+            background: #dc2626;
+        }
+
+        .card-alerta-ativo .icone-card-operacao {
+            background: #fef2f2;
+        }
+
+        .card-alerta-ativo .dados-card-operacao strong {
+            color: #dc2626;
+        }
+
+
         @keyframes pulsoSistemaOnline {
 
             0%,
@@ -2178,10 +2977,6 @@
             .indicadores-dashboard {
                 grid-template-columns:
                     repeat(2, 1fr);
-            }
-
-            .dashboard-colunas {
-                grid-template-columns: 1fr;
             }
 
             .dashboard-inferior {
@@ -2305,6 +3100,14 @@
             }
 
         }
+
+        /* =========================================
+            TOOLTIP DO GRÁFICO - NÃO CORTAR
+        ========================================= */
+
+        .painel-grafico-planeamento .grafico-planeamento {
+            overflow: visible;
+        }
     </style>
 
     <!-- LEAFLET - MAPA OPERACIONAL -->
@@ -2409,86 +3212,118 @@
 
         <section class="indicadores-operacao">
 
-            <div class="card-operacao">
+            <div class="card-operacao card-entregas-hoje">
 
-                <span class="card-operacao-titulo">
-                    Entregas hoje
-                </span>
+                <div class="icone-card-operacao">
+                    📦
+                </div>
 
-                <strong id="indicadorEntregasHoje">
-                    0
-                </strong>
+                <div class="dados-card-operacao">
+                    <span class="card-operacao-titulo">
+                        Drones disponíveis
+                    </span>
 
-                <small>
-                    Total concluído no dia
-                </small>
+                    <strong id="indicadorDronesDisponiveis">
+                        0
+                    </strong>
 
-            </div>
-
-
-            <div class="card-operacao">
-
-                <span class="card-operacao-titulo">
-                    Missões concluídas
-                </span>
-
-                <strong id="indicadorMissoesConcluidas">
-                    0
-                </strong>
-
-                <small>
-                    Operações finalizadas
-                </small>
+                    <small>
+                        Aeronaves prontas para missão
+                    </small>
+                </div>
 
             </div>
 
 
-            <div class="card-operacao" id="cardDronesVoo" style="cursor: pointer;">
+            <div class="card-operacao card-missoes-concluidas" id="cardDronesRetornando">
 
-                <span class="card-operacao-titulo">
-                    Drones em voo
-                </span>
+                <div class="icone-card-operacao">
+                    ✓
+                </div>
 
-                <strong id="indicadorDronesVoo">
-                    0
-                </strong>
+                <div class="dados-card-operacao">
+                    <span class="card-operacao-titulo">
+                        Drones retornando
+                    </span>
 
-                <small>
-                    Missões ativas
-                </small>
+                    <strong id="indicadorDronesRetornando">
+                        0
+                    </strong>
 
-            </div>
-
-
-            <div class="card-operacao">
-
-                <span class="card-operacao-titulo">
-                    Tempo médio
-                </span>
-
-                <strong id="indicadorTempoMedio">
-                    --
-                </strong>
-
-                <small>
-                    Por missão concluída
-                </small>
+                    <small>
+                        Aeronaves em retorno à base
+                    </small>
+                </div>
 
             </div>
 
 
-            <div class="card-operacao" id="cardAlertasAtivos" style="cursor: pointer;">
-                <span class="card-operacao-titulo">
-                    Alertas ativos
-                </span>
+            <div class="card-operacao card-drones-voo" id="cardDronesVoo" style="cursor: pointer;">
 
-                <strong id="indicadorAlertas">
-                    0
-                </strong>
+                <div class="icone-card-operacao">
+                    🚁
+                </div>
 
-                <small>
-                    Requerem atenção
-                </small>
+                <div class="dados-card-operacao">
+                    <span class="card-operacao-titulo">
+                        Drones em voo
+                    </span>
+
+                    <strong id="indicadorDronesVoo">
+                        0
+                    </strong>
+
+                    <small>
+                        Missões ativas
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="card-operacao card-tempo-medio" id="cardTempoMedio">
+
+                <div class="icone-card-operacao">
+                    ⏱️
+                </div>
+
+                <div class="dados-card-operacao">
+                    <span class="card-operacao-titulo">
+                        Tempo médio
+                    </span>
+
+                    <strong id="indicadorTempoMedioHoje">
+                        --
+                    </strong>
+
+                    <small>
+                        Missões concluídas hoje
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="card-operacao card-alertas" id="cardAlertasAtivos" style="cursor: pointer;">
+
+                <div class="icone-card-operacao">
+                    ⚠️
+                </div>
+
+                <div class="dados-card-operacao">
+                    <span class="card-operacao-titulo">
+                        Alertas ativos
+                    </span>
+
+                    <strong id="indicadorAlertas">
+                        0
+                    </strong>
+
+                    <small>
+                        Requerem atenção
+                    </small>
+                </div>
+
             </div>
 
         </section>
@@ -2590,27 +3425,54 @@
                 <div class="indicadores-dashboard" id="indicadoresDashboard">
 
                     <div class="indicador-dashboard indicador-andamento" onclick="abrirPendentes()"
-                        title="Abrir distribuições pendentes">
-                        <strong id="totalAndamento">0</strong>
-                        <span>Entregas pendentes</span>
+                        title="Abrir entregas pendentes">
+                        <div class="icone-indicador-dashboard">
+                            🕒
+                        </div>
+
+                        <div class="dados-indicador-dashboard">
+                            <strong id="totalAndamento">0</strong>
+                            <span>Missões pendentes</span>
+                        </div>
                     </div>
 
-                    <div class="indicador-dashboard indicador-concluidas" onclick="abrirAnaliseDistribuicoes()"
-                        title="Abrir análise das distribuições">
-                        <strong id="totalConcluidas">0</strong>
-                        <span>Distribuições realizadas</span>
+
+                    <div class="indicador-dashboard indicador-concluidas" onclick="abrirHistoricoDia()"
+                        title="Abrir missões concluídas">
+                        <div class="icone-indicador-dashboard">
+                            ✓
+                        </div>
+
+                        <div class="dados-indicador-dashboard">
+                            <strong id="totalConcluidas">0</strong>
+                            <span>Missões concluídas</span>
+                        </div>
                     </div>
+
 
                     <div class="indicador-dashboard indicador-clientes" onclick="abrirClientesDia()"
-                        title="Abrir clientes atendidos">
-                        <strong id="totalClientes">0</strong>
-                        <span>Clientes atendidos</span>
+                        title="Abrir pontos atendidos">
+                        <div class="icone-indicador-dashboard">
+                            📍
+                        </div>
+
+                        <div class="dados-indicador-dashboard">
+                            <strong id="totalClientes">0</strong>
+                            <span>Pontos atendidos</span>
+                        </div>
                     </div>
 
+
                     <div class="indicador-dashboard indicador-entregas" onclick="abrirHistoricoDia()"
-                        title="Abrir entregas do dia">
-                        <strong id="totalEntregas">0</strong>
-                        <span>Total de entregas</span>
+                        title="Abrir entregas concluídas">
+                        <div class="icone-indicador-dashboard">
+                            📦
+                        </div>
+
+                        <div class="dados-indicador-dashboard">
+                            <strong id="totalEntregas">0</strong>
+                            <span>Entregas concluídas</span>
+                        </div>
                     </div>
 
                 </div>
@@ -2772,21 +3634,38 @@
 
                     <div class="meta-numero">
 
-                        <strong id="entregasHojeMeta">
-                            0
-                        </strong>
+                        <div class="meta-indicador">
 
-                        <span>
+                            <span>
+                                Realizado
+                            </span>
 
-                            de
+                            <strong id="entregasHojeMeta">
+                                0
+                            </strong>
+
+                            <small>
+                                entregas concluídas
+                            </small>
+
+                        </div>
+
+
+                        <div class="meta-indicador meta-indicador-meta">
+
+                            <span>
+                                Meta diária
+                            </span>
 
                             <strong id="metaDiaria">
                                 0
                             </strong>
 
-                            entregas concluidas
+                            <small>
+                                entregas previstas
+                            </small>
 
-                        </span>
+                        </div>
 
                     </div>
 
@@ -2858,12 +3737,25 @@
         <div class="dashboard-inferior">
 
 
-            <section class="bloco-dashboard">
+            <section class="bloco-dashboard" id="painelDesempenhoOperacional">
 
-                <h2>
-                    📈 Desempenho operacional
-                </h2>
+                <div class="titulo-bloco-dashboard">
 
+                    <div class="icone-titulo-dashboard">
+                        📊
+                    </div>
+
+                    <div>
+                        <strong>
+                            Desempenho operacional
+                        </strong>
+
+                        <small>
+                            Indicadores das missões concluídas
+                        </small>
+                    </div>
+
+                </div>
 
                 <div class="desempenho-operacional">
 
@@ -3838,6 +4730,7 @@
             const distribuicoes =
                 obterDistribuicoes();
 
+
             const nomes =
                 [
                     ...new Set(
@@ -3971,6 +4864,87 @@
 
             const distribuicoes =
                 obterDistribuicoes();
+
+            /* =========================================
+   TEMPO MÉDIO DAS MISSÕES DE HOJE
+========================================= */
+
+            const hojeDashboard =
+                obterHojeFormatado();
+
+
+            const missoesConcluidasHoje =
+                distribuicoes.filter(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            missao.status === "Concluída" &&
+                            mesmaData(
+                                missao.data,
+                                hojeDashboard
+                            )
+                        );
+
+                    }
+                );
+
+
+            let tempoTotalHoje = 0;
+            let quantidadeComTempoHoje = 0;
+
+
+            missoesConcluidasHoje.forEach(
+                function (missao) {
+
+                    const duracao =
+                        calcularDuracaoHoras(
+                            missao.horaInicio,
+                            missao.horaFim
+                        );
+
+
+                    if (
+                        duracao !== null &&
+                        duracao > 0
+                    ) {
+
+                        tempoTotalHoje +=
+                            duracao;
+
+                        quantidadeComTempoHoje++;
+
+                    }
+
+                }
+            );
+
+
+            const tempoMedioHoje =
+                quantidadeComTempoHoje > 0
+                    ? tempoTotalHoje /
+                    quantidadeComTempoHoje
+                    : null;
+
+
+            const indicadorTempoMedioHoje =
+                document.getElementById(
+                    "indicadorTempoMedioHoje"
+                );
+
+
+            if (
+                indicadorTempoMedioHoje
+            ) {
+
+                indicadorTempoMedioHoje.textContent =
+                    tempoMedioHoje !== null
+                        ? formatarDuracao(
+                            tempoMedioHoje
+                        )
+                        : "--";
+
+            }
 
 
             const filtroData =
@@ -5421,13 +6395,40 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
                     coluna.innerHTML = `
 
                         <div
-                            class="coluna-dia"
-                            title="
-                                Dia ${dia}:
-                                meta ${Math.round(metaDiaria)}
-                                · realizado ${realizado}
-                            "
-                        >
+    class="coluna-dia"
+>
+
+    <div class="tooltip-grafico-dia">
+
+        <span class="tooltip-dia-titulo">
+            Dia ${dia}
+        </span>
+
+        <div class="tooltip-dia-linha">
+
+            <span>
+                Meta
+            </span>
+
+            <strong>
+                ${Math.round(metaDiaria)}
+            </strong>
+
+        </div>
+
+        <div class="tooltip-dia-linha">
+
+            <span>
+                Realizado
+            </span>
+
+            <strong>
+                ${realizado}
+            </strong>
+
+        </div>
+
+    </div>
 
                             <div
                                 class="meta-coluna"
@@ -5479,17 +6480,14 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
         ========================================= */
 
         function abrirDistribuicao(
-            id
+
         ) {
 
-            sessionStorage.setItem(
-                "distribuicaoSelecionada",
-                String(id)
-            );
-
-
             window.location.href =
-                "Distribuicoes.html";
+                "Distribuicoes.html?id=" +
+                encodeURIComponent(
+                    String(id)
+                );
 
         }
 
@@ -5808,6 +6806,62 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
 
                 }
             );
+        }
+
+        /* =========================================
+   CARD TEMPO MÉDIO
+========================================= */
+
+        const cardTempoMedio =
+            document.getElementById(
+                "cardTempoMedio"
+            );
+
+
+        if (cardTempoMedio) {
+
+            cardTempoMedio.style.cursor =
+                "pointer";
+
+
+            cardTempoMedio.addEventListener(
+                "click",
+                function () {
+
+                    const painelDesempenho =
+                        document.getElementById(
+                            "painelDesempenhoOperacional"
+                        );
+
+
+                    if (!painelDesempenho) {
+                        return;
+                    }
+
+
+                    painelDesempenho.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                    painelDesempenho.classList.add(
+                        "destaque-desempenho"
+                    );
+
+                    setTimeout(
+                        function () {
+
+                            painelDesempenho.classList.remove(
+                                "destaque-desempenho"
+                            );
+
+                        },
+                        3000
+                    );
+
+                }
+            );
+
         }
 
         preencherFiltroDistribuidor();
@@ -6275,14 +7329,116 @@ clientes.forEach(
                 );
 
 
+            /* =========================================
+               DRONES DISPONÍVEIS
+            ========================================= */
+
+            const frotaCadastrada =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const totalDronesDisponiveis =
+                frotaCadastrada.filter(
+                    function (idDrone) {
+
+                        return (
+                            !dronesEmMissao.has(
+                                idDrone
+                            )
+                        );
+
+                    }
+                ).length;
+
+
+            const indicadorDronesDisponiveis =
+                document.getElementById(
+                    "indicadorDronesDisponiveis"
+                );
+
+
+            if (
+                indicadorDronesDisponiveis
+            ) {
+
+                indicadorDronesDisponiveis.textContent =
+                    totalDronesDisponiveis;
+
+            }
+
+            /* =========================================
+   DRONES RETORNANDO
+========================================= */
+
+            const totalDronesRetornando =
+                missoesAtivas.filter(
+                    function (missao) {
+
+                        return (
+                            missao.retornoBase ===
+                            "Em andamento"
+                        );
+
+                    }
+                ).length;
+
+
+            const indicadorDronesRetornando =
+                document.getElementById(
+                    "indicadorDronesRetornando"
+                );
+
+
+            if (
+                indicadorDronesRetornando
+            ) {
+
+                indicadorDronesRetornando.textContent =
+                    totalDronesRetornando;
+
+            }
+
+
+            /* =========================================
+   DRONES EM VOO
+   (sem incluir os que estão retornando)
+========================================= */
+
+            const dronesEmVoo =
+                new Set(
+                    missoesAtivas
+                        .filter(
+                            function (missao) {
+
+                                return (
+                                    missao.retornoBase !==
+                                    "Em andamento"
+                                );
+
+                            }
+                        )
+                        .map(
+                            function (missao) {
+                                return missao.veiculo;
+                            }
+                        )
+                );
+
+
             const indicadorDronesVoo =
-                document.getElementById("indicadorDronesVoo");
+                document.getElementById(
+                    "indicadorDronesVoo"
+                );
 
 
             if (indicadorDronesVoo) {
 
                 indicadorDronesVoo.textContent =
-                    dronesEmMissao.size;
+                    dronesEmVoo.size;
 
             }
 
@@ -7109,10 +8265,38 @@ clientes.forEach(
             /*
  * Abrir e fechar painel de drones em voo
  */
+            /* =========================================
+   CARD DRONES DISPONÍVEIS
+========================================= */
+
+            const cardDronesDisponiveis =
+                document.querySelector(
+                    ".card-entregas-hoje"
+                );
+
+
+            if (cardDronesDisponiveis) {
+
+                cardDronesDisponiveis.addEventListener(
+                    "click",
+                    function () {
+
+                        window.location.href =
+                            "gestao-distribuicoes.html";
+
+                    }
+                );
+
+            }
 
             const cardDronesVoo =
                 document.getElementById(
                     "cardDronesVoo"
+                );
+
+            const cardDronesRetornando =
+                document.getElementById(
+                    "cardDronesRetornando"
                 );
 
             const painelDronesVoo =
@@ -7125,6 +8309,145 @@ clientes.forEach(
                     "fecharPainelDronesVoo"
                 );
 
+            if (
+                cardDronesRetornando &&
+                painelDronesVoo
+            ) {
+
+                cardDronesRetornando.addEventListener(
+                    "click",
+                    function () {
+
+                        const listaDronesVoo =
+                            document.getElementById(
+                                "listaDronesVoo"
+                            );
+
+                        if (!listaDronesVoo) {
+                            return;
+                        }
+
+                        listaDronesVoo.innerHTML = "";
+
+
+                        const missoesRetornando =
+                            missoesAtivas.filter(
+                                function (missao) {
+
+                                    return (
+                                        missao.retornoBase ===
+                                        "Em andamento"
+                                    );
+
+                                }
+                            );
+
+
+                        if (
+                            missoesRetornando.length === 0
+                        ) {
+
+                            listaDronesVoo.innerHTML = `
+                    <div>
+                        Não existem drones retornando à base.
+                    </div>
+                `;
+
+                        } else {
+
+                            missoesRetornando.forEach(
+                                function (missaoDrone) {
+
+                                    const item =
+                                        document.createElement(
+                                            "div"
+                                        );
+
+
+                                    item.classList.add(
+                                        "drone-retornando"
+                                    );
+
+
+                                    const agora =
+                                        Date.now();
+
+
+                                    const minutosDecorridos =
+                                        Math.floor(
+                                            (
+                                                agora -
+                                                missaoDrone.inicioTimestamp
+                                            ) / 60000
+                                        );
+
+
+                                    const tempoRestante =
+                                        Math.max(
+                                            0,
+                                            missaoDrone.tempoEstimadoMinutos -
+                                            minutosDecorridos
+                                        );
+
+
+                                    item.innerHTML = `
+                            <strong>
+                                ${missaoDrone.veiculo}
+                            </strong>
+
+                            <span>
+                                🟠 Retornando
+                            </span>
+
+                            <small>
+                                Início ${missaoDrone.horaInicio || "--:--"}
+                                ·
+                                Chegada estimada em
+                                ${tempoRestante} min
+                            </small>
+                        `;
+
+
+                                    item.style.cursor =
+                                        "pointer";
+
+
+                                    item.addEventListener(
+                                        "click",
+                                        function (event) {
+
+                                            event.stopPropagation();
+
+                                            window.location.href =
+                                                "Distribuicoes.html?id=" +
+                                                encodeURIComponent(
+                                                    String(
+                                                        missaoDrone.id
+                                                    )
+                                                );
+
+                                        }
+                                    );
+
+
+                                    listaDronesVoo.appendChild(
+                                        item
+                                    );
+
+                                }
+                            );
+
+                        }
+
+
+                        painelDronesVoo.classList.add(
+                            "aberto"
+                        );
+
+                    }
+                );
+
+            }
 
             if (
                 cardDronesVoo &&
@@ -7146,7 +8469,7 @@ clientes.forEach(
 
                         listaDronesVoo.innerHTML = "";
 
-                        if (dronesEmMissao.size === 0) {
+                        if (dronesEmVoo.size === 0) {
 
                             listaDronesVoo.innerHTML = `
                 <div>
@@ -7156,7 +8479,7 @@ clientes.forEach(
 
                         } else {
 
-                            dronesEmMissao.forEach(
+                            dronesEmVoo.forEach(
                                 function (idDrone) {
 
                                     const item =
@@ -7171,20 +8494,9 @@ clientes.forEach(
                                             }
                                         );
 
-                                    const estaRetornando =
-                                        missaoDrone &&
-                                        missaoDrone.retornoBase === "Em andamento";
-
                                     const estadoDrone =
-                                        estaRetornando
-                                            ? "🟠 Retornando"
-                                            : "🔴 Em missão";
+                                        "🔴 Em missão";
 
-                                    if (estaRetornando) {
-                                        item.classList.add(
-                                            "drone-retornando"
-                                        );
-                                    }
                                     const agora =
                                         Date.now();
 
@@ -7215,13 +8527,40 @@ clientes.forEach(
     <small>
         Início ${missaoDrone?.horaInicio || "--:--"}
         ·
-        ${estaRetornando
-                                            ? "Chegada estimada em"
-                                            : "Retorno estimado em"
-                                        }
+        Retorno estimado em
         ${tempoRestante} min
     </small>
 `;
+
+
+                                    /* =====================================
+                                       ABRIR DETALHE DA MISSÃO
+                                    ===================================== */
+
+                                    if (missaoDrone) {
+
+                                        item.style.cursor =
+                                            "pointer";
+
+                                        item.addEventListener(
+                                            "click",
+                                            function (event) {
+
+                                                event.stopPropagation();
+
+                                                window.location.href =
+                                                    "Distribuicoes.html?id=" +
+                                                    encodeURIComponent(
+                                                        String(
+                                                            missaoDrone.id
+                                                        )
+                                                    );
+
+                                            }
+                                        );
+
+                                    }
+
 
                                     listaDronesVoo.appendChild(
                                         item
