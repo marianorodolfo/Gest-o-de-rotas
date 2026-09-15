@@ -1677,7 +1677,8 @@
 
         function mostrarLista(
             tipo,
-            dataForcada
+            dataForcada,
+            somentePendentes = false
         ) {
 
             lista.innerHTML = "";
@@ -1748,7 +1749,12 @@
 
                                 return (
                                     distribuicao.status ===
-                                    "Em andamento"
+                                    "Em andamento" &&
+                                    (
+                                        !somentePendentes ||
+                                        distribuicao.retornoBase !==
+                                        "Em andamento"
+                                    )
                                 );
 
                             }
@@ -3747,6 +3753,458 @@
 
         }
 
+        function mostrarPontosAtendidos(
+            dataSelecionada
+        ) {
+
+            lista.innerHTML = "";
+
+
+            if (filtroHistorico) {
+                filtroHistorico.style.display =
+                    "none";
+            }
+
+
+            const tituloTopo =
+                document.getElementById(
+                    "tituloTopoDistribuicoes"
+                );
+
+
+            if (tituloTopo) {
+                tituloTopo.textContent =
+                    "Pontos atendidos";
+            }
+
+
+            const tituloLista =
+                document.getElementById(
+                    "tituloListaDistribuicoes"
+                );
+
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+
+            const pontosAtendidos = [];
+
+
+            distribuicoes.forEach(
+                function (missao) {
+
+                    if (
+                        !missao ||
+                        !Array.isArray(
+                            missao.clientes
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    if (
+                        dataSelecionada &&
+                        converterDataParaISO(
+                            missao.data
+                        ) !==
+                        dataSelecionada
+                    ) {
+                        return;
+                    }
+
+
+                    missao.clientes.forEach(
+                        function (cliente) {
+
+                            if (
+                                cliente.statusEntrega !==
+                                "Concluída"
+                            ) {
+                                return;
+                            }
+
+
+                            pontosAtendidos.push({
+                                cliente: cliente,
+                                missao: missao
+                            });
+
+                        }
+                    );
+
+                }
+            );
+
+
+            if (tituloLista) {
+
+                tituloLista.textContent =
+                    pontosAtendidos.length +
+                    (
+                        pontosAtendidos.length === 1
+                            ? " Ponto atendido"
+                            : " Pontos atendidos"
+                    );
+
+            }
+
+
+            if (
+                pontosAtendidos.length ===
+                0
+            ) {
+
+                lista.innerHTML = `
+            <div class="historico-sem-resultados">
+
+                <strong>
+                    Nenhum ponto atendido
+                </strong>
+
+                <span>
+                    Ainda não existem pontos atendidos
+                    para esta data.
+                </span>
+
+            </div>
+        `;
+
+                return;
+
+            }
+
+
+            pontosAtendidos.forEach(
+                function (item, indice) {
+
+                    const cliente =
+                        item.cliente;
+
+                    const missao =
+                        item.missao;
+
+
+                    lista.innerHTML += `
+
+                <div
+                    class="cartao-distribuicao"
+                    onclick="
+                        abrirDistribuicao(
+                            ${missao.id}
+                        )
+                    "
+                >
+
+                    <div
+                        class="cabecalho-cartao-missao"
+                    >
+
+                        <div
+                            class="titulo-data-missao"
+                        >
+
+                            <h2>
+                                Ponto ${indice + 1}
+                            </h2>
+
+                            <span
+                                class="data-missao-historico"
+                            >
+                                ${missao.data || "-"}
+                            </span>
+
+                        </div>
+
+                        <span
+                            class="
+                                estado-distribuicao
+                                estado-historico-concluido
+                            "
+                        >
+                            Atendido
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="info-distribuicao"
+                    >
+
+                        <p>
+                            Ponto:
+                            <strong>
+                                ${cliente.codigo || "-"}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Cliente:
+                            <strong>
+                                ${cliente.nome || "-"}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Aeronave:
+                            <strong>
+                                ${missao.veiculo || "-"}
+                            </strong>
+
+                            <span
+                                style="
+                                    margin-left: 8px;
+                                "
+                            >
+                                · Operador:
+                            </span>
+
+                            <strong>
+                                ${missao.distribuidor || "-"}
+                            </strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            `;
+
+                }
+            );
+
+        }
+
+        function mostrarPontosPendentes(
+            dataSelecionada
+        ) {
+
+            lista.innerHTML = "";
+
+
+            if (filtroHistorico) {
+                filtroHistorico.style.display =
+                    "none";
+            }
+
+
+            const tituloTopo =
+                document.getElementById(
+                    "tituloTopoDistribuicoes"
+                );
+
+
+            if (tituloTopo) {
+                tituloTopo.textContent =
+                    "Pontos pendentes";
+            }
+
+
+            const tituloLista =
+                document.getElementById(
+                    "tituloListaDistribuicoes"
+                );
+
+
+            const distribuicoes =
+                obterDistribuicoes();
+
+
+            const pontosPendentes = [];
+
+
+            distribuicoes.forEach(
+                function (missao) {
+
+                    if (
+                        !missao ||
+                        missao.status !==
+                        "Em andamento" ||
+                        missao.retornoBase ===
+                        "Em andamento" ||
+                        !Array.isArray(
+                            missao.clientes
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    if (
+                        dataSelecionada &&
+                        converterDataParaISO(
+                            missao.data
+                        ) !==
+                        dataSelecionada
+                    ) {
+                        return;
+                    }
+
+
+                    missao.clientes.forEach(
+                        function (cliente) {
+
+                            if (
+                                cliente.statusEntrega ===
+                                "Concluída"
+                            ) {
+                                return;
+                            }
+
+
+                            pontosPendentes.push({
+                                cliente: cliente,
+                                missao: missao
+                            });
+
+                        }
+                    );
+
+                }
+            );
+
+
+            if (tituloLista) {
+
+                tituloLista.textContent =
+                    pontosPendentes.length +
+                    (
+                        pontosPendentes.length === 1
+                            ? " ponto pendente"
+                            : " pontos pendentes"
+                    );
+
+            }
+
+
+            if (
+                pontosPendentes.length ===
+                0
+            ) {
+
+                lista.innerHTML = `
+            <div class="historico-sem-resultados">
+
+                <strong>
+                    Nenhum ponto pendente
+                </strong>
+
+                <span>
+                    Não existem entregas pendentes
+                    para esta data.
+                </span>
+
+            </div>
+        `;
+
+                return;
+
+            }
+
+
+            pontosPendentes.forEach(
+                function (item, indice) {
+
+                    const cliente =
+                        item.cliente;
+
+                    const missao =
+                        item.missao;
+
+
+                    lista.innerHTML += `
+
+                <div
+                    class="cartao-distribuicao"
+                    onclick="
+                        abrirDistribuicao(
+                            ${missao.id}
+                        )
+                    "
+                >
+
+                    <div
+                        class="cabecalho-cartao-missao"
+                    >
+
+                        <div
+                            class="titulo-data-missao"
+                        >
+
+                            <h2>
+                                Ponto ${indice + 1}
+                            </h2>
+
+                            <span
+                                class="data-missao-historico"
+                            >
+                                ${missao.data || "-"}
+                            </span>
+
+                        </div>
+
+                        <span
+                            class="
+                                estado-distribuicao
+                                estado-em-andamento
+                            "
+                        >
+                            Pendente
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="info-distribuicao"
+                    >
+
+                        <p>
+                            Ponto:
+                            <strong>
+                                ${cliente.codigo || "-"}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Cliente:
+                            <strong>
+                                ${cliente.nome || "-"}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Aeronave:
+                            <strong>
+                                ${missao.veiculo || "-"}
+                            </strong>
+
+                            <span
+                                style="
+                                    margin-left: 8px;
+                                "
+                            >
+                                · Operador:
+                            </span>
+
+                            <strong>
+                                ${missao.distribuidor || "-"}
+                            </strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            `;
+
+                }
+            );
+
+        }
+
 
         /* =========================================
            INICIALIZAÇÃO A PARTIR DA URL
@@ -3853,6 +4311,63 @@
 
                 mostrarLista(
                     "historico",
+                    data
+                );
+
+                return;
+
+            }
+
+            /* =====================================
+                ABRIR MISSÕES PENDENTES
+            ====================================== */
+
+            if (
+                modo ===
+                "pendentes"
+            ) {
+
+                ativarAba(
+                    "andamento"
+                );
+
+                mostrarLista(
+                    "andamento",
+                    null,
+                    true
+                );
+
+                return;
+
+            }
+
+            /* =====================================
+                ABRIR PONTOS ATENDIDOS
+            ====================================== */
+
+            if (
+                modo ===
+                "pontos-atendidos"
+            ) {
+
+                mostrarPontosAtendidos(
+                    data
+                );
+
+                return;
+
+            }
+
+            /* =====================================
+                ABRIR PONTOS PENDENTES
+            ====================================== */
+
+            if (
+                modo ===
+                "pontos-pendentes"
+            ) {
+
+                mostrarPontosPendentes(
                     data
                 );
 

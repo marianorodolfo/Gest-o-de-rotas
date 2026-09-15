@@ -3450,7 +3450,7 @@
                     </div>
 
 
-                    <div class="indicador-dashboard indicador-clientes" onclick="abrirClientesDia()"
+                    <div class="indicador-dashboard indicador-clientes" onclick="abrirPontosPendentes()"
                         title="Abrir pontos atendidos">
                         <div class="icone-indicador-dashboard">
                             📍
@@ -3458,12 +3458,12 @@
 
                         <div class="dados-indicador-dashboard">
                             <strong id="totalClientes">0</strong>
-                            <span>Pontos atendidos</span>
+                            <span>Pontos pendentes</span>
                         </div>
                     </div>
 
 
-                    <div class="indicador-dashboard indicador-entregas" onclick="abrirHistoricoDia()"
+                    <div class="indicador-dashboard indicador-entregas" onclick="abrirPontosAtendidos()"
                         title="Abrir entregas concluídas">
                         <div class="icone-indicador-dashboard">
                             📦
@@ -3471,7 +3471,7 @@
 
                         <div class="dados-indicador-dashboard">
                             <strong id="totalEntregas">0</strong>
-                            <span>Entregas concluídas</span>
+                            <span>Pontos atendidos</span>
                         </div>
                     </div>
 
@@ -3645,7 +3645,7 @@
                             </strong>
 
                             <small>
-                                entregas concluídas
+                                Pontos atendidos
                             </small>
 
                         </div>
@@ -3662,7 +3662,7 @@
                             </strong>
 
                             <small>
-                                entregas previstas
+                                Pontos previstos
                             </small>
 
                         </div>
@@ -3805,7 +3805,7 @@
                         </strong>
 
                         <small>
-                            no dia selecionado
+                            Conforme o filtro
                         </small>
 
                     </div>
@@ -3876,7 +3876,7 @@
                             </span>
 
                             <span>
-                                Entregas concluídas
+                                Pontos atendidos
                             </span>
 
                         </div>
@@ -3946,7 +3946,7 @@
             "></span>
 
                             <span>
-                                Realizado
+                                Realizada
                             </span>
 
                         </div>
@@ -5267,12 +5267,25 @@
              * Indicadores
              */
 
+            const missoesPendentes =
+                emAndamento.filter(
+                    function (missao) {
+
+                        return (
+                            missao.retornoBase !==
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
             document
                 .getElementById(
                     "totalAndamento"
                 )
                 .textContent =
-                emAndamento.length;
+                missoesPendentes.length;
 
 
             document
@@ -5283,12 +5296,89 @@
                 concluidas.length;
 
 
+            const totalPontosPendentes =
+                emAndamento.reduce(
+                    function (total, missao) {
+
+                        if (
+                            !Array.isArray(
+                                missao.clientes
+                            )
+                        ) {
+                            return total;
+                        }
+
+
+                        const pontosPendentes =
+                            missao.clientes.filter(
+                                function (cliente) {
+
+                                    return (
+                                        cliente.statusEntrega !==
+                                        "Concluída"
+                                    );
+
+                                }
+                            ).length;
+
+
+                        return (
+                            total +
+                            pontosPendentes
+                        );
+
+                    },
+                    0
+                );
+
+
             document
                 .getElementById(
                     "totalClientes"
                 )
                 .textContent =
-                clientesUnicos.size;
+                totalPontosPendentes;
+
+
+            const pontosAtendidosEmAndamento =
+                emAndamento.reduce(
+                    function (total, missao) {
+
+                        if (
+                            !Array.isArray(
+                                missao.clientes
+                            )
+                        ) {
+                            return total;
+                        }
+
+
+                        const atendidos =
+                            missao.clientes.filter(
+                                function (cliente) {
+
+                                    return (
+                                        cliente.statusEntrega ===
+                                        "Concluída"
+                                    );
+
+                                }
+                            ).length;
+
+
+                        return (
+                            total +
+                            atendidos
+                        );
+
+                    },
+                    0
+                );
+
+
+            const totalPontosAtendidos =
+                totalEntregas +
+                pontosAtendidosEmAndamento;
 
 
             document
@@ -5296,7 +5386,7 @@
                     "totalEntregas"
                 )
                 .textContent =
-                totalEntregas;
+                totalPontosAtendidos;
 
 
             /*
@@ -5338,7 +5428,7 @@
              */
 
             atualizarMetaDoDia(
-                concluidas,
+                distribuicoes,
                 dataSelecionada
             );
 
@@ -5928,44 +6018,43 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
                     : 0;
 
 
-            const concluidas =
-                distribuicoes.filter(
-                    function (distribuicao) {
-
-                        return (
-
-                            distribuicao &&
-
-                            distribuicao.status ===
-                            "Concluída" &&
-
-                            mesmaData(
-                                distribuicao.data,
-                                dataSelecionada
-                            )
-
-                        );
-
-                    }
-                );
-
-
             const entregas =
-                concluidas.reduce(
+                distribuicoes.reduce(
                     function (
                         total,
                         distribuicao
                     ) {
 
+                        if (
+                            !distribuicao ||
+                            !mesmaData(
+                                distribuicao.data,
+                                dataSelecionada
+                            ) ||
+                            !Array.isArray(
+                                distribuicao.clientes
+                            )
+                        ) {
+                            return total;
+                        }
+
+
+                        const entregasRealizadas =
+                            distribuicao.clientes.filter(
+                                function (cliente) {
+
+                                    return (
+                                        cliente.statusEntrega ===
+                                        "Concluída"
+                                    );
+
+                                }
+                            ).length;
+
+
                         return (
                             total +
-                            (
-                                Array.isArray(
-                                    distribuicao.clientes
-                                )
-                                    ? distribuicao.clientes.length
-                                    : 0
-                            )
+                            entregasRealizadas
                         );
 
                     },
@@ -6038,7 +6127,7 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
             if (entregas === 0) {
 
                 mensagem.textContent =
-                    "Ainda não existem entregas concluídas nesta data.";
+                    "Ainda não existem pontos atendidos nesta data.";
 
             } else if (
                 entregas >= metaDiaria
@@ -6057,7 +6146,7 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
                 mensagem.textContent =
                     "Faltam " +
                     formatarNumero(falta) +
-                    " entregas para atingir a meta diária.";
+                    " pontos para atingir a meta diária.";
 
             }
 
@@ -6505,7 +6594,7 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
 
 
             window.location.href =
-                "Distribuicoes.html";
+                "Distribuicoes.html?modo=pendentes";
 
         }
 
@@ -6632,6 +6721,60 @@ ${quantidadeClientes === 1 ? "entrega" : "entregas"}
                 "&distribuidor=" +
                 encodeURIComponent(
                     distribuidor
+                );
+
+        }
+
+        function abrirPontosAtendidos() {
+
+            const data =
+                document
+                    .getElementById(
+                        "filtroDataDashboard"
+                    )
+                    .value;
+
+
+            if (!data) {
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "Distribuicoes.html" +
+                "?modo=pontos-atendidos" +
+                "&data=" +
+                encodeURIComponent(
+                    data
+                );
+
+        }
+
+        function abrirPontosPendentes() {
+
+            const data =
+                document
+                    .getElementById(
+                        "filtroDataDashboard"
+                    )
+                    .value;
+
+
+            if (!data) {
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "Distribuicoes.html" +
+                "?modo=pontos-pendentes" +
+                "&data=" +
+                encodeURIComponent(
+                    data
                 );
 
         }
