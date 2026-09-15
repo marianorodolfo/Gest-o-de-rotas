@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Drones</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .menu {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width: 185px;
+
+            padding: 18px 12px;
+
+            background: #123b63;
+
+            color: #ffffff;
+
+            overflow-y: auto;
+        }
+
+        .logo-menu {
+            margin-bottom: 22px;
+
+            padding: 0 8px;
+
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .menu nav {
+            display: flex;
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+        .menu nav a {
+            display: block;
+
+            padding: 9px 10px;
+
+            border-radius: 7px;
+
+            color: rgba(255, 255, 255, .82);
+
+            text-decoration: none;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .menu nav a:hover,
+        .menu nav a.ativo {
+            background: rgba(255, 255, 255, .12);
+
+            color: #ffffff;
+        }
+
+        #conteudo {
+            margin-left: 185px;
+
+            padding: 16px;
+
+            min-width: 0;
+        }
+
+        .cabecalho-dashboard {
+            display: flex;
+
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 24px;
+
+            width: 100%;
+
+            margin-bottom: 18px;
+        }
+
+        .titulo-dashboard {
+            min-width: 0;
+        }
+
+        .titulo-dashboard h1 {
+            margin: 0;
+
+            color: #0f172a;
+
+            font-size: 28px;
+            font-weight: 800;
+
+            line-height: 1.2;
+        }
+
+        .titulo-dashboard p {
+            margin: 6px 0 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        .estado-sistema {
+            align-self: flex-start;
+            
+            padding: 7px 10px;
+
+            border-radius: 999px;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        body {
+            margin: 0;
+            padding: 0px;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #eef4fb;
+            color: #1f2937;
+        }
+
+        .pagina-drones {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cabecalho-drones {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .cabecalho-drones h1 {
+            margin: 0;
+
+            color: #123b63;
+
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .cabecalho-drones p {
+            margin: 4px 0 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .indicadores-drones {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 12px;
+
+            margin-bottom: 14px;
+        }
+
+        .indicador-drone {
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                border-color .18s ease,
+                transform .18s ease,
+                box-shadow .18s ease;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 11px 13px;
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .indicador-drone:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 6px 16px rgba(15, 23, 42, .08);
+        }
+
+        .icone-indicador-drone {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 32px;
+            height: 32px;
+
+            flex-shrink: 0;
+
+            border-radius: 8px;
+
+            background: #f8fafc;
+
+            font-size: 15px;
+        }
+
+        .indicador-drone::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 4px;
+
+            background: #94a3b8;
+        }
+
+        .indicador-drone span {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .indicador-drone strong {
+            display: block;
+
+            margin-top: 4px;
+
+            color: #0f172a;
+
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .indicador-disponivel {
+            border-color: #16a34a;
+        }
+
+        .indicador-disponivel::before {
+            background: #16a34a;
+        }
+
+        .indicador-disponivel:hover {
+            background: #f0fdf4;
+        }
+
+
+        .indicador-missao {
+            border-color: #dc2626;
+        }
+
+        .indicador-missao::before {
+            background: #dc2626;
+        }
+
+        .indicador-missao:hover {
+            background: #fef2f2;
+        }
+
+
+        .indicador-retorno {
+            border-color: #f59e0b;
+        }
+
+        .indicador-retorno::before {
+            background: #f59e0b;
+        }
+
+        .indicador-retorno:hover {
+            background: #fff7ed;
+        }
+
+
+        .indicador-manutencao {
+            border-color: #64748b;
+        }
+
+        .indicador-manutencao::before {
+            background: #64748b;
+        }
+
+        .indicador-manutencao:hover {
+            background: #f8fafc;
+        }
+
+        .grade-drones {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+        }
+
+        .cartao-drone {
+            padding: 12px;
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            transition:
+                transform .15s ease,
+                border-color .15s ease,
+                box-shadow .15s ease;
+        }
+
+        .cartao-drone:hover {
+            transform: translateY(-1px);
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 5px 12px rgba(37, 99, 235, .08);
+        }
+
+        .cartao-drone-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 10px;
+        }
+
+        .cartao-drone-topo strong {
+            color: #123b63;
+
+            font-size: 14px;
+        }
+
+        .estado-drone {
+            padding: 3px 7px;
+
+            border-radius: 999px;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .estado-disponivel {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .estado-missao {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .estado-retornando {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .estado-manutencao {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .dados-drone {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 7px;
+        }
+
+        .dado-drone {
+            padding: 7px;
+
+            background: #f8fafc;
+
+            border-radius: 7px;
+        }
+
+        .dado-drone span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 8.5px;
+            font-weight: 700;
+        }
+
+        .dado-drone strong {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #334155;
+
+            font-size: 11px;
+        }
+
+        .painel-detalhe-drone {
+            padding: 14px;
+
+            background: #ffffff;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .painel-detalhe-drone h2 {
+            margin: 0 0 12px;
+
+            color: #123b63;
+
+            font-size: 16px;
+        }
+
+        .grade-detalhe-drone {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+        .item-detalhe-drone {
+            padding: 10px;
+
+            background: #f8fafc;
+
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+        }
+
+        .item-detalhe-drone span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .item-detalhe-drone strong {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #1e293b;
+
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="menu">
+
+        <div class="logo-menu">
+            PRIMO PEÇAS
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                🛰️ Centro de Operações
+            </a>
+
+            <a href="#">
+                📡 Operações ao Vivo
+            </a>
+
+            <a href="Distribuicoes.html">
+                🚁 Missões
+            </a>
+
+            <a href="#">
+                📍 Pontos de Entrega
+            </a>
+
+            <a href="drones.html" class="ativo">
+                🤖 Drones
+            </a>
+
+            <a href="rotas.html">
+                🗺️ Planeamento de Rotas
+            </a>
+
+            <a href="#">
+                📊 Análises
+            </a>
+
+            <a href="gestao-distribuicoes.html">
+                ⚙️ Gestão
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main id="conteudo">
+
+        <div class="cabecalho-dashboard">
+
+            <div class="titulo-dashboard">
+
+                <h1>
+                    🤖 Drones
+                </h1>
+
+                <p>
+                    Gestão técnica e operacional da frota aérea
+                </p>
+
+            </div>
+
+
+            <div class="estado-sistema">
+                ● Sistema online
+            </div>
+
+        </div>
+
+
+        <div class="indicadores-drones">
+
+            <div class="indicador-drone indicador-disponivel">
+
+                <div class="icone-indicador-drone">
+                    🟢
+                </div>
+
+                <div>
+
+                    <span>
+                        Drones disponíveis
+                    </span>
+
+                    <strong id="totalDronesDisponiveis">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="indicador-drone indicador-missao">
+
+                <div class="icone-indicador-drone">
+                    🚁
+                </div>
+
+                <div>
+
+                    <span>
+                        Drones em missão
+                    </span>
+
+                    <strong id="totalDronesMissao">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="indicador-drone indicador-retorno">
+
+                <div class="icone-indicador-drone">
+                    ↩️
+                </div>
+
+                <div>
+
+                    <span>
+                        Drones retornando
+                    </span>
+
+                    <strong id="totalDronesRetornando">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="indicador-drone indicador-manutencao">
+
+                <div class="icone-indicador-drone">
+                    🛠️
+                </div>
+
+                <div>
+
+                    <span>
+                        Em manutenção
+                    </span>
+
+                    <strong id="totalDronesManutencao">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="grade-drones">
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-001
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+
+                        <span>
+                            Bateria
+                        </span>
+
+                        <strong>
+                            --
+                        </strong>
+
+                    </div>
+
+                    <div class="dado-drone">
+
+                        <span>
+                            Autonomia
+                        </span>
+
+                        <strong>
+                            --
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-002
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+
+                        <span>
+                            Bateria
+                        </span>
+
+                        <strong>
+                            --
+                        </strong>
+
+                    </div>
+
+                    <div class="dado-drone">
+
+                        <span>
+                            Autonomia
+                        </span>
+
+                        <strong>
+                            --
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-003
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-004
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-005
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-006
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-007
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-008
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-009
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cartao-drone">
+
+                <div class="cartao-drone-topo">
+
+                    <strong>
+                        DRN-010
+                    </strong>
+
+                    <span class="estado-drone estado-disponivel">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div class="dados-drone">
+
+                    <div class="dado-drone">
+                        <span>Bateria</span>
+                        <strong>--</strong>
+                    </div>
+
+                    <div class="dado-drone">
+                        <span>Autonomia</span>
+                        <strong>--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="painel-detalhe-drone">
+
+            <h2>
+                Detalhe do drone
+            </h2>
+
+            <div class="grade-detalhe-drone">
+
+                <div class="item-detalhe-drone">
+
+                    <span>
+                        Aeronave
+                    </span>
+
+                    <strong>
+                        Selecione um drone
+                    </strong>
+
+                </div>
+
+
+                <div class="item-detalhe-drone">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong>
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="item-detalhe-drone">
+
+                    <span>
+                        Total de missões
+                    </span>
+
+                    <strong>
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="item-detalhe-drone">
+
+                    <span>
+                        Pontos atendidos
+                    </span>
+
+                    <strong>
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
