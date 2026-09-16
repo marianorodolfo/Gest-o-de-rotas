@@ -115,7 +115,7 @@
 
         .estado-sistema {
             align-self: flex-start;
-            
+
             padding: 7px 10px;
 
             border-radius: 999px;
@@ -356,6 +356,16 @@
                 0 5px 12px rgba(37, 99, 235, .08);
         }
 
+        .cartao-drone.selecionado {
+            border-color: #2563EB;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, .10),
+                0 6px 16px rgba(37, 99, 235, .12);
+
+            background: #eff6ff;
+        }
+
         .cartao-drone-topo {
             display: flex;
             justify-content: space-between;
@@ -370,6 +380,25 @@
             color: #123b63;
 
             font-size: 14px;
+        }
+
+        .cartao-drone.cartao-drone-atencao {
+            border-color: #fbbf24;
+        }
+
+        .cartao-drone.cartao-drone-critico {
+            border-color: #ef4444;
+        }
+
+
+        .cartao-drone.cartao-drone-atencao:hover {
+            box-shadow:
+                0 6px 16px rgba(217, 119, 6, .12);
+        }
+
+        .cartao-drone.cartao-drone-critico:hover {
+            box-shadow:
+                0 6px 16px rgba(185, 28, 28, .12);
         }
 
         .estado-drone {
@@ -399,8 +428,10 @@
         }
 
         .estado-manutencao {
-            background: #e2e8f0;
-            color: #475569;
+            background: #e8eef5;
+            color: #334155;
+
+            border: 1px solid #cbd5e1;
         }
 
         .dados-drone {
@@ -444,53 +475,411 @@
 
             background: #ffffff;
 
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+
+            box-shadow:
+                0 6px 16px rgba(15, 23, 42, .05);
+        }
+
+        .cabecalho-painel-drone {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 16px;
+
+            margin-bottom: 4px;
         }
 
         .painel-detalhe-drone h2 {
-            margin: 0 0 12px;
+            margin: 0;
 
             color: #123b63;
 
             font-size: 16px;
+            font-weight: 800;
         }
 
-        .grade-detalhe-drone {
+        .cabecalho-painel-drone p {
+            margin: 4px 0 0;
+
+            color: #64748b;
+
+            font-size: 11px;
+        }
+
+        .blocos-detalhe-drone {
             display: grid;
 
             grid-template-columns:
-                repeat(4, minmax(0, 1fr));
+                1.1fr 2fr 1.1fr;
 
-            gap: 10px;
+            gap: 12px;
+
+            margin-top: 12px;
         }
 
-        .item-detalhe-drone {
-            padding: 10px;
+        .bloco-detalhe-drone {
+            padding: 12px;
 
             background: #f8fafc;
 
-            border: 1px solid #eef2f7;
-            border-radius: 8px;
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+        }
+
+        .bloco-identificacao {
+            background: #f3f8fd;
+            border-color: #cfe0f2;
+        }
+
+        .bloco-operacao {
+            background: #f5f9ff;
+            border-color: #d7e4f2;
+        }
+
+        .bloco-identificacao .titulo-bloco-detalhe-drone {
+            color: #123b63;
+        }
+
+        .bloco-operacao .titulo-bloco-detalhe-drone {
+            color: #2563EB;
+        }
+
+        .bloco-manutencao {
+            background: #fffaf2;
+            border-color: #fde7bf;
+        }
+
+        .titulo-bloco-detalhe-drone {
+            margin-bottom: 10px;
+
+            color: #123b63;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .35px;
+        }
+
+        .grade-bloco-detalhe {
+            display: grid;
+            gap: 8px;
+        }
+
+        .grade-identificacao {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .grade-operacao {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .grade-manutencao {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .item-detalhe-drone {
+            position: relative;
+
+            padding: 8px 6px;
+
+            background: #ffffff;
+
+            border: 1px solid #dbe4ee;
+            border-radius: 10px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, .05);
+
+            transition:
+                transform .18s ease,
+                box-shadow .18s ease,
+                border-color .18s ease,
+                background .18s ease;
+        }
+
+        .item-detalhe-drone:hover {
+            transform: translateY(-2px);
+
+            border-color: #93c5fd;
+
+            background: #f8fbff;
+
+            box-shadow:
+                0 7px 18px rgba(37, 99, 235, .08);
         }
 
         .item-detalhe-drone span {
             display: block;
 
-            color: #94a3b8;
+            margin-bottom: 4px;
 
-            font-size: 9px;
-            font-weight: 700;
+            color: #64748b;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .2px;
+
+            white-space: nowrap;
         }
 
         .item-detalhe-drone strong {
             display: block;
 
-            margin-top: 3px;
+            margin-top: 0;
 
-            color: #1e293b;
+            color: #0f172a;
 
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 800;
+
+            line-height: 1.2;
+        }
+
+        .item-aeronave-detalhe {
+            grid-column: 1 / -1;
+        }
+
+        .valor-media-drone {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+
+            gap: 4px;
+        }
+
+        .valor-media-drone small {
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+        .valor-bateria-drone {
+            font-weight: 800;
+        }
+
+        .dado-drone .valor-bateria-drone.bateria-normal {
+            color: #15803d !important;
+        }
+
+        .dado-drone .valor-bateria-drone.bateria-atencao {
+            color: #d97706 !important;
+        }
+
+        .dado-drone .valor-bateria-drone.bateria-critica {
+            color: #b91c1c !important;
+        }
+
+        .valor-autonomia-drone {
+            font-weight: 800;
+        }
+
+        .dado-drone .valor-autonomia-drone.autonomia-normal {
+            color: #15803d !important;
+        }
+
+        .dado-drone .valor-autonomia-drone.autonomia-atencao {
+            color: #d97706 !important;
+        }
+
+        .dado-drone .valor-autonomia-drone.autonomia-critica {
+            color: #b91c1c !important;
+        }
+
+        .detalhe-drone-vazio {
+            color: #94a3b8;
+
+            font-size: 9px !important;
+            font-weight: 600 !important;
+        }
+
+        .status-detalhe-drone {
+            display: inline-flex !important;
+            align-items: center;
+
+            width: fit-content;
+
+            padding: 3px 7px;
+
+            border-radius: 999px;
+
+            background: #f1f5f9;
+            color: #64748b !important;
+
+            font-size: 9px !important;
+            font-weight: 800 !important;
+        }
+
+        .status-detalhe-drone.disponivel {
+            background: #dcfce7;
+            color: #166534 !important;
+        }
+
+        .status-detalhe-drone.missao {
+            background: #fee2e2;
+            color: #b91c1c !important;
+        }
+
+        .status-detalhe-drone.retornando {
+            background: #ffedd5;
+            color: #c2410c !important;
+        }
+
+        .status-detalhe-drone.manutencao {
+            background: #e8eef5;
+            color: #334155 !important;
+
+            border: 1px solid #cbd5e1;
+        }
+
+        .acoes-detalhe-drone {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 12px;
+        }
+
+        #botaoRegistarInspecao {
+            padding: 7px 12px;
+
+            border: 1px solid #123b63;
+            border-radius: 7px;
+
+            background: #123b63;
+            color: #ffffff;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                transform .18s ease,
+                opacity .18s ease;
+        }
+
+        #botaoRegistarInspecao:hover:not(:disabled) {
+            background: #2563EB;
+
+            transform: translateY(-1px);
+        }
+
+        #botaoRegistarInspecao:disabled {
+            opacity: .40;
+
+            cursor: not-allowed;
+        }
+
+        .ultima-missao-drone {
+            font-size: 9px !important;
+
+            white-space: nowrap;
+        }
+
+        .ultima-inspecao-drone {
+            font-size: 9px !important;
+
+            white-space: nowrap;
+        }
+
+        .proxima-manutencao-drone {
+            font-size: 9px !important;
+
+            white-space: nowrap;
+        }
+
+        .proxima-manutencao-drone.manutencao-proxima {
+            color: #c2410c !important;
+
+            background: #fff7ed;
+
+            padding: 3px 6px;
+
+            border-radius: 6px;
+        }
+
+        .proxima-manutencao-drone.manutencao-vencida {
+            color: #b91c1c !important;
+
+            background: #fef2f2;
+
+            padding: 3px 6px;
+
+            border-radius: 6px;
+        }
+
+        .alerta-card-drone {
+            margin-bottom: 8px;
+
+            padding: 5px 7px;
+
+            border-radius: 6px;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-align: center;
+        }
+
+        .alerta-card-proxima {
+            background: #fff7ed;
+            color: #c2410c;
+
+            border: 1px solid #fed7aa;
+        }
+
+        .alerta-card-vencido {
+            background: #fef2f2;
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+        }
+
+        #botaoManutencaoDrone {
+            padding: 7px 12px;
+
+            border: 1px solid #d97706;
+            border-radius: 7px;
+
+            background: #fff7ed;
+            color: #b45309;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                transform .18s ease,
+                opacity .18s ease;
+        }
+
+        #botaoManutencaoDrone:hover:not(:disabled) {
+            background: #ffedd5;
+
+            transform: translateY(-1px);
+        }
+
+        #botaoManutencaoDrone:disabled {
+            opacity: .40;
+
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -654,414 +1043,1597 @@
         </div>
 
 
-        <div class="grade-drones">
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-001
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-
-                        <span>
-                            Bateria
-                        </span>
-
-                        <strong>
-                            --
-                        </strong>
-
-                    </div>
-
-                    <div class="dado-drone">
-
-                        <span>
-                            Autonomia
-                        </span>
-
-                        <strong>
-                            --
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-002
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-
-                        <span>
-                            Bateria
-                        </span>
-
-                        <strong>
-                            --
-                        </strong>
-
-                    </div>
-
-                    <div class="dado-drone">
-
-                        <span>
-                            Autonomia
-                        </span>
-
-                        <strong>
-                            --
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-003
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-004
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-005
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-006
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-007
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-008
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-009
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="cartao-drone">
-
-                <div class="cartao-drone-topo">
-
-                    <strong>
-                        DRN-010
-                    </strong>
-
-                    <span class="estado-drone estado-disponivel">
-                        Disponível
-                    </span>
-
-                </div>
-
-                <div class="dados-drone">
-
-                    <div class="dado-drone">
-                        <span>Bateria</span>
-                        <strong>--</strong>
-                    </div>
-
-                    <div class="dado-drone">
-                        <span>Autonomia</span>
-                        <strong>--</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
+        <div class="grade-drones" id="gradeDrones"></div>
 
 
         <div class="painel-detalhe-drone">
 
-            <h2>
-                Detalhe do drone
-            </h2>
+            <div class="cabecalho-painel-drone">
 
-            <div class="grade-detalhe-drone">
+                <div>
+                    <h2>
+                        Detalhe do drone
+                    </h2>
 
-                <div class="item-detalhe-drone">
-
-                    <span>
-                        Aeronave
-                    </span>
-
-                    <strong>
-                        Selecione um drone
-                    </strong>
-
+                    <p>
+                        Histórico técnico e operacional acumulado
+                    </p>
                 </div>
 
-
-                <div class="item-detalhe-drone">
-
-                    <span>
-                        Status
-                    </span>
-
-                    <strong>
-                        --
-                    </strong>
-
-                </div>
+            </div>
 
 
-                <div class="item-detalhe-drone">
+            <div class="blocos-detalhe-drone">
 
-                    <span>
-                        Total de missões
-                    </span>
+                <section class="bloco-detalhe-drone bloco-identificacao">
 
-                    <strong>
-                        --
-                    </strong>
+                    <div class="titulo-bloco-detalhe-drone">
+                        🛰️ Identificação e status
+                    </div>
 
-                </div>
+                    <div class="grade-bloco-detalhe grade-identificacao">
+
+                        <div class="item-detalhe-drone item-aeronave-detalhe">
+
+                            <span>
+                                Aeronave
+                            </span>
+
+                            <strong id="detalheDroneCodigo" class="detalhe-drone-vazio">
+                                Selecione um drone
+                            </strong>
+
+                        </div>
 
 
-                <div class="item-detalhe-drone">
+                        <div class="item-detalhe-drone">
 
-                    <span>
-                        Pontos atendidos
-                    </span>
+                            <span>
+                                Status
+                            </span>
 
-                    <strong>
-                        --
-                    </strong>
+                            <strong id="detalheDroneStatus" class="status-detalhe-drone">
+                                --
+                            </strong>
 
-                </div>
+                        </div>
+
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Última missão
+                            </span>
+
+                            <strong id="detalheDroneUltimaMissao" class="ultima-missao-drone">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="bloco-detalhe-drone bloco-operacao">
+
+                    <div class="titulo-bloco-detalhe-drone">
+                        📈 Desempenho acumulado
+                    </div>
+
+                    <div class="grade-bloco-detalhe grade-operacao">
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Total de missões
+                            </span>
+
+                            <strong id="detalheDroneMissoes">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Pontos atendidos
+                            </span>
+
+                            <strong id="detalheDronePontos">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Horas de voo
+                            </span>
+
+                            <strong id="detalheDroneHoras">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Pontos/missão
+                            </span>
+
+                            <div class="valor-media-drone">
+
+                                <strong id="detalheDroneMedia">
+                                    --
+                                </strong>
+
+                                <small>
+                                    (média)
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="bloco-detalhe-drone bloco-manutencao">
+
+                    <div class="titulo-bloco-detalhe-drone">
+                        🛠️ Manutenção
+                    </div>
+
+                    <div class="grade-bloco-detalhe grade-manutencao">
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Última inspeção
+                            </span>
+
+                            <strong id="detalheDroneUltimaInspecao" class="ultima-inspecao-drone">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                        <div class="item-detalhe-drone">
+
+                            <span>
+                                Próx. manutenção
+                            </span>
+
+                            <strong id="detalheDroneProximaManutencao" class="proxima-manutencao-drone">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="acoes-detalhe-drone">
+
+                        <button type="button" id="botaoRegistarInspecao" onclick="registarInspecaoDrone()" disabled>
+                            🛠️ Registar inspeção
+                        </button>
+
+
+                        <button type="button" id="botaoManutencaoDrone" onclick="colocarDroneEmManutencao()" disabled>
+                            ⚙️ Colocar em manutenção
+                        </button>
+
+                    </div>
+
+                </section>
 
             </div>
 
         </div>
 
-        </div>
-
     </main>
+
+    <script>
+
+        function atualizarIndicadoresDrones() {
+
+            const veiculos =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const dronesRetornando =
+                new Set(
+                    distribuicoes
+                        .filter(
+                            function (missao) {
+
+                                return (
+                                    missao &&
+                                    missao.status ===
+                                    "Em andamento" &&
+                                    missao.retornoBase ===
+                                    "Em andamento"
+                                );
+
+                            }
+                        )
+                        .map(
+                            function (missao) {
+
+                                return String(
+                                    missao.veiculo || ""
+                                );
+
+                            }
+                        )
+                );
+
+
+            const dronesEmMissao =
+                new Set(
+                    distribuicoes
+                        .filter(
+                            function (missao) {
+
+                                return (
+                                    missao &&
+                                    missao.status ===
+                                    "Em andamento" &&
+                                    missao.retornoBase !==
+                                    "Em andamento"
+                                );
+
+                            }
+                        )
+                        .map(
+                            function (missao) {
+
+                                return String(
+                                    missao.veiculo || ""
+                                );
+
+                            }
+                        )
+                );
+
+
+            const manutencoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            let totalManutencao =
+                0;
+
+
+            veiculos.forEach(
+                function (veiculo) {
+
+                    const manutencao =
+                        manutencoesDrones[
+                        String(
+                            veiculo
+                        )
+                        ];
+
+
+                    if (
+                        manutencao &&
+                        manutencao.estado ===
+                        "Em manutenção"
+                    ) {
+
+                        totalManutencao++;
+
+                    }
+
+                }
+            );
+
+
+            const totalRetornando =
+                dronesRetornando.size;
+
+
+            const totalEmMissao =
+                dronesEmMissao.size;
+
+
+            const totalDisponiveis =
+                Math.max(
+                    0,
+                    veiculos.length -
+                    totalEmMissao -
+                    totalRetornando -
+                    totalManutencao
+                );
+
+
+            document
+                .getElementById(
+                    "totalDronesDisponiveis"
+                )
+                .textContent =
+                totalDisponiveis;
+
+
+            document
+                .getElementById(
+                    "totalDronesMissao"
+                )
+                .textContent =
+                totalEmMissao;
+
+
+            document
+                .getElementById(
+                    "totalDronesRetornando"
+                )
+                .textContent =
+                totalRetornando;
+
+
+            document
+                .getElementById(
+                    "totalDronesManutencao"
+                )
+                .textContent =
+                totalManutencao;
+
+        }
+
+
+        atualizarIndicadoresDrones();
+
+        function obterEstadoDrone(
+            codigoDrone,
+            distribuicoes
+        ) {
+
+            const missaoRetorno =
+                distribuicoes.find(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            String(
+                                missao.veiculo || ""
+                            ) === String(
+                                codigoDrone
+                            ) &&
+                            missao.status ===
+                            "Em andamento" &&
+                            missao.retornoBase ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            if (missaoRetorno) {
+
+                return {
+                    texto: "Retornando",
+                    classe: "estado-retornando"
+                };
+
+            }
+
+
+            const missaoAtiva =
+                distribuicoes.find(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            String(
+                                missao.veiculo || ""
+                            ) === String(
+                                codigoDrone
+                            ) &&
+                            missao.status ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            if (missaoAtiva) {
+
+                return {
+                    texto: "Em missão",
+                    classe: "estado-missao"
+                };
+
+            }
+
+            const manutencoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            const manutencaoAtual =
+                manutencoesDrones[
+                codigoDrone
+                ];
+
+
+            if (
+                manutencaoAtual &&
+                manutencaoAtual.estado ===
+                "Em manutenção"
+            ) {
+
+                return {
+                    texto: "Em manutenção",
+                    classe: "estado-manutencao"
+                };
+
+            }
+
+
+            return {
+                texto: "Disponível",
+                classe: "estado-disponivel"
+            };
+
+        }
+
+        const perfisDrones = {
+
+            "DRN-001": {
+                bateria: 83,
+                autonomia: 18
+            },
+
+            "DRN-002": {
+                bateria: 61,
+                autonomia: 14
+            },
+
+            "DRN-003": {
+                bateria: 27,
+                autonomia: 7
+            },
+
+            "DRN-004": {
+                bateria: 16,
+                autonomia: 4
+            },
+
+            "DRN-005": {
+                bateria: 94,
+                autonomia: 21
+            },
+
+            "DRN-006": {
+                bateria: 88,
+                autonomia: 20
+            },
+
+            "DRN-007": {
+                bateria: 76,
+                autonomia: 17
+            },
+
+            "DRN-008": {
+                bateria: 91,
+                autonomia: 21
+            },
+
+            "DRN-009": {
+                bateria: 69,
+                autonomia: 15
+            },
+
+            "DRN-010": {
+                bateria: 85,
+                autonomia: 19
+            }
+
+        };
+
+
+        function atualizarGradeDrones() {
+
+            const gradeDrones =
+                document.getElementById(
+                    "gradeDrones"
+                );
+
+
+            if (!gradeDrones) {
+
+                return;
+
+            }
+
+
+            const veiculos =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            gradeDrones.innerHTML =
+                "";
+
+
+            veiculos.forEach(
+                function (veiculo) {
+
+                    const codigoDrone =
+                        String(
+                            veiculo || ""
+                        );
+
+
+                    const estado =
+                        obterEstadoDrone(
+                            codigoDrone,
+                            distribuicoes
+                        );
+
+                    const perfil =
+                        perfisDrones[
+                        codigoDrone
+                        ] || {
+                            bateria: "--",
+                            autonomia: "--"
+                        };
+
+                    let classeBateria =
+                        "bateria-normal";
+
+
+                    if (
+                        Number(
+                            perfil.bateria
+                        ) < 20
+                    ) {
+
+                        classeBateria =
+                            "bateria-critica";
+
+                    } else if (
+                        Number(
+                            perfil.bateria
+                        ) <= 40
+                    ) {
+
+                        classeBateria =
+                            "bateria-atencao";
+
+                    }
+
+                    let classeAutonomia =
+                        "autonomia-normal";
+
+
+                    if (
+                        Number(
+                            perfil.autonomia
+                        ) < 5
+                    ) {
+
+                        classeAutonomia =
+                            "autonomia-critica";
+
+                    } else if (
+                        Number(
+                            perfil.autonomia
+                        ) <= 10
+                    ) {
+
+                        classeAutonomia =
+                            "autonomia-atencao";
+
+                    }
+
+                    let classeAlertaCard =
+                        "";
+
+
+                    if (
+                        classeBateria ===
+                        "bateria-critica" ||
+                        classeAutonomia ===
+                        "autonomia-critica"
+                    ) {
+
+                        classeAlertaCard =
+                            "cartao-drone-critico";
+
+                    } else if (
+                        classeBateria ===
+                        "bateria-atencao" ||
+                        classeAutonomia ===
+                        "autonomia-atencao"
+                    ) {
+
+                        classeAlertaCard =
+                            "cartao-drone-atencao";
+
+                    }
+
+                    const inspecoesDrones =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "inspecoesDrones"
+                            )
+                        ) || {};
+
+
+                    const ultimaInspecao =
+                        inspecoesDrones[
+                        codigoDrone
+                        ];
+
+
+                    let alertaManutencao =
+                        "";
+
+
+                    if (ultimaInspecao) {
+
+                        const partesDataInspecao =
+                            ultimaInspecao
+                                .split(" · ")[0]
+                                .split("/");
+
+
+                        if (
+                            partesDataInspecao.length === 3
+                        ) {
+
+                            const dataManutencao =
+                                new Date(
+                                    Number(
+                                        partesDataInspecao[2]
+                                    ),
+                                    Number(
+                                        partesDataInspecao[1]
+                                    ) - 1,
+                                    Number(
+                                        partesDataInspecao[0]
+                                    )
+                                );
+
+
+                            dataManutencao.setDate(
+                                dataManutencao.getDate() + 90
+                            );
+
+
+                            const hoje =
+                                new Date();
+
+
+                            hoje.setHours(
+                                0,
+                                0,
+                                0,
+                                0
+                            );
+
+
+                            const diferencaDias =
+                                Math.ceil(
+                                    (
+                                        dataManutencao -
+                                        hoje
+                                    ) /
+                                    86400000
+                                );
+
+
+                            if (
+                                diferencaDias < 0
+                            ) {
+
+                                alertaManutencao =
+                                    "manutencao-vencida";
+
+                            } else if (
+                                diferencaDias <= 30
+                            ) {
+
+                                alertaManutencao =
+                                    "manutencao-proxima";
+
+                            }
+
+                        }
+
+                    }
+
+
+                    gradeDrones.innerHTML += `
+
+                    <div
+    class="
+        cartao-drone
+        ${classeAlertaCard}
+    "
+    onclick="
+        mostrarDetalheDrone(
+            '${codigoDrone}',
+            this
+        )
+    "
+>
+
+                    <div class="cartao-drone-topo">
+
+                        <strong>
+                            ${codigoDrone}
+                        </strong>
+
+                        <span
+                            class="
+                                estado-drone
+                                ${estado.classe}
+                            "
+                        >
+                            ${estado.texto}
+                        </span>
+
+                    </div>
+
+                    ${alertaManutencao === "manutencao-vencida"
+                            ? `
+        <div class="alerta-card-drone alerta-card-vencido">
+            ⚠ Manutenção vencida
+        </div>
+      `
+                            : alertaManutencao === "manutencao-proxima"
+                                ? `
+            <div class="alerta-card-drone alerta-card-proxima">
+                🛠 Manutenção próxima
+            </div>
+          `
+                                : ""
+                        }
+
+
+                    <div class="dados-drone">
+
+                        <div class="dado-drone">
+
+    <span>
+        Bateria
+    </span>
+
+    <strong
+    class="
+        valor-bateria-drone
+        ${classeBateria}
+    "
+>
+    ${perfil.bateria}%
+</strong>
+
+</div>
+
+
+                        <div class="dado-drone">
+
+    <span>
+        Autonomia
+    </span>
+
+    <strong
+    class="
+        valor-autonomia-drone
+        ${classeAutonomia}
+    "
+>
+    ${perfil.autonomia} min
+</strong>
+
+</div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+                }
+            );
+
+        }
+
+        function mostrarDetalheDrone(
+            codigoDrone,
+            elementoCard
+        ) {
+
+            document
+                .querySelectorAll(
+                    ".cartao-drone"
+                )
+                .forEach(
+                    function (card) {
+
+                        card.classList.remove(
+                            "selecionado"
+                        );
+
+                    }
+                );
+
+
+            if (elementoCard) {
+
+                elementoCard.classList.add(
+                    "selecionado"
+                );
+
+            }
+
+            const botaoInspecao =
+                document.getElementById(
+                    "botaoRegistarInspecao"
+                );
+
+
+            if (botaoInspecao) {
+
+                botaoInspecao.disabled =
+                    false;
+
+                botaoInspecao.dataset.drone =
+                    codigoDrone;
+
+            }
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const estado =
+                obterEstadoDrone(
+                    codigoDrone,
+                    distribuicoes
+                );
+
+            const botaoManutencao =
+                document.getElementById(
+                    "botaoManutencaoDrone"
+                );
+
+
+            if (botaoManutencao) {
+
+                botaoManutencao.dataset.drone =
+                    codigoDrone;
+
+
+                if (
+                    estado.texto ===
+                    "Disponível"
+                ) {
+
+                    botaoManutencao.disabled =
+                        false;
+
+                    botaoManutencao.textContent =
+                        "⚙️ Colocar em manutenção";
+
+                    botaoManutencao.dataset.acao =
+                        "entrar";
+
+                } else if (
+                    estado.texto ===
+                    "Em manutenção"
+                ) {
+
+                    botaoManutencao.disabled =
+                        false;
+
+                    botaoManutencao.textContent =
+                        "✅ Voltar à operação";
+
+                    botaoManutencao.dataset.acao =
+                        "sair";
+
+                } else {
+
+                    botaoManutencao.disabled =
+                        true;
+
+                    botaoManutencao.textContent =
+                        "⚙️ Colocar em manutenção";
+
+                    delete botaoManutencao.dataset.acao;
+
+                }
+
+            }
+
+
+            const missoesDoDrone =
+                distribuicoes.filter(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            String(
+                                missao.veiculo || ""
+                            ) === String(
+                                codigoDrone
+                            )
+                        );
+
+                    }
+                );
+
+
+            let totalPontosAtendidos =
+                0;
+
+
+            missoesDoDrone.forEach(
+                function (missao) {
+
+                    if (
+                        !Array.isArray(
+                            missao.clientes
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    totalPontosAtendidos +=
+                        missao.clientes.filter(
+                            function (cliente) {
+
+                                return (
+                                    cliente.statusEntrega ===
+                                    "Concluída"
+                                );
+
+                            }
+                        ).length;
+
+                }
+            );
+
+            let totalSegundosVoo =
+                0;
+
+
+            missoesDoDrone.forEach(
+                function (missao) {
+
+                    if (
+                        !missao ||
+                        missao.status !==
+                        "Concluída"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const inicio =
+                        Number(
+                            missao.inicioTimestamp
+                        );
+
+                    const fim =
+                        Number(
+                            missao.fimTimestamp
+                        );
+
+
+                    if (
+                        Number.isFinite(inicio) &&
+                        Number.isFinite(fim) &&
+                        inicio > 0 &&
+                        fim > inicio
+                    ) {
+
+                        totalSegundosVoo +=
+                            Math.floor(
+                                (
+                                    fim -
+                                    inicio
+                                ) / 1000
+                            );
+
+                        return;
+
+                    }
+
+
+                    const duracao =
+                        Number(
+                            missao.duracao
+                        );
+
+
+                    if (
+                        Number.isFinite(duracao) &&
+                        duracao > 0
+                    ) {
+
+                        totalSegundosVoo +=
+                            duracao;
+
+                    }
+
+                }
+            );
+
+
+            const horasVoo =
+                Math.floor(
+                    totalSegundosVoo / 3600
+                );
+
+
+            const minutosVoo =
+                Math.floor(
+                    (
+                        totalSegundosVoo % 3600
+                    ) / 60
+                );
+
+
+            const textoHorasVoo =
+                horasVoo > 0
+                    ? horasVoo +
+                    "h " +
+                    minutosVoo +
+                    "m"
+                    : minutosVoo +
+                    " min";
+
+            const mediaPontosPorMissao =
+                missoesDoDrone.length > 0
+                    ? (
+                        totalPontosAtendidos /
+                        missoesDoDrone.length
+                    ).toFixed(1)
+                    : "0,0";
+
+            const missoesConcluidasDrone =
+                missoesDoDrone
+                    .filter(
+                        function (missao) {
+
+                            return (
+                                missao &&
+                                missao.status ===
+                                "Concluída"
+                            );
+
+                        }
+                    )
+                    .sort(
+                        function (a, b) {
+
+                            const fimA =
+                                Number(
+                                    a.fimTimestamp || 0
+                                );
+
+                            const fimB =
+                                Number(
+                                    b.fimTimestamp || 0
+                                );
+
+
+                            return (
+                                fimB -
+                                fimA
+                            );
+
+                        }
+                    );
+
+
+            const ultimaMissao =
+                missoesConcluidasDrone[0];
+
+
+            const textoUltimaMissao =
+                ultimaMissao
+                    ? (
+                        (ultimaMissao.data || "-") +
+                        " · " +
+                        (ultimaMissao.horaFim || "-")
+                    )
+                    : "Sem missão concluída";
+
+
+            document
+                .getElementById(
+                    "detalheDroneCodigo"
+                )
+                .textContent =
+                codigoDrone;
+
+            document
+                .getElementById(
+                    "detalheDroneCodigo"
+                )
+                .classList.remove(
+                    "detalhe-drone-vazio"
+                );
+
+
+            const elementoStatus =
+                document.getElementById(
+                    "detalheDroneStatus"
+                );
+
+
+            elementoStatus.textContent =
+                estado.texto;
+
+
+            elementoStatus.classList.remove(
+                "disponivel",
+                "missao",
+                "retornando",
+                "manutencao"
+            );
+
+
+            if (
+                estado.texto === "Disponível"
+            ) {
+
+                elementoStatus.classList.add(
+                    "disponivel"
+                );
+
+            } else if (
+                estado.texto === "Em missão"
+            ) {
+
+                elementoStatus.classList.add(
+                    "missao"
+                );
+
+            } else if (
+                estado.texto === "Retornando"
+            ) {
+
+                elementoStatus.classList.add(
+                    "retornando"
+                );
+
+            }
+
+            else if (
+                estado.texto === "Em manutenção"
+            ) {
+
+                elementoStatus.classList.add(
+                    "manutencao"
+                );
+
+            }
+
+
+            document
+                .getElementById(
+                    "detalheDroneMissoes"
+                )
+                .textContent =
+                missoesDoDrone.length;
+
+
+            document
+                .getElementById(
+                    "detalheDronePontos"
+                )
+                .textContent =
+                totalPontosAtendidos;
+
+            document
+                .getElementById(
+                    "detalheDroneHoras"
+                )
+                .textContent =
+                textoHorasVoo;
+
+            document
+                .getElementById(
+                    "detalheDroneMedia"
+                )
+                .textContent =
+                mediaPontosPorMissao.replace(
+                    ".",
+                    ","
+                );
+
+            document
+                .getElementById(
+                    "detalheDroneUltimaMissao"
+                )
+                .textContent =
+                textoUltimaMissao;
+
+            const inspecoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inspecoesDrones"
+                    )
+                ) || {};
+
+
+            const ultimaInspecao =
+                inspecoesDrones[
+                codigoDrone
+                ];
+
+
+            document
+                .getElementById(
+                    "detalheDroneUltimaInspecao"
+                )
+                .textContent =
+                ultimaInspecao || "--";
+
+            let textoProximaManutencao =
+                "--";
+
+
+            if (ultimaInspecao) {
+
+                const dataInspecao =
+                    ultimaInspecao
+                        .split(" · ")[0]
+                        .split("/");
+
+
+                if (
+                    dataInspecao.length === 3
+                ) {
+
+                    const dataBase =
+                        new Date(
+                            Number(
+                                dataInspecao[2]
+                            ),
+                            Number(
+                                dataInspecao[1]
+                            ) - 1,
+                            Number(
+                                dataInspecao[0]
+                            )
+                        );
+
+
+                    dataBase.setDate(
+                        dataBase.getDate() + 90
+                    );
+
+
+                    textoProximaManutencao =
+                        dataBase.toLocaleDateString(
+                            "pt-PT"
+                        );
+
+                }
+
+            }
+
+
+            const elementoProximaManutencao =
+                document.getElementById(
+                    "detalheDroneProximaManutencao"
+                );
+
+
+            elementoProximaManutencao.textContent =
+                textoProximaManutencao;
+
+
+            elementoProximaManutencao.classList.remove(
+                "manutencao-proxima",
+                "manutencao-vencida"
+            );
+
+
+            if (
+                ultimaInspecao &&
+                textoProximaManutencao !== "--"
+            ) {
+
+                const partesData =
+                    textoProximaManutencao.split("/");
+
+
+                if (
+                    partesData.length === 3
+                ) {
+
+                    const dataManutencao =
+                        new Date(
+                            Number(partesData[2]),
+                            Number(partesData[1]) - 1,
+                            Number(partesData[0])
+                        );
+
+
+                    const hoje =
+                        new Date();
+
+
+                    hoje.setHours(
+                        0,
+                        0,
+                        0,
+                        0
+                    );
+
+
+                    const diferencaDias =
+                        Math.ceil(
+                            (
+                                dataManutencao -
+                                hoje
+                            ) /
+                            86400000
+                        );
+
+
+                    if (
+                        diferencaDias < 0
+                    ) {
+
+                        elementoProximaManutencao
+                            .classList.add(
+                                "manutencao-vencida"
+                            );
+
+                    } else if (
+                        diferencaDias <= 30
+                    ) {
+
+                        elementoProximaManutencao
+                            .classList.add(
+                                "manutencao-proxima"
+                            );
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        function registarInspecaoDrone() {
+
+            const botao =
+                document.getElementById(
+                    "botaoRegistarInspecao"
+                );
+
+
+            if (
+                !botao ||
+                !botao.dataset.drone
+            ) {
+
+                return;
+
+            }
+
+
+            const codigoDrone =
+                botao.dataset.drone;
+
+
+            const agora =
+                new Date();
+
+
+            const dataHora =
+                agora.toLocaleDateString(
+                    "pt-PT"
+                ) +
+                " · " +
+                agora.toLocaleTimeString(
+                    "pt-PT",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+            const inspecoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inspecoesDrones"
+                    )
+                ) || {};
+
+
+            inspecoesDrones[
+                codigoDrone
+            ] =
+                dataHora;
+
+
+            localStorage.setItem(
+                "inspecoesDrones",
+                JSON.stringify(
+                    inspecoesDrones
+                )
+            );
+
+
+            document
+                .getElementById(
+                    "detalheDroneUltimaInspecao"
+                )
+                .textContent =
+                dataHora;
+
+            const proximaManutencao =
+                new Date(
+                    agora
+                );
+
+
+            proximaManutencao.setDate(
+                proximaManutencao.getDate() + 90
+            );
+
+
+            document
+                .getElementById(
+                    "detalheDroneProximaManutencao"
+                )
+                .textContent =
+                proximaManutencao.toLocaleDateString(
+                    "pt-PT"
+                );
+
+        }
+
+        function colocarDroneEmManutencao() {
+
+            const botao =
+                document.getElementById(
+                    "botaoManutencaoDrone"
+                );
+
+
+            if (
+                !botao ||
+                !botao.dataset.drone ||
+                !botao.dataset.acao
+            ) {
+
+                return;
+
+            }
+
+
+            const codigoDrone =
+                botao.dataset.drone;
+
+
+            const acao =
+                botao.dataset.acao;
+
+
+            const manutencoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            if (
+                acao ===
+                "entrar"
+            ) {
+
+                manutencoesDrones[
+                    codigoDrone
+                ] = {
+                    estado: "Em manutenção",
+                    inicio: new Date().toISOString()
+                };
+
+            } else if (
+                acao ===
+                "sair"
+            ) {
+
+                delete manutencoesDrones[
+                    codigoDrone
+                ];
+
+            }
+
+
+            localStorage.setItem(
+                "manutencoesDrones",
+                JSON.stringify(
+                    manutencoesDrones
+                )
+            );
+
+
+            atualizarIndicadoresDrones();
+
+            atualizarGradeDrones();
+
+
+            mostrarDetalheDrone(
+                codigoDrone,
+                null
+            );
+
+        }
+
+
+        atualizarGradeDrones();
+
+    </script>
 
 </body>
 

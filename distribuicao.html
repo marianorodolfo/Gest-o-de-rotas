@@ -861,6 +861,23 @@
 
                     });
 
+                const manutencoesDrones =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "manutencoesDrones"
+                        )
+                    ) || {};
+
+
+                const emManutencao =
+                    manutencoesDrones[
+                    String(drone)
+                    ] &&
+                    manutencoesDrones[
+                        String(drone)
+                    ].estado ===
+                    "Em manutenção";
+
 
                 return `
                 <option
