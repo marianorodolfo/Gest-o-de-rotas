@@ -881,14 +881,20 @@
 
                 return `
                 <option
-                    value="${drone}"
-                    ${ocupado ? "disabled" : ""}
-                >
-                    ${drone}${ocupado
-                        ? " — 🔴 Em missão"
-                        : " — 🟢 Disponível"
+    value="${drone}"
+    ${ocupado ||
+                        emManutencao
+                        ? "disabled"
+                        : ""
                     }
-                </option>
+>
+    ${drone}${ocupado
+                        ? " — 🔴 Em missão"
+                        : emManutencao
+                            ? " — ⚙️ Em manutenção"
+                            : " — 🟢 Disponível"
+                    }
+</option>
             `;
 
             }).join("")}
@@ -1116,6 +1122,34 @@
 
                 alert(
                     "Este drone já está em missão."
+                );
+
+                return;
+
+            }
+
+            const manutencoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            const manutencaoAtual =
+                manutencoesDrones[
+                String(veiculo)
+                ];
+
+
+            if (
+                manutencaoAtual &&
+                manutencaoAtual.estado ===
+                "Em manutenção"
+            ) {
+
+                alert(
+                    "Este drone está em manutenção."
                 );
 
                 return;
