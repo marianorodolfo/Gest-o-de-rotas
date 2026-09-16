@@ -1766,6 +1766,12 @@
                             Editar
                         </button>
 
+                        <button
+                            onclick="editarFichaTecnica('${veiculo}')"
+                        >
+                            Ficha técnica
+                        </button>
+
 
                         <button
                             onclick="excluirVeiculo(${indice})"
@@ -1855,6 +1861,105 @@
 
 
             mostrarVeiculos();
+
+        }
+
+        function editarFichaTecnica(
+            codigoDrone
+        ) {
+
+            const fichasTecnicas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "fichasTecnicasDrones"
+                    )
+                ) || {};
+
+
+            const fichaAtual =
+                fichasTecnicas[
+                codigoDrone
+                ] || {};
+
+
+            const modelo =
+                prompt(
+                    "Modelo da aeronave:",
+                    fichaAtual.modelo || ""
+                );
+
+
+            if (modelo === null) {
+                return;
+            }
+
+
+            const serie =
+                prompt(
+                    "Número de série:",
+                    fichaAtual.serie || ""
+                );
+
+
+            if (serie === null) {
+                return;
+            }
+
+
+            const entrada =
+                prompt(
+                    "Entrada em serviço:",
+                    fichaAtual.entrada || ""
+                );
+
+
+            if (entrada === null) {
+                return;
+            }
+
+
+            const carga =
+                prompt(
+                    "Carga útil:",
+                    fichaAtual.carga || ""
+                );
+
+
+            if (carga === null) {
+                return;
+            }
+
+
+            fichasTecnicas[
+                codigoDrone
+            ] = {
+
+                modelo:
+                    modelo.trim(),
+
+                serie:
+                    serie.trim(),
+
+                entrada:
+                    entrada.trim(),
+
+                carga:
+                    carga.trim()
+
+            };
+
+
+            localStorage.setItem(
+                "fichasTecnicasDrones",
+                JSON.stringify(
+                    fichasTecnicas
+                )
+            );
+
+
+            alert(
+                "Ficha técnica atualizada."
+            );
 
         }
 
