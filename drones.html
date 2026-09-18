@@ -8,66 +8,27 @@
 
     <title>Drones</title>
 
+    <link rel="stylesheet" href="layout-global.css">
+
     <style>
         * {
             box-sizing: border-box;
         }
 
-        .menu {
-            position: fixed;
 
-            top: 0;
-            left: 0;
-            bottom: 0;
 
-            width: 185px;
+        .logo-menu img {
+            height: 48px;
+            width: auto;
 
-            padding: 18px 12px;
+            max-width: 180px;
 
-            background: #123b63;
-
-            color: #ffffff;
-
-            overflow-y: auto;
-        }
-
-        .logo-menu {
-            margin-bottom: 22px;
-
-            padding: 0 8px;
-
-            font-size: 16px;
-            font-weight: 900;
-        }
-
-        .menu nav {
-            display: flex;
-            flex-direction: column;
-
-            gap: 5px;
-        }
-
-        .menu nav a {
             display: block;
 
-            padding: 9px 10px;
-
-            border-radius: 7px;
-
-            color: rgba(255, 255, 255, .82);
-
-            text-decoration: none;
-
-            font-size: 11px;
-            font-weight: 700;
+            object-fit: contain;
         }
 
-        .menu nav a:hover,
-        .menu nav a.ativo {
-            background: rgba(255, 255, 255, .12);
 
-            color: #ffffff;
-        }
 
         #conteudo {
             margin-left: 185px;
@@ -1289,6 +1250,29 @@
             font-size: 9px;
             font-weight: 800;
         }
+
+        /* AJUSTE DO CABEÇALHO - DRONES */
+        .topo-gestao .identidade-topo-gestao {
+            position: relative;
+
+            top: -2px;
+        }
+
+
+        .topo-gestao .titulo-topo-gestao {
+            padding-left: 188px;
+        }
+
+
+        .topo-gestao .estado-sistema {
+            margin: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            align-self: center;
+        }
     </style>
 </head>
 
@@ -1297,7 +1281,8 @@
     <aside class="menu">
 
         <div class="logo-menu">
-            PRIMO PEÇAS
+            <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
+                class="imagem-logo-gestao">
         </div>
 
         <nav>
@@ -1341,17 +1326,23 @@
 
     <main id="conteudo">
 
-        <div class="cabecalho-dashboard">
+        <header class="topo-gestao">
 
-            <div class="titulo-dashboard">
+            <div class="identidade-topo-gestao">
 
-                <h1>
-                    🤖 Drones
-                </h1>
 
-                <p>
-                    Gestão técnica e operacional da frota aérea
-                </p>
+
+                <div class="titulo-topo-gestao">
+
+                    <h1>
+                        🤖 Drones
+                    </h1>
+
+                    <p>
+                        Gestão técnica e operacional da frota aérea
+                    </p>
+
+                </div>
 
             </div>
 
@@ -1360,7 +1351,7 @@
                 ● Sistema online
             </div>
 
-        </div>
+        </header>
 
 
         <div class="indicadores-drones">
@@ -2468,8 +2459,7 @@
 
         }
 
-        const fichasTecnicasDrones = {
-
+        const fichasTecnicasPadrao = {
             "DRN-001": {
                 modelo: "PX-4 Cargo",
                 serie: "SN-001-26",
@@ -2541,6 +2531,21 @@
             }
 
         };
+
+        const fichasTecnicasGuardadas =
+            JSON.parse(
+                localStorage.getItem(
+                    "fichasTecnicasDrones"
+                )
+            ) || {};
+
+
+        const fichasTecnicasDrones =
+            Object.assign(
+                {},
+                fichasTecnicasPadrao,
+                fichasTecnicasGuardadas
+            );
 
         function alternarFichaTecnica() {
 
