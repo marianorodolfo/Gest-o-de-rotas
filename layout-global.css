@@ -123,29 +123,33 @@
 
 .menu {
     position: fixed;
-
     top: 50px;
     left: 0;
     bottom: 0;
-
     width: 185px;
-
     padding: 5px 12px;
-
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-
-    gap: 5px;
-
     background: #123b63;
-
     color: #ffffff;
-
     overflow-y: auto;
-
     z-index: 300;
 }
 
+.menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.menu>a {
+    margin-bottom: 7px;
+}
+
+.menu>a:last-child {
+    margin-bottom: 0;
+}
 
 .logo-menu {
     margin-bottom: 22px;
@@ -184,4 +188,9 @@
         rgba(255, 255, 255, .12);
 
     color: #ffffff;
+}
+
+.menu-mobile,
+.botao-menu {
+    display: none;
 }

@@ -1,120 +1,214 @@
-.botao-menu {
+/* =========================================
+   PADRÃO GLOBAL PRIMO PEÇAS
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   CABEÇALHO GLOBAL
+========================================= */
+
+.topo-gestao {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 25px;
+
+    background: #123b63;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.12);
+
+    z-index: 200;
+}
+
+
+.identidade-topo-gestao {
+    display: flex;
+    align-items: center;
+
+    gap: 0;
+}
+
+
+.imagem-logo-gestao {
+    height: 48px;
+    width: auto;
+
+    max-width: 180px;
+
+    display: block;
+
+    object-fit: contain;
+}
+
+
+.titulo-topo-gestao {
+    padding-left: 40px;
+}
+
+
+.titulo-topo-gestao h1 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 22px;
+    font-weight: 800;
+}
+
+
+.titulo-topo-gestao p {
+    margin: 1px 0 0 20px;
+
+    color:
+        rgba(255, 255, 255, .72);
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+/* =========================================
+   BOTÃO DO CABEÇALHO
+========================================= */
+
+.botao-voltar-topo {
+    margin-left: auto;
+
+    padding: 7px 12px;
+
+    border:
+        1px solid rgba(255, 255, 255, .35);
+
+    border-radius: 7px;
+
+    background:
+        rgba(255, 255, 255, .10);
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease;
+}
+
+
+.botao-voltar-topo:hover {
+    background:
+        rgba(255, 255, 255, .18);
+
+    border-color:
+        rgba(255, 255, 255, .60);
+}
+
+
+/* =========================================
+   MENU LATERAL GLOBAL
+========================================= */
+
+.menu {
+    position: fixed;
+
+    top: 50px;
+    left: 0;
+    bottom: 0;
+
+    width: 185px;
+
+    padding: 5px 12px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #123b63;
+    color: #ffffff;
+
+    overflow-y: auto;
+
+    z-index: 300;
+}
+
+
+.logo-menu {
+    margin-bottom: 22px;
+
+    padding: 0 8px;
+
+    font-size: 16px;
+    font-weight: 900;
+}
+
+
+.menu nav {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.menu nav a,
+.menu > a {
+    display: block;
+
+    padding: 9px 10px;
+
+    border-radius: 7px;
+
+    color:
+        rgba(255, 255, 255, .82);
+
+    text-decoration: none;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    transition:
+        background .18s ease,
+        color .18s ease;
+}
+
+
+.menu nav a:hover,
+.menu nav a.ativo,
+.menu > a:hover,
+.menu > a.ativo {
+    background:
+        rgba(255, 255, 255, .12);
+
+    color: #ffffff;
+}
+
+
+/* =========================================
+   MENU MOBILE
+========================================= */
+
+.menu-mobile {
     display: none;
 }
 
-.topo {
-    height: 64px;
-    background: #123b63;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1000;
-}
 
-.logo {
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.topo-distribuicoes {
-    display: flex;
-    align-items: center;
-
-    gap: 14px;
-
-    margin-left: 32px;
-
-    min-width: 0;
-}
-
-
-.topo-distribuicoes h1 {
-    margin: 0;
-
-    color: white;
-
-    font-size: 18px;
-    font-weight: 700;
-
-    line-height: 1;
-}
-
-
-.topo-distribuicoes #tituloListaDistribuicoes {
-    margin: 0;
-
-    padding-left: 14px;
-
-    border-left:
-        1px solid rgba(255, 255, 255, 0.28);
-
-    color:
-        rgba(255, 255, 255, 0.78);
-
-    font-size: 12px;
-    font-weight: 600;
-
-    line-height: 1;
-}
-
-.menu {
-    width: 185px;
-    position: fixed;
-    top: 64px;
-    left: 0;
-    bottom: 0;
-    background: white;
-    border-right: 1px solid #e1e6eb;
-    padding: 14px 8px;
-    box-sizing: border-box;
-}
-
-.menu a {
-    display: block;
-    padding: 10px 9px;
-    margin-bottom: 4px;
-    border-radius: 7px;
-    text-decoration: none;
-    color: #344054;
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.menu a:hover {
-    background: #f0f4f8;
-}
-
-.menu a.ativo {
-    background: #e8f0f7;
-    color: #123b63;
-}
-
-.logo-sistema {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 18px 12px 12px 12px;
-}
-
-.logo-sistema img {
-    width: 190px;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.logo img {
-    width: 150px;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
+.botao-menu {
+    display: none;
 }
 
 /* =========================================

@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="layout-global.css">
 
     <style>
         body {
@@ -26,11 +26,14 @@
 
 
         #conteudo {
+            max-width: 1200px;
 
-            margin-left: 200px;
+            margin-left: 185px;
+            margin-right: auto;
 
-            padding: 75px 10px 24px 0px;
+            padding: 82px 25px 60px;
 
+            min-width: 0;
         }
 
 
@@ -42,10 +45,6 @@
 
             font-size: 28px;
 
-        }
-
-        .topo-distribuicoes h1 {
-            font-size: 20px;
         }
 
 
@@ -519,16 +518,15 @@
 
             gap: 10px;
 
-            margin-top: -5px;
-
+            margin-top: 0;
             margin-bottom: 14px;
 
             padding: 8px;
 
-            background: white;
+            background: #ffffff;
 
             border: 1px solid #e2e8f0;
-            border-radius: 14px;
+            border-radius: 12px;
 
             box-shadow:
                 0 3px 12px rgba(15, 23, 42, 0.06);
@@ -536,7 +534,7 @@
 
 
         .aba-distribuicao {
-            min-height: 46px;
+            min-height: 40px;
 
             display: flex;
             align-items: center;
@@ -546,17 +544,17 @@
             background: white;
             color: #334155;
 
-            padding: 6px 14px;
+            padding: 6px 12px;
 
-            border-radius: 12px;
+            border-radius: 10px;
 
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 700;
 
             cursor: pointer;
 
             box-shadow:
-                0 3px 10px rgba(15, 23, 42, 0.06);
+                0 2px 7px rgba(15, 23, 42, 0.05);
 
             transition:
                 transform 0.18s ease,
@@ -1390,20 +1388,22 @@
          CABEÇALHO
     ========================================= -->
 
-    <header class="topo">
+    <header class="topo-gestao">
 
-        <div class="logo">
+        <div class="identidade-topo-gestao">
+
             <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
                 class="imagem-logo-gestao">
-        </div>
 
-        <div class="topo-distribuicoes">
+            <div class="titulo-topo-gestao">
 
-            <h1 id="tituloTopoDistribuicoes">
-                Missões
-            </h1>
+                <h1 id="tituloTopoDistribuicoes">
+                    🚁 Missões
+                </h1>
 
-            <p id="tituloListaDistribuicoes"></p>
+                <p id="tituloListaDistribuicoes"></p>
+
+            </div>
 
         </div>
 
