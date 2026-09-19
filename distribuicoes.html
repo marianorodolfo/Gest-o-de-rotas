@@ -1376,7 +1376,7 @@
     </style>
 
 
-    <title>Distribuições</title>
+    <title>Missões - PRIMO PEÇAS</title>
 
 </head>
 
@@ -1457,11 +1457,11 @@
 
             <label for="filtroClienteHistorico">
 
-                Cliente
+                Ponto de entrega
 
             </label>
 
-            <input type="text" id="filtroClienteHistorico" placeholder="Nome ou nº do cliente">
+            <input type="text" id="filtroClienteHistorico" placeholder="Nome ou código do ponto de entrega">
 
 
             <label for="filtroDataHistorico">
@@ -2310,8 +2310,8 @@
     &nbsp;
 
     ${clientes.length === 1
-                                ? "entrega"
-                                : "entregas"
+                                ? "ponto de entrega"
+                                : "pontos de entrega"
                             }
 </span>
 
@@ -2341,7 +2341,7 @@
             </strong>
 
             <span style="margin-left: 8px;">
-                · Pontos:
+                · Pontos de entrega:
             </span>
 
             <strong>
@@ -2766,8 +2766,8 @@
                 -
                 ${clientesDaDistribuicao.length}
                 ${clientesDaDistribuicao.length === 1
-                    ? "Ponto"
-                    : "Pontos"
+                    ? "Ponto de entrega"
+                    : "Pontos de entrega"
                 }
             </span>
         </h3>
@@ -3820,7 +3820,7 @@
 
             if (tituloTopo) {
                 tituloTopo.textContent =
-                    "Pontos atendidos";
+                    "Pontos de entrega atendidos";
             }
 
 
@@ -3890,8 +3890,8 @@
                     pontosAtendidos.length +
                     (
                         pontosAtendidos.length === 1
-                            ? " Ponto atendido"
-                            : " Pontos atendidos"
+                            ? " Ponto de entrega atendido"
+                            : " Pontos de entrega atendidos"
                     );
 
             }
@@ -3906,11 +3906,11 @@
             <div class="historico-sem-resultados">
 
                 <strong>
-                    Nenhum ponto atendido
+                    Nenhum ponto de entrega atendido
                 </strong>
 
                 <span>
-                    Ainda não existem pontos atendidos
+                    Ainda não existem pontos de entrega atendidos
                     para esta data.
                 </span>
 
@@ -3952,7 +3952,7 @@
                         >
 
                             <h2>
-                                Ponto ${indice + 1}
+                                Ponto de entrega ${indice + 1}
                             </h2>
 
                             <span
@@ -3980,14 +3980,14 @@
                     >
 
                         <p>
-                            Ponto:
+                            Código:
                             <strong>
                                 ${cliente.codigo || "-"}
                             </strong>
                         </p>
 
                         <p>
-                            Cliente:
+                            Ponto de entrega:
                             <strong>
                                 ${cliente.nome || "-"}
                             </strong>
@@ -4044,7 +4044,7 @@
 
             if (tituloTopo) {
                 tituloTopo.textContent =
-                    "Pontos pendentes";
+                    "Pontos de entrega pendentes";
             }
 
 
@@ -4118,8 +4118,8 @@
                     pontosPendentes.length +
                     (
                         pontosPendentes.length === 1
-                            ? " ponto pendente"
-                            : " pontos pendentes"
+                            ? " ponto de entrega pendente"
+                            : " pontos de entrega pendentes"
                     );
 
             }
@@ -4134,11 +4134,11 @@
             <div class="historico-sem-resultados">
 
                 <strong>
-                    Nenhum ponto pendente
+                    Nenhum ponto de entrega pendente
                 </strong>
 
                 <span>
-                    Não existem entregas pendentes
+                    Não existem pontos de entrega pendentes
                     para esta data.
                 </span>
 
@@ -4180,7 +4180,7 @@
                         >
 
                             <h2>
-                                Ponto ${indice + 1}
+                                Ponto de entrega ${indice + 1}
                             </h2>
 
                             <span
@@ -4208,14 +4208,14 @@
                     >
 
                         <p>
-                            Ponto:
+                            Código:
                             <strong>
                                 ${cliente.codigo || "-"}
                             </strong>
                         </p>
 
                         <p>
-                            Cliente:
+                            Ponto de entrega:
                             <strong>
                                 ${cliente.nome || "-"}
                             </strong>
@@ -4614,7 +4614,7 @@
 
                 tituloLista.textContent =
                     distribuicoesFiltradas.length +
-                    " distribuições concluídas no mês" +
+                    " missões concluídas no mês" +
                     " · " +
                     totalEntregasMes +
                     " entregas";

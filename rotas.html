@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Rotas</title>
+    <title>Planeamento de Missões - PRIMO PEÇAS</title>
 
     <style>
         /* ================================
@@ -2253,7 +2253,7 @@
 
             <p>
                 Selecione os pontos de entrega, defina a sequência
-                e prepare a rota operacional do drone.
+                e prepare a rota operacional da aeronave.
             </p>
 
         </div>
@@ -2262,7 +2262,7 @@
             <span class="ponto-status-rotas" id="pontoStatusRotas"></span>
 
             <span id="textoStatusRotas">
-                Aguardando seleção de pontos
+                Aguardando seleção de pontos de entrega
             </span>
         </div>
 
@@ -2600,7 +2600,7 @@
 
                 <div>
                     <span class="resumo-planeamento-rotulo">
-                        PONTOS SELECIONADOS
+                        PONTOS DE ENTREGA SELECIONADOS
                     </span>
 
                     <strong id="contadorSelecionados">
@@ -2609,8 +2609,8 @@
 
                     <small>
                         ${clientesSelecionados.length === 1
-                    ? "ponto preparado para a missão"
-                    : "pontos preparados para a missão"
+                    ? "ponto de entrega preparado para a missão"
+                    : "pontos de entrega preparados para a missão"
                 }
                     </small>
                 </div>
@@ -2998,7 +2998,7 @@
 
                 <span class="indicador-total-paragens">
                     📍 ${ordem.length}
-                    ${ordem.length === 1 ? "paragem" : "paragens"}
+                    ${ordem.length === 1 ? "ponto de entrega" : "pontos de entrega"}
                 </span>
 
         <span class="chip-sequencia chip-base">
@@ -3015,7 +3015,7 @@
                     const nomeCliente =
                         cliente
                             ? cliente.nome
-                            : "Cliente";
+                            : "Ponto de entrega";
 
                     const rotaCliente =
                         cliente
@@ -3173,7 +3173,7 @@
 
 
                 mensagem +=
-                    "\nAdicione latitude e longitude no cadastro do ponto de entrega.";
+                    "\nAdicione latitude e longitude no registo do ponto de entrega.";
 
                 alert(mensagem);
 
@@ -3313,7 +3313,7 @@
     <div class="cabecalho-rota-selecao">
 
         <span>
-            Pontos selecionados
+            Pontos de entrega selecionados
         </span>
 
         <strong id="contadorSelecionados">
@@ -3442,15 +3442,19 @@
                 </span>
 
                 <h3>
-                    Clientes da rota
+                    Pontos de entrega da rota
                 </h3>
             </div>
 
             <div class="acoes-clientes-rota">
 
     <span class="total-clientes-rota">
-        ${clientesDaRota.length} clientes
-    </span>
+    ${clientesDaRota.length}
+    ${clientesDaRota.length === 1
+                    ? "ponto de entrega"
+                    : "pontos de entrega"
+                }
+</span>
 
     <button
         type="button"
@@ -3473,7 +3477,7 @@
             <input
                 type="text"
                 id="buscaClientesRota"
-                placeholder="Buscar por código, nome ou endereço..."
+                placeholder="Pesquisar por código, nome ou endereço..."
             >
 
         </div>
@@ -4049,7 +4053,7 @@
             </div>
 
             <div class="card-resumo-missao">
-                <span>Pontos</span>
+                <span>Pontos de entrega</span>
                 <strong>${ordem.length}</strong>
             </div>
 
@@ -4311,7 +4315,7 @@
             if (quantidade > 0) {
 
                 texto.textContent =
-                    "Rota pronta para missão";
+                    "Rota pronta para a missão";
 
                 ponto.className =
                     "ponto-status-rotas status-rotas-pronta";
@@ -4354,7 +4358,7 @@
              * Página inicial de rotas sem pontos selecionados.
              */
             texto.textContent =
-                "Aguardando seleção de pontos";
+                "Aguardando seleção de pontos de entrega";
 
             ponto.className =
                 "ponto-status-rotas status-rotas-aguardando";
@@ -4396,7 +4400,7 @@
                     <span>MISSÃO ATUAL</span>
 
                     <div class="titulo-pontos-selecionados">
-                        <h3>📍Pontos selecionados</h3>
+                        <h3>📍Pontos de entrega selecionados</h3>
 
                         <strong class="contador-pontos-modal" id="contadorPontosModal">
                             0
@@ -4442,7 +4446,7 @@
             <div class="rodape-resumo-missao">
 
                 <span class="nota-configuracao-missao">
-                    Drone e operador definidos no passo seguinte
+                    Aeronave e operador definidos no passo seguinte
                 </span>
 
                 <button type="button" class="botao-fechar-resumo-rodape" onclick="fecharResumoMissao()">

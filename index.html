@@ -3368,7 +3368,7 @@
                 <div class="indicadores-dashboard" id="indicadoresDashboard">
 
                     <div class="indicador-dashboard indicador-andamento" onclick="abrirPendentes()"
-                        title="Abrir entregas pendentes">
+                        title="Abrir missões pendentes">
                         <div class="icone-indicador-dashboard">
                             🕒
                         </div>
@@ -3394,27 +3394,24 @@
 
 
                     <div class="indicador-dashboard indicador-clientes" onclick="abrirPontosPendentes()"
-                        title="Abrir pontos atendidos">
-                        <div class="icone-indicador-dashboard">
-                            📍
-                        </div>
+                        title="Abrir pontos de entrega pendentes">
 
                         <div class="dados-indicador-dashboard">
                             <strong id="totalClientes">0</strong>
-                            <span>Pontos pendentes</span>
+                            <span>Pontos de entrega pendentes</span>
                         </div>
                     </div>
 
 
                     <div class="indicador-dashboard indicador-entregas" onclick="abrirPontosAtendidos()"
-                        title="Abrir entregas concluídas">
+                        title="Abrir pontos de entrega atendidos">
                         <div class="icone-indicador-dashboard">
                             📦
                         </div>
 
                         <div class="dados-indicador-dashboard">
                             <strong id="totalEntregas">0</strong>
-                            <span>Pontos atendidos</span>
+                            <span>Pontos de entrega atendidos</span>
                         </div>
                     </div>
 
@@ -3588,7 +3585,7 @@
                             </strong>
 
                             <small>
-                                Pontos atendidos
+                                Pontos de entrega atendidos
                             </small>
 
                         </div>
@@ -3605,7 +3602,7 @@
                             </strong>
 
                             <small>
-                                Pontos previstos
+                                Pontos de entrega previstos
                             </small>
 
                         </div>
@@ -3723,7 +3720,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            🚁 Média de pontos por hora
+                            🚁 Média de pontos de entrega por hora
                         </span>
 
                         <strong id="mediaEntregasHora">
@@ -3731,7 +3728,7 @@
                         </strong>
 
                         <small>
-                            Entregas por hora
+                            Pontos de entrega por hora
                         </small>
 
                     </div>
@@ -3740,7 +3737,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            👤 Média de pontos por operador
+                            👤 Média de pontos de entrega por operador
                         </span>
 
                         <strong id="mediaEntregasDistribuidor">
@@ -3787,7 +3784,7 @@
                                 </strong>
 
                                 <span>
-                                    Pontos
+                                    Pontos de entrega
                                 </span>
 
                             </div>
@@ -3819,7 +3816,7 @@
                             </span>
 
                             <span>
-                                Pontos atendidos
+                                Pontos de entrega atendidos
                             </span>
 
                         </div>
@@ -5549,7 +5546,7 @@
                             <span class="detalhe-estafeta">
 
                                 ${quantidadeClientes}
-${quantidadeClientes === 1 ? "ponto" : "pontos"}
+${quantidadeClientes === 1 ? "ponto de entrega" : "pontos de entrega"}
 
                                 ${distribuicao.horaInicio
                             ? " · início " +
@@ -6078,7 +6075,7 @@ ${quantidadeClientes === 1 ? "ponto" : "pontos"}
             if (entregas === 0) {
 
                 mensagem.textContent =
-                    "Ainda não existem pontos atendidos nesta data.";
+                    "Ainda não existem pontos de entrega atendidos nesta data.";
 
             } else if (
                 entregas >= metaDiaria
@@ -6097,7 +6094,7 @@ ${quantidadeClientes === 1 ? "ponto" : "pontos"}
                 mensagem.textContent =
                     "Faltam " +
                     formatarNumero(falta) +
-                    " pontos para atingir a meta diária.";
+                    " pontos de entrega para atingir a meta diária.";
 
             }
 
@@ -9229,7 +9226,7 @@ clientes.forEach(
                             </strong>
 
                             <span>
-                                Cliente ${destino.codigo}
+                                Ponto de entrega ${destino.codigo}
                             </span>
 
                             <small>

@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 
 <head>
-    <link rel="stylesheet" href="menu.css">
     <link rel="stylesheet" href="layout-global.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
     </script>
 
-    <title>Gestão de Rotas - Clientes</title>
+    <title>Pontos de Entrega - PRIMO PEÇAS</title>
 
     <style>
         :root {
@@ -42,6 +41,7 @@
         }
 
         .formulario {
+            scroll-margin-top: 78px;
             background: var(--branco);
             padding: 16px 18px;
             border-radius: 10px;
@@ -55,12 +55,101 @@
         }
 
         .formulario:hover {
-            transform: translateY(-2px);
-
             border-color: #93c5fd;
 
             box-shadow:
                 0 7px 18px rgba(37, 99, 235, 0.10);
+        }
+
+        .formulario.editando:hover {
+            border-color: #f59e0b;
+
+            box-shadow:
+                0 0 0 3px rgba(245, 158, 11, 0.08),
+                0 6px 16px rgba(217, 119, 6, 0.10);
+        }
+
+        .formulario.editando .subtitulo-formulario {
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .formulario.editando #codigo {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #64748b;
+        }
+
+        .formulario.editando input:focus,
+        .formulario.editando select:focus {
+            border-color: #f59e0b;
+
+            box-shadow:
+                0 0 0 3px rgba(245, 158, 11, 0.10),
+                0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
+        .formulario.editando {
+            position: relative;
+        }
+
+        .formulario.editando::after {
+            content: "MODO EDIÇÃO";
+
+            position: absolute;
+            top: 10px;
+            right: 14px;
+
+            padding: 4px 7px;
+
+            border-radius: 6px;
+
+            background: #fff7ed;
+            color: #b45309;
+
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+
+        .formulario.editando .botao-localizar-endereco {
+            border-color: #fed7aa;
+            background: #fff7ed;
+            color: #b45309;
+        }
+
+        .formulario.editando .botao-localizar-endereco:hover {
+            border-color: #f59e0b;
+            background: #f59e0b;
+            color: #ffffff;
+        }
+
+        .formulario.editando .mapa-confirmacao-cliente {
+            border-color: #fed7aa;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(245, 158, 11, 0.04),
+                0 3px 9px rgba(217, 119, 6, 0.08);
+        }
+
+        .formulario.editando .coordenadas-cliente {
+            border-color: #fed7aa;
+            background: #fffaf0;
+        }
+
+        .formulario.editando #rota {
+            border-color: #fed7aa;
+            background: #fffaf0;
+        }
+
+        .formulario.editando label {
+            color: #92400e;
+        }
+
+        .formulario.editando input:hover,
+        .formulario.editando select:hover {
+            border-color: #fbbf24;
+            background: #fffdf7;
         }
 
         .campo {
@@ -264,8 +353,6 @@
         }
 
         .lista:hover {
-            transform: translateY(-1px);
-
             border-color: #bbf7d0;
 
             box-shadow:
@@ -275,7 +362,7 @@
         .lista h2 {
             position: relative;
 
-            margin: 0 0 14px;
+            margin: 0 0 10px;
             padding-left: 12px;
 
             color: #123b63;
@@ -301,6 +388,7 @@
         }
 
         .cliente {
+            min-width: 0;
             position: relative;
             overflow: hidden;
 
@@ -312,7 +400,7 @@
             border: 1px solid #dbe2ea;
             border-radius: 10px;
 
-            padding: 13px 14px 13px 18px;
+            padding: 11px 12px 11px 16px;
             margin-bottom: 0px;
 
             box-shadow:
@@ -339,6 +427,7 @@
 
         .cliente:hover {
             transform: translateY(-2px);
+            background: #f8fbff;
 
             border-color: #93c5fd;
 
@@ -346,9 +435,31 @@
                 0 6px 16px rgba(37, 99, 235, 0.10);
         }
 
+        .cliente:hover::before {
+            background: #2563eb;
+        }
+
+        .cliente:hover .cliente-codigo {
+            background: #dbeafe;
+            border-color: #93c5fd;
+        }
+
+        .cliente:hover .cliente-rota {
+            background: #dbeafe;
+            border-color: #93c5fd;
+        }
+
         .cliente strong {
             color: var(--texto);
             font-size: 16px;
+        }
+
+        .cliente-codigo,
+        .cliente-rota {
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                color 0.18s ease;
         }
 
         .pesquisa {
@@ -363,20 +474,33 @@
             border: 1px solid #dbeafe;
             border-radius: 8px;
 
-            background: #f8fbff;
+            background:
+                linear-gradient(180deg,
+                    #fbfdff 0%,
+                    #f3f8fd 100%);
             transition:
                 background 0.18s ease,
                 border-color 0.18s ease,
                 box-shadow 0.18s ease;
         }
 
+        .pesquisa input {
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        .pesquisa select {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
         .btn-editar,
         .btn-excluir {
-            padding: 7px 11px;
+            padding: 6px 9px;
 
             border-radius: 6px;
 
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
 
             box-shadow: none;
@@ -423,8 +547,9 @@
         .cliente-codigo {
             display: inline-flex;
             align-items: center;
+            flex-shrink: 0;
 
-            padding: 4px 8px;
+            padding: 3px 6px;
 
             border: 1px solid #dbeafe;
             border-radius: 6px;
@@ -432,7 +557,7 @@
             background: #eff6ff;
             color: #1d4ed8;
 
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 900;
 
             letter-spacing: 0.04em;
@@ -447,9 +572,12 @@
         }
 
         .cliente-cabecalho strong {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             color: #123b63;
-
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 900;
             line-height: 1.2;
         }
@@ -466,9 +594,8 @@
         .cliente-info {
             display: flex;
             flex-direction: column;
-
-            gap: 6px;
-            margin-bottom: 11px;
+            gap: 5px;
+            margin-bottom: 8px;
         }
 
         .cliente-info span {
@@ -479,11 +606,21 @@
             line-height: 1.35;
         }
 
+        .cliente-info>span:first-child {
+            display: -webkit-box;
+
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
+            overflow: hidden;
+        }
+
         #listaClientes {
             display: grid;
+            align-items: start;
 
             grid-template-columns:
-                repeat(2, minmax(0, 1fr));
+                repeat(3, minmax(0, 1fr));
 
             gap: 10px;
 
@@ -499,7 +636,7 @@
             align-items: center;
             justify-content: center;
 
-            padding: 22px 18px;
+            padding: 18px 16px;
 
             text-align: center;
 
@@ -596,6 +733,8 @@
 
         .mapa-confirmacao-cliente {
             position: relative;
+            z-index: 0;
+            isolation: isolate;
 
             width: 100%;
             height: 210px;
@@ -643,6 +782,45 @@
         #mapaConfirmacaoCliente .leaflet-tile {
             width: 256px !important;
             height: 256px !important;
+        }
+
+        #botaoCancelarEdicao {
+            display: none !important;
+        }
+
+        #botaoCancelarEdicao:hover {
+            border-color: #f59e0b;
+            background: #f59e0b;
+            color: #ffffff;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 9px rgba(217, 119, 6, 0.16);
+        }
+
+        .formulario.editando #botaoCancelarEdicao {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+
+            margin-left: 6px;
+            padding: 9px 14px;
+
+            border: 1px solid #fed7aa;
+            border-radius: 7px;
+
+            background: #fff7ed;
+            color: #b45309;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 1100px) and (min-width: 701px) {
+            #listaClientes {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         @media (max-width: 700px) {
@@ -708,7 +886,12 @@
                 background: #f4f9ff;
 
                 box-shadow:
-                    0 0 0 3px rgba(37, 99, 235, 0.06);
+                    0 0 0 3px rgba(37, 99, 235, 0.08),
+                    0 4px 10px rgba(15, 23, 42, 0.04);
+            }
+
+            .pesquisa select {
+                cursor: pointer;
             }
 
             html,
@@ -835,9 +1018,14 @@
             display: inline-flex;
             align-items: center;
 
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
             width: fit-content;
 
-            padding: 4px 8px;
+            padding: 3px 6px;
 
             border: 1px solid #dbeafe;
             border-radius: 6px;
@@ -845,10 +1033,19 @@
             background: #eff6ff;
             color: #1d4ed8;
 
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 800;
 
             letter-spacing: 0.02em;
+        }
+
+        .cliente-cabecalho {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 10px;
+            margin-bottom: 9px;
         }
 
         #resumoClientes {
@@ -1010,10 +1207,10 @@
 
             gap: 6px;
 
-            margin-top: 10px;
-            padding-top: 9px;
+            margin-top: 7px;
+            padding-top: 7px;
 
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid #eef2f7;
         }
     </style>
 </head>
@@ -1033,7 +1230,7 @@
                 </h1>
 
                 <p>
-                    Cadastro e gestão dos pontos de entrega
+                    Registo e gestão dos pontos de entrega
                 </p>
 
             </div>
@@ -1050,16 +1247,16 @@
         <div class="formulario">
 
             <h2 id="tituloFormulario">
-                Novo cliente
+                Novo ponto de entrega
             </h2>
 
             <p class="subtitulo-formulario">
-                Adicione os dados do cliente e associe-o a uma rota.
+                Adicione os dados do ponto de entrega e associe-o a uma rota.
             </p>
 
             <div class="campo">
                 <label for="codigo">
-                    Código do cliente
+                    Código do ponto de entrega
                 </label>
 
                 <input type="text" id="codigo" placeholder="Digite o código">
@@ -1068,7 +1265,7 @@
 
             <div class="campo">
                 <label for="nome">
-                    Nome do cliente
+                    Nome do ponto de entrega
                 </label>
 
                 <input type="text" id="nome" placeholder="Digite o nome">
@@ -1153,7 +1350,11 @@
 
 
             <button id="botaoFormulario" onclick="cadastrarCliente()">
-                Cadastrar cliente
+                Registar ponto de entrega
+            </button>
+
+            <button id="botaoCancelarEdicao" type="button" style="display: none;" onclick="cancelarEdicaoCliente()">
+                ✕ Cancelar edição
             </button>
 
         </div>
@@ -1161,10 +1362,10 @@
 
         <div class="lista">
 
-            <h2>🔎 Pesquisar clientes</h2>
+            <h2>🔎 Pesquisar pontos de entrega</h2>
 
             <div class="pesquisa">
-                <input type="text" id="pesquisa" placeholder="Pesquisar por código, nome, endereço ou rota..."
+                <input type="text" id="pesquisa" placeholder="Pesquisar por código, ponto de entrega, endereço ou rota..."
                     oninput="pesquisarClientes()">
 
                 <select id="filtroRota" onchange="pesquisarClientes(); atualizarResumoClientes()">
@@ -1398,7 +1599,7 @@
                 if (!cliente) {
 
                     alert(
-                        "Cliente não encontrado."
+                        "Ponto de entrega não encontrado."
                     );
 
                     return;
@@ -1422,7 +1623,14 @@
                         "tituloFormulario"
                     )
                     .textContent =
-                    "Editar cliente";
+                    "Editar ponto de entrega";
+
+                document
+                    .querySelector(
+                        ".subtitulo-formulario"
+                    )
+                    .textContent =
+                    "Altere os dados do ponto de entrega e confirme a atualização.";
 
 
                 document
@@ -1430,7 +1638,7 @@
                         "botaoFormulario"
                     )
                     .textContent =
-                    "Atualizar cliente";
+                    "✏️ Atualizar ponto de entrega";
 
 
                 /* =========================================
@@ -1441,6 +1649,10 @@
                     .getElementById("codigo")
                     .value =
                     cliente.codigo || "";
+
+                document
+                    .getElementById("codigo")
+                    .readOnly = true;
 
 
                 document
@@ -1484,12 +1696,74 @@
 
                 }
 
+                document
+                    .querySelector(".formulario")
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+            }
+
+            function cancelarEdicaoCliente() {
+
+                clienteEmEdicao = null;
+
+                document
+                    .querySelector(".formulario")
+                    .classList.remove("editando");
+
+                document
+                    .getElementById("tituloFormulario")
+                    .textContent =
+                    "Novo cliente";
+
+                document
+                    .querySelector(".subtitulo-formulario")
+                    .textContent =
+                    "Adicione os dados do ponto de entrega e associe-o a uma rota.";
+
+                document
+                    .getElementById("botaoFormulario")
+                    .textContent =
+                    "Registar ponto de entrega";
+
+                const campoCodigo =
+                    document.getElementById("codigo");
+
+                campoCodigo.readOnly = false;
+                campoCodigo.value = "";
+
+                document.getElementById("nome").value = "";
+                document.getElementById("endereco").value = "";
+                document.getElementById("latitude").value = "";
+                document.getElementById("longitude").value = "";
+                document.getElementById("rota").value = "";
+
+                if (mapaConfirmacaoCliente) {
+
+                    mapaConfirmacaoCliente.remove();
+
+                    mapaConfirmacaoCliente = null;
+                }
+
+                marcadorConfirmacaoCliente = null;
+
+                document
+                    .getElementById("mapaConfirmacaoCliente")
+                    .innerHTML = `
+            <div class="mapa-confirmacao-vazio">
+                📍 Localize o endereço para visualizar o ponto de entrega
+            </div>
+        `;
+
+                campoCodigo.focus();
             }
 
             function excluirCliente(codigo) {
 
                 const confirmar = confirm(
-                    "Tem certeza que deseja excluir este cliente?"
+                    "Tem certeza que deseja excluir este ponto de entrega?"
                 );
 
                 if (!confirmar) {
@@ -1508,7 +1782,7 @@
                     JSON.stringify(clientes)
                 );
 
-                alert("Cliente excluído com sucesso!");
+                alert("Ponto de entrega excluído com sucesso!");
 
                 pesquisarClientes();
                 atualizarResumoClientes();
@@ -1530,7 +1804,7 @@
                 if (endereco === "") {
 
                     alert(
-                        "Digite primeiro o endereço do cliente."
+                        "Digite primeiro o endereço do ponto de entrega."
                     );
 
                     return;
@@ -1770,6 +2044,33 @@
                     return;
                 }
 
+                if (clienteEmEdicao === null) {
+
+                    const codigoJaExiste =
+                        clientes.some(
+                            function (cliente) {
+                                return (
+                                    String(cliente.codigo).toLowerCase() ===
+                                    String(codigo).toLowerCase()
+                                );
+                            }
+                        );
+
+                    if (codigoJaExiste) {
+
+                        alert(
+                            "Já existe um ponto de entrega com este código."
+                        );
+
+                        document
+                            .getElementById("codigo")
+                            .focus();
+
+                        return;
+                    }
+
+                }
+
 
                 /* =========================================
                    CRIAR CLIENTE
@@ -1865,6 +2166,26 @@
                     .getElementById("rota")
                     .value = "";
 
+                const elementoMapa =
+                    document.getElementById(
+                        "mapaConfirmacaoCliente"
+                    );
+
+                if (mapaConfirmacaoCliente) {
+
+                    mapaConfirmacaoCliente.remove();
+
+                    mapaConfirmacaoCliente = null;
+                }
+
+                marcadorConfirmacaoCliente = null;
+
+                elementoMapa.innerHTML = `
+    <div class="mapa-confirmacao-vazio">
+        📍 Localize o endereço para visualizar o ponto de entrega
+    </div>
+`;
+
 
                 /* =========================================
                    MENSAGEM
@@ -1875,13 +2196,13 @@
                 ) {
 
                     alert(
-                        "Cliente cadastrado com sucesso!"
+                        "Ponto de entrega registado com sucesso!"
                     );
 
                 } else {
 
                     alert(
-                        "Cliente atualizado com sucesso!"
+                        "Ponto de entrega atualizado com sucesso!"
                     );
 
                 }
@@ -1906,7 +2227,14 @@
                         "tituloFormulario"
                     )
                     .textContent =
-                    "Novo cliente";
+                    "Novo ponto de entrega";
+
+                document
+                    .querySelector(
+                        ".subtitulo-formulario"
+                    )
+                    .textContent =
+                    "Adicione os dados do ponto de entrega e associe-o a uma rota.";
 
 
                 document
@@ -1914,7 +2242,11 @@
                         "botaoFormulario"
                     )
                     .textContent =
-                    "Cadastrar cliente";
+                    "Registar ponto de entrega";
+
+                document
+                    .getElementById("codigo")
+                    .readOnly = false;
 
 
                 /* =========================================
@@ -1924,6 +2256,13 @@
                 document
                     .getElementById("codigo")
                     .focus();
+
+                document
+                    .querySelector(".formulario")
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
 
 
                 /* =========================================
@@ -1985,9 +2324,9 @@
 
                     lista.innerHTML = `
     <div class="mensagem-vazia">
-        <strong>Nenhum cliente encontrado</strong>
+        <strong>Nenhum ponto de entrega encontrado</strong>
         <span>
-            Tente outro código, nome ou rota.
+            Tente outro código, ponto de entrega ou rota.
         </span>
     </div>
 `;
@@ -2090,7 +2429,7 @@
             </strong>
 
             <span>
-                clientes cadastrados
+                pontos de entrega registados
             </span>
 
         </div>
@@ -2116,7 +2455,7 @@
             </strong>
 
             <span>
-                ${filtroRota === "" ? "todos os clientes" : "clientes em distribuição"}
+                ${filtroRota === "" ? "todos os pontos de entrega" : "pontos na rota selecionada"}
             </span>
 
         </div>
