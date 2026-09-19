@@ -9,7 +9,7 @@
 
     <title>Primo Peças - Dashboard</title>
 
-    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="layout-global.css">
 
     <style>
         * {
@@ -905,45 +905,6 @@
         .legenda-realizado {
             background: #2563eb;
         }
-
-        /* =========================================
-   CABEÇALHO - CENTRO DE OPERAÇÕES
-========================================= */
-
-        .cabecalho-dashboard {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 24px;
-
-            width: 100%;
-
-            margin-bottom: 18px;
-        }
-
-        .titulo-dashboard {
-            min-width: 0;
-        }
-
-        .titulo-dashboard h1 {
-            margin: 0;
-
-            color: #0f172a;
-
-            font-size: 28px;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .titulo-dashboard p {
-            margin: 6px 0 0;
-
-            color: #64748b;
-
-            font-size: 13px;
-        }
-
-
 
 
         /* =========================================
@@ -2043,28 +2004,6 @@
             gap: 18px;
         }
 
-        .titulo-topo-dashboard {
-            min-width: 250px;
-            margin-left: 22px;
-        }
-
-        .titulo-topo-dashboard h1 {
-            margin: 0;
-            color: #ffffff;
-            font-size: 21px;
-            line-height: 1.1;
-            font-weight: 900;
-        }
-
-        .titulo-topo-dashboard span {
-            display: block;
-            margin-top: 4px;
-            margin-left: 38px;
-            color: #cbd5e1;
-            font-size: 8px;
-            font-weight: 600;
-        }
-
         .filtros-topo {
             display: flex;
             align-items: flex-end;
@@ -2629,6 +2568,7 @@
             grid-template-columns:
                 repeat(5, minmax(0, 1fr));
             gap: 8px;
+            margin-bottom: 14px;
         }
 
         .card-operacao {
@@ -3122,23 +3062,26 @@
 
 <body>
 
-    <header class="topo">
+    <header class="topo-gestao">
 
         <div class="topo-conteudo">
 
-            <div class="logo">
-                <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png">
-            </div>
+            <div class="identidade-topo-gestao">
 
-            <div class="titulo-topo-dashboard">
+                <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
+                    class="imagem-logo-gestao">
 
-                <h1>
-                    🛰️ Centro de Operações
-                </h1>
+                <div class="titulo-topo-gestao">
 
-                <span>
-                    Monitorização e gestão da frota de drones
-                </span>
+                    <h1>
+                        🛰️ Centro de Operações
+                    </h1>
+
+                    <p>
+                        Monitorização e gestão da frota de drones
+                    </p>
+
+                </div>
 
             </div>
 
