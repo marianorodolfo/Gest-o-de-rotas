@@ -1748,16 +1748,67 @@
                                 "andamento"
                             ) {
 
-                                return (
-                                    distribuicao.status ===
-                                    "Em andamento" &&
-                                    (
-                                        !somentePendentes ||
-                                        distribuicao.retornoBase !==
-                                        "Em andamento"
-                                    )
-                                );
+                                if (
+                                    distribuicao.status !==
+                                    "Em andamento"
+                                ) {
+                                    return false;
+                                }
 
+                                if (
+                                    somentePendentes &&
+                                    distribuicao.retornoBase ===
+                                    "Em andamento"
+                                ) {
+                                    return false;
+                                }
+
+                                if (somentePendentes) {
+
+                                    const parametrosURL =
+                                        new URLSearchParams(
+                                            window.location.search
+                                        );
+
+                                    const dataPendente =
+                                        parametrosURL.get("data");
+
+                                    const operadorPendente =
+                                        parametrosURL.get("operador");
+
+                                    if (
+                                        dataPendente &&
+                                        converterDataParaISO(
+                                            distribuicao.data
+                                        ) !== dataPendente
+                                    ) {
+                                        return false;
+                                    }
+
+                                    if (operadorPendente) {
+
+                                        const nomeOperador =
+                                            String(
+                                                distribuicao.distribuidor ||
+                                                ""
+                                            )
+                                                .trim()
+                                                .toLowerCase();
+
+                                        if (
+                                            nomeOperador !==
+                                            operadorPendente
+                                                .trim()
+                                                .toLowerCase()
+                                        ) {
+                                            return false;
+                                        }
+
+                                    }
+
+                                }
+
+                                return true;
                             }
 
 
@@ -3100,7 +3151,7 @@
                 botaoVoltar.addEventListener(
                     "click",
                     function () {
-                    
+
                         const parametrosURL =
                             new URLSearchParams(
                                 window.location.search

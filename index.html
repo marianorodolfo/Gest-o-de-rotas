@@ -5220,14 +5220,114 @@
                 emAndamento.filter(
                     function (missao) {
 
-                        return (
-                            missao.retornoBase !==
+                        if (
+                            missao.retornoBase ===
                             "Em andamento"
-                        );
+                        ) {
+                            return false;
+                        }
 
+                        /* Operador */
+                        if (distribuidorSelecionado) {
+
+                            const nomeDistribuidor =
+                                String(
+                                    missao.distribuidor ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase();
+
+                            if (
+                                nomeDistribuidor !==
+                                distribuidorSelecionado
+                                    .trim()
+                                    .toLowerCase()
+                            ) {
+                                return false;
+                            }
+
+                        }
+
+                        /* Dia */
+                        if (periodo === "dia") {
+
+                            return mesmaData(
+                                missao.data,
+                                dataSelecionada
+                            );
+
+                        }
+
+                        const dataMissao =
+                            converterData(
+                                missao.data
+                            );
+
+                        if (
+                            !dataMissao ||
+                            !dataReferencia
+                        ) {
+                            return false;
+                        }
+
+                        /* Mês */
+                        if (periodo === "mes") {
+
+                            return (
+                                dataMissao.getFullYear() ===
+                                dataReferencia.getFullYear() &&
+
+                                dataMissao.getMonth() ===
+                                dataReferencia.getMonth()
+                            );
+
+                        }
+
+                        /* Semana */
+                        if (periodo === "semana") {
+
+                            const inicioSemana =
+                                new Date(
+                                    dataReferencia
+                                );
+
+                            const diaSemana =
+                                inicioSemana.getDay();
+
+                            const diferenca =
+                                diaSemana === 0
+                                    ? 6
+                                    : diaSemana - 1;
+
+                            inicioSemana.setDate(
+                                inicioSemana.getDate() -
+                                diferenca
+                            );
+
+                            inicioSemana.setHours(
+                                0, 0, 0, 0
+                            );
+
+                            const fimSemana =
+                                new Date(
+                                    inicioSemana
+                                );
+
+                            fimSemana.setDate(
+                                fimSemana.getDate() + 7
+                            );
+
+                            return (
+                                dataMissao >= inicioSemana &&
+                                dataMissao < fimSemana
+                            );
+
+                        }
+
+                        return false;
                     }
                 );
-
 
             document
                 .getElementById(
@@ -5246,7 +5346,7 @@
 
 
             const totalPontosPendentes =
-                emAndamento.reduce(
+                missoesPendentes.reduce(
                     function (total, missao) {
 
                         if (
@@ -5349,6 +5449,17 @@
                         if (
                             !distribuicao ||
                             !distribuicao.data
+                        ) {
+                            return false;
+                        }
+
+                        if (
+                            mesmaData(
+                                distribuicao.data,
+                                obterHojeFormatado()
+                            ) &&
+                            distribuicao.status !==
+                            "Em andamento"
                         ) {
                             return false;
                         }
@@ -6691,9 +6802,27 @@ ${quantidadeClientes === 1 ? "ponto de entrega" : "pontos de entrega"}
                 "andamento"
             );
 
+            const data =
+                document.getElementById(
+                    "filtroDataDashboard"
+                ).value;
+
+            const operador =
+                document.getElementById(
+                    "filtroDistribuidor"
+                ).value;
 
             window.location.href =
-                "Distribuicoes.html?modo=pendentes";
+                "Distribuicoes.html" +
+                "?modo=pendentes" +
+                "&data=" +
+                encodeURIComponent(
+                    data
+                ) +
+                "&operador=" +
+                encodeURIComponent(
+                    operador
+                );
 
         }
 
