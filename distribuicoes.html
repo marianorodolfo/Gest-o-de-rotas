@@ -3100,7 +3100,22 @@
                 botaoVoltar.addEventListener(
                     "click",
                     function () {
+                    
+                        const parametrosURL =
+                            new URLSearchParams(
+                                window.location.search
+                            );
 
+                        const origem =
+                            parametrosURL.get("origem");
+
+                        if (origem === "dashboard") {
+
+                            window.location.href =
+                                "index.html";
+
+                            return;
+                        }
                         if (
                             history.state &&
                             history.state.tela ===

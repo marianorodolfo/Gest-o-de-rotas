@@ -1734,7 +1734,7 @@
 
             color: #dc2626;
 
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
 
             letter-spacing: .08em;
@@ -1784,7 +1784,7 @@
             padding: 12px 14px;
 
             border: 1px solid #fecaca;
-            border-radius: 12px;
+            border-radius: 10px;
 
             background: #fff7f7;
         }
@@ -1792,7 +1792,7 @@
         .lista-alertas>div strong {
             color: #0f172a;
 
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
         }
 
@@ -1801,7 +1801,7 @@
 
             color: #b91c1c;
 
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
         }
 
@@ -1813,7 +1813,7 @@
 
             color: #dc2626;
 
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
         }
 
@@ -1896,12 +1896,12 @@
         .acoes-mapa {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .botao-expandir-mapa {
-            height: 30px;
-            padding: 0 10px;
+            height: 25px;
+            padding: 0 8px;
 
             border: 1px solid #dbeafe;
             border-radius: 7px;
@@ -5343,27 +5343,111 @@
              */
 
             const emAndamentoFiltrado =
-                emAndamento.filter(
+                distribuicoes.filter(
                     function (distribuicao) {
 
-                        if (!distribuidorSelecionado) {
-                            return true;
+                        if (
+                            !distribuicao ||
+                            !distribuicao.data
+                        ) {
+                            return false;
                         }
 
-                        const nomeDistribuidor =
-                            String(
-                                distribuicao.distribuidor ||
-                                ""
-                            )
-                                .trim()
-                                .toLowerCase();
+                        if (distribuidorSelecionado) {
 
-                        return (
-                            nomeDistribuidor ===
-                            distribuidorSelecionado
-                                .trim()
-                                .toLowerCase()
-                        );
+                            const nomeDistribuidor =
+                                String(
+                                    distribuicao.distribuidor ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase();
+
+                            if (
+                                nomeDistribuidor !==
+                                distribuidorSelecionado
+                                    .trim()
+                                    .toLowerCase()
+                            ) {
+                                return false;
+                            }
+
+                        }
+
+                        if (periodo === "dia") {
+
+                            return mesmaData(
+                                distribuicao.data,
+                                dataSelecionada
+                            );
+
+                        }
+
+                        const dataDistribuicao =
+                            converterData(
+                                distribuicao.data
+                            );
+
+                        if (
+                            !dataDistribuicao ||
+                            !dataReferencia
+                        ) {
+                            return false;
+                        }
+
+                        if (periodo === "mes") {
+
+                            return (
+                                dataDistribuicao.getFullYear() ===
+                                dataReferencia.getFullYear() &&
+
+                                dataDistribuicao.getMonth() ===
+                                dataReferencia.getMonth()
+                            );
+
+                        }
+
+                        if (periodo === "semana") {
+
+                            const inicioSemana =
+                                new Date(
+                                    dataReferencia
+                                );
+
+                            const diaSemana =
+                                inicioSemana.getDay();
+
+                            const diferenca =
+                                diaSemana === 0
+                                    ? 6
+                                    : diaSemana - 1;
+
+                            inicioSemana.setDate(
+                                inicioSemana.getDate() -
+                                diferenca
+                            );
+
+                            inicioSemana.setHours(
+                                0, 0, 0, 0
+                            );
+
+                            const fimSemana =
+                                new Date(
+                                    inicioSemana
+                                );
+
+                            fimSemana.setDate(
+                                fimSemana.getDate() + 7
+                            );
+
+                            return (
+                                dataDistribuicao >= inicioSemana &&
+                                dataDistribuicao < fimSemana
+                            );
+
+                        }
+
+                        return false;
                     }
                 );
 
@@ -5525,6 +5609,50 @@
                     linha.onclick =
                         function () {
 
+                            const hoje =
+                                obterHojeFormatado();
+
+                            const dataFiltro =
+                                document.getElementById(
+                                    "filtroDataDashboard"
+                                ).value;
+
+                            if (
+                                !mesmaData(
+                                    distribuicao.data,
+                                    hoje
+                                )
+                            ) {
+
+                                sessionStorage.setItem(
+                                    "filtrosDashboardRetorno",
+                                    JSON.stringify({
+                                        data: document.getElementById(
+                                            "filtroDataDashboard"
+                                        ).value,
+
+                                        periodo: document.getElementById(
+                                            "filtroPeriodo"
+                                        ).value,
+
+                                        operador: document.getElementById(
+                                            "filtroDistribuidor"
+                                        ).value
+                                    })
+                                );
+
+                                window.location.href =
+                                    "Distribuicoes.html" +
+                                    "?modo=historico" +
+                                    "&data=" +
+                                    encodeURIComponent(
+                                        dataFiltro
+                                    ) +
+                                    "&origem=dashboard";
+
+                                return;
+                            }
+
                             abrirDistribuicao(
                                 distribuicao.id
                             );
@@ -5565,15 +5693,25 @@ ${quantidadeClientes === 1 ? "ponto de entrega" : "pontos de entrega"}
                         <span
     class="
         estado
-        ${distribuicao.retornoBase === "Em andamento"
-                            ? "estado-retornando"
-                            : "estado-ocupado"
+        ${!mesmaData(
+                            distribuicao.data,
+                            obterHojeFormatado()
+                        )
+                            ? "status-disponivel"
+                            : distribuicao.retornoBase === "Em andamento"
+                                ? "estado-retornando"
+                                : "estado-ocupado"
                         }
     "
 >
-    ${distribuicao.retornoBase === "Em andamento"
-                            ? "🟠 Retornando"
-                            : "🔴 Em missão"
+    ${!mesmaData(
+                            distribuicao.data,
+                            obterHojeFormatado()
+                        )
+                            ? "✓ Concluída"
+                            : distribuicao.retornoBase === "Em andamento"
+                                ? "🟠 Retornando"
+                                : "🔴 Em missão"
                         }
 </span>
 
@@ -6969,6 +7107,53 @@ ${quantidadeClientes === 1 ? "ponto de entrega" : "pontos de entrega"}
         }
 
         preencherFiltroDistribuidor();
+
+        const filtrosDashboardRetorno =
+            sessionStorage.getItem(
+                "filtrosDashboardRetorno"
+            );
+
+        if (filtrosDashboardRetorno) {
+
+            try {
+
+                const filtros =
+                    JSON.parse(
+                        filtrosDashboardRetorno
+                    );
+
+                if (filtros.data) {
+                    filtroDataDashboard.value =
+                        filtros.data;
+                }
+
+                if (filtros.periodo) {
+                    filtroPeriodo.value =
+                        filtros.periodo;
+                }
+
+                if (
+                    filtros.operador !==
+                    undefined
+                ) {
+                    filtroDistribuidor.value =
+                        filtros.operador;
+                }
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao restaurar filtros do Dashboard:",
+                    erro
+                );
+
+            }
+
+            sessionStorage.removeItem(
+                "filtrosDashboardRetorno"
+            );
+        }
+
         carregarDashboard();
 
         function obterCorProgressoDrone(idDrone) {
