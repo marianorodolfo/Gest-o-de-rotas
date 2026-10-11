@@ -1304,12 +1304,13 @@
 
         .titulo-topo-gestao h1 .icone-drone-menu {
             display: inline-block;
-            width: 28px;
-            height: 28px;
+            width: 35px;
+            height: 35px;
             margin-right: 6px;
             vertical-align: middle;
             fill: none;
-            stroke: #f59e0b;
+            color: #f97316;
+            stroke: currentColor;
             stroke-width: 1.7;
             stroke-linecap: round;
             stroke-linejoin: round;
@@ -1442,13 +1443,32 @@
             <div class="titulo-topo-gestao">
 
                 <h1>
-                    <svg class="icone-drone-menu" viewBox="0 0 24 24" aria-hidden="true">
-                        <rect x="8" y="10" width="8" height="4" rx="2"></rect>
-                        <path d="M8 10 5 7M16 10l3-3M8 14l-3 3M16 14l3 3"></path>
-                        <circle cx="4" cy="6" r="2.5"></circle>
-                        <circle cx="20" cy="6" r="2.5"></circle>
-                        <circle cx="4" cy="18" r="2.5"></circle>
-                        <circle cx="20" cy="18" r="2.5"></circle>
+                    <svg class="icone-drone-menu" viewBox="0 0 64 40" aria-hidden="true">
+                        <g fill="currentColor" stroke="none">
+                            <!-- Corpo central -->
+                            <path d="M26 15 Q24 15 25 19 L28 32
+                 Q32 34 36 32 L39 19 Q40 15 38 15Z"></path>
+
+                            <!-- Braços -->
+                            <path d="M27 18 13 11 11 14 28 23Z"></path>
+                            <path d="M37 18 51 11 53 14 36 23Z"></path>
+                            <path d="M28 27 15 31 16 34 30 31Z"></path>
+                            <path d="M36 27 49 31 48 34 34 31Z"></path>
+
+                            <!-- Motores -->
+                            <rect x="10" y="9" width="4" height="7" rx="2"></rect>
+                            <rect x="50" y="9" width="4" height="7" rx="2"></rect>
+                            <rect x="13" y="29" width="3.5" height="7" rx="1.7"></rect>
+                            <rect x="47.5" y="29" width="3.5" height="7" rx="1.7"></rect>
+                        </g>
+
+                        <!-- Hélices em perspetiva -->
+                        <g fill="none" stroke="currentColor" stroke-width="2.5">
+                            <ellipse cx="12" cy="10" rx="10" ry="4.5"></ellipse>
+                            <ellipse cx="52" cy="10" rx="10" ry="4.5"></ellipse>
+                            <ellipse cx="14.5" cy="29.5" rx="8" ry="3"></ellipse>
+                            <ellipse cx="49.5" cy="29.5" rx="8" ry="3"></ellipse>
+                        </g>
                     </svg>
                     <span id="tituloTopoDistribuicoes">Missões</span>
                 </h1>

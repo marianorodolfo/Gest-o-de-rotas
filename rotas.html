@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Planeamento de Missões - PRIMO PEÇAS</title>
+    <link rel="stylesheet" href="layout-global.css">
 
     <style>
         /* ================================
@@ -468,7 +469,7 @@
             border-radius: 9px;
 
             background: #2563eb;
-            color: #ffffff;
+            color: #f97316;
 
             font-size: 12px;
             font-weight: 800;
@@ -674,6 +675,7 @@
 
         body {
             background: #f4f8fc;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         /* ================================
@@ -2064,6 +2066,31 @@
             border-radius: 50%;
         }
 
+        .botao-criar-missao {
+            color: #ffffff;
+        }
+
+        .botao-criar-missao .icone-drone-menu {
+            color: #f97316;
+        }
+
+        .botao-criar-resumo-missao .icone-drone-menu {
+            color: #f97316;
+        }
+
+        #conteudo {
+            min-width: 0;
+            padding: 16px;
+            margin-top: 50px;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 769px) {
+            #conteudo {
+                margin-left: 185px;
+            }
+        }
+
         /* Em ecrãs menores */
 
         @media (max-width: 700px) {
@@ -2150,7 +2177,7 @@
             }
         }
 
-        
+
 
         /* TABLET */
 
@@ -2235,44 +2262,126 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Cards das rotas mais compactos no desktop */
+        @media (min-width: 1001px) {
+            .grade-rotas {
+                gap: 8px;
+            }
+
+            .grade-rotas .card-rota {
+                padding: 9px 12px;
+                gap: 10px;
+            }
+
+            .grade-rotas .card-rota-icone {
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
+            }
+
+            .grade-rotas .card-rota-info {
+                gap: 2px;
+            }
+        }
+
+        .titulo-rotas-disponiveis {
+            padding: 12px 16px;
+            margin-bottom: 12px;
+
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+        }
+
+        .titulo-rotas-disponiveis span {
+            display: block;
+            margin-bottom: 3px;
+
+            color: #64748b;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .titulo-rotas-disponiveis h2 {
+            margin: 0;
+
+            color: #123b63;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .titulo-rotas-disponiveis #statusSistemaRotas {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #123b63 !important;
+        }
+
+        .titulo-rotas-disponiveis #textoStatusRotas {
+            margin-bottom: 0;
+            color: #123b63 !important;
+            font-size: 9px;
+            letter-spacing: normal;
+        }
     </style>
 
 </head>
 
 <body>
 
-    <div class="cabecalho-planeamento">
-
-        <div class="cabecalho-planeamento-texto">
-
-            <span class="cabecalho-planeamento-etiqueta">
-                PLANEAMENTO OPERACIONAL
-            </span>
-
-            <h1>
-                🗺️ Planeamento de Missões
-            </h1>
-
-            <p>
-                Selecione os pontos de entrega, defina a sequência
-                e prepare a rota operacional da aeronave.
-            </p>
-
+    <header class="topo-gestao">
+        <div class="identidade-topo-gestao">
+            <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
+                class="imagem-logo-gestao">
+            <div class="titulo-topo-gestao">
+                <h1>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        style="width:26px;height:26px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#f97316;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;">
+                        <circle cx="5" cy="5" r="2"></circle>
+                        <circle cx="19" cy="19" r="2"></circle>
+                        <path d="M7 5h9a4 4 0 0 1 0 8H8a3 3 0 0 0 0 6h9"></path>
+                    </svg>
+                    Planeamento de Missões
+                </h1>
+                <p>Preparação de rotas e organização dos pontos de entrega</p>
+            </div>
         </div>
 
-        <div class="status-sistema-rotas" id="statusSistemaRotas">
-            <span class="ponto-status-rotas" id="pontoStatusRotas"></span>
 
-            <span id="textoStatusRotas">
-                Aguardando seleção de pontos de entrega
-            </span>
-        </div>
+    </header>
 
-    </div>
+    <div id="menu-container"></div>
 
-    <div id="listaRotas"></div>
+    <main id="conteudo">
+
+
+
+        <div id="listaRotas"></div>
+    </main>
 
     <script>
+
+        fetch("menu.html")
+            .then(function (resposta) {
+                return resposta.text();
+            })
+            .then(function (htmlMenu) {
+                document.getElementById("menu-container").innerHTML = htmlMenu;
+
+                document.querySelectorAll("#menu-container .menu a")
+                    .forEach(function (link) {
+                        link.classList.toggle(
+                            "ativo",
+                            link.getAttribute("href") === "rotas.html"
+                        );
+                    });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao carregar menu:", erro);
+            });
 
         const rotas = [
             { codigo: 1, nome: "Adaúfe" },
@@ -2281,8 +2390,8 @@
             { codigo: 4, nome: "Braga 1" },
             { codigo: 5, nome: "Braga 2" },
             { codigo: 6, nome: "Vieira do Minho" },
-            { codigo: 7, nome: "Póvoa de Lanhoso 1" },
-            { codigo: 8, nome: "Póvoa de Lanhoso 2" },
+            { codigo: 7, nome: "Póvoa Lanhoso 1" },
+            { codigo: 8, nome: "Póvoa Lanhoso 2" },
             { codigo: 9, nome: "Amares" },
             { codigo: 10, nome: "Terras de Bouro" },
             { codigo: 11, nome: "Caldelas" },
@@ -2647,7 +2756,29 @@
         onclick="gerarDistribuicao()"
         ${clientesSelecionados.length === 0 ? "disabled" : ""}
     >
-        <span>🚁</span>
+<svg class="icone-drone-menu" viewBox="0 0 64 40" aria-hidden="true">
+    <g fill="currentColor" stroke="none">
+        <path d="M26 15 Q24 15 25 19 L28 32
+                 Q32 34 36 32 L39 19 Q40 15 38 15Z"></path>
+
+        <path d="M27 18 13 11 11 14 28 23Z"></path>
+        <path d="M37 18 51 11 53 14 36 23Z"></path>
+        <path d="M28 27 15 31 16 34 30 31Z"></path>
+        <path d="M36 27 49 31 48 34 34 31Z"></path>
+
+        <rect x="10" y="9" width="4" height="7" rx="2"></rect>
+        <rect x="50" y="9" width="4" height="7" rx="2"></rect>
+        <rect x="13" y="29" width="3.5" height="7" rx="1.7"></rect>
+        <rect x="47.5" y="29" width="3.5" height="7" rx="1.7"></rect>
+    </g>
+
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <ellipse cx="12" cy="10" rx="10" ry="4.5"></ellipse>
+        <ellipse cx="52" cy="10" rx="10" ry="4.5"></ellipse>
+        <ellipse cx="14.5" cy="29.5" rx="8" ry="3"></ellipse>
+        <ellipse cx="49.5" cy="29.5" rx="8" ry="3"></ellipse>
+    </g>
+</svg>
         Criar missão
     </button>
 
@@ -2658,19 +2789,21 @@
 
         <div class="titulo-rotas-disponiveis">
 
-            <div>
-                <span>PLANEAMENTO</span>
+    <div>
+        <span>PLANEAMENTO</span>
 
-                <h2>
-                    Rotas disponíveis
-                </h2>
-            </div>
+        <h2>Rotas disponíveis</h2>
+    </div>
 
-            <small>
-                Selecione uma rota para visualizar os pontos de entrega
-            </small>
+    <div class="status-sistema-rotas" id="statusSistemaRotas">
+        <span class="ponto-status-rotas" id="pontoStatusRotas"></span>
 
-        </div>
+        <span id="textoStatusRotas">
+            Aguardando seleção de pontos de entrega
+        </span>
+    </div>
+
+</div>
 
 
         <div
@@ -3297,7 +3430,7 @@
         class="botao-voltar-rotas"
         onclick="mostrarRotas()"
     >
-        ← Voltar
+        Voltar
     </button>
 
     <div class="cabecalho-rota-info">
@@ -3393,7 +3526,30 @@
                 onclick="gerarDistribuicao()"
                 ${clientesSelecionados.length === 0 ? "disabled" : ""}
             >
-                <span>🚁</span>
+                <svg class="icone-drone-menu" viewBox="0 0 64 40" aria-hidden="true">
+    <g fill="currentColor" stroke="none">
+        <path d="M26 15 Q24 15 25 19 L28 32
+                 Q32 34 36 32 L39 19 Q40 15 38 15Z"></path>
+
+        <path d="M27 18 13 11 11 14 28 23Z"></path>
+        <path d="M37 18 51 11 53 14 36 23Z"></path>
+        <path d="M28 27 15 31 16 34 30 31Z"></path>
+        <path d="M36 27 49 31 48 34 34 31Z"></path>
+
+        <rect x="10" y="9" width="4" height="7" rx="2"></rect>
+        <rect x="50" y="9" width="4" height="7" rx="2"></rect>
+        <rect x="13" y="29" width="3.5" height="7" rx="1.7"></rect>
+        <rect x="47.5" y="29" width="3.5" height="7" rx="1.7"></rect>
+    </g>
+
+    <g fill="none" stroke="currentColor" stroke-width="2.5">
+        <ellipse cx="12" cy="10" rx="10" ry="4.5"></ellipse>
+        <ellipse cx="52" cy="10" rx="10" ry="4.5"></ellipse>
+        <ellipse cx="14.5" cy="29.5" rx="8" ry="3"></ellipse>
+        <ellipse cx="49.5" cy="29.5" rx="8" ry="3"></ellipse>
+    </g>
+</svg>
+
                 Criar missão
             </button>
 
@@ -4456,8 +4612,29 @@
                 </button>
 
                 <button type="button" class="botao-criar-resumo-missao" onclick="gerarDistribuicao()">
-                    <span>🚁</span>
-                    Criar missão
+                    <svg class="icone-drone-menu" viewBox="0 0 64 40" aria-hidden="true">
+                        <g fill="currentColor" stroke="none">
+                            <path d="M26 15 Q24 15 25 19 L28 32
+                 Q32 34 36 32 L39 19 Q40 15 38 15Z"></path>
+
+                            <path d="M27 18 13 11 11 14 28 23Z"></path>
+                            <path d="M37 18 51 11 53 14 36 23Z"></path>
+                            <path d="M28 27 15 31 16 34 30 31Z"></path>
+                            <path d="M36 27 49 31 48 34 34 31Z"></path>
+
+                            <rect x="10" y="9" width="4" height="7" rx="2"></rect>
+                            <rect x="50" y="9" width="4" height="7" rx="2"></rect>
+                            <rect x="13" y="29" width="3.5" height="7" rx="1.7"></rect>
+                            <rect x="47.5" y="29" width="3.5" height="7" rx="1.7"></rect>
+                        </g>
+
+                        <g fill="none" stroke="currentColor" stroke-width="2.5">
+                            <ellipse cx="12" cy="10" rx="10" ry="4.5"></ellipse>
+                            <ellipse cx="52" cy="10" rx="10" ry="4.5"></ellipse>
+                            <ellipse cx="14.5" cy="29.5" rx="8" ry="3"></ellipse>
+                            <ellipse cx="49.5" cy="29.5" rx="8" ry="3"></ellipse>
+                        </g>
+                    </svg> Criar missão
                 </button>
 
             </div>
