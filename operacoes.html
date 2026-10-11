@@ -41,7 +41,7 @@
             min-height: 100vh;
 
             padding:
-                65px 16px 16px;
+                10px 16px 16px;
 
             background:
                 radial-gradient(circle at top right,
@@ -225,7 +225,9 @@
             display: grid;
 
             grid-template-columns:
-                repeat(3, minmax(150px, 220px));
+                repeat(3, minmax(0, 1fr));
+
+            width: calc(100% - 392px);
 
             gap: 10px;
 
@@ -311,7 +313,7 @@
             align-items: center;
             justify-content: center;
 
-            border-radius: 9px;
+            border-radius: 50%;
 
             background:
                 rgba(255, 255, 255, .035);
@@ -390,7 +392,7 @@
             display: grid;
 
             grid-template-columns:
-                minmax(0, 1fr) 290px;
+                minmax(0, 1fr) 380px;
 
             gap: 12px;
 
@@ -1314,7 +1316,7 @@
 
             color: #f1f5f9;
 
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 800;
         }
 
@@ -1324,9 +1326,9 @@
 
             margin-top: 2px;
 
-            color: #64748b;
+            color: #94a3b8;
 
-            font-size: 7px;
+            font-size: 8px;
             font-weight: 600;
         }
 
@@ -1336,7 +1338,7 @@
 
             border-radius: 999px;
 
-            font-size: 6px;
+            font-size: 7px;
             font-weight: 800;
 
             white-space: nowrap;
@@ -1356,12 +1358,15 @@
 
         .estado-operacao-vivo.retornando {
             border:
-                1px solid rgba(56, 189, 248, .20);
+                1px solid rgba(245, 158, 11, .40);
 
             background:
-                rgba(56, 189, 248, .08);
+                rgba(245, 158, 11, .12);
 
-            color: #38bdf8;
+            color: #fbbf24;
+
+            box-shadow:
+                0 0 6px rgba(245, 158, 11, .15);
         }
 
 
@@ -1541,15 +1546,14 @@
 
 
         .proximo-ponto-missao {
-            padding: 7px 8px;
+            padding: 10px;
 
-            border-left:
-                2px solid #38bdf8;
+            border: 1px solid rgba(96, 165, 250, .14);
+            border-left: 2px solid #38bdf8;
 
-            border-radius: 5px;
+            border-radius: 9px;
 
-            background:
-                rgba(56, 189, 248, .05);
+            background: rgba(2, 8, 23, .35);
         }
 
 
@@ -1869,15 +1873,33 @@
 
 
         .marcador-drone-vivo.retornando {
-            color: #38bdf8;
+            color: #f59e0b;
 
             border-color:
-                rgba(56, 189, 248, .55);
+                rgba(245, 158, 11, .65);
+
+            background:
+                rgba(31, 20, 5, .96);
 
             box-shadow:
-                0 0 0 5px rgba(56, 189, 248, .06),
+                0 0 0 5px rgba(245, 158, 11, .08),
 
-                0 0 20px rgba(56, 189, 248, .45);
+                0 0 22px rgba(245, 158, 11, .55);
+        }
+
+        .marcador-drone-vivo.alerta {
+            color: #f87171;
+
+            border-color:
+                rgba(248, 113, 113, .70);
+
+            background:
+                rgba(32, 10, 14, .96);
+
+            box-shadow:
+                0 0 0 5px rgba(239, 68, 68, .08),
+
+                0 0 22px rgba(239, 68, 68, .65);
         }
 
 
@@ -1937,23 +1959,594 @@
 
 
         .rotulo-drone-vivo {
-            padding: 4px 7px;
+            padding: 8px 12px;
 
-            border:
-                1px solid rgba(148, 163, 184, .13);
+            border: 1px solid rgba(148, 163, 184, .18);
+            border-radius: 8px;
 
-            border-radius: 6px;
-
-            background:
-                rgba(2, 8, 23, .92);
-
-            color: #e2e8f0;
-
-            font-size: 7px;
-            font-weight: 800;
+            background: #030910;
 
             box-shadow:
-                0 5px 14px rgba(0, 0, 0, .28);
+                0 5px 16px rgba(0, 0, 0, .45);
+        }
+
+        .rotulo-drone-vivo .nome-drone-mapa {
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .rotulo-drone-vivo .status-drone-mapa {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 9px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .status-drone-mapa.em-missao {
+            color: #4ade80;
+        }
+
+        .status-drone-mapa.retornando {
+            color: #f59e0b;
+        }
+
+        .status-drone-mapa.alerta {
+            color: #f87171;
+        }
+
+        .rotulo-drone-vivo.leaflet-tooltip-right::before {
+            border-right-color: #030910;
+        }
+
+        /* =========================================================
+   CABEÇALHO ACIMA DO MAPA LEAFLET
+========================================================= */
+
+        .topo-gestao {
+            position: relative;
+            z-index: 850;
+        }
+
+        .alerta-cartao-operacao {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            width: fit-content;
+
+            margin-top: 9px;
+            margin-bottom: 2px;
+
+            padding: 4px 8px;
+
+            border:
+                1px solid rgba(239, 68, 68, .30);
+
+            border-radius: 999px;
+
+            background:
+                rgba(239, 68, 68, .08);
+
+            color: #fca5a5;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        .alerta-cartao-operacao>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 14px;
+            height: 14px;
+
+            border-radius: 50%;
+
+            background: #ef4444;
+
+            color: white;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .alerta-missao-foco {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+
+            margin-bottom: 12px;
+            padding: 9px 11px;
+
+            border:
+                1px solid rgba(239, 68, 68, .32);
+
+            border-radius: 9px;
+
+            background:
+                rgba(239, 68, 68, .08);
+        }
+
+        .alerta-missao-foco strong {
+            color: #f87171;
+            font-size: 11px;
+        }
+
+        .alerta-missao-foco span {
+            color: #fca5a5;
+            font-size: 10px;
+            text-align: right;
+        }
+
+        .cartao-operacao-ativa.com-alerta {
+            border-color:
+                rgba(239, 68, 68, .42);
+
+            box-shadow:
+                inset 3px 0 0 rgba(239, 68, 68, .85);
+        }
+
+
+        .cartao-operacao-ativa.com-alerta:hover {
+            border-color:
+                rgba(239, 68, 68, .70);
+
+            box-shadow:
+                inset 3px 0 0 #ef4444,
+                0 8px 24px rgba(239, 68, 68, .10);
+        }
+
+        /* =========================================================
+   STATUS DO SISTEMA — OPERAÇÕES AO VIVO
+========================================================= */
+
+        .estado-sistema-operacoes {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 2px 6px;
+
+            border:
+                1px solid rgba(34, 197, 94, .28);
+
+            border-radius: 10px;
+
+            background:
+                rgba(34, 197, 94, .07);
+
+            box-shadow:
+                inset 0 0 18px rgba(34, 197, 94, .025);
+        }
+
+
+        .estado-sistema-operacoes>div {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+
+        .estado-sistema-operacoes strong {
+            color: #86efac;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: .8px;
+        }
+
+
+        .estado-sistema-operacoes small {
+            color: rgba(255, 255, 255, .48);
+
+            font-size: 8px;
+            font-weight: 500;
+
+            letter-spacing: .25px;
+        }
+
+
+        .pulso-sistema-operacoes {
+            position: relative;
+
+            width: 8px;
+            height: 8px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 9px rgba(34, 197, 94, .90);
+        }
+
+
+        .pulso-sistema-operacoes::after {
+            content: "";
+
+            position: absolute;
+            inset: -4px;
+
+            border:
+                1px solid rgba(34, 197, 94, .55);
+
+            border-radius: 50%;
+
+            animation:
+                pulsoSistemaOperacoes 1.8s ease-out infinite;
+        }
+
+
+        @keyframes pulsoSistemaOperacoes {
+
+            0% {
+                transform: scale(.65);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.55);
+                opacity: 0;
+            }
+
+        }
+
+        /* Mantém as camadas do mapa abaixo do menu lateral */
+        #mapaOperacoesAoVivo {
+            z-index: 0;
+        }
+
+        /* Iluminação dos ícones dos indicadores */
+        .indicador-operacao .icone-indicador-operacao {
+            background: rgba(255, 255, 255, .04);
+
+            border: 1px solid currentColor;
+
+            box-shadow:
+                inset 0 0 12px currentColor,
+                0 0 8px currentColor;
+        }
+
+        .indicador-operacao .icone-indicador-operacao svg {
+            filter: drop-shadow(0 0 3px currentColor);
+        }
+
+        .icone-titulo-operacoes {
+            width: 30px;
+            height: 30px;
+
+            margin-right: 8px;
+            padding: 5px;
+
+            vertical-align: middle;
+
+            border: 1px solid rgba(248, 113, 113, .25);
+            border-radius: 50%;
+
+            background: rgba(239, 68, 68, .10);
+
+            fill: none;
+            stroke: #f87171;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+
+            filter: drop-shadow(0 0 4px rgba(239, 68, 68, .35));
+        }
+
+        .icone-titulo-operacoes circle {
+            fill: #f87171;
+            stroke: none;
+        }
+
+        .icone-titulo-operacoes-ativas {
+            width: 22px;
+            height: 22px;
+
+            margin-right: 7px;
+
+            vertical-align: middle;
+
+            fill: none;
+            stroke: #93c5fd;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, .45));
+        }
+
+        .icone-titulo-camera-vivo {
+            width: 20px;
+            height: 20px;
+
+            margin-right: 7px;
+
+            vertical-align: middle;
+
+            fill: none;
+            stroke: #93c5fd;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            filter: drop-shadow(0 0 3px rgba(96, 165, 250, .45));
+        }
+
+        /* Borda neon para operações em retorno sem alerta */
+        .cartao-operacao-ativa.em-retorno:not(.com-alerta) {
+            border-color: #f59e0b;
+
+            box-shadow:
+                inset 0 0 8px rgba(245, 158, 11, .08),
+                0 0 9px rgba(245, 158, 11, .28);
+        }
+
+        .cartao-operacao-ativa.em-retorno:not(.com-alerta):hover,
+        .cartao-operacao-ativa.em-retorno.selecionado:not(.com-alerta) {
+            border-color: #fbbf24;
+
+            box-shadow:
+                inset 0 0 10px rgba(245, 158, 11, .12),
+                0 0 13px rgba(245, 158, 11, .40);
+        }
+
+        /* Coluna direita com três painéis independentes */
+        .painel-operacoes-ativas {
+            align-self: start;
+            margin-top: -79px;
+
+            overflow: visible;
+
+            border: none;
+            border-radius: 0;
+
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* Operações ativas: cabeçalho e lista formam um cartão */
+        .painel-operacoes-ativas .cabecalho-operacoes-ativas {
+            border: 1px solid rgba(96, 165, 250, .18);
+            border-bottom: 1px solid rgba(148, 163, 184, .10);
+
+            border-radius: 12px 12px 0 0;
+
+            background: #0b1728;
+        }
+
+        .painel-operacoes-ativas .lista-operacoes-ativas {
+            border: 1px solid rgba(96, 165, 250, .18);
+            border-top: none;
+
+            border-radius: 0 0 12px 12px;
+
+            background: #091321;
+        }
+
+        /* Missão selecionada e câmara */
+        .painel-operacoes-ativas .missao-selecionada-vivo,
+        .painel-operacoes-ativas .camera-operacoes-vivo {
+            margin-top: 12px;
+
+            overflow: hidden;
+
+            border: 1px solid rgba(96, 165, 250, .18);
+            border-radius: 12px;
+
+            background:
+                linear-gradient(145deg,
+                    #0b1728,
+                    #08111e);
+
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, .18);
+        }
+
+        /* Barra de rolagem — Operações ativas */
+        .lista-operacoes-ativas {
+            scrollbar-width: thin;
+            scrollbar-color: #2563eb #091321;
+        }
+
+        .lista-operacoes-ativas::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .lista-operacoes-ativas::-webkit-scrollbar-track {
+            background: #091321;
+            border-radius: 10px;
+        }
+
+        .lista-operacoes-ativas::-webkit-scrollbar-thumb {
+            background: #2563eb;
+            border-radius: 10px;
+        }
+
+        .lista-operacoes-ativas::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        .icone-drone-operacao svg {
+            width: 18px;
+            height: 18px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            filter: drop-shadow(0 0 3px currentColor);
+        }
+
+        /* Cor do ícone conforme o estado da operação */
+        .cartao-operacao-ativa .icone-drone-operacao {
+            color: #4ade80;
+        }
+
+        .cartao-operacao-ativa.em-retorno .icone-drone-operacao {
+            color: #fbbf24;
+        }
+
+        .cartao-operacao-ativa.com-alerta .icone-drone-operacao {
+            color: #f87171;
+        }
+
+        .cabecalho-operacoes-ativas h2,
+        .cabecalho-missao-selecionada h3,
+        .cabecalho-camera-vivo h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.3;
+            color: #f8fafc;
+        }
+
+        .icone-dado-missao {
+            width: 16px;
+            height: 16px;
+
+            margin-right: 4px;
+            vertical-align: middle;
+
+            fill: none;
+            stroke: #93c5fd;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            color: #93c5fd;
+        }
+
+        .botao-abrir-missao-vivo:not(:disabled) {
+            background: #008cff;
+            border-color: #38bdf8;
+            color: #ffffff;
+
+            box-shadow:
+                inset 0 0 8px rgba(56, 189, 248, .20),
+                0 0 12px rgba(0, 140, 255, .45);
+        }
+
+        .botao-abrir-missao-vivo:not(:disabled):hover {
+            background: #00a2ff;
+            border-color: #7dd3fc;
+            color: #ffffff;
+
+            box-shadow:
+                0 0 16px rgba(0, 162, 255, .60);
+        }
+
+        /* Área dos dados — Missão selecionada */
+        .grade-missao-foco {
+            padding: 10px;
+
+            border: 1px solid rgba(96, 165, 250, .14);
+            border-radius: 9px;
+
+            background: rgba(2, 8, 23, .35);
+        }
+
+        /* Legibilidade dos dados da missão */
+        .grade-missao-foco>div>span,
+        .proximo-ponto-missao>span {
+            font-size: 8px;
+            color: #94a3b8;
+        }
+
+        .grade-missao-foco>div>strong,
+        .proximo-ponto-missao>strong {
+            font-size: 11px;
+            color: #f1f5f9;
+        }
+
+        .proximo-ponto-missao.em-retorno {
+            border-left-color: #f59e0b;
+        }
+
+        /* Cabeçalho integrado à central de operações */
+        .topo-gestao {
+            background: linear-gradient(110deg,
+                    #0b1728,
+                    #07111f);
+
+            border-bottom: 1px solid rgba(96, 165, 250, .16);
+
+            box-shadow:
+                0 4px 16px rgba(0, 0, 0, .20);
+        }
+
+        #botaoMenuOperacoes {
+            position: relative;
+            left: -20px;
+        }
+
+        .mapa-operacoes-vivo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #mapaOperacoesAoVivo {
+            flex: 1;
+        }
+
+        /* Indicador de retorno em laranja */
+        .indicador-retornando::before {
+            background: #f59e0b;
+            box-shadow: 0 0 11px rgba(245, 158, 11, .85);
+        }
+
+        .indicador-retornando .icone-indicador-operacao {
+            color: #f59e0b;
+        }
+
+        /* Progresso conforme o estado da operação */
+        .cartao-operacao-ativa .barra-progresso-operacao span {
+            background: #4ade80;
+        }
+
+        .cartao-operacao-ativa.em-retorno .barra-progresso-operacao span {
+            background: #f59e0b;
+        }
+
+        .cartao-operacao-ativa.com-alerta .barra-progresso-operacao span {
+            background: #ef4444;
+        }
+
+        .icone-monitorizacao {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+            vertical-align: middle;
+            fill: none;
+            stroke: #38bdf8;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 3px rgba(56, 189, 248, .45));
+        }
+
+        .painel-mapa-vivo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mapa-operacoes-vivo {
+            flex: 1;
         }
     </style>
 
@@ -1977,7 +2570,15 @@
             </a>
 
             <a href="Distribuicoes.html">
-                🚁 Missões
+                <svg class="icone-drone-menu" viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="8" y="10" width="8" height="4" rx="2"></rect>
+                    <path d="M8 10 5 7M16 10l3-3M8 14l-3 3M16 14l3 3"></path>
+                    <circle cx="4" cy="6" r="2.5"></circle>
+                    <circle cx="20" cy="6" r="2.5"></circle>
+                    <circle cx="4" cy="18" r="2.5"></circle>
+                    <circle cx="20" cy="18" r="2.5"></circle>
+                </svg>
+                Missões
             </a>
 
             <a href="clientes.html">
@@ -2013,18 +2614,24 @@
 
             <div class="identidade-topo-gestao identidade-topo-operacoes">
 
-                <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
-                    class="imagem-logo-gestao">
-
-
                 <button type="button" id="botaoMenuOperacoes" class="botao-menu-operacoes" aria-label="Abrir menu">
                     ☰
                 </button>
+
+                <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
+                    class="imagem-logo-gestao">
 
 
                 <div class="titulo-topo-gestao titulo-topo-operacoes">
 
                     <h1>
+                        <svg class="icone-titulo-operacoes" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="2"></circle>
+                            <path d="M7.8 7.8a6 6 0 0 0 0 8.4"></path>
+                            <path d="M16.2 7.8a6 6 0 0 1 0 8.4"></path>
+                            <path d="M4.9 4.9a10 10 0 0 0 0 14.2"></path>
+                            <path d="M19.1 4.9a10 10 0 0 1 0 14.2"></path>
+                        </svg>
                         Operações ao Vivo
                     </h1>
 
@@ -2037,8 +2644,20 @@
             </div>
 
 
-            <div class="estado-sistema">
-                ● Sistema online
+            <div class="estado-sistema-operacoes">
+
+                <span class="pulso-sistema-operacoes"></span>
+
+                <div>
+                    <strong>
+                        SISTEMA ONLINE
+                    </strong>
+
+                    <small>
+                        Monitorização ativa
+                    </small>
+                </div>
+
             </div>
 
         </header>
@@ -2129,6 +2748,12 @@
 
                         <div>
                             <span class="rotulo-mapa-vivo">
+                                <svg class="icone-monitorizacao" viewBox="0 0 24 24" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9"></circle>
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <path d="M12 12 18.4 5.6"></path>
+                                    <circle cx="12" cy="12" r="1"></circle>
+                                </svg>
                                 MONITORIZAÇÃO
                             </span>
 
@@ -2175,6 +2800,14 @@
                             </span>
 
                             <h2>
+                                <svg class="icone-titulo-operacoes-ativas" viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="8" y="10" width="8" height="4" rx="2"></rect>
+                                    <path d="M8 10 5 7M16 10l3-3M8 14l-3 3M16 14l3 3"></path>
+                                    <circle cx="4" cy="6" r="2.5"></circle>
+                                    <circle cx="20" cy="6" r="2.5"></circle>
+                                    <circle cx="4" cy="18" r="2.5"></circle>
+                                    <circle cx="20" cy="18" r="2.5"></circle>
+                                </svg>
                                 Operações ativas
                             </h2>
                         </div>
@@ -2216,6 +2849,14 @@
                                 </span>
 
                                 <h3>
+                                    <svg class="icone-titulo-operacoes-ativas" viewBox="0 0 24 24" aria-hidden="true">
+                                        <rect x="8" y="10" width="8" height="4" rx="2"></rect>
+                                        <path d="M8 10 5 7M16 10l3-3M8 14l-3 3M16 14l3 3"></path>
+                                        <circle cx="4" cy="6" r="2.5"></circle>
+                                        <circle cx="20" cy="6" r="2.5"></circle>
+                                        <circle cx="4" cy="18" r="2.5"></circle>
+                                        <circle cx="20" cy="18" r="2.5"></circle>
+                                    </svg>
                                     Missão selecionada
                                 </h3>
                             </div>
@@ -2259,6 +2900,11 @@
                                 </span>
 
                                 <h3>
+                                    <svg class="icone-titulo-camera-vivo" viewBox="0 0 24 24" aria-hidden="true">
+                                        <rect x="3" y="6" width="12" height="12" rx="3"></rect>
+                                        <path d="m15 10 6-3v10l-6-3z"></path>
+                                        <circle cx="9" cy="12" r="2.5"></circle>
+                                    </svg>
                                     Câmara ao vivo
                                 </h3>
                             </div>
@@ -2436,6 +3082,8 @@
         ).addTo(
             mapaOperacoes
         );
+
+
 
         /* =========================================================
    BASE OPERACIONAL
@@ -2653,6 +3301,11 @@
                         ).length > 0;
 
 
+                    const retornando =
+                        missao.retornoBase ===
+                        "Em andamento";
+
+
                     const cor =
                         possuiAlerta
                             ? "#ef4444"
@@ -2775,6 +3428,112 @@
                         .addTo(
                             camadaRotasAoVivo
                         );
+
+                    /*
+* Retorno à base
+* destacado em laranja
+*/
+                    if (
+                        retornando &&
+                        !possuiAlerta &&
+                        pontosRota.length >= 3
+                    ) {
+
+                        const ultimoPonto =
+                            pontosRota[
+                            pontosRota.length - 2
+                            ];
+
+                        const trechoRetorno = [
+                            ultimoPonto,
+                            coordenadasBase
+                        ];
+
+
+                        /* Glow do retorno */
+                        L.polyline(
+                            trechoRetorno,
+                            {
+                                color: "#f59e0b",
+
+                                weight:
+                                    missaoSelecionada
+                                        ? 15
+                                        : 11,
+
+                                opacity:
+                                    missaoSelecionada
+                                        ? .32
+                                        : .16,
+
+                                lineJoin: "round",
+
+                                lineCap: "round",
+
+                                interactive: false
+                            }
+                        )
+                            .addTo(
+                                camadaRotasAoVivo
+                            );
+
+
+                        /* Linha principal */
+                        L.polyline(
+                            trechoRetorno,
+                            {
+                                color: "#f59e0b",
+
+                                weight:
+                                    missaoSelecionada
+                                        ? 4
+                                        : 3,
+
+                                opacity:
+                                    missaoSelecionada
+                                        ? 1
+                                        : .90,
+
+                                lineJoin: "round",
+
+                                lineCap: "round",
+
+                                interactive: false
+                            }
+                        )
+                            .addTo(
+                                camadaRotasAoVivo
+                            );
+
+
+                        /* Pontos luminosos */
+                        L.polyline(
+                            trechoRetorno,
+                            {
+                                color: "#fbbf24",
+
+                                weight: 4,
+
+                                opacity:
+                                    missaoSelecionada
+                                        ? 1
+                                        : .90,
+
+                                dashArray:
+                                    "1 11",
+
+                                lineJoin: "round",
+
+                                lineCap: "round",
+
+                                interactive: false
+                            }
+                        )
+                            .addTo(
+                                camadaRotasAoVivo
+                            );
+
+                    }
 
 
                     /*
@@ -2926,6 +3685,12 @@
                     const retornando =
                         missao.retornoBase ===
                         "Em andamento";
+
+
+                    const possuiAlerta =
+                        obterAlertasDaMissao(
+                            missao
+                        ).length > 0;
 
 
                     let latitude =
@@ -3115,9 +3880,11 @@
                             <div
                                 class="
                                     marcador-drone-vivo
-                                    ${retornando
-                                        ? "retornando"
-                                        : ""
+                                    ${possuiAlerta
+                                        ? "alerta"
+                                        : retornando
+                                            ? "retornando"
+                                            : ""
                                     }
                                 "
                             >
@@ -3185,23 +3952,29 @@
 
                     marcador.bindTooltip(
                         `
-                    ${missao.veiculo || "Drone"}
-                    ·
-                    ${retornando
-                            ? "Retornando"
-                            : "Em missão"
+        <strong class="nome-drone-mapa">
+            ${missao.veiculo || "Drone"}
+        </strong>
+
+        <span class="status-drone-mapa ${possuiAlerta
+                            ? "alerta"
+                            : retornando
+                                ? "retornando"
+                                : "em-missao"
+                        }">
+            ${possuiAlerta
+                            ? "Alerta"
+                            : retornando
+                                ? "Retornando"
+                                : "Em missão"
                         }
-                `,
+        </span>
+    `,
                         {
                             permanent: true,
-
                             direction: "right",
-
-                            offset:
-                                [13, 0],
-
-                            className:
-                                "rotulo-drone-vivo"
+                            offset: [13, 0],
+                            className: "rotulo-drone-vivo"
                         }
                     );
 
@@ -3337,6 +4110,21 @@
                     }
                 );
 
+            const operacoesExibidas =
+                modoMapaAoVivo === "alertas"
+                    ? operacoesAtivas.filter(
+                        function (missao) {
+
+                            return (
+                                obterAlertasDaMissao(
+                                    missao
+                                ).length > 0
+                            );
+
+                        }
+                    )
+                    : operacoesAtivas;
+
 
             const quantidadeAlertas =
                 operacoesAtivas.reduce(
@@ -3386,32 +4174,43 @@
                 );
 
 
-            if (operacoesAtivas.length === 0) {
+            if (operacoesExibidas.length === 0) {
+
+                const semAlertas =
+                    modoMapaAoVivo === "alertas" &&
+                    operacoesAtivas.length > 0;
+
 
                 lista.innerHTML = `
-            <div class="sem-operacoes-ativas">
+        <div class="sem-operacoes-ativas">
 
-                <div class="icone-sem-operacoes">
-                    ◉
-                </div>
-
-                <strong>
-                    Nenhuma operação em curso
-                </strong>
-
-                <span>
-                    As missões ativas aparecerão aqui automaticamente.
-                </span>
-
+            <div class="icone-sem-operacoes">
+                ${semAlertas ? "✓" : "◉"}
             </div>
-        `;
+
+            <strong>
+                ${semAlertas
+                        ? "Nenhum alerta ativo"
+                        : "Nenhuma operação em curso"
+                    }
+            </strong>
+
+            <span>
+                ${semAlertas
+                        ? "Todas as operações em curso estão dentro dos parâmetros normais."
+                        : "As missões ativas aparecerão aqui automaticamente."
+                    }
+            </span>
+
+        </div>
+    `;
 
                 return;
             }
 
 
             lista.innerHTML =
-                operacoesAtivas
+                operacoesExibidas
                     .map(
                         function (missao) {
 
@@ -3453,12 +4252,39 @@
                                     ? "retornando"
                                     : "em-missao";
 
+                            const alertasMissao =
+                                obterAlertasDaMissao(
+                                    missao
+                                );
+
+
+                            const textoAlerta =
+                                alertasMissao.length === 1
+                                    ? alertasMissao[0]
+                                    : alertasMissao.length +
+                                    " alertas";
+
 
                             return `
                         <button
     type="button"
-    class="cartao-operacao-ativa"
-    data-id="${missao.id}"
+class="
+    cartao-operacao-ativa
+
+    ${retornando ? "em-retorno" : ""}
+
+    ${alertasMissao.length > 0
+                                    ? "com-alerta"
+                                    : ""
+                                }
+
+    ${String(missao.id) ===
+                                    String(idOperacaoSelecionada)
+                                    ? "selecionado"
+                                    : ""
+                                }
+
+"    data-id="${missao.id}"
     onclick="selecionarOperacaoAoVivo('${missao.id}')"
 >
 
@@ -3467,8 +4293,15 @@
                                 <div class="identificacao-operacao">
 
                                     <span class="icone-drone-operacao">
-                                        ✦
-                                    </span>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="8" y="10" width="8" height="4" rx="2"></rect>
+        <path d="M8 10 5 7M16 10l3-3M8 14l-3 3M16 14l3 3"></path>
+        <circle cx="4" cy="6" r="2.5"></circle>
+        <circle cx="20" cy="6" r="2.5"></circle>
+        <circle cx="4" cy="18" r="2.5"></circle>
+        <circle cx="20" cy="18" r="2.5"></circle>
+    </svg>
+</span>
 
                                     <div>
 
@@ -3495,6 +4328,17 @@
                                 </span>
 
                             </div>
+
+                            ${alertasMissao.length > 0
+                                    ? `
+        <div class="alerta-cartao-operacao">
+            <span>!</span>
+
+            ${textoAlerta}
+        </div>
+    `
+                                    : ""
+                                }
 
 
                             <div class="progresso-operacao-vivo">
@@ -3585,6 +4429,8 @@
                 String(idMissao);
 
             atualizarRotasNoMapa();
+
+            atualizarDronesNoMapa();
 
 
             document
@@ -3680,6 +4526,11 @@
             const ligacao =
                 perfilDrone.ligacao || "--";
 
+            const alertasMissao =
+                obterAlertasDaMissao(
+                    missao
+                );
+
 
             const conteudo =
                 document.getElementById(
@@ -3690,6 +4541,21 @@
             conteudo.innerHTML = `
 
         <div class="resumo-missao-foco">
+
+        ${alertasMissao.length > 0
+                    ? `
+        <div class="alerta-missao-foco">
+            <strong>
+                ⚠ Alerta operacional
+            </strong>
+
+            <span>
+                ${alertasMissao.join(" · ")}
+            </span>
+        </div>
+    `
+                    : ""
+                }
 
             <div class="topo-missao-foco">
 
@@ -3722,8 +4588,12 @@
 
                 <div>
                     <span>
-                        Progresso
-                    </span>
+    <svg class="icone-dado-missao" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="m8 12 3 3 5-6"></path>
+    </svg>
+    Progresso
+</span>
 
                     <strong>
                         ${clientesConcluidos}/${clientes.length}
@@ -3733,8 +4603,13 @@
 
                 <div>
                     <span>
-                        Bateria
-                    </span>
+    <svg class="icone-dado-missao" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="6" y="5" width="12" height="16" rx="2"></rect>
+        <path d="M10 5V3h4v2"></path>
+        <path d="M9 15h6v3H9z" fill="currentColor" stroke="none"></path>
+    </svg>
+    Bateria
+</span>
 
                     <strong>
                         ${bateria}${bateria !== "--" ? "%" : ""}
@@ -3744,8 +4619,12 @@
 
                 <div>
                     <span>
-                        Autonomia
-                    </span>
+    <svg class="icone-dado-missao" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M12 7v5l3 2"></path>
+    </svg>
+    Autonomia
+</span>
 
                     <strong>
                         ${autonomia}${autonomia !== "--" ? " min" : ""}
@@ -3755,8 +4634,12 @@
 
                 <div>
                     <span>
-                        Ligação
-                    </span>
+    <svg class="icone-dado-missao" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 20v-4M9 20v-8M14 20V8M19 20V4"
+              stroke-width="3"></path>
+    </svg>
+    Ligação
+</span>
 
                     <strong>
                         ${ligacao}
@@ -3766,14 +4649,18 @@
             </div>
 
 
-            <div class="proximo-ponto-missao">
+<div class="proximo-ponto-missao ${retornando ? "em-retorno" : ""}">
 
                 <span>
-                    ${retornando
+    <svg class="icone-dado-missao" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0z"></path>
+        <circle cx="12" cy="10" r="2.5"></circle>
+    </svg>
+    ${retornando
                     ? "Destino atual"
                     : "Próximo ponto"
                 }
-                </span>
+</span>
 
                 <strong>
                     ${retornando
@@ -3924,7 +4811,133 @@
 
         window.addEventListener(
             "storage",
-            atualizarOperacoesAoVivo
+            function () {
+
+                atualizarOperacoesAoVivo();
+
+                atualizarRotasNoMapa();
+
+                atualizarDronesNoMapa();
+
+
+                if (idOperacaoSelecionada) {
+
+                    const distribuicoes =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "distribuicoes"
+                            )
+                        ) || [];
+
+
+                    const missaoAindaAtiva =
+                        distribuicoes.some(
+                            function (missao) {
+
+                                return (
+                                    missao &&
+                                    String(missao.id) ===
+                                    String(
+                                        idOperacaoSelecionada
+                                    ) &&
+                                    missao.status ===
+                                    "Em andamento"
+                                );
+
+                            }
+                        );
+
+
+                    if (missaoAindaAtiva) {
+
+                        selecionarOperacaoAoVivo(
+                            idOperacaoSelecionada
+                        );
+
+                    } else {
+
+                        idOperacaoSelecionada = null;
+
+                        modoMapaAoVivo = "todas";
+
+
+                        document
+                            .querySelectorAll(
+                                ".modo-mapa-vivo"
+                            )
+                            .forEach(
+                                function (botao) {
+
+                                    botao.classList.toggle(
+                                        "ativo",
+                                        botao.dataset.modo ===
+                                        "todas"
+                                    );
+
+                                }
+                            );
+
+
+                        document
+                            .getElementById(
+                                "conteudoMissaoSelecionada"
+                            )
+                            .innerHTML = `
+            <div class="missao-nao-selecionada">
+
+                <div class="mira-missao-vivo">
+                    <span></span>
+                </div>
+
+                <strong>
+                    Nenhuma missão selecionada
+                </strong>
+
+                <small>
+                    Selecione uma operação ativa para acompanhar os detalhes.
+                </small>
+
+            </div>
+        `;
+
+
+                        const botaoAbrirMissao =
+                            document.getElementById(
+                                "botaoAbrirMissaoAoVivo"
+                            );
+
+                        botaoAbrirMissao.disabled = true;
+
+                        delete botaoAbrirMissao.dataset.id;
+
+
+                        document
+                            .getElementById(
+                                "estadoCameraAoVivo"
+                            )
+                            .className =
+                            "estado-camera-vivo aguardando";
+
+
+                        document
+                            .getElementById(
+                                "estadoCameraAoVivo"
+                            )
+                            .innerHTML = `
+            <span></span>
+            Aguardando
+        `;
+
+
+                        atualizarRotasNoMapa();
+
+                        atualizarDronesNoMapa();
+
+                    }
+
+                }
+
+            }
         );
 
         document
@@ -3968,6 +4981,8 @@
                                 );
 
 
+                            atualizarOperacoesAoVivo();
+
                             atualizarRotasNoMapa();
 
                             atualizarDronesNoMapa();
@@ -3977,6 +4992,36 @@
 
                 }
             );
+
+        const botaoAbrirMissaoAoVivo =
+            document.getElementById(
+                "botaoAbrirMissaoAoVivo"
+            );
+
+
+        botaoAbrirMissaoAoVivo.addEventListener(
+            "click",
+            function () {
+
+                const idMissao =
+                    botaoAbrirMissaoAoVivo
+                        .dataset.id;
+
+
+                if (!idMissao) {
+                    return;
+                }
+
+
+                window.location.href =
+                    "Distribuicoes.html?id=" +
+                    encodeURIComponent(
+                        String(idMissao)
+                    ) +
+                    "&origem=operacoes";
+
+            }
+        );
 
     </script>
 

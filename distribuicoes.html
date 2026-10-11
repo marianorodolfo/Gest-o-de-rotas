@@ -1302,6 +1302,19 @@
             transform: translateY(0);
         }
 
+        .titulo-topo-gestao h1 .icone-drone-menu {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            margin-right: 6px;
+            vertical-align: middle;
+            fill: none;
+            stroke: #f59e0b;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
 
         /* =========================================
            TELEMÓVEL
@@ -1428,8 +1441,16 @@
 
             <div class="titulo-topo-gestao">
 
-                <h1 id="tituloTopoDistribuicoes">
-                    🚁 Missões
+                <h1>
+                    <svg class="icone-drone-menu" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="8" y="10" width="8" height="4" rx="2"></rect>
+                        <path d="M8 10 5 7M16 10l3-3M8 14l-3 3M16 14l3 3"></path>
+                        <circle cx="4" cy="6" r="2.5"></circle>
+                        <circle cx="20" cy="6" r="2.5"></circle>
+                        <circle cx="4" cy="18" r="2.5"></circle>
+                        <circle cx="20" cy="18" r="2.5"></circle>
+                    </svg>
+                    <span id="tituloTopoDistribuicoes">Missões</span>
                 </h1>
 
                 <p id="tituloListaDistribuicoes"></p>
@@ -2663,25 +2684,68 @@
                     : "andamento";
 
 
-            history.replaceState(
-                {
-                    tela: "lista-missoes",
-                    aba: abaOrigem
-                },
-                "",
-                window.location.href
-            );
+            const parametrosURL =
+                new URLSearchParams(
+                    window.location.search
+                );
 
 
-            history.pushState(
-                {
-                    tela: "detalhe-missao",
-                    id: String(id),
-                    aba: abaOrigem
-                },
-                "",
-                window.location.href
-            );
+            const origemExterna =
+                parametrosURL.get(
+                    "origem"
+                );
+
+
+            if (
+                origemExterna === "operacoes" ||
+                origemExterna === "dashboard"
+            ) {
+
+                /*
+                 * A missão foi aberta a partir
+                 * de outra página.
+                 *
+                 * Não criamos uma etapa extra
+                 * no histórico do navegador.
+                 */
+                history.replaceState(
+                    {
+                        tela: "detalhe-missao",
+                        id: String(id),
+                        aba: abaOrigem,
+                        origem: origemExterna
+                    },
+                    "",
+                    window.location.href
+                );
+
+            } else {
+
+                /*
+                 * Missão aberta pela própria
+                 * página de Missões.
+                 */
+                history.replaceState(
+                    {
+                        tela: "lista-missoes",
+                        aba: abaOrigem
+                    },
+                    "",
+                    window.location.href
+                );
+
+
+                history.pushState(
+                    {
+                        tela: "detalhe-missao",
+                        id: String(id),
+                        aba: abaOrigem
+                    },
+                    "",
+                    window.location.href
+                );
+
+            }
 
             /* =====================================
                CLIENTES
@@ -3198,6 +3262,16 @@
 
                             return;
                         }
+
+                        if (origem === "operacoes") {
+
+                            window.location.href =
+                                "operacoes.html";
+
+                            return;
+                        }
+
+
                         if (
                             history.state &&
                             history.state.tela ===
