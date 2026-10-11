@@ -2647,11 +2647,19 @@
                     }
 
 
+                    const possuiAlerta =
+                        obterAlertasDaMissao(
+                            missao
+                        ).length > 0;
+
+
                     const cor =
-                        coresRotas[
-                        indiceMissao %
-                        coresRotas.length
-                        ];
+                        possuiAlerta
+                            ? "#ef4444"
+                            : coresRotas[
+                            indiceMissao %
+                            coresRotas.length
+                            ];
 
                     const existeMissaoSelecionada =
                         idOperacaoSelecionada !== null;
