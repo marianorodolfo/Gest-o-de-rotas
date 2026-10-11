@@ -1231,6 +1231,37 @@
             font-weight: 600;
         }
 
+        .historico-administrativo-aeronave {
+            margin-top: 18px;
+            padding-top: 14px;
+
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .titulo-historico-administrativo {
+            margin-bottom: 10px;
+
+            color: #123b63;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .historico-administrativo-vazio {
+            padding: 9px 10px;
+
+            border-radius: 7px;
+
+            background: #f8fafc;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
         #confirmarChegadaBase {
             height: 32px;
 
@@ -4910,7 +4941,6 @@
                 const estado =
                     event.state;
 
-
                 if (
                     estado &&
                     estado.tela === "lista-missoes" &&
@@ -4928,6 +4958,33 @@
                     return;
                 }
 
+                const parametrosURL =
+                    new URLSearchParams(
+                        window.location.search
+                    );
+
+                const modo =
+                    parametrosURL.get(
+                        "modo"
+                    );
+
+                if (
+                    modo ===
+                    "pendentes"
+                ) {
+
+                    ativarAba(
+                        "andamento"
+                    );
+
+                    mostrarLista(
+                        "andamento",
+                        null,
+                        true
+                    );
+
+                    return;
+                }
 
                 mostrarDistribuicoes();
 

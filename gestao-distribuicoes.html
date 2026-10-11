@@ -543,19 +543,9 @@
             font-weight: 800;
         }
 
-        .estado-aeronave-disponivel {
+        .estado-aeronave-ativo {
             background: #dcfce7;
             color: #15803d;
-        }
-
-        .estado-aeronave-missao {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .estado-aeronave-retornando {
-            background: #ffedd5;
-            color: #c2410c;
         }
 
         .modal-ficha-tecnica {
@@ -734,6 +724,37 @@
             width: 100% !important;
         }
 
+        #listaVeiculos .info-inativacao-aeronave {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            width: 100%;
+
+            font-size: 9px;
+            line-height: 1.2;
+
+            color: #64748b;
+
+            overflow: hidden;
+        }
+
+        #listaVeiculos .info-inativacao-aeronave strong {
+            flex: 0 0 auto;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            color: #475569;
+        }
+
+        #listaVeiculos .info-inativacao-aeronave span {
+            overflow: hidden;
+
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
 
         #listaVeiculos .item-aeronave-gestao {
             display: flex !important;
@@ -792,7 +813,7 @@
             display: grid !important;
 
             grid-template-columns:
-                1.35fr .8fr .8fr !important;
+                .65fr 1.35fr 1fr !important;
 
             gap: 5px !important;
 
@@ -823,12 +844,6 @@
             color: #ffffff !important;
         }
 
-
-        #listaVeiculos .botao-excluir-aeronave:hover {
-            background: #dc2626 !important;
-            color: #ffffff !important;
-        }
-
         #listaVeiculos .item-aeronave-gestao {
             transition:
                 border-color .18s ease,
@@ -844,6 +859,35 @@
 
             transform:
                 translateY(-1px);
+        }
+
+        #listaVeiculos .estado-aeronave-inativa {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+
+        #listaVeiculos .botao-desativar-aeronave {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+
+        #listaVeiculos .botao-desativar-aeronave:hover {
+            background: #ea580c !important;
+            color: #ffffff !important;
+        }
+
+
+        #listaVeiculos .botao-ativar-aeronave {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+
+        #listaVeiculos .botao-ativar-aeronave:hover {
+            background: #15803d !important;
+            color: #ffffff !important;
         }
 
         .linha-abas-gestao {
@@ -939,6 +983,878 @@
             padding: 6px 12px !important;
 
             text-align: center !important;
+        }
+
+        /* ================================
+   TIPO DE INATIVAÇÃO
+================================= */
+
+        #campoTipoInativacao {
+            width: 100%;
+            height: 34px;
+
+            padding: 0 34px 0 10px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            background-color: #ffffff;
+            color: #0f172a;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+            outline: none;
+
+            transition:
+                border-color .18s ease,
+                box-shadow .18s ease,
+                background-color .18s ease;
+        }
+
+        #campoTipoInativacao:hover {
+            border-color: #94a3b8;
+            background-color: #f8fafc;
+        }
+
+        #campoTipoInativacao:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px rgba(37, 99, 235, .10);
+        }
+
+
+        /* ================================
+   HISTÓRICO ADMINISTRATIVO
+================================= */
+
+        .historico-administrativo-aeronave {
+            margin-top: 16px;
+
+            padding: 12px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            background: #f8fafc;
+        }
+
+        .titulo-historico-administrativo {
+            display: flex;
+            align-items: center;
+
+            margin-bottom: 8px;
+
+            color: #123b63;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .historico-administrativo-vazio {
+            padding: 10px;
+
+            border: 1px dashed #cbd5e1;
+            border-radius: 7px;
+
+            background: #ffffff;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            text-align: center;
+        }
+
+        /* ================================
+   BOTÕES TIPO DE INATIVAÇÃO
+================================= */
+
+        .campo-tipo-inativacao {
+            width: 100%;
+        }
+
+        .opcoes-tipo-inativacao {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 6px;
+
+            margin-top: 4px;
+        }
+
+        .opcao-inativacao {
+            height: 34px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            background: #ffffff;
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                color .18s ease,
+                border-color .18s ease,
+                box-shadow .18s ease;
+        }
+
+        .opcao-inativacao:hover {
+            border-color: #94a3b8;
+
+            background: #f8fafc;
+        }
+
+        .opcao-inativacao.ativa {
+            border-color: #2563eb;
+
+            background: #eff6ff;
+            color: #1d4ed8;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(37, 99, 235, .08);
+        }
+
+        /* ================================
+   ITENS DO HISTÓRICO ADMINISTRATIVO
+================================= */
+
+        #listaHistoricoInativacoes {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .item-historico-administrativo {
+            padding: 10px 11px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+
+            background: #ffffff;
+        }
+
+        .topo-historico-administrativo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 8px;
+
+            margin-bottom: 5px;
+        }
+
+        .topo-historico-administrativo strong {
+            color: #123b63;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .topo-historico-administrativo span {
+            padding: 2px 7px;
+
+            border-radius: 999px;
+
+            background: #e2e8f0;
+            color: #475569;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .status-historico-em-vigor {
+            background: #fff7ed !important;
+            color: #c2410c !important;
+
+            border: 1px solid #fed7aa;
+        }
+
+        .status-historico-encerrado {
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+
+            border: 1px solid #e2e8f0;
+        }
+
+        .motivo-historico-administrativo {
+            margin-bottom: 5px;
+
+            color: #334155;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            line-height: 1.35;
+        }
+
+        .item-historico-administrativo small {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .tipo-historico-inativacao {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 3px 7px;
+
+            border-radius: 6px;
+
+            font-size: 9px !important;
+            font-weight: 800 !important;
+        }
+
+        .tipo-inativacao-temporaria {
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+
+            color: #1d4ed8 !important;
+        }
+
+        .tipo-inativacao-definitiva {
+            background: #fef2f2;
+
+            border: 1px solid #fecaca;
+
+            color: #b91c1c !important;
+        }
+
+        #listaHistoricoInativacoes {
+            max-height: 180px;
+
+            overflow-y: auto;
+
+            padding-right: 3px;
+        }
+
+
+        /* Scroll discreto */
+        #listaHistoricoInativacoes::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #listaHistoricoInativacoes::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #listaHistoricoInativacoes::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+
+        #listaHistoricoInativacoes::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .cabecalho-historico-administrativo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 10px;
+        }
+
+        .cabecalho-historico-administrativo .titulo-historico-administrativo {
+            margin-bottom: 0;
+        }
+
+        .status-administrativo-ficha {
+            padding: 3px 8px;
+
+            border: 1px solid #bbf7d0;
+            border-radius: 999px;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .status-administrativo-ficha.inativa {
+            border-color: #cbd5e1;
+
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .historico-tecnico-aeronave {
+            margin-top: 12px;
+
+            padding: 12px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+
+            background: #f8fafc;
+        }
+
+        .titulo-historico-tecnico {
+            margin-bottom: 10px;
+
+            color: #123b63;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .historico-tecnico-vazio {
+            padding: 10px;
+
+            border: 1px dashed #cbd5e1;
+            border-radius: 7px;
+
+            background: #ffffff;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            text-align: center;
+        }
+
+        /* =========================================
+   FICHA TÉCNICA - ALTURA COMPACTA
+========================================= */
+
+        #modalFichaTecnica {
+            padding: 10px;
+        }
+
+        #modalFichaTecnica .modal-ficha-tecnica-conteudo {
+            max-height: calc(100vh - 20px);
+
+            padding: 12px;
+
+            overflow-y: auto;
+
+            overscroll-behavior: contain;
+        }
+
+
+        /* TOPO */
+
+        #modalFichaTecnica .topo-modal-ficha {
+            margin-bottom: 9px;
+        }
+
+        #modalFichaTecnica .fechar-modal-ficha {
+            width: 25px;
+            height: 25px;
+
+            font-size: 16px;
+        }
+
+
+        /* CAMPOS */
+
+        #modalFichaTecnica .grade-modal-ficha {
+            gap: 7px;
+        }
+
+        #modalFichaTecnica .grade-modal-ficha label {
+            gap: 3px;
+        }
+
+        #modalFichaTecnica .grade-modal-ficha input {
+            height: 31px;
+        }
+
+
+        /* HISTÓRICO ADMINISTRATIVO */
+
+        #modalFichaTecnica .historico-administrativo-aeronave {
+            margin-top: 9px;
+            padding: 9px;
+        }
+
+        #modalFichaTecnica .cabecalho-historico-administrativo {
+            margin-bottom: 6px;
+        }
+
+        #modalFichaTecnica #listaHistoricoInativacoes {
+            max-height: 110px;
+            gap: 5px;
+        }
+
+        #modalFichaTecnica .item-historico-administrativo {
+            padding: 7px 8px;
+        }
+
+        #modalFichaTecnica .topo-historico-administrativo {
+            margin-bottom: 3px;
+        }
+
+        #modalFichaTecnica .motivo-historico-administrativo {
+            margin-bottom: 3px;
+        }
+
+
+        /* HISTÓRICO TÉCNICO */
+
+        #modalFichaTecnica .historico-tecnico-aeronave {
+            margin-top: 9px;
+            padding: 9px;
+        }
+
+        #modalFichaTecnica .titulo-historico-tecnico {
+            margin-bottom: 6px;
+        }
+
+        #modalFichaTecnica #listaHistoricoTecnicoFicha {
+            max-height: 110px;
+
+            overflow-y: auto;
+        }
+
+
+        /* BOTÕES */
+
+        #modalFichaTecnica .acoes-modal-ficha {
+            margin-top: 9px;
+        }
+
+        #modalFichaTecnica .acoes-modal-ficha button {
+            padding: 6px 11px;
+        }
+
+        /* =========================================
+   HISTÓRICO TÉCNICO - FICHA DA AERONAVE
+========================================= */
+
+        #listaHistoricoTecnicoFicha {
+            display: flex;
+            flex-direction: column;
+
+            gap: 6px;
+
+            max-height: 110px;
+
+            overflow-y: auto;
+
+            padding-right: 3px;
+        }
+
+
+        .item-historico-tecnico-ficha {
+            position: relative;
+
+            padding: 7px 9px 7px 11px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+
+            background: #ffffff;
+
+            transition:
+                border-color .18s ease,
+                background .18s ease;
+        }
+
+
+        /* pequena linha técnica à esquerda */
+
+        .item-historico-tecnico-ficha::before {
+            content: "";
+
+            position: absolute;
+
+            top: 7px;
+            bottom: 7px;
+            left: 0;
+
+            width: 3px;
+
+            border-radius: 0 3px 3px 0;
+
+            background: #2563eb;
+        }
+
+        .item-historico-tecnico-ficha.evento-tecnico-inspecao::before {
+            background: #2563eb;
+        }
+
+        .item-historico-tecnico-ficha.evento-tecnico-manutencao::before {
+            background: #f59e0b;
+        }
+
+        .item-historico-tecnico-ficha.evento-tecnico-retorno::before {
+            background: #16a34a;
+        }
+
+        .item-historico-tecnico-ficha.evento-tecnico-ficha::before {
+            background: #64748b;
+        }
+
+        .item-historico-tecnico-ficha.evento-tecnico-padrao::before {
+            background: #123b63;
+        }
+
+
+        .item-historico-tecnico-ficha:hover {
+            border-color: #cbd5e1;
+
+            background: #f8fafc;
+        }
+
+
+        /* DESCRIÇÃO DO EVENTO */
+
+        .item-historico-tecnico-ficha strong {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #334155;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            line-height: 1.3;
+        }
+
+
+        /* DATA */
+
+        .item-historico-tecnico-ficha span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+
+        /* SCROLL DISCRETO */
+
+        #listaHistoricoTecnicoFicha::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #listaHistoricoTecnicoFicha::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #listaHistoricoTecnicoFicha::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+
+            border-radius: 999px;
+        }
+
+        #listaHistoricoTecnicoFicha::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .cabecalho-historico-tecnico {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-bottom: 7px;
+        }
+
+        .cabecalho-historico-tecnico .titulo-historico-tecnico {
+            margin-bottom: 0;
+        }
+
+        .status-tecnico-ficha {
+            padding: 3px 8px;
+
+            border: 1px solid #bbf7d0;
+            border-radius: 999px;
+
+            background: #dcfce7;
+            color: #15803d;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .status-tecnico-ficha.manutencao {
+            border-color: #fed7aa;
+
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-tecnico-ficha.missao {
+            border-color: #fecaca;
+
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .status-tecnico-ficha.retornando {
+            border-color: #fed7aa;
+
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .ultima-inspecao-ficha {
+            margin: -2px 0 7px;
+
+            padding-bottom: 6px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .ultima-inspecao-ficha::before {
+            content: "✓";
+
+            margin-right: 5px;
+
+            color: #2563eb;
+
+            font-weight: 900;
+        }
+
+        .manutencao-atual-ficha {
+            margin: 0 0 7px;
+
+            padding: 6px 8px;
+
+            border: 1px solid #fed7aa;
+            border-radius: 7px;
+
+            background: #fff7ed;
+            color: #c2410c;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            line-height: 1.3;
+        }
+
+        .manutencao-atual-ficha strong {
+            display: block;
+
+            margin-bottom: 2px;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .manutencao-atual-ficha span {
+            display: block;
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .manutencao-atual-ficha small {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #9a3412;
+
+            font-size: 8px;
+            font-weight: 600;
+        }
+
+        .proxima-manutencao-ficha {
+            margin: -3px 0 7px;
+
+            padding-bottom: 6px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .proxima-manutencao-ficha.proxima {
+            color: #c2410c;
+        }
+
+        .proxima-manutencao-ficha.vencida {
+            color: #b91c1c;
+            font-weight: 800;
+        }
+
+        /* =========================================
+   BOTÃO HISTÓRICO TÉCNICO COMPLETO
+========================================= */
+
+        .acoes-historico-tecnico-ficha {
+            display: flex;
+            justify-content: flex-end;
+
+            margin-top: 6px;
+        }
+
+        .botao-historico-tecnico-completo {
+            padding: 4px 7px;
+
+            border: 0;
+            border-radius: 6px;
+
+            background: transparent;
+            color: #2563eb;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                color .18s ease;
+        }
+
+        .botao-historico-tecnico-completo:hover {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .lista-historico-tecnico-completo-ficha {
+            display: flex;
+            flex-direction: column;
+
+            gap: 7px;
+
+            max-height: 420px;
+
+            overflow-y: auto;
+
+            padding-right: 3px;
+        }
+
+        .item-historico-tecnico-completo {
+            position: relative;
+
+            padding: 8px 10px 8px 12px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+
+            background: #ffffff;
+        }
+
+        .item-historico-tecnico-completo::before {
+            content: "";
+
+            position: absolute;
+
+            top: 7px;
+            bottom: 7px;
+            left: 0;
+
+            width: 3px;
+
+            border-radius: 0 3px 3px 0;
+
+            background: #2563eb;
+        }
+
+        .item-historico-tecnico-completo strong {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #334155;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            line-height: 1.35;
+        }
+
+        .item-historico-tecnico-completo span {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .item-historico-tecnico-completo.evento-tecnico-inspecao::before {
+            background: #2563eb;
+        }
+
+        .item-historico-tecnico-completo.evento-tecnico-manutencao::before {
+            background: #f59e0b;
+        }
+
+        .item-historico-tecnico-completo.evento-tecnico-retorno::before {
+            background: #16a34a;
+        }
+
+        .item-historico-tecnico-completo.evento-tecnico-ficha::before {
+            background: #64748b;
+        }
+
+        .item-historico-tecnico-completo.evento-tecnico-padrao::before {
+            background: #123b63;
+        }
+
+        #modalFichaTecnica .grade-modal-ficha input.campo-permanente {
+            background: #f8fafc;
+
+            border-color: #e2e8f0;
+
+            color: #475569;
+
+            cursor: default;
+        }
+
+        #modalFichaTecnica .grade-modal-ficha input.campo-permanente:focus {
+            border-color: #e2e8f0;
+
+            box-shadow: none;
+        }
+
+        #modalFichaTecnica .grade-modal-ficha label:has(input.campo-permanente) span::after {
+            content: "  ·  dado permanente";
+
+            color: #94a3b8;
+
+            font-size: 7px;
+            font-weight: 700;
+
+            text-transform: none;
+            letter-spacing: 0;
         }
 
 
@@ -1112,12 +2028,6 @@
             }
 
 
-            .botao-excluir-aeronave {
-                background: #feecec;
-                color: #dc2626;
-            }
-
-
             .botao-ficha-aeronave:hover {
                 background: #dfeaf6;
             }
@@ -1172,6 +2082,260 @@
             }
 
         }
+
+        /* =========================================
+   OPERADORES - GESTÃO
+========================================= */
+
+        #listaOperadores {
+            display: grid !important;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr)) !important;
+
+            gap: 8px !important;
+
+            width: 100% !important;
+
+            margin-bottom: 12px !important;
+        }
+
+
+        #listaOperadores .item-operador-gestao {
+            display: grid !important;
+
+            grid-template-columns:
+                minmax(0, 1fr) auto !important;
+
+            align-items: center !important;
+
+            gap: 6px !important;
+
+            padding: 7px 8px !important;
+
+            background: #ffffff !important;
+
+            border:
+                1px solid #e1e7ef !important;
+
+            border-radius: 10px !important;
+
+            box-shadow:
+                0 2px 5px rgba(15, 23, 42, .04) !important;
+
+            transition:
+                border-color .18s ease,
+                box-shadow .18s ease,
+                transform .18s ease;
+        }
+
+
+        #listaOperadores .item-operador-gestao:hover {
+            border-color:
+                #93c5fd !important;
+
+            box-shadow:
+                0 6px 16px rgba(37, 99, 235, .08) !important;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        #listaOperadores .dados-operador-gestao {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+
+            min-width: 0;
+        }
+
+
+        #listaOperadores .dados-operador-gestao strong {
+            color: #123b63;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        #listaOperadores .dados-operador-gestao span {
+            color: #94a3b8;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        #listaOperadores .estado-operador-ativo {
+            padding: 3px 7px;
+
+            border-radius: 999px;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        #listaOperadores .acoes-operador-gestao {
+            grid-column:
+                1 / -1;
+
+            display: grid;
+
+            grid-template-columns:
+                1.2fr 1fr 1fr;
+
+            gap: 4px;
+        }
+
+        #listaOperadores .botao-ficha-operador {
+            background: #eef4fb;
+            color: #123b63;
+        }
+
+        #listaOperadores .botao-ficha-operador:hover {
+            background: #123b63;
+            color: #ffffff;
+        }
+
+
+        #listaOperadores .acoes-operador-gestao button {
+            width: 100%;
+
+            padding: 4px 5px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            font-size: 8.5px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .18s ease,
+                color .18s ease,
+                transform .18s ease,
+                box-shadow .18s ease;
+        }
+
+
+        #listaOperadores .botao-editar-operador {
+            background: #e8f0ff;
+
+            color: #2563eb;
+        }
+
+
+        #listaOperadores .botao-editar-operador:hover {
+            background: #2563eb;
+
+            color: #ffffff;
+        }
+
+
+        #listaOperadores .botao-excluir-operador {
+            background: #feecec;
+
+            color: #dc2626;
+        }
+
+
+        #listaOperadores .botao-excluir-operador:hover {
+            background: #dc2626;
+
+            color: #ffffff;
+        }
+
+        #listaOperadores .situacao-formacao {
+            width: fit-content;
+
+            margin-top: 2px;
+
+            padding: 2px 6px;
+
+            border-radius: 999px;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+
+        #listaOperadores .formacao-valida {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+
+        #listaOperadores .formacao-a-vencer {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+
+        #listaOperadores .formacao-expirada {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+
+        #listaOperadores .formacao-sem-registo {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        /* =========================================
+   HOVER - ATIVAR / DESATIVAR OPERADOR
+========================================= */
+
+        #listaOperadores .acoes-operador-gestao .botao-desativar-operador:hover {
+
+            background: #ea580c !important;
+            color: #ffffff !important;
+
+            transform: translateY(-1px) !important;
+
+            box-shadow:
+                0 4px 10px rgba(234, 88, 12, .22) !important;
+        }
+
+
+        #listaOperadores .acoes-operador-gestao .botao-ativar-operador:hover {
+
+            background: #15803d !important;
+            color: #ffffff !important;
+
+            transform: translateY(-1px) !important;
+
+            box-shadow:
+                0 4px 10px rgba(21, 128, 61, .22) !important;
+        }
+
+
+        #listaOperadores .acoes-operador-gestao .botao-desativar-operador,
+
+        #listaOperadores .acoes-operador-gestao .botao-ativar-operador {
+
+            transition:
+                background .18s ease,
+                color .18s ease,
+                transform .18s ease,
+                box-shadow .18s ease !important;
+        }
     </style>
 
     <link rel="stylesheet" href="layout-global.css">
@@ -1204,7 +2368,7 @@
 
 
         <button type="button" class="botao-voltar-topo" onclick="window.location.href='drones.html'">
-            ← Voltar
+            Voltar
         </button>
 
     </header>
@@ -1494,6 +2658,106 @@
 
         prepararDistribuidores();
 
+        /* ================================
+   CÓDIGOS PERMANENTES DOS OPERADORES
+================================= */
+
+        function prepararCodigosOperadores() {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+            let alterado = false;
+
+            let maiorCodigo = 0;
+
+
+            lista.forEach(
+                function (operador) {
+
+                    if (
+                        typeof operador !== "object" ||
+                        !operador.codigo
+                    ) {
+                        return;
+                    }
+
+                    const encontrado =
+                        String(
+                            operador.codigo
+                        ).match(
+                            /\d+/
+                        );
+
+                    if (!encontrado) {
+                        return;
+                    }
+
+                    const numero =
+                        Number(
+                            encontrado[0]
+                        );
+
+                    if (
+                        numero >
+                        maiorCodigo
+                    ) {
+                        maiorCodigo =
+                            numero;
+                    }
+
+                }
+            );
+
+
+            lista.forEach(
+                function (operador) {
+
+                    if (
+                        typeof operador !== "object"
+                    ) {
+                        return;
+                    }
+
+                    if (operador.codigo) {
+                        return;
+                    }
+
+                    maiorCodigo++;
+
+                    operador.codigo =
+                        "OP-" +
+                        String(
+                            maiorCodigo
+                        ).padStart(
+                            3,
+                            "0"
+                        );
+
+                    alterado = true;
+
+                }
+            );
+
+
+            if (alterado) {
+
+                localStorage.setItem(
+                    "distribuidores",
+                    JSON.stringify(lista)
+                );
+
+            }
+
+        }
+
+
+        prepararCodigosOperadores();
+
 
         /* ================================
            VEÍCULOS
@@ -1544,40 +2808,6 @@
 
         }
 
-        const frotaAtual =
-            JSON.parse(
-                localStorage.getItem(
-                    "veiculos"
-                )
-            ) || [];
-
-
-        veiculosIniciais.forEach(
-            function (drone) {
-
-                if (
-                    !frotaAtual.includes(
-                        drone
-                    )
-                ) {
-
-                    frotaAtual.push(
-                        drone
-                    );
-
-                }
-
-            }
-        );
-
-
-        localStorage.setItem(
-            "veiculos",
-            JSON.stringify(
-                frotaAtual
-            )
-        );
-
 
         /* ================================
            MOSTRAR DISTRIBUIDORES
@@ -1592,118 +2822,177 @@
                     )
                 ) || [];
 
-
-            const carros =
-                lista.filter(function (distribuidor) {
-
-                    return distribuidor.tipo === "carro";
-
-                });
-
-
-            const motos =
-                lista.filter(function (distribuidor) {
-
-                    return distribuidor.tipo === "moto";
-
-                });
-
-
-            const areaCarro =
+            const area =
                 document.getElementById(
-                    "listaDistribuidoresCarro"
+                    "listaOperadores"
                 );
 
+            if (!area) {
+                return;
+            }
 
-            const areaMoto =
-                document.getElementById(
-                    "listaDistribuidoresMoto"
-                );
+            area.innerHTML = "";
+
+            lista.forEach(
+                function (operador, indice) {
+
+                    const codigo =
+                        "OP-" +
+                        String(
+                            indice + 1
+                        ).padStart(
+                            3,
+                            "0"
+                        );
+
+                    const estaAtivo =
+                        operador.ativo !== false;
+
+                    let textoFormacao =
+                        "Sem registo";
+
+                    let classeFormacao =
+                        "formacao-sem-registo";
 
 
-            areaCarro.innerHTML = "";
+                    if (operador.validade) {
+
+                        const hoje =
+                            new Date();
+
+                        hoje.setHours(
+                            0,
+                            0,
+                            0,
+                            0
+                        );
 
 
-            areaMoto.innerHTML = "";
+                        const validade =
+                            new Date(
+                                operador.validade +
+                                "T00:00:00"
+                            );
 
 
-            carros.forEach(
-                function (distribuidor, indice) {
+                        const diasRestantes =
+                            Math.ceil(
+                                (
+                                    validade -
+                                    hoje
+                                ) /
+                                86400000
+                            );
 
-                    areaCarro.innerHTML += `
 
-                    <div class="item-gestao">
+                        if (diasRestantes < 0) {
 
-                        <span>
+                            textoFormacao =
+                                "Formação expirada";
 
-                            ${String(
-                        indice + 1
-                    ).padStart(2, "0")}
+                            classeFormacao =
+                                "formacao-expirada";
 
-                            ·
+                        } else if (
+                            diasRestantes <= 30
+                        ) {
 
-                            ${distribuidor.nome}
+                            textoFormacao =
+                                "Formação a vencer";
 
-                        </span>
+                            classeFormacao =
+                                "formacao-a-vencer";
 
+                        } else {
+
+                            textoFormacao =
+                                "Formação válida";
+
+                            classeFormacao =
+                                "formacao-valida";
+
+                        }
+
+                    }
+
+                    area.innerHTML += `
+
+                <div class="item-operador-gestao">
+
+                    <div class="dados-operador-gestao">
+
+    <strong>
+        ${operador.nome}
+    </strong>
+
+    <span>
+        ${codigo}
+    </span>
+
+    <span
+        class="
+            situacao-formacao
+            ${classeFormacao}
+        "
+    >
+        ${textoFormacao}
+    </span>
+
+</div>
+
+                    <span
+    class="
+        ${estaAtivo
+                            ? "estado-operador-ativo"
+                            : "estado-operador-inativo"
+                        }
+    "
+>
+    ${estaAtivo
+                            ? "Ativo"
+                            : "Inativo"
+                        }
+</span>
+
+                    <div class="acoes-operador-gestao">
+
+                    <button
+    type="button"
+    class="botao-ficha-operador"
+    onclick="abrirFichaOperador(${indice})"
+>
+    Ficha
+</button>
 
                         <button
-                            onclick="editarDistribuidor(${lista.indexOf(distribuidor)})"
+                            type="button"
+                            class="botao-editar-operador"
+                            onclick="editarDistribuidor(${indice})"
                         >
                             Editar
                         </button>
 
-
                         <button
-                            onclick="excluirDistribuidor(${lista.indexOf(distribuidor)})"
-                        >
-                            Excluir
-                        </button>
+    type="button"
+    class="
+        ${estaAtivo
+                            ? "botao-desativar-operador"
+                            : "botao-ativar-operador"
+                        }
+    "
+    onclick="alternarEstadoOperador(${indice})"
+>
+    ${estaAtivo
+                            ? "Desativar"
+                            : "Ativar"
+                        }
+</button>
 
                     </div>
 
-                `;
+                </div>
 
-                }
-            );
-
-
-            motos.forEach(
-                function (distribuidor, indice) {
-
-                    areaMoto.innerHTML += `
-
-                    <div class="item-gestao">
-
-                        <span>
-
-                            ${String(
-                        indice + 1
-                    ).padStart(2, "0")}
-
-                            ·
-
-                            ${distribuidor.nome}
-
-                        </span>
-
-
-                        <button
-                            onclick="editarDistribuidor(${lista.indexOf(distribuidor)})"
-                        >
-                            Editar
-                        </button>
-
-
-                        <button
-                            onclick="excluirDistribuidor(${lista.indexOf(distribuidor)})"
-                        >
-                            Excluir
-                        </button>
-
-                    </div>
-
-                `;
+            `;
 
                 }
             );
@@ -1767,7 +3056,7 @@
             if (existe) {
 
                 alert(
-                    "Esse distribuidor já existe."
+                    "Esse operador já existe."
                 );
 
                 return;
@@ -1780,6 +3069,160 @@
                 nome: nome,
 
                 tipo: tipo
+
+            });
+
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(lista)
+            );
+
+
+            campo.value = "";
+
+
+            mostrarDistribuidores();
+
+        }
+
+        /* ================================
+   ADICIONAR OPERADOR
+================================= */
+
+        function adicionarOperador() {
+
+            const campo =
+                document.getElementById(
+                    "novoOperador"
+                );
+
+            const nome =
+                campo.value.trim();
+
+            if (!nome) {
+
+                alert(
+                    "Digite o nome do operador."
+                );
+
+                return;
+
+            }
+
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+
+            const existe =
+                lista.some(
+                    function (operador) {
+
+                        const nomeAtual =
+                            typeof operador === "object"
+                                ? operador.nome
+                                : operador;
+
+                        return (
+                            String(
+                                nomeAtual || ""
+                            )
+                                .trim()
+                                .toLowerCase() ===
+                            nome.toLowerCase()
+                        );
+
+                    }
+                );
+
+
+            if (existe) {
+
+                alert(
+                    "Esse operador já está cadastrado."
+                );
+
+                return;
+
+            }
+
+
+            let maiorCodigo = 0;
+
+
+            lista.forEach(
+                function (operador, indice) {
+
+                    let numero =
+                        indice + 1;
+
+                    if (
+                        typeof operador === "object" &&
+                        operador.codigo
+                    ) {
+
+                        const encontrado =
+                            String(
+                                operador.codigo
+                            ).match(
+                                /\d+/
+                            );
+
+                        if (encontrado) {
+
+                            numero =
+                                Number(
+                                    encontrado[0]
+                                );
+
+                        }
+
+                    }
+
+                    if (
+                        numero >
+                        maiorCodigo
+                    ) {
+
+                        maiorCodigo =
+                            numero;
+
+                    }
+
+                }
+            );
+
+
+            const codigo =
+                "OP-" +
+                String(
+                    maiorCodigo + 1
+                ).padStart(
+                    3,
+                    "0"
+                );
+
+
+            lista.push({
+
+                nome: nome,
+
+                codigo: codigo,
+
+                ativo: true,
+
+                entrada: "",
+
+                qualificacao: "",
+
+                validade: "",
+
+                observacoes: ""
 
             });
 
@@ -1817,23 +3260,25 @@
 
 
             if (!distribuidor) {
-
                 return;
-
             }
+
+
+            const nomeAnterior =
+                String(
+                    distribuidor.nome || ""
+                ).trim();
 
 
             const novoNome =
                 prompt(
-                    "Novo nome do distribuidor:",
-                    distribuidor.nome
+                    "Novo nome do operador:",
+                    nomeAnterior
                 );
 
 
             if (novoNome === null) {
-
                 return;
-
             }
 
 
@@ -1858,7 +3303,11 @@
 
                         return (
                             i !== indice &&
-                            item.nome.toLowerCase() ===
+                            String(
+                                item.nome || ""
+                            )
+                                .trim()
+                                .toLowerCase() ===
                             nome.toLowerCase()
                         );
 
@@ -1869,7 +3318,7 @@
             if (existe) {
 
                 alert(
-                    "Esse distribuidor já existe."
+                    "Esse operador já existe."
                 );
 
                 return;
@@ -1877,13 +3326,59 @@
             }
 
 
-            lista[indice].nome = nome;
+            lista[indice].nome =
+                nome;
 
 
             localStorage.setItem(
                 "distribuidores",
                 JSON.stringify(lista)
             );
+
+
+            let houveAlteracao =
+                false;
+
+
+            distribuicoes.forEach(
+                function (distribuicao) {
+
+                    const operadorMissao =
+                        String(
+                            distribuicao.distribuidor ||
+                            ""
+                        )
+                            .trim()
+                            .toLowerCase();
+
+
+                    if (
+                        operadorMissao ===
+                        nomeAnterior.toLowerCase()
+                    ) {
+
+                        distribuicao.distribuidor =
+                            nome;
+
+                        houveAlteracao =
+                            true;
+
+                    }
+
+                }
+            );
+
+
+            if (houveAlteracao) {
+
+                localStorage.setItem(
+                    "distribuicoes",
+                    JSON.stringify(
+                        distribuicoes
+                    )
+                );
+
+            }
 
 
             mostrarDistribuidores();
@@ -1942,6 +3437,251 @@
                 JSON.stringify(lista)
             );
 
+
+            mostrarDistribuidores();
+
+        }
+
+        function alternarEstadoOperador(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+            const operador =
+                lista[indice];
+
+            if (!operador) {
+                return;
+            }
+
+
+            const estaAtivo =
+                operador.ativo !== false;
+
+
+            /*
+             * Só verificamos missão ativa
+             * quando a intenção é desativar.
+             */
+            if (estaAtivo) {
+
+                const distribuicoes =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "distribuicoes"
+                        )
+                    ) || [];
+
+
+                const possuiMissaoAtiva =
+                    distribuicoes.some(
+                        function (distribuicao) {
+
+                            return (
+
+                                String(
+                                    distribuicao.distribuidor ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase() ===
+
+                                String(
+                                    operador.nome ||
+                                    ""
+                                )
+                                    .trim()
+                                    .toLowerCase()
+
+                                &&
+
+                                distribuicao.status ===
+                                "Em andamento"
+
+                            );
+
+                        }
+                    );
+
+
+                if (possuiMissaoAtiva) {
+
+                    alert(
+                        "Este operador possui uma missão em andamento e não pode ser desativado."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            operador.ativo =
+                !estaAtivo;
+
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(lista)
+            );
+
+
+            mostrarDistribuidores();
+
+        }
+
+
+        function abrirFichaOperador(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+            const operador =
+                lista[indice];
+
+            if (!operador) {
+                return;
+            }
+
+            indiceFichaOperadorAtual =
+                indice;
+
+            const codigo =
+                operador.codigo ||
+                (
+                    "OP-" +
+                    String(
+                        indice + 1
+                    ).padStart(
+                        3,
+                        "0"
+                    )
+                );
+
+            document.getElementById(
+                "tituloModalFichaOperador"
+            ).textContent =
+                "Ficha do operador · " +
+                operador.nome;
+
+            document.getElementById(
+                "campoOperadorCodigo"
+            ).value =
+                codigo;
+
+            document.getElementById(
+                "campoOperadorNome"
+            ).value =
+                operador.nome || "";
+
+            document.getElementById(
+                "campoOperadorEntrada"
+            ).value =
+                operador.entrada || "";
+
+            document.getElementById(
+                "campoOperadorQualificacao"
+            ).value =
+                operador.qualificacao || "";
+
+            document.getElementById(
+                "campoOperadorValidade"
+            ).value =
+                operador.validade || "";
+
+            document.getElementById(
+                "campoOperadorObservacoes"
+            ).value =
+                operador.observacoes || "";
+
+            document.getElementById(
+                "modalFichaOperador"
+            ).classList.add(
+                "aberto"
+            );
+
+        }
+
+
+        function fecharFichaOperador() {
+
+            document.getElementById(
+                "modalFichaOperador"
+            ).classList.remove(
+                "aberto"
+            );
+
+            indiceFichaOperadorAtual =
+                null;
+
+        }
+
+
+        function guardarFichaOperador() {
+
+            if (
+                indiceFichaOperadorAtual ===
+                null
+            ) {
+                return;
+            }
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuidores"
+                    )
+                ) || [];
+
+            const operador =
+                lista[
+                indiceFichaOperadorAtual
+                ];
+
+            if (!operador) {
+                return;
+            }
+
+            operador.codigo =
+                document.getElementById(
+                    "campoOperadorCodigo"
+                ).value;
+
+            operador.entrada =
+                document.getElementById(
+                    "campoOperadorEntrada"
+                ).value;
+
+            operador.qualificacao =
+                document.getElementById(
+                    "campoOperadorQualificacao"
+                ).value.trim();
+
+            operador.validade =
+                document.getElementById(
+                    "campoOperadorValidade"
+                ).value;
+
+            operador.observacoes =
+                document.getElementById(
+                    "campoOperadorObservacoes"
+                ).value.trim();
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(lista)
+            );
+
+            fecharFichaOperador();
 
             mostrarDistribuidores();
 
@@ -2031,134 +3771,613 @@
                     )
                 ) || [];
 
-            const distribuicoes =
-                JSON.parse(
-                    localStorage.getItem(
-                        "distribuicoes"
-                    )
-                ) || [];
-
 
             const area =
                 document.getElementById(
                     "listaVeiculos"
                 );
 
+            const listaOrdenada =
+                lista
+                    .map(
+                        function (
+                            veiculo,
+                            indiceOriginal
+                        ) {
+
+                            return {
+                                veiculo:
+                                    veiculo,
+
+                                indiceOriginal:
+                                    indiceOriginal
+                            };
+
+                        }
+                    )
+                    .sort(
+                        function (a, b) {
+
+                            return String(
+                                a.veiculo
+                            ).localeCompare(
+                                String(
+                                    b.veiculo
+                                ),
+                                undefined,
+                                {
+                                    numeric: true,
+                                    sensitivity: "base"
+                                }
+                            );
+
+                        }
+                    );
+
 
             area.innerHTML = "";
 
 
-            lista.forEach(
-                function (
-                    veiculo,
-                    indice
-                ) {
+            listaOrdenada.forEach(
+                function (item) {
 
-                    const missaoAtiva =
-                        distribuicoes.find(
-                            function (distribuicao) {
+                    const veiculo =
+                        item.veiculo;
 
-                                return (
-                                    distribuicao.veiculo === veiculo &&
-                                    distribuicao.status === "Em andamento"
-                                );
+                    const indice =
+                        item.indiceOriginal;
 
-                            }
+                    const aeronavesInativas =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "aeronavesInativas"
+                            )
+                        ) || [];
+
+
+                    const estaAtiva =
+                        !aeronavesInativas.includes(
+                            veiculo
                         );
 
+                    const inativacoesAeronaves =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "inativacoesAeronaves"
+                            )
+                        ) || {};
 
-                    let estadoAeronave =
-                        "Disponível";
 
-
-                    let classeEstado =
-                        "estado-aeronave-disponivel";
-
-
-                    if (missaoAtiva) {
-
-                        if (
-                            missaoAtiva.retornoBase ===
-                            "Em andamento"
-                        ) {
-
-                            estadoAeronave =
-                                "Retornando";
-
-                            classeEstado =
-                                "estado-aeronave-retornando";
-
-                        } else {
-
-                            estadoAeronave =
-                                "Em missão";
-
-                            classeEstado =
-                                "estado-aeronave-missao";
-
-                        }
-
-                    }
+                    const dadosInativacao =
+                        inativacoesAeronaves[
+                        veiculo
+                        ] || null;
 
                     area.innerHTML += `
 
-    <div class="item-gestao item-aeronave-gestao">
+                <div class="item-gestao item-aeronave-gestao">
 
-        <div class="topo-aeronave-gestao">
+                    <div class="topo-aeronave-gestao">
 
+                        <strong>
+                            ${veiculo}
+                        </strong>
+
+                        <small
+    class="
+        estado-aeronave-gestao
+        ${estaAtiva
+                            ? "estado-aeronave-ativo"
+                            : "estado-aeronave-inativa"
+                        }
+    "
+>
+    ${estaAtiva
+                            ? "Ativa"
+                            : "Inativa"
+                        }
+</small>
+
+                    </div>
+
+                    ${!estaAtiva && dadosInativacao
+                            ? `
+        <div class="info-inativacao-aeronave">
             <strong>
-                ${veiculo}
+                ${dadosInativacao.tipo || "Inativa"}
             </strong>
 
-            <small
-                class="
-                    estado-aeronave-gestao
-                    ${classeEstado}
-                "
-            >
-                ${estadoAeronave}
-            </small>
-
+            <span>
+                ${dadosInativacao.motivo || ""}
+            </span>
         </div>
+    `
+                            : ""
+                        }
 
+                    <div class="acoes-aeronave-gestao">
 
-        <div class="acoes-aeronave-gestao">
+                        <button
+                            type="button"
+                            class="botao-ficha-aeronave"
+                            onclick="editarFichaTecnica('${veiculo}')"
+                        >
+                            Ficha
+                        </button>
 
-            <button
-                type="button"
-                class="botao-ficha-aeronave"
-                onclick="editarFichaTecnica('${veiculo}')"
-            >
-                Ficha técnica
-            </button>
+                        <button
+                            type="button"
+                            class="botao-editar-aeronave"
+                            onclick="editarVeiculo(${indice})"
+                        >
+                            Identificação
+                        </button>
 
-            <button
-                type="button"
-                class="botao-editar-aeronave"
-                onclick="editarVeiculo(${indice})"
-            >
-                Editar
-            </button>
+                        <button
+    type="button"
+    class="
+        ${estaAtiva
+                            ? "botao-desativar-aeronave"
+                            : "botao-ativar-aeronave"
+                        }
+    "
+    onclick="alternarEstadoAeronave(${indice})"
+>
+    ${estaAtiva
+                            ? "Desativar"
+                            : "Ativar"
+                        }
+</button>
 
-            <button
-                type="button"
-                class="botao-excluir-aeronave"
-                onclick="excluirVeiculo(${indice})"
-            >
-                Excluir
-            </button>
+                    </div>
 
-        </div>
+                </div>
 
-    </div>
-
-`;
+            `;
 
                 }
             );
 
         }
 
+        let indiceAeronaveInativacaoAtual =
+            null;
+
+        function selecionarTipoInativacao(tipo) {
+
+            document
+                .getElementById(
+                    "campoTipoInativacao"
+                )
+                .value =
+                tipo;
+
+
+            const temporaria =
+                document.getElementById(
+                    "botaoInativacaoTemporaria"
+                );
+
+
+            const definitiva =
+                document.getElementById(
+                    "botaoInativacaoDefinitiva"
+                );
+
+
+            temporaria.classList.toggle(
+                "ativa",
+                tipo === "Temporária"
+            );
+
+
+            definitiva.classList.toggle(
+                "ativa",
+                tipo === "Definitiva"
+            );
+
+        }
+
+
+        function abrirModalInativarAeronave(
+            indice,
+            veiculo
+        ) {
+
+            indiceAeronaveInativacaoAtual =
+                indice;
+
+
+            document
+                .getElementById(
+                    "campoInativarAeronave"
+                )
+                .value =
+                veiculo;
+
+
+            selecionarTipoInativacao(
+                "Temporária"
+            );
+
+
+            document
+                .getElementById(
+                    "campoMotivoInativacao"
+                )
+                .value =
+                "";
+
+
+            document
+                .getElementById(
+                    "tituloModalInativarAeronave"
+                )
+                .textContent =
+                "Inativar aeronave · " +
+                veiculo;
+
+
+            document
+                .getElementById(
+                    "modalInativarAeronave"
+                )
+                .classList.add(
+                    "aberto"
+                );
+
+        }
+
+
+        function fecharModalInativarAeronave() {
+
+            document
+                .getElementById(
+                    "modalInativarAeronave"
+                )
+                .classList.remove(
+                    "aberto"
+                );
+
+
+            indiceAeronaveInativacaoAtual =
+                null;
+
+        }
+
+        function confirmarInativacaoAeronave() {
+
+            if (
+                indiceAeronaveInativacaoAtual ===
+                null
+            ) {
+                return;
+            }
+
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const veiculo =
+                lista[
+                indiceAeronaveInativacaoAtual
+                ];
+
+
+            if (!veiculo) {
+                return;
+            }
+
+
+            const tipo =
+                document
+                    .getElementById(
+                        "campoTipoInativacao"
+                    )
+                    .value;
+
+
+            const motivo =
+                document
+                    .getElementById(
+                        "campoMotivoInativacao"
+                    )
+                    .value
+                    .trim();
+
+
+            if (!motivo) {
+
+                alert(
+                    "Informe o motivo da inativação."
+                );
+
+                return;
+
+            }
+
+
+            let aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            if (
+                !aeronavesInativas.includes(
+                    veiculo
+                )
+            ) {
+
+                aeronavesInativas.push(
+                    veiculo
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "aeronavesInativas",
+                JSON.stringify(
+                    aeronavesInativas
+                )
+            );
+
+
+            const inativacoesAeronaves =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inativacoesAeronaves"
+                    )
+                ) || {};
+
+
+            inativacoesAeronaves[
+                veiculo
+            ] = {
+
+                tipo:
+                    tipo,
+
+                motivo:
+                    motivo,
+
+                data:
+                    new Date().toISOString()
+
+            };
+
+
+            localStorage.setItem(
+                "inativacoesAeronaves",
+                JSON.stringify(
+                    inativacoesAeronaves
+                )
+            );
+
+
+            fecharModalInativarAeronave();
+
+
+            mostrarVeiculos();
+
+        }
+
+        function alternarEstadoAeronave(indice) {
+
+            const lista =
+                JSON.parse(
+                    localStorage.getItem(
+                        "veiculos"
+                    )
+                ) || [];
+
+
+            const veiculo =
+                lista[indice];
+
+
+            if (!veiculo) {
+                return;
+            }
+
+
+            let aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            const estaAtiva =
+                !aeronavesInativas.includes(
+                    veiculo
+                );
+
+
+            if (estaAtiva) {
+
+                const distribuicoes =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "distribuicoes"
+                        )
+                    ) || [];
+
+
+                const possuiMissaoAtiva =
+                    distribuicoes.some(
+                        function (missao) {
+
+                            return (
+                                missao.veiculo ===
+                                veiculo &&
+                                missao.status ===
+                                "Em andamento"
+                            );
+
+                        }
+                    );
+
+
+                if (possuiMissaoAtiva) {
+
+                    alert(
+                        "Esta aeronave possui uma missão em andamento e não pode ser desativada."
+                    );
+
+                    return;
+
+                }
+
+
+                abrirModalInativarAeronave(
+                    indice,
+                    veiculo
+                );
+
+                return;
+
+            } else {
+
+                const inativacoesAeronaves =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "inativacoesAeronaves"
+                        )
+                    ) || {};
+
+
+                const dadosInativacao =
+                    inativacoesAeronaves[
+                    veiculo
+                    ] || null;
+
+
+                if (
+                    dadosInativacao &&
+                    dadosInativacao.tipo ===
+                    "Definitiva"
+                ) {
+
+                    const confirmarReativacao =
+                        confirm(
+                            'A aeronave "' +
+                            veiculo +
+                            '" está marcada como INATIVA DEFINITIVAMENTE.\n\n' +
+                            'Motivo: ' +
+                            (dadosInativacao.motivo || "Não informado") +
+                            '\n\nDeseja realmente reativar esta aeronave?'
+                        );
+
+
+                    if (!confirmarReativacao) {
+                        return;
+                    }
+
+                }
+
+                if (dadosInativacao) {
+
+                    const historicoInativacoes =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "historicoInativacoesAeronaves"
+                            )
+                        ) || {};
+
+
+                    if (
+                        !Array.isArray(
+                            historicoInativacoes[
+                            veiculo
+                            ]
+                        )
+                    ) {
+
+                        historicoInativacoes[
+                            veiculo
+                        ] = [];
+
+                    }
+
+
+                    historicoInativacoes[
+                        veiculo
+                    ].push({
+
+                        tipo:
+                            dadosInativacao.tipo,
+
+                        motivo:
+                            dadosInativacao.motivo,
+
+                        dataInativacao:
+                            dadosInativacao.data,
+
+                        dataReativacao:
+                            new Date().toISOString()
+
+                    });
+
+
+                    localStorage.setItem(
+                        "historicoInativacoesAeronaves",
+                        JSON.stringify(
+                            historicoInativacoes
+                        )
+                    );
+
+
+                    delete inativacoesAeronaves[
+                        veiculo
+                    ];
+
+
+                    localStorage.setItem(
+                        "inativacoesAeronaves",
+                        JSON.stringify(
+                            inativacoesAeronaves
+                        )
+                    );
+
+                }
+
+
+                aeronavesInativas =
+                    aeronavesInativas.filter(
+                        function (nome) {
+
+                            return (
+                                nome !==
+                                veiculo
+                            );
+
+                        }
+                    );
+
+            }
+
+
+            localStorage.setItem(
+                "aeronavesInativas",
+                JSON.stringify(
+                    aeronavesInativas
+                )
+            );
+
+
+            mostrarVeiculos();
+
+        }
 
         /* ================================
            ADICIONAR VEÍCULO
@@ -2396,6 +4615,903 @@
 
         let droneFichaTecnicaAtual = null;
 
+        function mostrarHistoricoAdministrativoAeronave(
+            codigoDrone
+        ) {
+
+            const area =
+                document.getElementById(
+                    "listaHistoricoInativacoes"
+                );
+
+
+            if (!area) {
+                return;
+            }
+
+            const aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            const estaInativa =
+                aeronavesInativas.includes(
+                    codigoDrone
+                );
+
+
+            const statusFicha =
+                document.getElementById(
+                    "statusAdministrativoFicha"
+                );
+
+
+            if (statusFicha) {
+
+                statusFicha.textContent =
+                    estaInativa
+                        ? "Inativa"
+                        : "Ativa";
+
+
+                statusFicha.classList.toggle(
+                    "inativa",
+                    estaInativa
+                );
+
+            }
+
+
+            const historico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoInativacoesAeronaves"
+                    )
+                ) || {};
+
+
+            const inativacoesAtuais =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inativacoesAeronaves"
+                    )
+                ) || {};
+
+
+            const registos =
+                Array.isArray(
+                    historico[codigoDrone]
+                )
+                    ? [
+                        ...historico[codigoDrone]
+                    ]
+                    : [];
+
+
+            const inativacaoAtual =
+                inativacoesAtuais[
+                codigoDrone
+                ];
+
+
+            if (inativacaoAtual) {
+
+                registos.push({
+
+                    tipo:
+                        inativacaoAtual.tipo,
+
+                    motivo:
+                        inativacaoAtual.motivo,
+
+                    dataInativacao:
+                        inativacaoAtual.data,
+
+                    dataReativacao:
+                        null,
+
+                    atual:
+                        true
+
+                });
+
+            }
+
+
+            if (
+                registos.length === 0
+            ) {
+
+                area.innerHTML = `
+            <div class="historico-administrativo-vazio">
+                Nenhum registo de inativação.
+            </div>
+        `;
+
+                return;
+
+            }
+
+
+            registos.sort(
+                function (a, b) {
+
+                    return (
+                        new Date(
+                            b.dataInativacao || 0
+                        ) -
+                        new Date(
+                            a.dataInativacao || 0
+                        )
+                    );
+
+                }
+            );
+
+
+            function formatarData(data) {
+
+                if (!data) {
+                    return "--";
+                }
+
+
+                const valor =
+                    new Date(data);
+
+
+                if (
+                    Number.isNaN(
+                        valor.getTime()
+                    )
+                ) {
+                    return "--";
+                }
+
+
+                return valor.toLocaleDateString(
+                    "pt-PT"
+                );
+
+            }
+
+
+            area.innerHTML =
+                registos
+                    .map(
+                        function (registo) {
+
+                            return `
+                        <div class="item-historico-administrativo">
+
+                            <div class="topo-historico-administrativo">
+
+                                <strong
+    class="
+        tipo-historico-inativacao
+        ${registo.tipo === "Definitiva"
+                                    ? "tipo-inativacao-definitiva"
+                                    : "tipo-inativacao-temporaria"
+                                }
+    "
+>
+    ${registo.tipo || "Inativação"}
+</strong>
+
+                                <span
+    class="
+        status-historico-administrativo
+        ${registo.atual
+                                    ? "status-historico-em-vigor"
+                                    : "status-historico-encerrado"
+                                }
+    "
+>
+    ${registo.atual
+                                    ? "Em vigor"
+                                    : "Encerrada"
+                                }
+</span>
+
+                            </div>
+
+                            <div class="motivo-historico-administrativo">
+                                ${registo.motivo || "Sem motivo registado"}
+                            </div>
+
+                            <small>
+                                Inativada:
+                                ${formatarData(
+                                    registo.dataInativacao
+                                )}
+
+                                ${!registo.atual
+                                    ? `
+                                        · Reativada:
+                                        ${formatarData(
+                                        registo.dataReativacao
+                                    )}
+                                    `
+                                    : ""
+                                }
+                            </small>
+
+                        </div>
+                    `;
+
+                        }
+                    )
+                    .join("");
+
+        }
+
+        function formatarDataHistoricoTecnico(
+            valor
+        ) {
+
+            if (!valor) {
+                return "--";
+            }
+
+
+            /*
+             * Registos que já estão no formato
+             * português permanecem como estão.
+             */
+            if (
+                String(valor).includes("/")
+            ) {
+                return valor;
+            }
+
+
+            const data =
+                new Date(valor);
+
+
+            if (
+                Number.isNaN(
+                    data.getTime()
+                )
+            ) {
+                return valor;
+            }
+
+
+            return (
+                data.toLocaleDateString(
+                    "pt-PT"
+                ) +
+                " · " +
+                data.toLocaleTimeString(
+                    "pt-PT",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                )
+            );
+
+        }
+
+        function mostrarHistoricoTecnicoFicha(
+            codigoDrone
+        ) {
+
+            const area =
+                document.getElementById(
+                    "listaHistoricoTecnicoFicha"
+                );
+
+
+            if (!area) {
+                return;
+            }
+
+            const inspecoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inspecoesDrones"
+                    )
+                ) || {};
+
+
+            const ultimaInspecao =
+                inspecoesDrones[
+                codigoDrone
+                ] || null;
+
+
+            const elementoUltimaInspecao =
+                document.getElementById(
+                    "ultimaInspecaoFicha"
+                );
+
+            const elementoProximaManutencao =
+                document.getElementById(
+                    "proximaManutencaoFicha"
+                );
+
+
+            let textoProximaManutencao =
+                "--";
+
+
+            let diasParaManutencao =
+                null;
+
+
+            if (ultimaInspecao) {
+
+                const partesData =
+                    ultimaInspecao
+                        .split(" · ")[0]
+                        .split("/");
+
+
+                if (
+                    partesData.length === 3
+                ) {
+
+                    const dataManutencao =
+                        new Date(
+                            Number(partesData[2]),
+                            Number(partesData[1]) - 1,
+                            Number(partesData[0])
+                        );
+
+
+                    dataManutencao.setDate(
+                        dataManutencao.getDate() + 90
+                    );
+
+
+                    textoProximaManutencao =
+                        dataManutencao
+                            .toLocaleDateString(
+                                "pt-PT"
+                            );
+
+
+                    const hoje =
+                        new Date();
+
+
+                    hoje.setHours(
+                        0,
+                        0,
+                        0,
+                        0
+                    );
+
+
+                    diasParaManutencao =
+                        Math.ceil(
+                            (
+                                dataManutencao -
+                                hoje
+                            ) /
+                            86400000
+                        );
+
+                }
+
+            }
+
+
+            if (elementoProximaManutencao) {
+
+                elementoProximaManutencao.textContent =
+                    "Próxima manutenção: " +
+                    textoProximaManutencao;
+
+
+                elementoProximaManutencao.classList.remove(
+                    "proxima",
+                    "vencida"
+                );
+
+
+                if (
+                    diasParaManutencao !== null &&
+                    diasParaManutencao < 0
+                ) {
+
+                    elementoProximaManutencao
+                        .classList.add(
+                            "vencida"
+                        );
+
+                }
+                else if (
+                    diasParaManutencao !== null &&
+                    diasParaManutencao <= 30
+                ) {
+
+                    elementoProximaManutencao
+                        .classList.add(
+                            "proxima"
+                        );
+
+                }
+
+            }
+
+
+            if (elementoUltimaInspecao) {
+
+                elementoUltimaInspecao.textContent =
+                    ultimaInspecao
+                        ? "Última inspeção: " +
+                        ultimaInspecao
+                        : "Última inspeção: Sem registo";
+
+            }
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const manutencoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            const missaoRetornando =
+                distribuicoes.find(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            String(
+                                missao.veiculo || ""
+                            ) ===
+                            String(
+                                codigoDrone
+                            ) &&
+                            missao.status ===
+                            "Em andamento" &&
+                            missao.retornoBase ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            const missaoAtiva =
+                distribuicoes.find(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            String(
+                                missao.veiculo || ""
+                            ) ===
+                            String(
+                                codigoDrone
+                            ) &&
+                            missao.status ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            const manutencaoAtual =
+                manutencoesDrones[
+                codigoDrone
+                ];
+
+            const elementoManutencaoAtual =
+                document.getElementById(
+                    "manutencaoAtualFicha"
+                );
+
+
+            if (elementoManutencaoAtual) {
+
+                if (
+                    manutencaoAtual &&
+                    manutencaoAtual.estado ===
+                    "Em manutenção"
+                ) {
+
+                    elementoManutencaoAtual.style.display =
+                        "block";
+
+
+                    const inicioManutencao =
+                        manutencaoAtual.inicio
+                            ? new Date(
+                                manutencaoAtual.inicio
+                            )
+                            : null;
+
+
+                    let textoInicio =
+                        "";
+
+
+                    if (
+                        inicioManutencao &&
+                        !Number.isNaN(
+                            inicioManutencao.getTime()
+                        )
+                    ) {
+
+                        textoInicio =
+                            inicioManutencao
+                                .toLocaleDateString(
+                                    "pt-PT"
+                                ) +
+                            " · " +
+                            inicioManutencao
+                                .toLocaleTimeString(
+                                    "pt-PT",
+                                    {
+                                        hour: "2-digit",
+                                        minute: "2-digit"
+                                    }
+                                );
+
+                    }
+
+
+                    elementoManutencaoAtual.innerHTML = `
+    <strong>
+        Manutenção atual
+    </strong>
+
+    <span>
+        ${manutencaoAtual.motivo ||
+                        "Sem motivo registado"}
+    </span>
+
+    ${textoInicio
+                            ? `
+            <small>
+                Desde ${textoInicio}
+            </small>
+        `
+                            : ""
+                        }
+`;
+
+                }
+                else {
+
+                    elementoManutencaoAtual.style.display =
+                        "none";
+
+                    elementoManutencaoAtual.textContent =
+                        "";
+
+                }
+
+            }
+
+
+            let estadoTecnico =
+                "Disponível";
+
+
+            if (missaoRetornando) {
+
+                estadoTecnico =
+                    "Retornando";
+
+            }
+            else if (missaoAtiva) {
+
+                estadoTecnico =
+                    "Em missão";
+
+            }
+            else if (
+                manutencaoAtual &&
+                manutencaoAtual.estado ===
+                "Em manutenção"
+            ) {
+
+                estadoTecnico =
+                    "Em manutenção";
+
+            }
+
+
+            const statusTecnico =
+                document.getElementById(
+                    "statusTecnicoFicha"
+                );
+
+
+            if (statusTecnico) {
+
+                statusTecnico.textContent =
+                    estadoTecnico;
+
+
+                statusTecnico.classList.remove(
+                    "manutencao",
+                    "missao",
+                    "retornando"
+                );
+
+
+                if (
+                    estadoTecnico ===
+                    "Em manutenção"
+                ) {
+
+                    statusTecnico.classList.add(
+                        "manutencao"
+                    );
+
+                }
+                else if (
+                    estadoTecnico ===
+                    "Em missão"
+                ) {
+
+                    statusTecnico.classList.add(
+                        "missao"
+                    );
+
+                }
+                else if (
+                    estadoTecnico ===
+                    "Retornando"
+                ) {
+
+                    statusTecnico.classList.add(
+                        "retornando"
+                    );
+
+                }
+
+            }
+
+
+            const historicoTecnico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoTecnicoDrones"
+                    )
+                ) || {};
+
+
+            const registos =
+                historicoTecnico[
+                codigoDrone
+                ] || [];
+
+            const botaoHistoricoCompleto =
+                document.getElementById(
+                    "botaoHistoricoTecnicoCompletoFicha"
+                );
+
+
+            if (botaoHistoricoCompleto) {
+
+                botaoHistoricoCompleto.style.display =
+                    Array.isArray(registos) &&
+                        registos.length > 4
+                        ? "inline-flex"
+                        : "none";
+
+            }
+
+
+            if (
+                !Array.isArray(registos) ||
+                registos.length === 0
+            ) {
+
+                area.innerHTML = `
+            <div class="historico-tecnico-vazio">
+                Nenhum registo técnico.
+            </div>
+        `;
+
+                return;
+
+            }
+
+
+            const ultimosRegistos =
+                registos
+                    .slice(-4)
+                    .reverse();
+
+
+            area.innerHTML =
+                ultimosRegistos
+                    .map(
+                        function (registo) {
+
+                            return `
+                        <div
+    class="
+        item-historico-tecnico-ficha
+        ${String(registo.tipo || "")
+                                    .startsWith("Inspeção")
+                                    ? "evento-tecnico-inspecao"
+                                    : String(registo.tipo || "")
+                                        .startsWith("Entrada em manutenção")
+                                        ? "evento-tecnico-manutencao"
+                                        : String(registo.tipo || "")
+                                            .startsWith("Retorno à operação")
+                                            ? "evento-tecnico-retorno"
+                                            : String(registo.tipo || "")
+                                                .startsWith("Atualização da ficha técnica")
+                                                ? "evento-tecnico-ficha"
+                                                : "evento-tecnico-padrao"
+                                }
+    "
+>
+
+    <strong>
+        ${registo.tipo || "Registo técnico"}
+    </strong>
+
+    <span>
+        ${formatarDataHistoricoTecnico(
+                                    registo.data
+                                )}
+    </span>
+
+</div>
+                    `;
+
+                        }
+                    )
+                    .join("");
+
+        }
+
+        function abrirHistoricoTecnicoCompletoFicha() {
+
+            if (!droneFichaTecnicaAtual) {
+                return;
+            }
+
+
+            const historicoTecnico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoTecnicoDrones"
+                    )
+                ) || {};
+
+
+            const registos =
+                historicoTecnico[
+                droneFichaTecnicaAtual
+                ] || [];
+
+
+            const lista =
+                document.getElementById(
+                    "listaHistoricoTecnicoCompletoFicha"
+                );
+
+
+            const titulo =
+                document.getElementById(
+                    "tituloHistoricoTecnicoFicha"
+                );
+
+
+            if (titulo) {
+
+                titulo.textContent =
+                    "Histórico técnico · " +
+                    droneFichaTecnicaAtual;
+
+            }
+
+
+            if (!lista) {
+                return;
+            }
+
+
+            if (
+                !Array.isArray(registos) ||
+                registos.length === 0
+            ) {
+
+                lista.innerHTML = `
+            <div class="historico-tecnico-vazio">
+                Nenhum registo técnico.
+            </div>
+        `;
+
+            }
+            else {
+
+                lista.innerHTML =
+                    [...registos]
+                        .reverse()
+                        .map(
+                            function (registo) {
+
+                                return `
+    <div
+        class="
+            item-historico-tecnico-completo
+            ${String(registo.tipo || "")
+                                        .startsWith("Inspeção")
+                                        ? "evento-tecnico-inspecao"
+                                        : String(registo.tipo || "")
+                                            .startsWith("Entrada em manutenção")
+                                            ? "evento-tecnico-manutencao"
+                                            : String(registo.tipo || "")
+                                                .startsWith("Retorno à operação")
+                                                ? "evento-tecnico-retorno"
+                                                : String(registo.tipo || "")
+                                                    .startsWith("Atualização da ficha técnica")
+                                                    ? "evento-tecnico-ficha"
+                                                    : "evento-tecnico-padrao"
+                                    }
+        "
+    >
+
+        <strong>
+            ${registo.tipo || "Registo técnico"}
+        </strong>
+
+        <span>
+            ${formatarDataHistoricoTecnico(
+                                        registo.data
+                                    )}
+        </span>
+
+    </div>
+`;
+
+                            }
+                        )
+                        .join("");
+
+            }
+
+
+            document
+                .getElementById(
+                    "modalHistoricoTecnicoFicha"
+                )
+                .classList.add(
+                    "aberto"
+                );
+
+        }
+
+
+        function fecharHistoricoTecnicoCompletoFicha() {
+
+            document
+                .getElementById(
+                    "modalHistoricoTecnicoFicha"
+                )
+                .classList.remove(
+                    "aberto"
+                );
+
+        }
+
 
         function editarFichaTecnica(
             codigoDrone
@@ -2430,6 +5546,13 @@
                         ? fichaGuardada.modelo
                         : fichaPadrao.modelo || "",
 
+                fabricante:
+                    String(
+                        fichaGuardada.fabricante || ""
+                    ).trim()
+                        ? fichaGuardada.fabricante
+                        : fichaPadrao.fabricante || "",
+
                 serie:
                     String(
                         fichaGuardada.serie || ""
@@ -2463,7 +5586,7 @@
                     "tituloModalFichaTecnica"
                 )
                 .textContent =
-                "Ficha técnica · " +
+                "Ficha da aeronave · " +
                 codigoDrone;
 
 
@@ -2474,6 +5597,79 @@
                 .value =
                 fichaAtual.modelo || "";
 
+            const campoModelo =
+                document.getElementById(
+                    "campoFichaModelo"
+                );
+
+
+            if (campoModelo) {
+
+                const possuiModelo =
+                    String(
+                        fichaAtual.modelo || ""
+                    )
+                        .trim()
+                        .length > 0;
+
+
+                campoModelo.readOnly =
+                    possuiModelo;
+
+
+                campoModelo.classList.toggle(
+                    "campo-permanente",
+                    possuiModelo
+                );
+
+
+                campoModelo.title =
+                    possuiModelo
+                        ? "Modelo registado como dado permanente da aeronave."
+                        : "";
+
+            }
+
+            document
+                .getElementById(
+                    "campoFichaFabricante"
+                )
+                .value =
+                fichaAtual.fabricante || "";
+
+            const campoFabricante =
+                document.getElementById(
+                    "campoFichaFabricante"
+                );
+
+
+            if (campoFabricante) {
+
+                const possuiFabricante =
+                    String(
+                        fichaAtual.fabricante || ""
+                    )
+                        .trim()
+                        .length > 0;
+
+
+                campoFabricante.readOnly =
+                    possuiFabricante;
+
+
+                campoFabricante.classList.toggle(
+                    "campo-permanente",
+                    possuiFabricante
+                );
+
+
+                campoFabricante.title =
+                    possuiFabricante
+                        ? "Fabricante registado como dado permanente da aeronave."
+                        : "";
+
+            }
+
 
             document
                 .getElementById(
@@ -2481,6 +5677,39 @@
                 )
                 .value =
                 fichaAtual.serie || "";
+
+            const campoSerie =
+                document.getElementById(
+                    "campoFichaSerie"
+                );
+
+
+            if (campoSerie) {
+
+                const possuiSerie =
+                    String(
+                        fichaAtual.serie || ""
+                    )
+                        .trim()
+                        .length > 0;
+
+
+                campoSerie.readOnly =
+                    possuiSerie;
+
+
+                campoSerie.classList.toggle(
+                    "campo-permanente",
+                    possuiSerie
+                );
+
+
+                campoSerie.title =
+                    possuiSerie
+                        ? "Número de série registado como dado permanente da aeronave."
+                        : "";
+
+            }
 
 
             document
@@ -2490,6 +5719,39 @@
                 .value =
                 fichaAtual.entrada || "";
 
+            const campoEntrada =
+                document.getElementById(
+                    "campoFichaEntrada"
+                );
+
+
+            if (campoEntrada) {
+
+                const possuiEntrada =
+                    String(
+                        fichaAtual.entrada || ""
+                    )
+                        .trim()
+                        .length > 0;
+
+
+                campoEntrada.readOnly =
+                    possuiEntrada;
+
+
+                campoEntrada.classList.toggle(
+                    "campo-permanente",
+                    possuiEntrada
+                );
+
+
+                campoEntrada.title =
+                    possuiEntrada
+                        ? "Data de entrada em serviço registada como dado permanente da aeronave."
+                        : "";
+
+            }
+
 
             document
                 .getElementById(
@@ -2497,6 +5759,14 @@
                 )
                 .value =
                 fichaAtual.carga || "";
+
+            mostrarHistoricoAdministrativoAeronave(
+                codigoDrone
+            );
+
+            mostrarHistoricoTecnicoFicha(
+                codigoDrone
+            );
 
 
             document
@@ -2558,6 +5828,14 @@
                     .value
                     .trim();
 
+            const novoFabricante =
+                document
+                    .getElementById(
+                        "campoFichaFabricante"
+                    )
+                    .value
+                    .trim();
+
 
             const novaSerie =
                 document
@@ -2592,6 +5870,9 @@
 
                 modelo:
                     novoModelo,
+
+                fabricante:
+                    novoFabricante,
 
                 serie:
                     novaSerie,
@@ -2657,6 +5938,21 @@
 
             }
 
+            if (
+                String(
+                    fichaAnterior.fabricante || ""
+                ) !== novoFabricante
+            ) {
+
+                alteracoes.push(
+                    "Fabricante: " +
+                    (fichaAnterior.fabricante || "--") +
+                    " → " +
+                    (novoFabricante || "--")
+                );
+
+            }
+
 
             if (
                 String(
@@ -2706,20 +6002,24 @@
             }
 
 
-            historicoTecnico[
-                droneFichaTecnicaAtual
-            ].push({
+            if (
+                alteracoes.length > 0
+            ) {
 
-                tipo:
-                    alteracoes.length > 0
-                        ? "Atualização da ficha técnica · " +
-                        alteracoes.join(" · ")
-                        : "Atualização da ficha técnica",
+                historicoTecnico[
+                    droneFichaTecnicaAtual
+                ].push({
 
-                data:
-                    new Date().toISOString()
+                    tipo:
+                        "Atualização da ficha técnica · " +
+                        alteracoes.join(" · "),
 
-            });
+                    data:
+                        new Date().toISOString()
+
+                });
+
+            }
 
 
             localStorage.setItem(
@@ -2753,6 +6053,11 @@
                 lista[indice];
 
 
+            if (!nomeAtual) {
+                return;
+            }
+
+
             const novoNome =
                 prompt(
                     "Nova identificação da aeronave:",
@@ -2761,9 +6066,7 @@
 
 
             if (novoNome === null) {
-
                 return;
-
             }
 
 
@@ -2791,7 +6094,9 @@
 
                         return (
                             i !== indice &&
-                            veiculo.toLowerCase() ===
+                            String(veiculo)
+                                .trim()
+                                .toLowerCase() ===
                             nome.toLowerCase()
                         );
 
@@ -2810,7 +6115,17 @@
             }
 
 
-            lista[indice] = nome;
+            if (nome === nomeAtual) {
+                return;
+            }
+
+
+            /* ================================
+               LISTA DE AERONAVES
+            ================================= */
+
+            lista[indice] =
+                nome;
 
 
             localStorage.setItem(
@@ -2819,53 +6134,441 @@
             );
 
 
-            mostrarVeiculos();
+            /* ================================
+               MISSÕES
+            ================================= */
 
-        }
-
-
-        /* ================================
-           EXCLUIR VEÍCULO
-        ================================= */
-
-        function excluirVeiculo(indice) {
-
-            const lista =
+            const distribuicoes =
                 JSON.parse(
                     localStorage.getItem(
-                        "veiculos"
+                        "distribuicoes"
                     )
                 ) || [];
 
 
-            const nome =
-                lista[indice];
+            let alterouMissoes =
+                false;
 
 
-            const confirmar =
-                confirm(
-                    'Tem a certeza que pretende excluir a aeronave "' +
-                    nome +
-                    '"?'
+            distribuicoes.forEach(
+                function (distribuicao) {
+
+                    const aeronaveMissao =
+                        String(
+                            distribuicao.veiculo || ""
+                        )
+                            .trim()
+                            .toLowerCase();
+
+
+                    if (
+                        aeronaveMissao ===
+                        String(nomeAtual)
+                            .trim()
+                            .toLowerCase()
+                    ) {
+
+                        distribuicao.veiculo =
+                            nome;
+
+                        alterouMissoes =
+                            true;
+
+                    }
+
+                }
+            );
+
+
+            if (alterouMissoes) {
+
+                localStorage.setItem(
+                    "distribuicoes",
+                    JSON.stringify(
+                        distribuicoes
+                    )
                 );
-
-
-            if (!confirmar) {
-
-                return;
 
             }
 
 
-            lista.splice(
-                indice,
-                1
-            );
+            /* ================================
+   FICHA TÉCNICA
+================================= */
+
+            const fichasTecnicas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "fichasTecnicasDrones"
+                    )
+                ) || {};
+
+
+            const fichaGuardada =
+                fichasTecnicas[
+                nomeAtual
+                ] || {};
+
+
+            const fichaPadrao =
+                fichasTecnicasPadraoGestao[
+                nomeAtual
+                ] || {};
+
+
+            const fichaAtual = {
+
+                modelo:
+                    String(
+                        fichaGuardada.modelo || ""
+                    ).trim()
+                        ? fichaGuardada.modelo
+                        : fichaPadrao.modelo || "",
+
+                fabricante:
+                    String(
+                        fichaGuardada.fabricante || ""
+                    ).trim()
+                        ? fichaGuardada.fabricante
+                        : fichaPadrao.fabricante || "",
+
+                serie:
+                    String(
+                        fichaGuardada.serie || ""
+                    ).trim()
+                        ? fichaGuardada.serie
+                        : fichaPadrao.serie || "",
+
+                entrada:
+                    String(
+                        fichaGuardada.entrada || ""
+                    ).trim()
+                        ? fichaGuardada.entrada
+                        : fichaPadrao.entrada || "",
+
+                carga:
+                    String(
+                        fichaGuardada.carga || ""
+                    ).trim()
+                        ? fichaGuardada.carga
+                        : fichaPadrao.carga || ""
+
+            };
+
+
+            fichasTecnicas[
+                nome
+            ] = fichaAtual;
+
+
+            if (
+                nomeAtual !==
+                nome
+            ) {
+
+                delete fichasTecnicas[
+                    nomeAtual
+                ];
+
+            }
 
 
             localStorage.setItem(
-                "veiculos",
-                JSON.stringify(lista)
+                "fichasTecnicasDrones",
+                JSON.stringify(
+                    fichasTecnicas
+                )
+            );
+
+
+            /* ================================
+               HISTÓRICO TÉCNICO
+            ================================= */
+
+            const historicoTecnico =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoTecnicoDrones"
+                    )
+                ) || {};
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    historicoTecnico,
+                    nomeAtual
+                )
+            ) {
+
+                historicoTecnico[nome] =
+                    historicoTecnico[
+                    nomeAtual
+                    ];
+
+                delete historicoTecnico[
+                    nomeAtual
+                ];
+
+
+                localStorage.setItem(
+                    "historicoTecnicoDrones",
+                    JSON.stringify(
+                        historicoTecnico
+                    )
+                );
+
+            }
+
+
+            /* ================================
+               MANUTENÇÃO
+            ================================= */
+
+            const manutencoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    manutencoes,
+                    nomeAtual
+                )
+            ) {
+
+                manutencoes[nome] =
+                    manutencoes[nomeAtual];
+
+                delete manutencoes[
+                    nomeAtual
+                ];
+
+
+                localStorage.setItem(
+                    "manutencoesDrones",
+                    JSON.stringify(
+                        manutencoes
+                    )
+                );
+
+            }
+
+
+            /* ================================
+               INSPEÇÕES
+            ================================= */
+
+            const inspecoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inspecoesDrones"
+                    )
+                ) || {};
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    inspecoes,
+                    nomeAtual
+                )
+            ) {
+
+                inspecoes[nome] =
+                    inspecoes[nomeAtual];
+
+                delete inspecoes[
+                    nomeAtual
+                ];
+
+
+                localStorage.setItem(
+                    "inspecoesDrones",
+                    JSON.stringify(
+                        inspecoes
+                    )
+                );
+
+            }
+
+            /* ================================
+   TELEMETRIA
+================================= */
+
+            const perfisDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "perfisDrones"
+                    )
+                ) || {};
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    perfisDrones,
+                    nomeAtual
+                )
+            ) {
+
+                perfisDrones[
+                    nome
+                ] =
+                    perfisDrones[
+                    nomeAtual
+                    ];
+
+
+                if (
+                    nomeAtual !==
+                    nome
+                ) {
+
+                    delete perfisDrones[
+                        nomeAtual
+                    ];
+
+                }
+
+
+                localStorage.setItem(
+                    "perfisDrones",
+                    JSON.stringify(
+                        perfisDrones
+                    )
+                );
+
+            }
+
+            /* ================================
+   DADOS DA INATIVAÇÃO
+================================= */
+
+            const inativacoesAeronaves =
+                JSON.parse(
+                    localStorage.getItem(
+                        "inativacoesAeronaves"
+                    )
+                ) || {};
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    inativacoesAeronaves,
+                    nomeAtual
+                )
+            ) {
+
+                inativacoesAeronaves[
+                    nome
+                ] =
+                    inativacoesAeronaves[
+                    nomeAtual
+                    ];
+
+
+                if (
+                    nomeAtual !==
+                    nome
+                ) {
+
+                    delete inativacoesAeronaves[
+                        nomeAtual
+                    ];
+
+                }
+
+
+                localStorage.setItem(
+                    "inativacoesAeronaves",
+                    JSON.stringify(
+                        inativacoesAeronaves
+                    )
+                );
+
+            }
+
+            /* ================================
+   HISTÓRICO DE INATIVAÇÕES
+================================= */
+
+            const historicoInativacoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "historicoInativacoesAeronaves"
+                    )
+                ) || {};
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    historicoInativacoes,
+                    nomeAtual
+                )
+            ) {
+
+                historicoInativacoes[
+                    nome
+                ] =
+                    historicoInativacoes[
+                    nomeAtual
+                    ];
+
+
+                if (
+                    nomeAtual !==
+                    nome
+                ) {
+
+                    delete historicoInativacoes[
+                        nomeAtual
+                    ];
+
+                }
+
+
+                localStorage.setItem(
+                    "historicoInativacoesAeronaves",
+                    JSON.stringify(
+                        historicoInativacoes
+                    )
+                );
+
+            }
+
+
+            /* ================================
+               ESTADO ATIVA / INATIVA
+            ================================= */
+
+            const aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            const novasAeronavesInativas =
+                aeronavesInativas.map(
+                    function (aeronave) {
+
+                        return (
+                            aeronave === nomeAtual
+                                ? nome
+                                : aeronave
+                        );
+
+                    }
+                );
+
+
+            localStorage.setItem(
+                "aeronavesInativas",
+                JSON.stringify(
+                    novasAeronavesInativas
+                )
             );
 
 
@@ -2880,6 +6583,10 @@
 
         mostrarVeiculos();
 
+        mostrarDistribuidores();
+
+
+
     </script>
 
     <div id="modalFichaTecnica" class="modal-ficha-tecnica">
@@ -2887,7 +6594,7 @@
 
             <div class="topo-modal-ficha">
                 <strong id="tituloModalFichaTecnica">
-                    Ficha técnica
+                    Ficha da aeronave
                 </strong>
 
                 <button type="button" class="fechar-modal-ficha" onclick="fecharModalFichaTecnica()">
@@ -2900,6 +6607,11 @@
                 <label>
                     <span>Modelo</span>
                     <input type="text" id="campoFichaModelo">
+                </label>
+
+                <label>
+                    <span>Fabricante</span>
+                    <input type="text" id="campoFichaFabricante" placeholder="Ex.: DJI">
                 </label>
 
                 <label>
@@ -2919,6 +6631,71 @@
 
             </div>
 
+            <div class="historico-administrativo-aeronave">
+
+                <div class="cabecalho-historico-administrativo">
+
+                    <div class="titulo-historico-administrativo">
+                        Histórico administrativo
+                    </div>
+
+                    <span id="statusAdministrativoFicha" class="status-administrativo-ficha">
+                        Ativa
+                    </span>
+
+                </div>
+
+                <div id="listaHistoricoInativacoes">
+                    <div class="historico-administrativo-vazio">
+                        Nenhum registo de inativação.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="historico-tecnico-aeronave">
+
+                <div class="cabecalho-historico-tecnico">
+
+                    <div class="titulo-historico-tecnico">
+                        Histórico técnico
+                    </div>
+
+                    <span id="statusTecnicoFicha" class="status-tecnico-ficha">
+                        Disponível
+                    </span>
+
+                </div>
+
+                <div id="ultimaInspecaoFicha" class="ultima-inspecao-ficha">
+                    Última inspeção: --
+                </div>
+
+                <div id="proximaManutencaoFicha" class="proxima-manutencao-ficha">
+                    Próxima manutenção: --
+                </div>
+
+                <div id="manutencaoAtualFicha" class="manutencao-atual-ficha" style="display: none;"></div>
+
+                <div id="listaHistoricoTecnicoFicha">
+
+                    <div class="historico-tecnico-vazio">
+                        Nenhum registo técnico.
+                    </div>
+
+                </div>
+
+                <div class="acoes-historico-tecnico-ficha">
+
+                    <button type="button" id="botaoHistoricoTecnicoCompletoFicha"
+                        class="botao-historico-tecnico-completo" onclick="abrirHistoricoTecnicoCompletoFicha()">
+                        Ver histórico completo
+                    </button>
+
+                </div>
+
+            </div>
+
             <div class="acoes-modal-ficha">
 
                 <button type="button" class="botao-cancelar-ficha" onclick="fecharModalFichaTecnica()">
@@ -2932,6 +6709,191 @@
             </div>
 
         </div>
+    </div>
+
+    <div id="modalFichaOperador" class="modal-ficha-tecnica">
+        <div class="modal-ficha-tecnica-conteudo">
+
+            <div class="topo-modal-ficha">
+
+                <strong id="tituloModalFichaOperador">
+                    Ficha do operador
+                </strong>
+
+                <button type="button" class="fechar-modal-ficha" onclick="fecharFichaOperador()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="grade-modal-ficha">
+
+                <label>
+                    <span>Código</span>
+
+                    <input type="text" id="campoOperadorCodigo" readonly>
+                </label>
+
+
+                <label>
+                    <span>Nome</span>
+
+                    <input type="text" id="campoOperadorNome" readonly>
+                </label>
+
+
+                <label>
+                    <span>Data de entrada</span>
+
+                    <input type="date" id="campoOperadorEntrada">
+                </label>
+
+
+                <label>
+                    <span>Formação / qualificação</span>
+
+                    <input type="text" id="campoOperadorQualificacao" placeholder="Ex.: Operador certificado">
+                </label>
+
+
+                <label>
+                    <span>Validade da formação</span>
+
+                    <input type="date" id="campoOperadorValidade">
+                </label>
+
+
+                <label>
+                    <span>Observações</span>
+
+                    <input type="text" id="campoOperadorObservacoes" placeholder="Observações administrativas">
+                </label>
+
+            </div>
+
+
+            <div class="acoes-modal-ficha">
+
+                <button type="button" class="botao-cancelar-ficha" onclick="fecharFichaOperador()">
+                    Cancelar
+                </button>
+
+                <button type="button" class="botao-guardar-ficha" onclick="guardarFichaOperador()">
+                    Guardar
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modalInativarAeronave" class="modal-ficha-tecnica">
+
+        <div class="modal-ficha-tecnica-conteudo">
+
+            <div class="topo-modal-ficha">
+
+                <strong id="tituloModalInativarAeronave">
+                    Inativar aeronave
+                </strong>
+
+                <button type="button" class="fechar-modal-ficha" onclick="fecharModalInativarAeronave()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="grade-modal-ficha">
+
+                <label>
+                    <span>Aeronave</span>
+
+                    <input type="text" id="campoInativarAeronave" readonly>
+                </label>
+
+
+                <label class="campo-tipo-inativacao">
+
+                    <span>Tipo de inativação</span>
+
+                    <input type="hidden" id="campoTipoInativacao" value="Temporária">
+
+                    <div class="opcoes-tipo-inativacao">
+
+                        <button type="button" id="botaoInativacaoTemporaria" class="opcao-inativacao ativa"
+                            onclick="selecionarTipoInativacao('Temporária')">
+                            Temporária
+                        </button>
+
+                        <button type="button" id="botaoInativacaoDefinitiva" class="opcao-inativacao"
+                            onclick="selecionarTipoInativacao('Definitiva')">
+                            Definitiva
+                        </button>
+
+                    </div>
+
+                </label>
+
+
+                <label style="grid-column: 1 / -1;">
+                    <span>Motivo</span>
+
+                    <input type="text" id="campoMotivoInativacao"
+                        placeholder="Ex.: Reserva, avaria prolongada, fim de vida útil...">
+                </label>
+
+            </div>
+
+
+            <div class="acoes-modal-ficha">
+
+                <button type="button" class="botao-cancelar-ficha" onclick="fecharModalInativarAeronave()">
+                    Cancelar
+                </button>
+
+                <button type="button" class="botao-guardar-ficha" onclick="confirmarInativacaoAeronave()">
+                    Confirmar inativação
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="modalHistoricoTecnicoFicha" class="modal-ficha-tecnica">
+
+        <div class="modal-ficha-tecnica-conteudo">
+
+            <div class="topo-modal-ficha">
+
+                <strong id="tituloHistoricoTecnicoFicha">
+                    Histórico técnico
+                </strong>
+
+                <button type="button" class="fechar-modal-ficha" onclick="fecharHistoricoTecnicoCompletoFicha()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="listaHistoricoTecnicoCompletoFicha" class="lista-historico-tecnico-completo-ficha">
+            </div>
+
+
+            <div class="acoes-modal-ficha">
+
+                <button type="button" class="botao-cancelar-ficha" onclick="fecharHistoricoTecnicoCompletoFicha()">
+                    Fechar
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
 </body>

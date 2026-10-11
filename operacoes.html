@@ -1,0 +1,3977 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Operações ao Vivo - PRIMO PEÇAS
+    </title>
+
+    <link rel="stylesheet" href="layout-global.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #07111f;
+            color: #e2e8f0;
+        }
+
+
+        #conteudo {
+            margin-left: 185px;
+
+            min-height: 100vh;
+
+            padding:
+                65px 16px 16px;
+
+            background:
+                radial-gradient(circle at top right,
+                    rgba(37, 99, 235, .10),
+                    transparent 35%),
+                #07111f;
+        }
+
+
+        .pagina-operacoes {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+
+        .inicio-operacoes {
+            min-height: 500px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid rgba(148, 163, 184, .15);
+
+            border-radius: 14px;
+
+            background:
+                rgba(15, 23, 42, .72);
+        }
+
+
+        .inicio-operacoes strong {
+            color: #94a3b8;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+   TOPO — OPERAÇÕES AO VIVO
+========================================================= */
+
+        .identidade-topo-operacoes {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .botao-menu-operacoes {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            padding: 0;
+
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 8px;
+
+            background: rgba(255, 255, 255, .07);
+
+            color: #ffffff;
+
+            font-size: 19px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
+        }
+
+
+        .botao-menu-operacoes:hover {
+            background: rgba(37, 99, 235, .28);
+            border-color: rgba(96, 165, 250, .45);
+
+            transform: translateY(-1px);
+        }
+
+
+        .titulo-topo-operacoes {
+            margin-left: 2px;
+        }
+
+
+        .titulo-topo-operacoes h1 {
+            margin: 0;
+
+            font-size: 18px;
+            font-weight: 800;
+
+            letter-spacing: -.3px;
+        }
+
+
+        .titulo-topo-operacoes p {
+            margin: 3px 0 0;
+
+            color: rgba(255, 255, 255, .68);
+
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+   MENU RETRÁTIL — OPERAÇÕES AO VIVO
+========================================================= */
+
+        body.menu-operacoes-fechado .menu {
+            transform: translateX(-100%);
+        }
+
+
+        .menu {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 185px;
+            height: 100vh;
+
+            z-index: 1000;
+
+            transition: transform .25s ease;
+        }
+
+
+        #conteudo {
+            margin-left: 0;
+        }
+
+        /* FUNDO ESCURO ATRÁS DO MENU */
+
+        .fundo-menu-operacoes {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 900;
+
+            background: rgba(2, 8, 23, .62);
+
+            opacity: 0;
+            visibility: hidden;
+
+            backdrop-filter: blur(2px);
+
+            transition:
+                opacity .25s ease,
+                visibility .25s ease;
+        }
+
+
+        body:not(.menu-operacoes-fechado) .fundo-menu-operacoes {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        /* MENU ABERTO */
+
+        body:not(.menu-operacoes-fechado) .menu {
+            transform: translateX(0);
+        }
+
+        /* =========================================================
+   INDICADORES — OPERAÇÕES AO VIVO
+========================================================= */
+
+        .resumo-operacoes-vivo {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(150px, 220px));
+
+            gap: 10px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .indicador-operacao {
+            position: relative;
+
+            min-height: 66px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 10px 13px;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(148, 163, 184, .13);
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 23, 42, .96),
+                    rgba(9, 17, 31, .96));
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, .18);
+        }
+
+
+        .indicador-operacao::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 13px;
+            bottom: 13px;
+
+            width: 2px;
+
+            border-radius: 0 4px 4px 0;
+        }
+
+
+        .indicador-em-missao::before {
+            background: #22c55e;
+
+            box-shadow:
+                0 0 11px rgba(34, 197, 94, .85);
+        }
+
+
+        .indicador-retornando::before {
+            background: #38bdf8;
+
+            box-shadow:
+                0 0 11px rgba(56, 189, 248, .85);
+        }
+
+
+        .indicador-alertas::before {
+            background: #ef4444;
+
+            box-shadow:
+                0 0 11px rgba(239, 68, 68, .8);
+        }
+
+
+        .icone-indicador-operacao {
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, .035);
+        }
+
+
+        .icone-indicador-operacao svg {
+            width: 19px;
+            height: 19px;
+
+            fill: none;
+
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+
+        .indicador-em-missao .icone-indicador-operacao {
+            color: #4ade80;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(74, 222, 128, .12);
+        }
+
+
+        .indicador-retornando .icone-indicador-operacao {
+            color: #38bdf8;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(56, 189, 248, .12);
+        }
+
+
+        .indicador-alertas .icone-indicador-operacao {
+            color: #f87171;
+
+            box-shadow:
+                inset 0 0 0 1px rgba(248, 113, 113, .12);
+        }
+
+
+        .texto-indicador-operacao {
+            display: flex;
+            flex-direction: column;
+
+            gap: 1px;
+        }
+
+
+        .texto-indicador-operacao span {
+            color: #94a3b8;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: .2px;
+        }
+
+
+        .texto-indicador-operacao strong {
+            color: #f8fafc;
+
+            font-size: 23px;
+            font-weight: 800;
+
+            line-height: 1;
+        }
+
+        /* =========================================================
+   ÁREA CENTRAL — OPERAÇÕES AO VIVO
+========================================================= */
+
+        .area-central-operacoes {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr) 290px;
+
+            gap: 12px;
+
+            min-height: 520px;
+        }
+
+
+        /* =========================================================
+   MAPA
+========================================================= */
+
+        .painel-mapa-vivo,
+        .painel-operacoes-ativas {
+            overflow: hidden;
+
+            border:
+                1px solid rgba(148, 163, 184, .13);
+
+            border-radius: 13px;
+
+            background:
+                rgba(9, 17, 31, .96);
+
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, .20);
+        }
+
+
+        .topo-mapa-vivo {
+            min-height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 10px 14px;
+
+            border-bottom:
+                1px solid rgba(148, 163, 184, .10);
+        }
+
+
+        .rotulo-mapa-vivo {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #38bdf8;
+
+            font-size: 7px;
+            font-weight: 800;
+
+            letter-spacing: 1.4px;
+        }
+
+
+        .topo-mapa-vivo h2,
+        .cabecalho-operacoes-ativas h2 {
+            margin: 0;
+
+            color: #f8fafc;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+
+        .modos-mapa-vivo {
+            display: flex;
+
+            padding: 3px;
+
+            border:
+                1px solid rgba(148, 163, 184, .12);
+
+            border-radius: 8px;
+
+            background:
+                rgba(2, 8, 23, .45);
+        }
+
+
+        .modo-mapa-vivo {
+            padding: 5px 9px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: transparent;
+
+            color: #64748b;
+
+            font-size: 8px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                color .2s ease,
+                background .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .modo-mapa-vivo:hover {
+            color: #cbd5e1;
+        }
+
+
+        .modo-mapa-vivo.ativo {
+            color: #ffffff;
+
+            background:
+                rgba(37, 99, 235, .22);
+
+            box-shadow:
+                inset 0 0 0 1px rgba(96, 165, 250, .18);
+        }
+
+
+        /* ÁREA DO FUTURO MAPA */
+
+        .mapa-operacoes-vivo {
+            position: relative;
+
+            min-height: 650px;
+
+            overflow: hidden;
+
+            background:
+                radial-gradient(circle at 50% 45%,
+                    rgba(37, 99, 235, .08),
+                    transparent 33%),
+                linear-gradient(rgba(56, 189, 248, .025) 1px,
+                    transparent 1px),
+                linear-gradient(90deg,
+                    rgba(56, 189, 248, .025) 1px,
+                    transparent 1px),
+                #06101d;
+
+            background-size:
+                auto,
+                35px 35px,
+                35px 35px;
+        }
+
+
+        .mapa-operacoes-vazio {
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+
+            color: #475569;
+
+            text-align: center;
+        }
+
+
+        .mapa-operacoes-vazio strong {
+            margin-top: 12px;
+
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        .mapa-operacoes-vazio small {
+            margin-top: 4px;
+
+            color: #475569;
+
+            font-size: 8px;
+        }
+
+
+        /* EFEITO RADAR */
+
+        .radar-operacoes {
+            position: relative;
+
+            width: 52px;
+            height: 52px;
+
+            border:
+                1px solid rgba(56, 189, 248, .22);
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 25px rgba(56, 189, 248, .07);
+        }
+
+
+        .radar-operacoes::before,
+        .radar-operacoes::after {
+            content: "";
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            border:
+                1px solid rgba(56, 189, 248, .12);
+        }
+
+
+        .radar-operacoes::before {
+            inset: 9px;
+        }
+
+
+        .radar-operacoes::after {
+            inset: 18px;
+        }
+
+
+        .radar-operacoes span {
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            width: 4px;
+            height: 4px;
+
+            transform:
+                translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background: #38bdf8;
+
+            box-shadow:
+                0 0 12px rgba(56, 189, 248, .9);
+        }
+
+
+        /* =========================================================
+   OPERAÇÕES ATIVAS
+========================================================= */
+
+        .cabecalho-operacoes-ativas {
+            min-height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 10px 12px;
+
+            border-bottom:
+                1px solid rgba(148, 163, 184, .10);
+        }
+
+
+        .contador-operacoes-ativas {
+            min-width: 25px;
+            height: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid rgba(56, 189, 248, .18);
+
+            border-radius: 7px;
+
+            background:
+                rgba(56, 189, 248, .07);
+
+            color: #38bdf8;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        .lista-operacoes-ativas {
+            min-height: 245px;
+            max-height: 245px;
+
+            padding: 10px;
+
+            overflow-y: auto;
+        }
+
+
+        .sem-operacoes-ativas {
+            min-height: 190px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            text-align: center;
+        }
+
+
+        .icone-sem-operacoes {
+            margin-bottom: 9px;
+
+            color: #334155;
+
+            font-size: 20px;
+        }
+
+
+        .sem-operacoes-ativas strong {
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        .sem-operacoes-ativas span {
+            max-width: 180px;
+
+            margin-top: 5px;
+
+            color: #475569;
+
+            font-size: 8px;
+            line-height: 1.45;
+        }
+
+        /* =========================================================
+   MISSÃO SELECIONADA
+========================================================= */
+
+        .missao-selecionada-vivo {
+            border-top:
+                1px solid rgba(148, 163, 184, .10);
+
+            background:
+                linear-gradient(180deg,
+                    rgba(15, 23, 42, .40),
+                    rgba(9, 17, 31, .72));
+        }
+
+
+        .cabecalho-missao-selecionada {
+            min-height: 54px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            padding: 9px 12px;
+
+            border-bottom:
+                1px solid rgba(148, 163, 184, .08);
+        }
+
+
+        .cabecalho-missao-selecionada h3 {
+            margin: 0;
+
+            color: #f8fafc;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .botao-abrir-missao-vivo {
+            padding: 6px 9px;
+
+            border:
+                1px solid rgba(59, 130, 246, .26);
+
+            border-radius: 7px;
+
+            background:
+                rgba(37, 99, 235, .13);
+
+            color: #60a5fa;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                color .2s ease;
+        }
+
+
+        .botao-abrir-missao-vivo:not(:disabled):hover {
+            background:
+                rgba(37, 99, 235, .28);
+
+            border-color:
+                rgba(96, 165, 250, .45);
+
+            color: #ffffff;
+        }
+
+
+        .botao-abrir-missao-vivo:disabled {
+            opacity: .35;
+            cursor: default;
+        }
+
+
+        .conteudo-missao-selecionada {
+            min-height: 155px;
+
+            padding: 11px;
+        }
+
+
+        .missao-nao-selecionada {
+            min-height: 130px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+        }
+
+
+        .missao-nao-selecionada strong {
+            margin-top: 8px;
+
+            color: #64748b;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        .missao-nao-selecionada small {
+            max-width: 190px;
+
+            margin-top: 4px;
+
+            color: #475569;
+
+            font-size: 8px;
+            line-height: 1.45;
+        }
+
+
+        /* MIRA CENTRAL */
+
+        .mira-missao-vivo {
+            position: relative;
+
+            width: 32px;
+            height: 32px;
+
+            border:
+                1px solid rgba(56, 189, 248, .18);
+
+            border-radius: 50%;
+        }
+
+
+        .mira-missao-vivo::before,
+        .mira-missao-vivo::after {
+            content: "";
+
+            position: absolute;
+
+            background:
+                rgba(56, 189, 248, .35);
+        }
+
+
+        .mira-missao-vivo::before {
+            width: 1px;
+            height: 42px;
+
+            left: 50%;
+            top: -6px;
+        }
+
+
+        .mira-missao-vivo::after {
+            width: 42px;
+            height: 1px;
+
+            left: -6px;
+            top: 50%;
+        }
+
+
+        .mira-missao-vivo span {
+            position: absolute;
+
+            width: 4px;
+            height: 4px;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            background: #38bdf8;
+
+            box-shadow:
+                0 0 10px rgba(56, 189, 248, .9);
+        }
+
+        /* =========================================================
+   CÂMARA AO VIVO
+========================================================= */
+
+        .camera-operacoes-vivo {
+            border-top:
+                1px solid rgba(148, 163, 184, .10);
+
+            background:
+                #07101d;
+        }
+
+
+        .cabecalho-camera-vivo {
+            min-height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            padding: 9px 12px;
+
+            border-bottom:
+                1px solid rgba(148, 163, 184, .08);
+        }
+
+
+        .cabecalho-camera-vivo h3 {
+            margin: 0;
+
+            color: #f8fafc;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .estado-camera-vivo {
+            display: flex;
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 4px 7px;
+
+            border-radius: 999px;
+
+            font-size: 7px;
+            font-weight: 800;
+
+            letter-spacing: .3px;
+            text-transform: uppercase;
+        }
+
+
+        .estado-camera-vivo span {
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+        }
+
+
+        .estado-camera-vivo.aguardando {
+            border:
+                1px solid rgba(148, 163, 184, .14);
+
+            background:
+                rgba(148, 163, 184, .06);
+
+            color: #64748b;
+        }
+
+
+        .estado-camera-vivo.aguardando span {
+            background: #475569;
+        }
+
+
+        /* MONITOR */
+
+        .monitor-camera-vivo {
+            position: relative;
+
+            height: 180px;
+
+            margin: 10px;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(56, 189, 248, .14);
+
+            border-radius: 9px;
+
+            background:
+                radial-gradient(circle at center,
+                    rgba(37, 99, 235, .08),
+                    transparent 45%),
+                linear-gradient(180deg,
+                    #0a1524,
+                    #040b14);
+
+            box-shadow:
+                inset 0 0 40px rgba(0, 0, 0, .38);
+        }
+
+
+        /* LINHAS FINAS DE MONITOR */
+
+        .monitor-camera-vivo::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: .08;
+
+            background:
+                repeating-linear-gradient(180deg,
+                    transparent 0,
+                    transparent 3px,
+                    #ffffff 4px);
+        }
+
+
+        /* TOPO DO FEED */
+
+        .linha-camera-superior {
+            position: absolute;
+
+            z-index: 3;
+
+            top: 8px;
+            left: 9px;
+            right: 9px;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: rgba(148, 163, 184, .65);
+
+            font-size: 6px;
+            font-weight: 800;
+
+            letter-spacing: .7px;
+        }
+
+
+        /* CONTEÚDO VAZIO */
+
+        .camera-sem-selecao {
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            z-index: 2;
+
+            text-align: center;
+        }
+
+
+        .camera-sem-selecao svg {
+            width: 22px;
+            height: 22px;
+
+            margin-bottom: 7px;
+
+            fill: none;
+
+            stroke: #334155;
+            stroke-width: 1.4;
+        }
+
+
+        .camera-sem-selecao strong {
+            color: #64748b;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+
+        .camera-sem-selecao small {
+            max-width: 175px;
+
+            margin-top: 4px;
+
+            color: #475569;
+
+            font-size: 7px;
+            line-height: 1.45;
+        }
+
+
+        /* MIRA */
+
+        .mira-camera-vivo {
+            position: absolute;
+
+            z-index: 1;
+
+            left: 50%;
+            top: 50%;
+
+            width: 58px;
+            height: 58px;
+
+            transform:
+                translate(-50%, -50%);
+
+            opacity: .22;
+        }
+
+
+        .mira-camera-horizontal,
+        .mira-camera-vertical {
+            position: absolute;
+
+            background:
+                #38bdf8;
+        }
+
+
+        .mira-camera-horizontal {
+            width: 58px;
+            height: 1px;
+
+            left: 0;
+            top: 50%;
+        }
+
+
+        .mira-camera-vertical {
+            width: 1px;
+            height: 58px;
+
+            left: 50%;
+            top: 0;
+        }
+
+
+        .mira-camera-centro {
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            border:
+                1px solid #38bdf8;
+
+            border-radius: 50%;
+        }
+
+
+        /* TELEMETRIA */
+
+        .telemetria-camera-vivo {
+            position: absolute;
+
+            z-index: 3;
+
+            left: 9px;
+            right: 9px;
+            bottom: 7px;
+
+            display: flex;
+            justify-content: space-between;
+
+            padding-top: 5px;
+
+            border-top:
+                1px solid rgba(148, 163, 184, .08);
+
+            color: rgba(148, 163, 184, .55);
+
+            font-size: 6px;
+            font-weight: 800;
+
+            letter-spacing: .4px;
+        }
+
+        /* =========================================================
+   CARDS — OPERAÇÕES ATIVAS
+========================================================= */
+
+        .cartao-operacao-ativa {
+            width: 100%;
+
+            display: block;
+
+            margin-bottom: 8px;
+            padding: 10px;
+
+            border:
+                1px solid rgba(148, 163, 184, .11);
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(145deg,
+                    rgba(15, 23, 42, .92),
+                    rgba(8, 16, 29, .92));
+
+            color: inherit;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition:
+                border-color .2s ease,
+                background .2s ease,
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .cartao-operacao-ativa:hover {
+            transform: translateY(-1px);
+
+            border-color:
+                rgba(56, 189, 248, .30);
+
+            background:
+                rgba(15, 30, 50, .96);
+
+            box-shadow:
+                0 8px 22px rgba(0, 0, 0, .18);
+        }
+
+
+        .topo-cartao-operacao {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 8px;
+        }
+
+
+        .identificacao-operacao {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .icone-drone-operacao {
+            width: 27px;
+            height: 27px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border:
+                1px solid rgba(56, 189, 248, .15);
+
+            border-radius: 7px;
+
+            background:
+                rgba(56, 189, 248, .06);
+
+            color: #38bdf8;
+
+            font-size: 12px;
+
+            text-shadow:
+                0 0 8px rgba(56, 189, 248, .8);
+        }
+
+
+        .identificacao-operacao strong {
+            display: block;
+
+            color: #f1f5f9;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        .identificacao-operacao small {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #64748b;
+
+            font-size: 7px;
+            font-weight: 600;
+        }
+
+
+        .estado-operacao-vivo {
+            padding: 4px 6px;
+
+            border-radius: 999px;
+
+            font-size: 6px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+
+        .estado-operacao-vivo.em-missao {
+            border:
+                1px solid rgba(34, 197, 94, .18);
+
+            background:
+                rgba(34, 197, 94, .08);
+
+            color: #4ade80;
+        }
+
+
+        .estado-operacao-vivo.retornando {
+            border:
+                1px solid rgba(56, 189, 248, .20);
+
+            background:
+                rgba(56, 189, 248, .08);
+
+            color: #38bdf8;
+        }
+
+
+        .progresso-operacao-vivo {
+            margin-top: 10px;
+        }
+
+
+        .linha-progresso-operacao {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 5px;
+
+            color: #64748b;
+
+            font-size: 7px;
+        }
+
+
+        .linha-progresso-operacao strong {
+            color: #94a3b8;
+
+            font-size: 7px;
+        }
+
+
+        .barra-progresso-operacao {
+            height: 3px;
+
+            overflow: hidden;
+
+            border-radius: 999px;
+
+            background:
+                rgba(148, 163, 184, .08);
+        }
+
+
+        .barra-progresso-operacao span {
+            display: block;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(90deg,
+                    #2563eb,
+                    #38bdf8);
+
+            box-shadow:
+                0 0 8px rgba(56, 189, 248, .5);
+        }
+
+
+        .rodape-cartao-operacao {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 7px;
+
+            color: #475569;
+
+            font-size: 6px;
+        }
+
+
+        .rodape-cartao-operacao strong {
+            color: #64748b;
+        }
+
+        /* =========================================================
+   OPERAÇÃO SELECIONADA
+========================================================= */
+
+        .cartao-operacao-ativa.selecionado {
+            border-color:
+                rgba(56, 189, 248, .55);
+
+            background:
+                linear-gradient(145deg,
+                    rgba(20, 42, 67, .96),
+                    rgba(8, 19, 34, .96));
+
+            box-shadow:
+                0 0 0 1px rgba(56, 189, 248, .08),
+                0 0 22px rgba(56, 189, 248, .10);
+        }
+
+
+        .resumo-missao-foco {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+
+        .topo-missao-foco {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 8px;
+        }
+
+
+        .topo-missao-foco strong {
+            display: block;
+
+            color: #f8fafc;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .topo-missao-foco span:not(.estado-operacao-vivo) {
+            display: block;
+
+            margin-top: 2px;
+
+            color: #64748b;
+
+            font-size: 7px;
+        }
+
+
+        .grade-missao-foco {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 6px;
+        }
+
+
+        .grade-missao-foco div {
+            padding: 7px;
+
+            border:
+                1px solid rgba(148, 163, 184, .08);
+
+            border-radius: 7px;
+
+            background:
+                rgba(15, 23, 42, .55);
+        }
+
+
+        .grade-missao-foco span,
+        .proximo-ponto-missao span {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #475569;
+
+            font-size: 6px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .5px;
+        }
+
+
+        .grade-missao-foco strong {
+            color: #cbd5e1;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+
+        .proximo-ponto-missao {
+            padding: 7px 8px;
+
+            border-left:
+                2px solid #38bdf8;
+
+            border-radius: 5px;
+
+            background:
+                rgba(56, 189, 248, .05);
+        }
+
+
+        .proximo-ponto-missao strong {
+            color: #e2e8f0;
+
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+   CÂMARA — DRONE LIGADO
+========================================================= */
+
+        .estado-camera-vivo.conectado {
+            border:
+                1px solid rgba(34, 197, 94, .20);
+
+            background:
+                rgba(34, 197, 94, .07);
+
+            color: #4ade80;
+        }
+
+
+        .estado-camera-vivo.conectado span {
+            background: #22c55e;
+
+            box-shadow:
+                0 0 8px rgba(34, 197, 94, .9);
+
+            animation:
+                pulso-camera-status 1.6s infinite;
+        }
+
+
+        @keyframes pulso-camera-status {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .35;
+            }
+
+        }
+
+
+        .camera-feed-preparado {
+            position: absolute;
+
+            z-index: 2;
+
+            inset: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+        }
+
+
+        .camera-feed-preparado strong {
+            margin-top: 8px;
+
+            color: #cbd5e1;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        .camera-feed-preparado span {
+            margin-top: 2px;
+
+            color: #38bdf8;
+
+            font-size: 7px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .6px;
+        }
+
+
+        .camera-feed-preparado small {
+            max-width: 185px;
+
+            margin-top: 5px;
+
+            color: #475569;
+
+            font-size: 7px;
+            line-height: 1.45;
+        }
+
+
+        .pulso-camera-vivo {
+            width: 34px;
+            height: 34px;
+
+            border:
+                1px solid rgba(56, 189, 248, .35);
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 0 rgba(56, 189, 248, .30);
+
+            animation:
+                radar-camera-vivo 2s infinite;
+        }
+
+
+        @keyframes radar-camera-vivo {
+
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(56, 189, 248, .30);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 18px rgba(56, 189, 248, 0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0 rgba(56, 189, 248, 0);
+            }
+
+        }
+
+        /* =========================================================
+   LEAFLET — MAPA OPERACIONAL
+========================================================= */
+
+        #mapaOperacoesAoVivo {
+            width: 100%;
+            height: 650px;
+
+            background: #06101d;
+        }
+
+
+        #mapaOperacoesAoVivo .leaflet-control-zoom {
+            border: none;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, .30);
+        }
+
+
+        #mapaOperacoesAoVivo .leaflet-control-zoom a {
+            width: 28px;
+            height: 28px;
+
+            line-height: 28px;
+
+            border:
+                1px solid rgba(148, 163, 184, .12);
+
+            background:
+                rgba(7, 17, 31, .94);
+
+            color: #94a3b8;
+        }
+
+
+        #mapaOperacoesAoVivo .leaflet-control-zoom a:hover {
+            background:
+                rgba(15, 30, 50, .98);
+
+            color: #38bdf8;
+        }
+
+
+        #mapaOperacoesAoVivo .leaflet-control-attribution {
+            background:
+                rgba(2, 8, 23, .72);
+
+            color: #475569;
+
+            font-size: 6px;
+        }
+
+
+        #mapaOperacoesAoVivo .leaflet-control-attribution a {
+            color: #64748b;
+        }
+
+        /* =========================================================
+   MARCADOR — BASE OPERACIONAL
+========================================================= */
+
+        .marcador-base-operacional {
+            position: relative;
+
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid rgba(56, 189, 248, .55);
+
+            border-radius: 50%;
+
+            background:
+                rgba(7, 17, 31, .96);
+
+            color: #38bdf8;
+
+            font-size: 15px;
+
+            box-shadow:
+                0 0 0 5px rgba(56, 189, 248, .08),
+
+                0 0 18px rgba(56, 189, 248, .45);
+        }
+
+
+        .marcador-base-operacional::before {
+            content: "";
+
+            position: absolute;
+
+            inset: -8px;
+
+            border:
+                1px solid rgba(56, 189, 248, .20);
+
+            border-radius: 50%;
+
+            animation:
+                pulso-base-operacional 2.2s infinite;
+        }
+
+
+        @keyframes pulso-base-operacional {
+
+            0% {
+                transform: scale(.85);
+                opacity: .8;
+            }
+
+            70% {
+                transform: scale(1.35);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.35);
+                opacity: 0;
+            }
+
+        }
+
+
+        .rotulo-base-operacional {
+            padding: 5px 8px;
+
+            border:
+                1px solid rgba(56, 189, 248, .18);
+
+            border-radius: 6px;
+
+            background:
+                rgba(2, 8, 23, .92);
+
+            color: #cbd5e1;
+
+            font-size: 8px;
+            font-weight: 800;
+
+            box-shadow:
+                0 6px 16px rgba(0, 0, 0, .28);
+        }
+
+        /* =========================================================
+   DRONES — MAPA AO VIVO
+========================================================= */
+
+        .marcador-drone-vivo {
+            position: relative;
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(5, 15, 27, .96);
+
+            color: #4ade80;
+
+            border:
+                1px solid rgba(74, 222, 128, .48);
+
+            box-shadow:
+                0 0 0 5px rgba(74, 222, 128, .06),
+
+                0 0 18px rgba(74, 222, 128, .38);
+        }
+
+
+        .marcador-drone-vivo.retornando {
+            color: #38bdf8;
+
+            border-color:
+                rgba(56, 189, 248, .55);
+
+            box-shadow:
+                0 0 0 5px rgba(56, 189, 248, .06),
+
+                0 0 20px rgba(56, 189, 248, .45);
+        }
+
+
+        .marcador-drone-vivo svg {
+            width: 22px;
+            height: 22px;
+
+            fill: none;
+
+            stroke: currentColor;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            filter:
+                drop-shadow(0 0 4px currentColor);
+        }
+
+
+        .marcador-drone-vivo::after {
+            content: "";
+
+            position: absolute;
+
+            inset: -6px;
+
+            border:
+                1px solid currentColor;
+
+            border-radius: 50%;
+
+            opacity: .16;
+
+            animation:
+                pulso-drone-mapa 2s infinite;
+        }
+
+
+        @keyframes pulso-drone-mapa {
+
+            0% {
+                transform: scale(.85);
+                opacity: .28;
+            }
+
+            70% {
+                transform: scale(1.35);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.35);
+                opacity: 0;
+            }
+
+        }
+
+
+        .rotulo-drone-vivo {
+            padding: 4px 7px;
+
+            border:
+                1px solid rgba(148, 163, 184, .13);
+
+            border-radius: 6px;
+
+            background:
+                rgba(2, 8, 23, .92);
+
+            color: #e2e8f0;
+
+            font-size: 7px;
+            font-weight: 800;
+
+            box-shadow:
+                0 5px 14px rgba(0, 0, 0, .28);
+        }
+    </style>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+</head>
+
+
+<body class="menu-operacoes-fechado">
+
+    <aside class="menu">
+
+        <nav>
+
+            <a href="index.html">
+                🛰️ Centro de Operações
+            </a>
+
+            <a href="operacoes.html" class="ativo">
+                📡 Operações ao Vivo
+            </a>
+
+            <a href="Distribuicoes.html">
+                🚁 Missões
+            </a>
+
+            <a href="clientes.html">
+                📍 Pontos de Entrega
+            </a>
+
+            <a href="drones.html">
+                🤖 Drones
+            </a>
+
+            <a href="rotas.html">
+                🗺️ Planeamento Missões
+            </a>
+
+            <a href="desempenho.html">
+                📊 Análises
+            </a>
+
+            <a href="gestao-distribuicoes.html">
+                ⚙️ Gestão
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <div id="fundoMenuOperacoes" class="fundo-menu-operacoes"></div>
+
+
+    <main id="conteudo">
+
+        <header class="topo-gestao">
+
+            <div class="identidade-topo-gestao identidade-topo-operacoes">
+
+                <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
+                    class="imagem-logo-gestao">
+
+
+                <button type="button" id="botaoMenuOperacoes" class="botao-menu-operacoes" aria-label="Abrir menu">
+                    ☰
+                </button>
+
+
+                <div class="titulo-topo-gestao titulo-topo-operacoes">
+
+                    <h1>
+                        Operações ao Vivo
+                    </h1>
+
+                    <p>
+                        Acompanhamento em tempo real das missões em curso
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="estado-sistema">
+                ● Sistema online
+            </div>
+
+        </header>
+
+
+        <div class="pagina-operacoes">
+
+            <section class="resumo-operacoes-vivo">
+
+                <div class="indicador-operacao indicador-em-missao">
+
+                    <div class="icone-indicador-operacao">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M8 10h8v4H8z"></path>
+                            <path d="M5 7l3 3M19 7l-3 3M5 17l3-3M19 17l-3-3"></path>
+                            <circle cx="4" cy="6" r="2"></circle>
+                            <circle cx="20" cy="6" r="2"></circle>
+                            <circle cx="4" cy="18" r="2"></circle>
+                            <circle cx="20" cy="18" r="2"></circle>
+                        </svg>
+                    </div>
+
+                    <div class="texto-indicador-operacao">
+                        <span>
+                            Em missão
+                        </span>
+
+                        <strong id="indicadorEmMissao">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="indicador-operacao indicador-retornando">
+
+                    <div class="icone-indicador-operacao">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19 7v5h-5"></path>
+                            <path d="M18.2 12a7 7 0 1 1-2-5"></path>
+                        </svg>
+                    </div>
+
+                    <div class="texto-indicador-operacao">
+                        <span>
+                            Retornando
+                        </span>
+
+                        <strong id="indicadorRetornando">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="indicador-operacao indicador-alertas">
+
+                    <div class="icone-indicador-operacao">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 3L2.8 20h18.4z"></path>
+                            <path d="M12 9v5"></path>
+                            <path d="M12 17.5h.01"></path>
+                        </svg>
+                    </div>
+
+                    <div class="texto-indicador-operacao">
+                        <span>
+                            Alertas
+                        </span>
+
+                        <strong id="indicadorAlertasAoVivo">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="area-central-operacoes">
+
+                <!-- MAPA PRINCIPAL -->
+                <div class="painel-mapa-vivo">
+
+                    <div class="topo-mapa-vivo">
+
+                        <div>
+                            <span class="rotulo-mapa-vivo">
+                                MONITORIZAÇÃO
+                            </span>
+
+                            <h2>
+                                Mapa operacional ao vivo
+                            </h2>
+                        </div>
+
+
+                        <div class="modos-mapa-vivo">
+
+                            <button type="button" class="modo-mapa-vivo ativo" data-modo="todas">
+                                Todas
+                            </button>
+
+                            <button type="button" class="modo-mapa-vivo" data-modo="selecionada">
+                                Selecionada
+                            </button>
+
+                            <button type="button" class="modo-mapa-vivo" data-modo="alertas">
+                                Alertas
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="mapaOperacoesAoVivo" class="mapa-operacoes-vivo">
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPERAÇÕES ATIVAS -->
+                <aside class="painel-operacoes-ativas">
+
+                    <div class="cabecalho-operacoes-ativas">
+
+                        <div>
+                            <span class="rotulo-mapa-vivo">
+                                TEMPO REAL
+                            </span>
+
+                            <h2>
+                                Operações ativas
+                            </h2>
+                        </div>
+
+                        <span id="quantidadeOperacoesAtivas" class="contador-operacoes-ativas">
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <div id="listaOperacoesAtivas" class="lista-operacoes-ativas">
+
+                        <div class="sem-operacoes-ativas">
+
+                            <div class="icone-sem-operacoes">
+                                ◉
+                            </div>
+
+                            <strong>
+                                Nenhuma operação em curso
+                            </strong>
+
+                            <span>
+                                As missões ativas aparecerão aqui automaticamente.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="missao-selecionada-vivo">
+
+                        <div class="cabecalho-missao-selecionada">
+
+                            <div>
+                                <span class="rotulo-mapa-vivo">
+                                    EM FOCO
+                                </span>
+
+                                <h3>
+                                    Missão selecionada
+                                </h3>
+                            </div>
+
+                            <button type="button" id="botaoAbrirMissaoAoVivo" class="botao-abrir-missao-vivo" disabled>
+                                Abrir missão
+                            </button>
+
+                        </div>
+
+
+                        <div id="conteudoMissaoSelecionada" class="conteudo-missao-selecionada">
+
+                            <div class="missao-nao-selecionada">
+
+                                <div class="mira-missao-vivo">
+                                    <span></span>
+                                </div>
+
+                                <strong>
+                                    Nenhuma missão selecionada
+                                </strong>
+
+                                <small>
+                                    Selecione uma operação ativa para acompanhar os detalhes.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="camera-operacoes-vivo">
+
+                        <div class="cabecalho-camera-vivo">
+
+                            <div>
+                                <span class="rotulo-mapa-vivo">
+                                    VISÃO DA AERONAVE
+                                </span>
+
+                                <h3>
+                                    Câmara ao vivo
+                                </h3>
+                            </div>
+
+                            <div id="estadoCameraAoVivo" class="estado-camera-vivo aguardando">
+                                <span></span>
+                                Aguardando
+                            </div>
+
+                        </div>
+
+
+                        <div id="cameraDroneAoVivo" class="monitor-camera-vivo">
+
+                            <div class="linha-camera-superior">
+
+                                <span id="codigoDroneCamera">
+                                    DRN---
+                                </span>
+
+                                <span>
+                                    SEM TRANSMISSÃO
+                                </span>
+
+                            </div>
+
+
+                            <div class="mira-camera-vivo">
+
+                                <span class="mira-camera-horizontal"></span>
+                                <span class="mira-camera-vertical"></span>
+                                <span class="mira-camera-centro"></span>
+
+                            </div>
+
+
+                            <div class="camera-sem-selecao">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 7h13v10H3z"></path>
+                                    <path d="M16 10l5-3v10l-5-3z"></path>
+                                </svg>
+
+                                <strong>
+                                    Câmara indisponível
+                                </strong>
+
+                                <small>
+                                    Selecione uma operação ativa para iniciar a visualização.
+                                </small>
+
+                            </div>
+
+
+                            <div class="telemetria-camera-vivo">
+
+                                <span>
+                                    ALT -- m
+                                </span>
+
+                                <span>
+                                    VEL -- km/h
+                                </span>
+
+                                <span>
+                                    SINAL --
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <script>
+
+        const botaoMenuOperacoes =
+            document.getElementById("botaoMenuOperacoes");
+
+        const fundoMenuOperacoes =
+            document.getElementById("fundoMenuOperacoes");
+
+
+        function abrirMenuOperacoes() {
+
+            document.body.classList.remove(
+                "menu-operacoes-fechado"
+            );
+
+            botaoMenuOperacoes.setAttribute(
+                "aria-label",
+                "Fechar menu"
+            );
+
+        }
+
+
+        function fecharMenuOperacoes() {
+
+            document.body.classList.add(
+                "menu-operacoes-fechado"
+            );
+
+            botaoMenuOperacoes.setAttribute(
+                "aria-label",
+                "Abrir menu"
+            );
+
+        }
+
+
+        botaoMenuOperacoes.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    document.body.classList.contains(
+                        "menu-operacoes-fechado"
+                    )
+                ) {
+
+                    abrirMenuOperacoes();
+
+                } else {
+
+                    fecharMenuOperacoes();
+
+                }
+
+            }
+        );
+
+
+        fundoMenuOperacoes.addEventListener(
+            "click",
+            fecharMenuOperacoes
+        );
+
+        /* =========================================================
+   MAPA OPERACIONAL
+========================================================= */
+
+        const mapaOperacoes =
+            L.map(
+                "mapaOperacoesAoVivo",
+                {
+                    zoomControl: true,
+                    attributionControl: true
+                }
+            ).setView(
+                [
+                    41.6232128,
+                    -8.3472675
+                ],
+                13
+            );
+
+
+        L.tileLayer(
+            "https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png?key=cb1_4goh_1_f0efc5a0e89375762c6e7105",
+            {
+                maxZoom: 20,
+
+                attribution:
+                    "&copy; OpenStreetMap &copy; CARTO"
+            }
+        ).addTo(
+            mapaOperacoes
+        );
+
+        /* =========================================================
+   BASE OPERACIONAL
+========================================================= */
+
+        const coordenadasBase =
+            [
+                41.6232128,
+                -8.3472675
+            ];
+
+
+        const iconeBaseOperacional =
+            L.divIcon(
+                {
+                    className: "",
+
+                    html: `
+                <div class="marcador-base-operacional">
+                    ⌂
+                </div>
+            `,
+
+                    iconSize:
+                        [34, 34],
+
+                    iconAnchor:
+                        [17, 17]
+                }
+            );
+
+
+        const marcadorBaseOperacional =
+            L.marker(
+                coordenadasBase,
+                {
+                    icon:
+                        iconeBaseOperacional
+                }
+            )
+                .addTo(
+                    mapaOperacoes
+                );
+
+
+        marcadorBaseOperacional.bindTooltip(
+            "Base Operacional",
+            {
+                permanent: true,
+
+                direction: "right",
+
+                offset:
+                    [12, 0],
+
+                className:
+                    "rotulo-base-operacional"
+            }
+        );
+
+        const camadaRotasAoVivo =
+            L.layerGroup()
+                .addTo(
+                    mapaOperacoes
+                );
+
+        const camadaDronesAoVivo =
+            L.layerGroup()
+                .addTo(
+                    mapaOperacoes
+                );
+
+        function atualizarRotasNoMapa() {
+
+            camadaRotasAoVivo.clearLayers();
+
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const clientesCadastrados =
+                JSON.parse(
+                    localStorage.getItem(
+                        "clientes"
+                    )
+                ) || [];
+
+
+            const missoesAtivas =
+                distribuicoes.filter(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            missao.status ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            const coresRotas = [
+                "#22c55e",
+                "#38bdf8",
+                "#a78bfa",
+                "#2dd4bf",
+                "#60a5fa"
+            ];
+
+
+            missoesAtivas.forEach(
+                function (missao, indiceMissao) {
+
+                    if (
+                        modoMapaAoVivo === "selecionada" &&
+                        String(missao.id) !==
+                        String(idOperacaoSelecionada)
+                    ) {
+                        return;
+                    }
+
+                    if (
+                        modoMapaAoVivo === "alertas" &&
+                        obterAlertasDaMissao(
+                            missao
+                        ).length === 0
+                    ) {
+                        return;
+                    }
+
+                    const clientes =
+                        Array.isArray(
+                            missao.clientes
+                        )
+                            ? missao.clientes
+                            : [];
+
+
+                    const pontosRota = [
+                        coordenadasBase
+                    ];
+
+
+                    clientes.forEach(
+                        function (clienteMissao) {
+
+                            const clienteCompleto =
+                                clientesCadastrados.find(
+                                    function (cliente) {
+
+                                        return (
+                                            String(cliente.codigo) ===
+                                            String(
+                                                clienteMissao.codigo
+                                            )
+                                        );
+
+                                    }
+                                ) || clienteMissao;
+
+
+                            const latitude =
+                                Number(
+                                    clienteCompleto.latitude
+                                );
+
+
+                            const longitude =
+                                Number(
+                                    clienteCompleto.longitude
+                                );
+
+
+                            if (
+                                Number.isFinite(latitude) &&
+                                Number.isFinite(longitude)
+                            ) {
+
+                                pontosRota.push(
+                                    [
+                                        latitude,
+                                        longitude
+                                    ]
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                    /*
+                     * Retorno planeado à base
+                     */
+
+                    pontosRota.push(
+                        coordenadasBase
+                    );
+
+
+                    if (pontosRota.length < 3) {
+                        return;
+                    }
+
+
+                    const cor =
+                        coresRotas[
+                        indiceMissao %
+                        coresRotas.length
+                        ];
+
+                    const existeMissaoSelecionada =
+                        idOperacaoSelecionada !== null;
+
+
+                    const missaoSelecionada =
+                        String(missao.id) ===
+                        String(idOperacaoSelecionada);
+
+
+                    const opacidadeGlow =
+                        !existeMissaoSelecionada
+                            ? .10
+                            : missaoSelecionada
+                                ? .30
+                                : .025;
+
+
+                    const opacidadeLinha =
+                        !existeMissaoSelecionada
+                            ? .58
+                            : missaoSelecionada
+                                ? 1
+                                : .14;
+
+
+                    const opacidadePontos =
+                        !existeMissaoSelecionada
+                            ? .95
+                            : missaoSelecionada
+                                ? 1
+                                : .16;
+
+
+                    /*
+                     * Glow exterior
+                     */
+
+                    L.polyline(
+                        pontosRota,
+                        {
+                            color: cor,
+
+                            weight:
+                                missaoSelecionada
+                                    ? 15
+                                    : 11,
+                            opacity: opacidadeGlow,
+
+                            lineJoin: "round",
+
+                            lineCap: "round",
+
+                            interactive: false
+                        }
+                    )
+                        .addTo(
+                            camadaRotasAoVivo
+                        );
+
+
+                    /*
+                     * Linha neon
+                     */
+
+                    L.polyline(
+                        pontosRota,
+                        {
+                            color: cor,
+
+                            weight:
+                                missaoSelecionada
+                                    ? 3
+                                    : 2,
+
+                            opacity: opacidadeLinha,
+
+                            lineJoin: "round",
+
+                            lineCap: "round",
+
+                            interactive: false
+                        }
+                    )
+                        .addTo(
+                            camadaRotasAoVivo
+                        );
+
+
+                    /*
+                     * Pontos luminosos
+                     */
+
+                    L.polyline(
+                        pontosRota,
+                        {
+                            color: cor,
+
+                            weight: 4,
+
+                            opacity: opacidadePontos,
+
+                            dashArray:
+                                "1 11",
+
+                            lineJoin: "round",
+
+                            lineCap: "round",
+
+                            interactive: false
+                        }
+                    )
+                        .addTo(
+                            camadaRotasAoVivo
+                        );
+
+
+                    /*
+                     * Pontos de entrega
+                     */
+
+                    pontosRota
+                        .slice(
+                            1,
+                            pontosRota.length - 1
+                        )
+                        .forEach(
+                            function (coordenada) {
+
+                                L.circleMarker(
+                                    coordenada,
+                                    {
+                                        radius: 3.5,
+
+                                        color: cor,
+
+                                        weight: 1.5,
+
+                                        fillColor:
+                                            "#07111f",
+
+                                        fillOpacity:
+                                            !existeMissaoSelecionada ||
+                                                missaoSelecionada
+                                                ? 1
+                                                : .20,
+
+                                        opacity:
+                                            opacidadePontos
+                                    }
+                                )
+                                    .addTo(
+                                        camadaRotasAoVivo
+                                    );
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+
+        function atualizarDronesNoMapa() {
+
+            camadaDronesAoVivo.clearLayers();
+
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem(
+                        "distribuicoes"
+                    )
+                ) || [];
+
+
+            const clientesCadastrados =
+                JSON.parse(
+                    localStorage.getItem(
+                        "clientes"
+                    )
+                ) || [];
+
+
+            const missoesAtivas =
+                distribuicoes.filter(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            missao.status ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            function obterClienteCompleto(
+                clienteMissao
+            ) {
+
+                if (!clienteMissao) {
+                    return null;
+                }
+
+
+                const clienteCadastrado =
+                    clientesCadastrados.find(
+                        function (cliente) {
+
+                            return (
+                                String(cliente.codigo) ===
+                                String(
+                                    clienteMissao.codigo
+                                )
+                            );
+
+                        }
+                    );
+
+
+                return (
+                    clienteCadastrado ||
+                    clienteMissao
+                );
+
+            }
+
+
+            missoesAtivas.forEach(
+                function (missao) {
+
+                    if (
+                        modoMapaAoVivo === "selecionada" &&
+                        String(missao.id) !==
+                        String(idOperacaoSelecionada)
+                    ) {
+                        return;
+                    }
+
+                    if (
+                        modoMapaAoVivo === "alertas" &&
+                        obterAlertasDaMissao(
+                            missao
+                        ).length === 0
+                    ) {
+                        return;
+                    }
+
+                    const clientes =
+                        Array.isArray(
+                            missao.clientes
+                        )
+                            ? missao.clientes
+                            : [];
+
+
+                    if (clientes.length === 0) {
+                        return;
+                    }
+
+
+                    const retornando =
+                        missao.retornoBase ===
+                        "Em andamento";
+
+
+                    let latitude =
+                        coordenadasBase[0];
+
+                    let longitude =
+                        coordenadasBase[1];
+
+
+                    /* RETORNO À BASE */
+
+                    if (retornando) {
+
+                        const ultimoCliente =
+                            obterClienteCompleto(
+                                clientes[
+                                clientes.length - 1
+                                ]
+                            );
+
+
+                        if (
+                            ultimoCliente &&
+                            Number.isFinite(
+                                Number(
+                                    ultimoCliente.latitude
+                                )
+                            ) &&
+                            Number.isFinite(
+                                Number(
+                                    ultimoCliente.longitude
+                                )
+                            )
+                        ) {
+
+                            latitude =
+                                Number(
+                                    ultimoCliente.latitude
+                                );
+
+                            longitude =
+                                Number(
+                                    ultimoCliente.longitude
+                                );
+
+                        }
+
+                    } else {
+
+                        const indiceProximo =
+                            clientes.findIndex(
+                                function (cliente) {
+
+                                    return (
+                                        cliente &&
+                                        cliente.statusEntrega !==
+                                        "Concluída"
+                                    );
+
+                                }
+                            );
+
+
+                        if (indiceProximo >= 0) {
+
+                            const proximoCliente =
+                                obterClienteCompleto(
+                                    clientes[
+                                    indiceProximo
+                                    ]
+                                );
+
+
+                            if (
+                                proximoCliente &&
+                                Number.isFinite(
+                                    Number(
+                                        proximoCliente.latitude
+                                    )
+                                ) &&
+                                Number.isFinite(
+                                    Number(
+                                        proximoCliente.longitude
+                                    )
+                                )
+                            ) {
+
+                                /*
+                                 * Primeira entrega:
+                                 * posição entre base e destino.
+                                 */
+
+                                if (indiceProximo === 0) {
+
+                                    latitude =
+                                        coordenadasBase[0] +
+                                        (
+                                            Number(
+                                                proximoCliente.latitude
+                                            ) -
+                                            coordenadasBase[0]
+                                        ) * .45;
+
+
+                                    longitude =
+                                        coordenadasBase[1] +
+                                        (
+                                            Number(
+                                                proximoCliente.longitude
+                                            ) -
+                                            coordenadasBase[1]
+                                        ) * .45;
+
+                                } else {
+
+                                    /*
+                                     * Entre o último ponto
+                                     * e o próximo destino.
+                                     */
+
+                                    const clienteAnterior =
+                                        obterClienteCompleto(
+                                            clientes[
+                                            indiceProximo - 1
+                                            ]
+                                        );
+
+
+                                    if (
+                                        clienteAnterior &&
+                                        Number.isFinite(
+                                            Number(
+                                                clienteAnterior.latitude
+                                            )
+                                        ) &&
+                                        Number.isFinite(
+                                            Number(
+                                                clienteAnterior.longitude
+                                            )
+                                        )
+                                    ) {
+
+                                        latitude =
+                                            Number(
+                                                clienteAnterior.latitude
+                                            ) +
+                                            (
+                                                Number(
+                                                    proximoCliente.latitude
+                                                ) -
+                                                Number(
+                                                    clienteAnterior.latitude
+                                                )
+                                            ) * .45;
+
+
+                                        longitude =
+                                            Number(
+                                                clienteAnterior.longitude
+                                            ) +
+                                            (
+                                                Number(
+                                                    proximoCliente.longitude
+                                                ) -
+                                                Number(
+                                                    clienteAnterior.longitude
+                                                )
+                                            ) * .45;
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+
+                    const iconeDrone =
+                        L.divIcon(
+                            {
+                                className: "",
+
+                                html: `
+                            <div
+                                class="
+                                    marcador-drone-vivo
+                                    ${retornando
+                                        ? "retornando"
+                                        : ""
+                                    }
+                                "
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M8 10h8v4H8z"></path>
+                                    <path d="M5 7l3 3"></path>
+                                    <path d="M19 7l-3 3"></path>
+                                    <path d="M5 17l3-3"></path>
+                                    <path d="M19 17l-3-3"></path>
+
+                                    <circle
+                                        cx="4"
+                                        cy="6"
+                                        r="2"
+                                    ></circle>
+
+                                    <circle
+                                        cx="20"
+                                        cy="6"
+                                        r="2"
+                                    ></circle>
+
+                                    <circle
+                                        cx="4"
+                                        cy="18"
+                                        r="2"
+                                    ></circle>
+
+                                    <circle
+                                        cx="20"
+                                        cy="18"
+                                        r="2"
+                                    ></circle>
+                                </svg>
+                            </div>
+                        `,
+
+                                iconSize:
+                                    [38, 38],
+
+                                iconAnchor:
+                                    [19, 19]
+                            }
+                        );
+
+
+                    const marcador =
+                        L.marker(
+                            [
+                                latitude,
+                                longitude
+                            ],
+                            {
+                                icon:
+                                    iconeDrone
+                            }
+                        )
+                            .addTo(
+                                camadaDronesAoVivo
+                            );
+
+
+                    marcador.bindTooltip(
+                        `
+                    ${missao.veiculo || "Drone"}
+                    ·
+                    ${retornando
+                            ? "Retornando"
+                            : "Em missão"
+                        }
+                `,
+                        {
+                            permanent: true,
+
+                            direction: "right",
+
+                            offset:
+                                [13, 0],
+
+                            className:
+                                "rotulo-drone-vivo"
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+        let idOperacaoSelecionada = null;
+
+        let modoMapaAoVivo = "todas";
+
+        function obterAlertasDaMissao(missao) {
+
+            const perfisDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "perfisDrones"
+                    )
+                ) || {};
+
+
+            const perfil =
+                perfisDrones[
+                missao.veiculo
+                ] || {};
+
+
+            const alertas = [];
+
+
+            const bateria =
+                Number(
+                    perfil.bateria
+                );
+
+
+            if (
+                Number.isFinite(bateria) &&
+                bateria < 20
+            ) {
+
+                alertas.push(
+                    "Bateria crítica"
+                );
+
+            } else if (
+                Number.isFinite(bateria) &&
+                bateria <= 40
+            ) {
+
+                alertas.push(
+                    "Bateria baixa"
+                );
+
+            }
+
+
+            if (
+                perfil.ligacao ===
+                "Instável"
+            ) {
+
+                alertas.push(
+                    "Ligação instável"
+                );
+
+            }
+
+
+            return alertas;
+
+        }
+
+        /* =========================================================
+   OPERAÇÕES ATIVAS
+========================================================= */
+
+        function atualizarOperacoesAoVivo() {
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem("distribuicoes")
+                ) || [];
+
+
+            const operacoesAtivas =
+                distribuicoes
+                    .filter(
+                        function (missao) {
+
+                            return (
+                                missao &&
+                                missao.status === "Em andamento"
+                            );
+
+                        }
+                    )
+                    .sort(
+                        function (a, b) {
+
+                            return (
+                                Number(b.inicioTimestamp || 0) -
+                                Number(a.inicioTimestamp || 0)
+                            );
+
+                        }
+                    );
+
+
+            const operacoesRetornando =
+                operacoesAtivas.filter(
+                    function (missao) {
+
+                        return (
+                            missao.retornoBase ===
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            const operacoesEmMissao =
+                operacoesAtivas.filter(
+                    function (missao) {
+
+                        return (
+                            missao.retornoBase !==
+                            "Em andamento"
+                        );
+
+                    }
+                );
+
+
+            const quantidadeAlertas =
+                operacoesAtivas.reduce(
+                    function (total, missao) {
+
+                        return (
+                            total +
+                            obterAlertasDaMissao(
+                                missao
+                            ).length
+                        );
+
+                    },
+                    0
+                );
+
+
+            document
+                .getElementById("indicadorEmMissao")
+                .textContent =
+                operacoesEmMissao.length;
+
+
+            document
+                .getElementById("indicadorRetornando")
+                .textContent =
+                operacoesRetornando.length;
+
+
+            document
+                .getElementById(
+                    "indicadorAlertasAoVivo"
+                )
+                .textContent =
+                quantidadeAlertas;
+
+
+            document
+                .getElementById("quantidadeOperacoesAtivas")
+                .textContent =
+                operacoesAtivas.length;
+
+
+            const lista =
+                document.getElementById(
+                    "listaOperacoesAtivas"
+                );
+
+
+            if (operacoesAtivas.length === 0) {
+
+                lista.innerHTML = `
+            <div class="sem-operacoes-ativas">
+
+                <div class="icone-sem-operacoes">
+                    ◉
+                </div>
+
+                <strong>
+                    Nenhuma operação em curso
+                </strong>
+
+                <span>
+                    As missões ativas aparecerão aqui automaticamente.
+                </span>
+
+            </div>
+        `;
+
+                return;
+            }
+
+
+            lista.innerHTML =
+                operacoesAtivas
+                    .map(
+                        function (missao) {
+
+                            const clientes =
+                                Array.isArray(
+                                    missao.clientes
+                                )
+                                    ? missao.clientes
+                                    : [];
+
+
+                            const concluidos =
+                                clientes.filter(
+                                    function (cliente) {
+
+                                        return (
+                                            cliente &&
+                                            cliente.statusEntrega ===
+                                            "Concluída"
+                                        );
+
+                                    }
+                                ).length;
+
+
+                            const retornando =
+                                missao.retornoBase ===
+                                "Em andamento";
+
+
+                            const estadoTexto =
+                                retornando
+                                    ? "Retornando"
+                                    : "Em missão";
+
+
+                            const estadoClasse =
+                                retornando
+                                    ? "retornando"
+                                    : "em-missao";
+
+
+                            return `
+                        <button
+    type="button"
+    class="cartao-operacao-ativa"
+    data-id="${missao.id}"
+    onclick="selecionarOperacaoAoVivo('${missao.id}')"
+>
+
+                            <div class="topo-cartao-operacao">
+
+                                <div class="identificacao-operacao">
+
+                                    <span class="icone-drone-operacao">
+                                        ✦
+                                    </span>
+
+                                    <div>
+
+                                        <strong>
+                                            ${missao.veiculo || "Aeronave"}
+                                        </strong>
+
+                                        <small>
+                                            ${missao.distribuidor || "Operador"}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+                                <span
+                                    class="
+                                        estado-operacao-vivo
+                                        ${estadoClasse}
+                                    "
+                                >
+                                    ${estadoTexto}
+                                </span>
+
+                            </div>
+
+
+                            <div class="progresso-operacao-vivo">
+
+                                <div class="linha-progresso-operacao">
+
+                                    <span>
+                                        Pontos
+                                    </span>
+
+                                    <strong>
+                                        ${concluidos}/${clientes.length}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="barra-progresso-operacao">
+
+                                    <span
+                                        style="
+                                            width:
+                                            ${clientes.length > 0
+                                    ? (
+                                        concluidos /
+                                        clientes.length *
+                                        100
+                                    )
+                                    : 0
+                                }%;
+                                        "
+                                    ></span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rodape-cartao-operacao">
+
+                                <span>
+                                    Início
+                                </span>
+
+                                <strong>
+                                    ${missao.horaInicio || "--:--"}
+                                </strong>
+
+                            </div>
+
+                        </button>
+                    `;
+
+                        }
+                    )
+                    .join("");
+
+        }
+
+        function selecionarOperacaoAoVivo(idMissao) {
+
+            const distribuicoes =
+                JSON.parse(
+                    localStorage.getItem("distribuicoes")
+                ) || [];
+
+
+            const missao =
+                distribuicoes.find(
+                    function (item) {
+
+                        return (
+                            item &&
+                            String(item.id) ===
+                            String(idMissao)
+                        );
+
+                    }
+                );
+
+
+            if (!missao) {
+                return;
+            }
+
+
+            idOperacaoSelecionada =
+                String(idMissao);
+
+            atualizarRotasNoMapa();
+
+
+            document
+                .querySelectorAll(
+                    ".cartao-operacao-ativa"
+                )
+                .forEach(
+                    function (card) {
+
+                        card.classList.toggle(
+                            "selecionado",
+                            String(card.dataset.id) ===
+                            idOperacaoSelecionada
+                        );
+
+                    }
+                );
+
+
+            const clientes =
+                Array.isArray(missao.clientes)
+                    ? missao.clientes
+                    : [];
+
+
+            const clientesConcluidos =
+                clientes.filter(
+                    function (cliente) {
+
+                        return (
+                            cliente &&
+                            cliente.statusEntrega ===
+                            "Concluída"
+                        );
+
+                    }
+                ).length;
+
+
+            const proximoCliente =
+                clientes.find(
+                    function (cliente) {
+
+                        return (
+                            cliente &&
+                            cliente.statusEntrega !==
+                            "Concluída"
+                        );
+
+                    }
+                );
+
+
+            const retornando =
+                missao.retornoBase ===
+                "Em andamento";
+
+
+            const estado =
+                retornando
+                    ? "Retornando"
+                    : "Em missão";
+
+
+            const classeEstado =
+                retornando
+                    ? "retornando"
+                    : "em-missao";
+
+
+            const perfisDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "perfisDrones"
+                    )
+                ) || {};
+
+
+            const perfilDrone =
+                perfisDrones[
+                missao.veiculo
+                ] || {};
+
+
+            const bateria =
+                perfilDrone.bateria ?? "--";
+
+
+            const autonomia =
+                perfilDrone.autonomia ?? "--";
+
+
+            const ligacao =
+                perfilDrone.ligacao || "--";
+
+
+            const conteudo =
+                document.getElementById(
+                    "conteudoMissaoSelecionada"
+                );
+
+
+            conteudo.innerHTML = `
+
+        <div class="resumo-missao-foco">
+
+            <div class="topo-missao-foco">
+
+                <div>
+
+                    <strong>
+                        ${missao.veiculo || "Aeronave"}
+                    </strong>
+
+                    <span>
+                        ${missao.distribuidor || "Operador"}
+                    </span>
+
+                </div>
+
+
+                <span
+                    class="
+                        estado-operacao-vivo
+                        ${classeEstado}
+                    "
+                >
+                    ${estado}
+                </span>
+
+            </div>
+
+
+            <div class="grade-missao-foco">
+
+                <div>
+                    <span>
+                        Progresso
+                    </span>
+
+                    <strong>
+                        ${clientesConcluidos}/${clientes.length}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        Bateria
+                    </span>
+
+                    <strong>
+                        ${bateria}${bateria !== "--" ? "%" : ""}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        Autonomia
+                    </span>
+
+                    <strong>
+                        ${autonomia}${autonomia !== "--" ? " min" : ""}
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        Ligação
+                    </span>
+
+                    <strong>
+                        ${ligacao}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="proximo-ponto-missao">
+
+                <span>
+                    ${retornando
+                    ? "Destino atual"
+                    : "Próximo ponto"
+                }
+                </span>
+
+                <strong>
+                    ${retornando
+                    ? "Base operacional"
+                    : (
+                        proximoCliente
+                            ? (
+                                proximoCliente.nome ||
+                                proximoCliente.codigo ||
+                                "Ponto de entrega"
+                            )
+                            : "Sem ponto pendente"
+                    )
+                }
+                </strong>
+
+            </div>
+
+        </div>
+    `;
+
+
+            const botaoAbrirMissao =
+                document.getElementById(
+                    "botaoAbrirMissaoAoVivo"
+                );
+
+
+            botaoAbrirMissao.disabled =
+                false;
+
+
+            botaoAbrirMissao.dataset.id =
+                missao.id;
+
+            /* =========================================
+   CÂMARA — DRONE SELECIONADO
+========================================= */
+
+            const estadoCamera =
+                document.getElementById(
+                    "estadoCameraAoVivo"
+                );
+
+
+            const cameraDrone =
+                document.getElementById(
+                    "cameraDroneAoVivo"
+                );
+
+
+            const altitude =
+                perfilDrone.altitude ?? "--";
+
+
+            const velocidade =
+                perfilDrone.velocidade ?? "--";
+
+
+            estadoCamera.className =
+                "estado-camera-vivo conectado";
+
+
+            estadoCamera.innerHTML = `
+    <span></span>
+    Ligado
+`;
+
+
+            cameraDrone.innerHTML = `
+
+    <div class="linha-camera-superior">
+
+        <span>
+            ${missao.veiculo || "DRN---"}
+        </span>
+
+        <span>
+            FEED DISPONÍVEL
+        </span>
+
+    </div>
+
+
+    <div class="mira-camera-vivo">
+
+        <span class="mira-camera-horizontal"></span>
+
+        <span class="mira-camera-vertical"></span>
+
+        <span class="mira-camera-centro"></span>
+
+    </div>
+
+
+    <div class="camera-feed-preparado">
+
+        <div class="pulso-camera-vivo"></div>
+
+        <strong>
+            ${missao.veiculo || "Aeronave"}
+        </strong>
+
+        <span>
+            Câmara selecionada
+        </span>
+
+        <small>
+            Área preparada para transmissão de vídeo em tempo real
+        </small>
+
+    </div>
+
+
+    <div class="telemetria-camera-vivo">
+
+        <span>
+            ALT ${altitude}${altitude !== "--"
+                    ? " m"
+                    : ""
+                }
+        </span>
+
+        <span>
+            VEL ${velocidade}${velocidade !== "--"
+                    ? " km/h"
+                    : ""
+                }
+        </span>
+
+        <span>
+            SINAL ${ligacao}
+        </span>
+
+    </div>
+
+`;
+
+        }
+
+
+        atualizarOperacoesAoVivo();
+
+        atualizarRotasNoMapa();
+
+        atualizarDronesNoMapa();
+
+
+        window.addEventListener(
+            "storage",
+            atualizarOperacoesAoVivo
+        );
+
+        document
+            .querySelectorAll(".modo-mapa-vivo")
+            .forEach(
+                function (botao) {
+
+                    botao.addEventListener(
+                        "click",
+                        function () {
+
+                            const modo =
+                                botao.dataset.modo;
+
+
+                            if (
+                                modo === "selecionada" &&
+                                !idOperacaoSelecionada
+                            ) {
+                                return;
+                            }
+
+
+                            modoMapaAoVivo =
+                                modo;
+
+
+                            document
+                                .querySelectorAll(
+                                    ".modo-mapa-vivo"
+                                )
+                                .forEach(
+                                    function (item) {
+
+                                        item.classList.toggle(
+                                            "ativo",
+                                            item === botao
+                                        );
+
+                                    }
+                                );
+
+
+                            atualizarRotasNoMapa();
+
+                            atualizarDronesNoMapa();
+
+                        }
+                    );
+
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>

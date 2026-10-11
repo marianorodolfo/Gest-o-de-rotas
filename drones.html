@@ -60,19 +60,47 @@
         }
 
         .estado-sistema {
-            align-self: flex-start;
+            position: relative;
+            top: 4px;
 
             padding: 7px 10px;
-
             border-radius: 999px;
 
             background: #dcfce7;
             color: #15803d;
 
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 700;
 
             white-space: nowrap;
+
+            animation: pulsoSistemaOnline 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulsoSistemaOnline {
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(34, 197, 94, 0.35),
+                    0 0 8px rgba(34, 197, 94, 0.18);
+
+                opacity: 1;
+            }
+
+            50% {
+                box-shadow:
+                    0 0 0 8px rgba(34, 197, 94, 0.08),
+                    0 0 16px rgba(34, 197, 94, 0.30);
+
+                opacity: 0.88;
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0 rgba(34, 197, 94, 0),
+                    0 0 8px rgba(34, 197, 94, 0.18);
+
+                opacity: 1;
+            }
         }
 
         body {
@@ -1235,6 +1263,48 @@
             font-size: 9px;
             font-weight: 800;
         }
+
+        .manutencao-atual-drone {
+            margin-top: 8px;
+            padding: 7px 9px;
+
+            border: 1px solid #fed7aa;
+            border-radius: 7px;
+
+            background: #fff7ed;
+            color: #c2410c;
+
+            font-size: 9px;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        .manutencao-atual-drone strong {
+            display: block;
+
+            margin-bottom: 2px;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .manutencao-atual-drone span {
+            display: block;
+
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .manutencao-atual-drone small {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #9a3412;
+
+            font-size: 8px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -1248,7 +1318,7 @@
                 🛰️ Centro de Operações
             </a>
 
-            <a href="#">
+            <a href="operacoes.html">
                 📡 Operações ao Vivo
             </a>
 
@@ -1268,7 +1338,7 @@
                 🗺️ Planeamento Missões
             </a>
 
-            <a href="#">
+            <a href="desempenho.html">
                 📊 Análises
             </a>
 
@@ -1483,6 +1553,11 @@
                             </div>
 
                             <div class="item-ficha-tecnica">
+                                <span>Fabricante</span>
+                                <strong id="fichaDroneFabricante">--</strong>
+                            </div>
+
+                            <div class="item-ficha-tecnica">
                                 <span>Nº de série</span>
                                 <strong id="fichaDroneSerie">--</strong>
                             </div>
@@ -1610,6 +1685,8 @@
 
                     </div>
 
+                    <div id="manutencaoAtualDrone" class="manutencao-atual-drone" style="display: none;"></div>
+
 
                     <div class="acoes-detalhe-drone">
 
@@ -1636,8 +1713,9 @@
                             </div>
                         </div>
 
-                        <button type="button" class="botao-historico-completo"
-                            onclick="abrirHistoricoTecnicoCompleto()">
+                        <button type="button" id="botaoHistoricoTecnicoCompleto" class="botao-historico-completo"
+                            onclick="abrirHistoricoTecnicoCompleto()" style="display: none;">
+
                             Ver histórico completo
                         </button>
 
@@ -1662,6 +1740,41 @@
                     )
                 ) || [];
 
+            const aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            const veiculosAtivos =
+                veiculos.filter(
+                    function (veiculo) {
+
+                        return (
+                            !aeronavesInativas.includes(
+                                veiculo
+                            )
+                        );
+
+                    }
+                );
+
+
+            const conjuntoVeiculosAtivos =
+                new Set(
+                    veiculosAtivos.map(
+                        function (veiculo) {
+
+                            return String(
+                                veiculo
+                            );
+
+                        }
+                    )
+                );
+
 
             const distribuicoes =
                 JSON.parse(
@@ -1679,6 +1792,11 @@
 
                                 return (
                                     missao &&
+                                    conjuntoVeiculosAtivos.has(
+                                        String(
+                                            missao.veiculo || ""
+                                        )
+                                    ) &&
                                     missao.status ===
                                     "Em andamento" &&
                                     missao.retornoBase ===
@@ -1707,6 +1825,11 @@
 
                                 return (
                                     missao &&
+                                    conjuntoVeiculosAtivos.has(
+                                        String(
+                                            missao.veiculo || ""
+                                        )
+                                    ) &&
                                     missao.status ===
                                     "Em andamento" &&
                                     missao.retornoBase !==
@@ -1739,8 +1862,8 @@
                 0;
 
 
-            veiculos.forEach(
-                function (veiculo) {
+            veiculosAtivos.forEach
+                (function (veiculo) {
 
                     const manutencao =
                         manutencoesDrones[
@@ -1761,7 +1884,7 @@
                     }
 
                 }
-            );
+                );
 
 
             const totalRetornando =
@@ -1775,7 +1898,7 @@
             const totalDisponiveis =
                 Math.max(
                     0,
-                    veiculos.length -
+                    veiculosAtivos.length -
                     totalEmMissao -
                     totalRetornando -
                     totalManutencao
@@ -1971,6 +2094,19 @@
 
         };
 
+        const perfisDronesGuardados =
+            JSON.parse(
+                localStorage.getItem(
+                    "perfisDrones"
+                )
+            ) || {};
+
+
+        Object.assign(
+            perfisDrones,
+            perfisDronesGuardados
+        );
+
 
         function atualizarGradeDrones() {
 
@@ -2003,11 +2139,48 @@
                 ) || [];
 
 
+            const aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            const veiculosAtivos =
+                veiculos
+                    .filter(
+                        function (veiculo) {
+
+                            return (
+                                !aeronavesInativas.includes(
+                                    veiculo
+                                )
+                            );
+
+                        }
+                    )
+                    .sort(
+                        function (a, b) {
+
+                            return String(a).localeCompare(
+                                String(b),
+                                undefined,
+                                {
+                                    numeric: true,
+                                    sensitivity: "base"
+                                }
+                            );
+
+                        }
+                    );
+
+
             gradeDrones.innerHTML =
                 "";
 
 
-            veiculos.forEach(
+            veiculosAtivos.forEach(
                 function (veiculo) {
 
                     const codigoDrone =
@@ -2065,13 +2238,38 @@
                             motivoCard
                             : estado.texto;
 
-                    const perfil =
+                    let perfil =
                         perfisDrones[
                         codigoDrone
-                        ] || {
-                            bateria: "--",
-                            autonomia: "--"
+                        ];
+
+
+                    if (!perfil) {
+
+                        perfil = {
+
+                            bateria: 100,
+                            autonomia: 22,
+                            velocidade: 0,
+                            altitude: 0,
+                            ligacao: "Excelente"
+
                         };
+
+
+                        perfisDrones[
+                            codigoDrone
+                        ] = perfil;
+
+
+                        localStorage.setItem(
+                            "perfisDrones",
+                            JSON.stringify(
+                                perfisDrones
+                            )
+                        );
+
+                    }
 
                     let classeBateria =
                         "bateria-normal";
@@ -2347,6 +2545,51 @@
 
         }
 
+        function formatarDataHistoricoTecnicoDrone(
+            valor
+        ) {
+
+            if (!valor) {
+                return "--";
+            }
+
+
+            if (
+                String(valor).includes("/")
+            ) {
+                return valor;
+            }
+
+
+            const data =
+                new Date(valor);
+
+
+            if (
+                Number.isNaN(
+                    data.getTime()
+                )
+            ) {
+                return valor;
+            }
+
+
+            return (
+                data.toLocaleDateString(
+                    "pt-PT"
+                ) +
+                " · " +
+                data.toLocaleTimeString(
+                    "pt-PT",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                )
+            );
+
+        }
+
         function mostrarHistoricoTecnico(
             codigoDrone
         ) {
@@ -2375,6 +2618,22 @@
                 codigoDrone
                 ] || [];
 
+            const botaoHistoricoCompleto =
+                document.getElementById(
+                    "botaoHistoricoTecnicoCompleto"
+                );
+
+
+            if (botaoHistoricoCompleto) {
+
+                botaoHistoricoCompleto.style.display =
+                    Array.isArray(registos) &&
+                        registos.length > 3
+                        ? "block"
+                        : "none";
+
+            }
+
 
             if (
                 !Array.isArray(registos) ||
@@ -2394,6 +2653,7 @@
             lista.innerHTML =
                 registos
                     .slice(-3)
+                    .reverse()
                     .map(
                         function (registo) {
 
@@ -2405,7 +2665,9 @@
                             </strong>
 
                             <span>
-                                ${registo.data || "--"}
+                                ${formatarDataHistoricoTecnicoDrone(
+                                registo.data
+                            )}
                             </span>
 
                         </div>
@@ -2420,6 +2682,7 @@
         const fichasTecnicasPadrao = {
             "DRN-001": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-001-26",
                 entrada: "01/03/2026",
                 carga: "3,0 kg"
@@ -2427,6 +2690,7 @@
 
             "DRN-002": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-002-26",
                 entrada: "01/03/2026",
                 carga: "3,0 kg"
@@ -2434,6 +2698,7 @@
 
             "DRN-003": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-003-26",
                 entrada: "15/03/2026",
                 carga: "3,0 kg"
@@ -2441,6 +2706,7 @@
 
             "DRN-004": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-004-26",
                 entrada: "15/03/2026",
                 carga: "3,0 kg"
@@ -2448,6 +2714,7 @@
 
             "DRN-005": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-005-26",
                 entrada: "01/04/2026",
                 carga: "3,0 kg"
@@ -2455,6 +2722,7 @@
 
             "DRN-006": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-006-26",
                 entrada: "01/04/2026",
                 carga: "3,0 kg"
@@ -2462,6 +2730,7 @@
 
             "DRN-007": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-007-26",
                 entrada: "15/04/2026",
                 carga: "3,0 kg"
@@ -2469,6 +2738,7 @@
 
             "DRN-008": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-008-26",
                 entrada: "15/04/2026",
                 carga: "3,0 kg"
@@ -2476,6 +2746,7 @@
 
             "DRN-009": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-009-26",
                 entrada: "01/05/2026",
                 carga: "3,0 kg"
@@ -2483,6 +2754,7 @@
 
             "DRN-010": {
                 modelo: "PX-4 Cargo",
+                fabricante: "DJI",
                 serie: "SN-010-26",
                 entrada: "01/05/2026",
                 carga: "3,0 kg"
@@ -2498,12 +2770,36 @@
             ) || {};
 
 
-        const fichasTecnicasDrones =
-            Object.assign(
-                {},
-                fichasTecnicasPadrao,
-                fichasTecnicasGuardadas
-            );
+        const fichasTecnicasDrones = {};
+
+        const codigosFichasTecnicas =
+            new Set([
+                ...Object.keys(
+                    fichasTecnicasPadrao
+                ),
+                ...Object.keys(
+                    fichasTecnicasGuardadas
+                )
+            ]);
+
+
+        codigosFichasTecnicas.forEach(
+            function (codigoDrone) {
+
+                fichasTecnicasDrones[
+                    codigoDrone
+                ] = Object.assign(
+                    {},
+                    fichasTecnicasPadrao[
+                    codigoDrone
+                    ] || {},
+                    fichasTecnicasGuardadas[
+                    codigoDrone
+                    ] || {}
+                );
+
+            }
+        );
 
         function alternarFichaTecnica() {
 
@@ -2583,6 +2879,13 @@
                 .textContent =
                 fichaTecnica.modelo || "--";
 
+            document
+                .getElementById(
+                    "fichaDroneFabricante"
+                )
+                .textContent =
+                fichaTecnica.fabricante || "--";
+
 
             document
                 .getElementById(
@@ -2615,9 +2918,6 @@
 
             if (botaoInspecao) {
 
-                botaoInspecao.disabled =
-                    false;
-
                 botaoInspecao.dataset.drone =
                     codigoDrone;
 
@@ -2636,6 +2936,115 @@
                     codigoDrone,
                     distribuicoes
                 );
+
+            const elementoManutencaoAtual =
+                document.getElementById(
+                    "manutencaoAtualDrone"
+                );
+
+
+            const manutencoesDrones =
+                JSON.parse(
+                    localStorage.getItem(
+                        "manutencoesDrones"
+                    )
+                ) || {};
+
+
+            const manutencaoAtual =
+                manutencoesDrones[
+                codigoDrone
+                ];
+
+
+            if (elementoManutencaoAtual) {
+
+                if (
+                    manutencaoAtual &&
+                    manutencaoAtual.estado ===
+                    "Em manutenção"
+                ) {
+
+                    let textoInicio = "";
+
+
+                    if (manutencaoAtual.inicio) {
+
+                        const inicio =
+                            new Date(
+                                manutencaoAtual.inicio
+                            );
+
+
+                        if (
+                            !Number.isNaN(
+                                inicio.getTime()
+                            )
+                        ) {
+
+                            textoInicio =
+                                inicio.toLocaleDateString(
+                                    "pt-PT"
+                                ) +
+                                " · " +
+                                inicio.toLocaleTimeString(
+                                    "pt-PT",
+                                    {
+                                        hour: "2-digit",
+                                        minute: "2-digit"
+                                    }
+                                );
+
+                        }
+
+                    }
+
+
+                    elementoManutencaoAtual.style.display =
+                        "block";
+
+
+                    elementoManutencaoAtual.innerHTML = `
+            <strong>
+                Manutenção atual
+            </strong>
+
+            <span>
+                ${manutencaoAtual.motivo ||
+                        "Sem motivo registado"}
+            </span>
+
+            ${textoInicio
+                            ? `
+                    <small>
+                        Desde ${textoInicio}
+                    </small>
+                `
+                            : ""
+                        }
+        `;
+
+                } else {
+
+                    elementoManutencaoAtual.style.display =
+                        "none";
+
+                    elementoManutencaoAtual.innerHTML =
+                        "";
+
+                }
+
+            }
+
+            if (botaoInspecao) {
+
+                botaoInspecao.disabled =
+                    (
+                        estado.texto === "Em missão" ||
+                        estado.texto === "Retornando"
+                    );
+
+            }
 
             const botaoManutencao =
                 document.getElementById(
@@ -2717,6 +3126,8 @@
                 function (missao) {
 
                     if (
+                        !missao ||
+                        missao.status !== "Concluída" ||
                         !Array.isArray(
                             missao.clientes
                         )
@@ -2834,13 +3245,70 @@
                     : minutosVoo +
                     " min";
 
+            const totalMissoesConcluidas =
+                missoesDoDrone.filter(
+                    function (missao) {
+
+                        return (
+                            missao &&
+                            missao.status ===
+                            "Concluída"
+                        );
+
+                    }
+                ).length;
+
+
             const mediaPontosPorMissao =
-                missoesDoDrone.length > 0
+                totalMissoesConcluidas > 0
                     ? (
                         totalPontosAtendidos /
-                        missoesDoDrone.length
+                        totalMissoesConcluidas
                     ).toFixed(1)
                     : "0,0";
+
+            function obterFimMissao(missao) {
+
+                const timestamp =
+                    Number(
+                        missao.fimTimestamp || 0
+                    );
+
+
+                if (
+                    Number.isFinite(timestamp) &&
+                    timestamp > 0
+                ) {
+                    return timestamp;
+                }
+
+
+                const data =
+                    String(
+                        missao.data || ""
+                    ).split("/");
+
+
+                if (data.length !== 3) {
+                    return 0;
+                }
+
+
+                const hora =
+                    String(
+                        missao.horaFim || "00:00"
+                    ).split(":");
+
+
+                return new Date(
+                    Number(data[2]),
+                    Number(data[1]) - 1,
+                    Number(data[0]),
+                    Number(hora[0] || 0),
+                    Number(hora[1] || 0)
+                ).getTime();
+
+            }
 
             const missoesConcluidasDrone =
                 missoesDoDrone
@@ -2859,14 +3327,10 @@
                         function (a, b) {
 
                             const fimA =
-                                Number(
-                                    a.fimTimestamp || 0
-                                );
+                                obterFimMissao(a);
 
                             const fimB =
-                                Number(
-                                    b.fimTimestamp || 0
-                                );
+                                obterFimMissao(b);
 
 
                             return (
@@ -2968,8 +3432,7 @@
                     "detalheDroneMissoes"
                 )
                 .textContent =
-                missoesDoDrone.length;
-
+                missoesConcluidasDrone.length;
 
             document
                 .getElementById(
@@ -3204,6 +3667,18 @@
             const codigoDrone =
                 botao.dataset.drone;
 
+            const confirmarInspecao =
+                confirm(
+                    'Confirmar registo de inspeção da aeronave "' +
+                    codigoDrone +
+                    '"?'
+                );
+
+
+            if (!confirmarInspecao) {
+                return;
+            }
+
 
             const agora =
                 new Date();
@@ -3311,14 +3786,46 @@
             );
 
 
-            document
-                .getElementById(
+            const elementoProximaManutencao =
+                document.getElementById(
                     "detalheDroneProximaManutencao"
-                )
-                .textContent =
-                proximaManutencao.toLocaleDateString(
-                    "pt-PT"
                 );
+
+
+            if (elementoProximaManutencao) {
+
+                elementoProximaManutencao.textContent =
+                    proximaManutencao.toLocaleDateString(
+                        "pt-PT"
+                    );
+
+
+                elementoProximaManutencao.classList.remove(
+                    "manutencao-proxima",
+                    "manutencao-vencida"
+                );
+
+            }
+
+            const cardSelecionado =
+                document.querySelector(
+                    ".cartao-drone.selecionado"
+                );
+
+
+            if (cardSelecionado) {
+
+                const alertaManutencao =
+                    cardSelecionado.querySelector(
+                        ".alerta-card-drone"
+                    );
+
+
+                if (alertaManutencao) {
+                    alertaManutencao.remove();
+                }
+
+            }
 
         }
 
@@ -3458,7 +3965,8 @@
             } else {
 
                 lista.innerHTML =
-                    registos
+                    [...registos]
+                        .reverse()
                         .map(
                             function (registo) {
 
@@ -3470,7 +3978,9 @@
                                 </strong>
 
                                 <span>
-                                    ${registo.data || "--"}
+                                    ${formatarDataHistoricoTecnicoDrone(
+                                    registo.data
+                                )}
                                 </span>
 
                             </div>
@@ -3570,8 +4080,18 @@
 
 
                 const motivoFinal =
-                    motivo.trim() ||
-                    "Não informado";
+                    motivo.trim();
+
+
+                if (!motivoFinal) {
+
+                    alert(
+                        "Informe o motivo da manutenção."
+                    );
+
+                    return;
+
+                }
 
 
                 manutencoesDrones[
@@ -3599,6 +4119,18 @@
                 acao ===
                 "sair"
             ) {
+
+                const confirmarRetorno =
+                    confirm(
+                        'Confirmar retorno da aeronave "' +
+                        codigoDrone +
+                        '" à operação?'
+                    );
+
+
+                if (!confirmarRetorno) {
+                    return;
+                }
 
                 const agora =
                     new Date();

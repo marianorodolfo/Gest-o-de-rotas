@@ -977,6 +977,7 @@
             white-space: nowrap;
         }
 
+
         .mapa-operacional {
             position: relative;
             z-index: 1;
@@ -2867,6 +2868,23 @@
             }
         }
 
+        @keyframes pulsoSistemaOnline {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.18);
+                transform: translateY(0);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.06);
+                transform: translateY(0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+                transform: translateY(0);
+            }
+        }
+
 
         /* =========================================
    RESPONSIVO - CENTRO DE OPERAÇÕES
@@ -3721,7 +3739,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            🚁 Média de pontos de entrega por hora
+                            🚁 Pontos de entrega por hora
                         </span>
 
                         <strong id="mediaEntregasHora">
@@ -3738,7 +3756,7 @@
                     <div class="item-desempenho">
 
                         <span>
-                            👤 Média de pontos de entrega por operador
+                            👤 Pontos de entrega por operador
                         </span>
 
                         <strong id="mediaEntregasDistribuidor">
@@ -7496,17 +7514,8 @@ ${quantidadeClientes === 1 ? "ponto de entrega" : "pontos de entrega"}
 
             if (droneLigacao) {
 
-                if (drone.status === "Disponível") {
-
-                    droneLigacao.textContent =
-                        "Base";
-
-                } else {
-
-                    droneLigacao.textContent =
-                        drone.ligacao;
-
-                }
+                droneLigacao.textContent =
+                    drone.ligacao || "--";
 
             }
 
@@ -8179,12 +8188,33 @@ clientes.forEach(
 
             };
 
+            const perfisDronesGuardados =
+                JSON.parse(
+                    localStorage.getItem(
+                        "perfisDrones"
+                    )
+                ) || {};
+
+
+            Object.assign(
+                perfisDrones,
+                perfisDronesGuardados
+            );
+
+
+            localStorage.setItem(
+                "perfisDrones",
+                JSON.stringify(
+                    perfisDrones
+                )
+            );
+
 
             /* =========================================
                DRONES - DADOS DE DEMONSTRAÇÃO
             ========================================= */
 
-            const veiculosCadastrados =
+            const todosVeiculos =
                 JSON.parse(
                     localStorage.getItem(
                         "veiculos"
@@ -8192,23 +8222,69 @@ clientes.forEach(
                 ) || [];
 
 
+            const aeronavesInativas =
+                JSON.parse(
+                    localStorage.getItem(
+                        "aeronavesInativas"
+                    )
+                ) || [];
+
+
+            const veiculosCadastrados =
+                todosVeiculos.filter(
+                    function (idDrone) {
+
+                        return (
+                            !aeronavesInativas.includes(
+                                idDrone
+                            )
+                        );
+
+                    }
+                );
+
+
             const drones =
                 veiculosCadastrados.map(
                     function (idDrone) {
 
 
-                        const perfil =
-                            perfisDrones[idDrone] || {
-                                bateria: perfil.bateria,
+                        let perfil =
+                            perfisDrones[
+                            idDrone
+                            ];
 
-                                autonomia: perfil.autonomia,
 
-                                velocidade: perfil.velocidade,
+                        if (!perfil) {
 
-                                altitude: perfil.altitude,
+                            perfil = {
 
-                                ligacao: perfil.ligacao,
+                                bateria: 100,
+
+                                autonomia: 22,
+
+                                velocidade: 0,
+
+                                altitude: 0,
+
+                                ligacao: "Excelente"
+
                             };
+
+
+                            perfisDrones[
+                                idDrone
+                            ] = perfil;
+
+
+                            localStorage.setItem(
+                                "perfisDrones",
+                                JSON.stringify(
+                                    perfisDrones
+                                )
+                            );
+
+                        }
 
                         return {
 
@@ -9043,9 +9119,51 @@ clientes.forEach(
                         drone.status === "Disponível"
                     ) {
 
-                        const deslocamento =
-                            posicoesBaseDrones[drone.id] ||
-                            [0, 0];
+                        let deslocamento =
+                            posicoesBaseDrones[
+                            drone.id
+                            ];
+
+
+                        if (!deslocamento) {
+
+                            const numeroDrone =
+                                Number(
+                                    String(
+                                        drone.id
+                                    ).replace(
+                                        /\D/g,
+                                        ""
+                                    )
+                                ) || 11;
+
+
+                            const angulo =
+                                (
+                                    (numeroDrone - 11) *
+                                    45
+                                ) *
+                                Math.PI /
+                                180;
+
+
+                            const raio =
+                                0.0072;
+
+
+                            deslocamento = [
+
+                                Math.cos(
+                                    angulo
+                                ) * raio,
+
+                                Math.sin(
+                                    angulo
+                                ) * raio
+
+                            ];
+
+                        }
 
                         drone.latitude =
                             coordenadasBase[0] +

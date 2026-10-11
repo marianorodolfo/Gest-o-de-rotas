@@ -726,7 +726,26 @@
                 return;
             }
 
-            distribuidores.forEach(
+            const operadoresAtivos =
+                distribuidores.filter(
+                    function (distribuidor) {
+
+                        if (
+                            typeof distribuidor ===
+                            "object"
+                        ) {
+                            return (
+                                distribuidor.ativo !==
+                                false
+                            );
+                        }
+
+                        return true;
+                    }
+                );
+
+
+            operadoresAtivos.forEach(
                 function (distribuidor) {
 
                     const nome =
@@ -739,27 +758,35 @@
                     }
 
                     selectDistribuidor.innerHTML += `
-                <option value="${nome}">
-                    ${nome}
-                </option>
-            `;
-                }
-            );
-
-            if (distribuidores.length === 0) {
-
-                selectDistribuidor.innerHTML = `
-            <option value="">
-                Nenhum operador cadastrado
+            <option value="${nome}">
+                ${nome}
             </option>
         `;
 
-                selectDistribuidor.disabled = true;
+                }
+            );
+
+
+            if (
+                operadoresAtivos.length ===
+                0
+            ) {
+
+                selectDistribuidor.innerHTML = `
+        <option value="">
+            Nenhum operador ativo
+        </option>
+    `;
+
+                selectDistribuidor.disabled =
+                    true;
 
                 return;
             }
 
-            selectDistribuidor.disabled = false;
+
+            selectDistribuidor.disabled =
+                false;
         }
 
 
@@ -843,8 +870,24 @@
             Selecione o drone
         </option>
 
-        ${veiculos.map(function (drone) {
+${veiculos
+    .filter(function (drone) {
 
+        const aeronavesInativas =
+            JSON.parse(
+                localStorage.getItem(
+                    "aeronavesInativas"
+                )
+            ) || [];
+
+        return (
+            !aeronavesInativas.includes(
+                drone
+            )
+        );
+
+    })
+    .map(function (drone) {
                 const distribuicoes =
                     JSON.parse(
                         localStorage.getItem("distribuicoes")
