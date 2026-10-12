@@ -1226,7 +1226,12 @@
             <div class="titulo-topo-gestao">
 
                 <h1>
-                    📍 Pontos de Entrega
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        style="width:25px;height:25px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#f97316;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;">
+                        <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Pontos de Entrega
                 </h1>
 
                 <p>
@@ -1274,14 +1279,19 @@
 
             <div class="campo">
                 <label for="endereco">
-                    Endereço completo
+                    Morada completa
                 </label>
 
                 <input type="text" id="endereco" placeholder="Rua, número, código postal, cidade">
             </div>
 
             <button type="button" class="botao-localizar-endereco" onclick="localizarEnderecoCliente()">
-                📍 Localizar endereço
+                <svg viewBox="0 0 24 24" aria-hidden="true"
+                    style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:5px;fill:none;stroke:#f97316;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+                    <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                Localizar morada
             </button>
 
 
@@ -1312,7 +1322,12 @@
 
             <div class="mapa-confirmacao-cliente" id="mapaConfirmacaoCliente">
                 <div class="mapa-confirmacao-vazio">
-                    📍 Localize o endereço para visualizar o ponto de entrega
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;flex-shrink:0;fill:none;stroke:#f97316;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+                        <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Localize a morada para visualizar o ponto de entrega
                 </div>
             </div>
 
@@ -1362,10 +1377,18 @@
 
         <div class="lista">
 
-            <h2>🔎 Pesquisar pontos de entrega</h2>
+            <h2>
+                <svg viewBox="0 0 24 24" aria-hidden="true"
+                    style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+                    <circle cx="10.5" cy="10.5" r="7"></circle>
+                    <path d="m16 16 5 5"></path>
+                </svg>
+                Pesquisar pontos de entrega
+            </h2>
 
             <div class="pesquisa">
-                <input type="text" id="pesquisa" placeholder="Pesquisar por código, ponto de entrega, endereço ou rota..."
+                <input type="text" id="pesquisa"
+                    placeholder="Pesquisar por código, ponto de entrega, morada ou rota..."
                     oninput="pesquisarClientes()">
 
                 <select id="filtroRota" onchange="pesquisarClientes(); atualizarResumoClientes()">
@@ -1753,7 +1776,7 @@
                     .getElementById("mapaConfirmacaoCliente")
                     .innerHTML = `
             <div class="mapa-confirmacao-vazio">
-                📍 Localize o endereço para visualizar o ponto de entrega
+                📍 Localize a morada para visualizar o ponto de entrega
             </div>
         `;
 
@@ -1804,7 +1827,7 @@
                 if (endereco === "") {
 
                     alert(
-                        "Digite primeiro o endereço do ponto de entrega."
+                        "Digite primeiro a morada do ponto de entrega."
                     );
 
                     return;
@@ -1849,7 +1872,7 @@
                     if (!resposta.ok) {
 
                         throw new Error(
-                            "Erro ao consultar endereço."
+                            "Erro ao consultar a morada."
                         );
 
                     }
@@ -1865,7 +1888,7 @@
                     ) {
 
                         alert(
-                            "Não foi possível localizar esse endereço."
+                            "Não foi possível localizar essa morada."
                         );
 
                         return;
@@ -1914,7 +1937,7 @@
 
 
                     alert(
-                        "Não foi possível localizar o endereço neste momento."
+                        "Não foi possível localizar a morada neste momento."
                     );
 
                 }
@@ -2182,7 +2205,7 @@
 
                 elementoMapa.innerHTML = `
     <div class="mapa-confirmacao-vazio">
-        📍 Localize o endereço para visualizar o ponto de entrega
+        📍 Localize a morada para visualizar o ponto de entrega
     </div>
 `;
 

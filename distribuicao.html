@@ -547,31 +547,30 @@
             </span>
 
             <h1>
-<svg class="icone-drone-menu"
-     viewBox="0 0 64 40"
-     aria-hidden="true"
-     style="width: 40px; height: 20px; color: #f97316; display: inline-block; vertical-align: middle; margin-right: 6px;">    <g fill="currentColor" stroke="none">
-        <path d="M26 15 Q24 15 25 19 L28 32
+                <svg class="icone-drone-menu" viewBox="0 0 64 40" aria-hidden="true"
+                    style="width: 40px; height: 20px; color: #f97316; display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <g fill="currentColor" stroke="none">
+                        <path d="M26 15 Q24 15 25 19 L28 32
                  Q32 34 36 32 L39 19 Q40 15 38 15Z"></path>
 
-        <path d="M27 18 13 11 11 14 28 23Z"></path>
-        <path d="M37 18 51 11 53 14 36 23Z"></path>
-        <path d="M28 27 15 31 16 34 30 31Z"></path>
-        <path d="M36 27 49 31 48 34 34 31Z"></path>
+                        <path d="M27 18 13 11 11 14 28 23Z"></path>
+                        <path d="M37 18 51 11 53 14 36 23Z"></path>
+                        <path d="M28 27 15 31 16 34 30 31Z"></path>
+                        <path d="M36 27 49 31 48 34 34 31Z"></path>
 
-        <rect x="10" y="9" width="4" height="7" rx="2"></rect>
-        <rect x="50" y="9" width="4" height="7" rx="2"></rect>
-        <rect x="13" y="29" width="3.5" height="7" rx="1.7"></rect>
-        <rect x="47.5" y="29" width="3.5" height="7" rx="1.7"></rect>
-    </g>
+                        <rect x="10" y="9" width="4" height="7" rx="2"></rect>
+                        <rect x="50" y="9" width="4" height="7" rx="2"></rect>
+                        <rect x="13" y="29" width="3.5" height="7" rx="1.7"></rect>
+                        <rect x="47.5" y="29" width="3.5" height="7" rx="1.7"></rect>
+                    </g>
 
-    <g fill="none" stroke="currentColor" stroke-width="2.5">
-        <ellipse cx="12" cy="10" rx="10" ry="4.5"></ellipse>
-        <ellipse cx="52" cy="10" rx="10" ry="4.5"></ellipse>
-        <ellipse cx="14.5" cy="29.5" rx="8" ry="3"></ellipse>
-        <ellipse cx="49.5" cy="29.5" rx="8" ry="3"></ellipse>
-    </g>
-</svg> Configuração da Missão
+                    <g fill="none" stroke="currentColor" stroke-width="2.5">
+                        <ellipse cx="12" cy="10" rx="10" ry="4.5"></ellipse>
+                        <ellipse cx="52" cy="10" rx="10" ry="4.5"></ellipse>
+                        <ellipse cx="14.5" cy="29.5" rx="8" ry="3"></ellipse>
+                        <ellipse cx="49.5" cy="29.5" rx="8" ry="3"></ellipse>
+                    </g>
+                </svg> Configuração da Missão
             </h1>
 
             <p>
@@ -830,8 +829,13 @@
             </span>
 
             <h2>
-                📍 Pontos de entrega
-            </h2>
+    <svg viewBox="0 0 24 24" aria-hidden="true"
+         style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+        <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    Pontos de entrega
+</h2>
         </div>
 
         <div class="contador-pontos-missao">
@@ -917,76 +921,76 @@
         </option>
 
 ${veiculos
-    .filter(function (drone) {
+                .filter(function (drone) {
 
-        const aeronavesInativas =
-            JSON.parse(
-                localStorage.getItem(
-                    "aeronavesInativas"
-                )
-            ) || [];
+                    const aeronavesInativas =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "aeronavesInativas"
+                            )
+                        ) || [];
 
-        return (
-            !aeronavesInativas.includes(
-                drone
-            )
-        );
-
-    })
-    .map(function (drone) {
-                const distribuicoes =
-                    JSON.parse(
-                        localStorage.getItem("distribuicoes")
-                    ) || [];
-
-
-                const ocupado =
-                    distribuicoes.some(function (distribuicao) {
-
-                        return (
-                            distribuicao.veiculo === drone &&
-                            distribuicao.status === "Em andamento"
-                        );
-
-                    });
-
-                const manutencoesDrones =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "manutencoesDrones"
+                    return (
+                        !aeronavesInativas.includes(
+                            drone
                         )
-                    ) || {};
+                    );
+
+                })
+                .map(function (drone) {
+                    const distribuicoes =
+                        JSON.parse(
+                            localStorage.getItem("distribuicoes")
+                        ) || [];
 
 
-                const emManutencao =
-                    manutencoesDrones[
-                    String(drone)
-                    ] &&
-                    manutencoesDrones[
+                    const ocupado =
+                        distribuicoes.some(function (distribuicao) {
+
+                            return (
+                                distribuicao.veiculo === drone &&
+                                distribuicao.status === "Em andamento"
+                            );
+
+                        });
+
+                    const manutencoesDrones =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "manutencoesDrones"
+                            )
+                        ) || {};
+
+
+                    const emManutencao =
+                        manutencoesDrones[
                         String(drone)
-                    ].estado ===
-                    "Em manutenção";
+                        ] &&
+                        manutencoesDrones[
+                            String(drone)
+                        ].estado ===
+                        "Em manutenção";
 
 
-                return `
+                    return `
                 <option
     value="${drone}"
     ${ocupado ||
-                        emManutencao
-                        ? "disabled"
-                        : ""
-                    }
+                            emManutencao
+                            ? "disabled"
+                            : ""
+                        }
 >
     ${drone}${ocupado
-                        ? " — 🔴 Em missão"
-                        : emManutencao
-                            ? " — ⚙️ Em manutenção"
-                            : " — 🟢 Disponível"
-                    }
+                            ? " — 🔴 Em missão"
+                            : emManutencao
+                                ? " — ⚙️ Em manutenção"
+                                : " — 🟢 Disponível"
+                        }
 </option>
             `;
 
-            }).join("")}
+                }).join("")}
 
     </select>
 
