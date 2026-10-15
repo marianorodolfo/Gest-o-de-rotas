@@ -2544,17 +2544,19 @@
                         );
                     };
 
-                    document.addEventListener("click", function (evento) {
+                    document.addEventListener("pointerdown", function (evento) {
                         if (
                             window.matchMedia("(max-width: 768px)").matches &&
+                            menuLateral.classList.contains("aberto") &&
                             !menuLateral.contains(evento.target) &&
                             !botaoHamburger.contains(evento.target)
                         ) {
                             menuLateral.classList.remove("aberto");
+
                             botaoHamburger.setAttribute("aria-expanded", "false");
                             botaoHamburger.setAttribute("aria-label", "Abrir menu");
                         }
-                    });
+                    }, true);
                 }
 
                 const paginaAtual =
