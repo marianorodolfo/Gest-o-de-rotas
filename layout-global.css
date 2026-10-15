@@ -17,7 +17,7 @@
 
     padding: 0 25px;
 
-    background: #123b63;
+    background: #2A3B5D;
 
     box-shadow:
         0 2px 8px rgba(15, 23, 42, 0.12);
@@ -107,7 +107,7 @@
 }
 
 .botao-voltar-topo:focus-visible {
-    outline: 2px solid #f97316;
+    outline: 2px solid #EF7F1A;
     outline-offset: 3px;
 }
 
@@ -126,7 +126,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background: #123b63;
+    background: #2A3B5D;
     color: #ffffff;
     overflow-y: auto;
     z-index: 300;
@@ -200,7 +200,7 @@
     vertical-align: middle;
 
     fill: none;
-    color: #f97316;
+    color: #EF7F1A;
     stroke: currentColor;
     stroke-width: 1.7;
     stroke-linecap: round;
