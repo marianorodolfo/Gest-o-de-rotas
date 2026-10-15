@@ -1147,6 +1147,144 @@
             font-weight: 700;
             line-height: 1.2;
         }
+
+        .card-evolucao-missoes {
+            border-top: 3px solid #2A3B5D;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(42, 59, 93, 0.07);
+        }
+
+        .card-evolucao-missoes h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin: 0 0 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e8edf3;
+
+            color: #2A3B5D;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .card-evolucao-missoes h2 svg {
+            flex-shrink: 0;
+            margin-right: 0 !important;
+            stroke: #EF7F1A !important;
+        }
+
+        .card-evolucao-missoes .barra-valor {
+            background: linear-gradient(180deg,
+                    #52688e 0%,
+                    #2A3B5D 100%);
+
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 3px 8px rgba(42, 59, 93, 0.15);
+        }
+
+        .card-evolucao-missoes .barra-valor {
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-evolucao-missoes .barra-dia:hover .barra-valor {
+            background: #EF7F1A;
+            box-shadow: 0 3px 10px rgba(239, 127, 26, 0.22);
+        }
+
+        .card-comparativo-rotas {
+            border-top: 3px solid #2A3B5D;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(42, 59, 93, 0.07);
+        }
+
+        .card-comparativo-rotas h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin: 0 0 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e8edf3;
+
+            color: #2A3B5D;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .card-comparativo-rotas h2 svg {
+            flex-shrink: 0;
+            margin-right: 0 !important;
+            stroke: #EF7F1A !important;
+        }
+
+        .card-comparativo-rotas .linha-comparativo-rota {
+            background: #f8fafc;
+            box-shadow: inset 0 0 0 1px #e8edf3;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-comparativo-rotas .linha-comparativo-rota:hover {
+            background: #ffffff;
+            box-shadow:
+                inset 0 0 0 1px #cbd5e1,
+                0 3px 8px rgba(42, 59, 93, 0.08);
+        }
+
+        .card-comparativo-rotas .linha-comparativo-rota {
+            background: #f8fafc;
+            box-shadow: inset 0 0 0 1px #e8edf3;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-comparativo-rotas .linha-comparativo-rota:hover {
+            background: #ffffff;
+            box-shadow:
+                inset 0 0 0 1px #cbd5e1,
+                0 3px 8px rgba(42, 59, 93, 0.08);
+        }
+
+        .card-comparativo-operadores {
+            border-top: 3px solid #2A3B5D;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(42, 59, 93, 0.07);
+        }
+
+        .card-comparativo-operadores h2 {
+            color: #2A3B5D;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .card-comparativo-operadores h2 svg {
+            stroke: #EF7F1A !important;
+        }
+
+        #resumoDistribuidores .cartao-distribuidor {
+            border-left-color: #2A3B5D;
+        }
+
+        #resumoDistribuidores .cartao-distribuidor:hover {
+            border-left-color: #EF7F1A;
+            background: #fffaf5;
+            box-shadow: 0 3px 12px rgba(239, 127, 26, 0.10);
+        }
+
+        #resumoDistribuidores .barra-meta {
+            background: #edf0f5;
+        }
+
+        #resumoDistribuidores .progresso-meta {
+            background: #2A3B5D !important;
+            transition: background 0.2s ease;
+        }
+
+        #resumoDistribuidores .cartao-distribuidor:hover .progresso-meta {
+            background: #EF7F1A !important;
+        }
     </style>
 
 </head>
@@ -1242,7 +1380,7 @@
         <div id="resumoDia"></div>
     </div>
 
-    <div class="grafico-container">
+    <div class="grafico-container card-evolucao-missoes">
 
         <h2>
             <svg viewBox="0 0 24 24" aria-hidden="true"
@@ -1259,7 +1397,8 @@
 
     <br>
 
-    <section class="grafico-container">
+    <section class="grafico-container card-comparativo-rotas">
+
         <h2>
             <svg viewBox="0 0 24 24" aria-hidden="true"
                 style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
