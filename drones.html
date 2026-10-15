@@ -1932,6 +1932,28 @@
 
     <script>
 
+        /* Frota inicial para o primeiro acesso */
+        if (localStorage.getItem("veiculos") === null) {
+            const frotaInicial = [
+                "DRN-001",
+                "DRN-002",
+                "DRN-003",
+                "DRN-004",
+                "DRN-005",
+                "DRN-006",
+                "DRN-007",
+                "DRN-008",
+                "DRN-009",
+                "DRN-010",
+                "DRN-011"
+            ];
+
+            localStorage.setItem(
+                "veiculos",
+                JSON.stringify(frotaInicial)
+            );
+        }
+
         function atualizarIndicadoresDrones() {
 
             const veiculos =

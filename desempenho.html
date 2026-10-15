@@ -1052,6 +1052,101 @@
         #graficoSaidas .barra-label {
             flex-shrink: 0;
         }
+
+        .linha-comparativo-rota {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+
+            margin-top: 6px;
+            padding: 9px 12px;
+
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .linha-comparativo-rota strong {
+            color: #123b63;
+        }
+
+        .linha-comparativo-rota {
+            transition:
+                background 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        .linha-comparativo-rota:hover {
+            background: #eff6ff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+        }
+
+        #comparativoRotas {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        #comparativoRotas .linha-comparativo-rota {
+            min-width: 0;
+            margin: 0;
+            padding: 10px 12px;
+        }
+
+        #comparativoRotas .linha-comparativo-rota strong {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        #comparativoRotas .linha-comparativo-rota span {
+            flex-shrink: 0;
+            font-size: 10px;
+        }
+
+        #comparativoRotas>p {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 1100px) {
+            #comparativoRotas {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #comparativoRotas .linha-comparativo-rota {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        #comparativoRotas .linha-comparativo-rota strong {
+            overflow-wrap: anywhere;
+        }
+
+        #comparativoRotas .linha-comparativo-rota span {
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        #comparativoRotas .linha-comparativo-rota span {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 7px;
+
+            background: #eaf2ff;
+            border: 1px solid #dbeafe;
+            border-radius: 5px;
+
+            color: #123b63;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
     </style>
 
 </head>
@@ -1549,7 +1644,7 @@
            MOSTRAR DESEMPENHO
         ===================================================== */
 
-                    function mostrarDesempenho() {
+        function mostrarDesempenho() {
 
             resumoDia.innerHTML = "";
 
@@ -1624,9 +1719,23 @@
             const missoesPorRota = {};
 
             distribuicoesDoPeriodo.forEach(function (missao) {
-                const rotasDaMissao = Array.isArray(missao.rotas)
-                    ? missao.rotas
-                    : [];
+                const rotasDaMissao = [
+                    ...(Array.isArray(missao.rotas)
+                        ? missao.rotas
+                        : []),
+
+                    ...(Array.isArray(missao.clientes)
+                        ? missao.clientes
+                            .filter(function (cliente) {
+                                return cliente &&
+                                    typeof cliente === "object" &&
+                                    cliente.rota != null;
+                            })
+                            .map(function (cliente) {
+                                return cliente.rota;
+                            })
+                        : [])
+                ];
 
                 const rotasUnicas = new Set(
                     rotasDaMissao
@@ -1643,6 +1752,93 @@
                         (missoesPorRota[codigoRota] || 0) + 1;
                 });
             });
+
+            const comparativoRotas =
+                document.getElementById("comparativoRotas");
+
+            const nomesRotasAnalise = {
+                1: "Adaúfe",
+                2: "Braga Este",
+                3: "Braga Estádio",
+                4: "Braga 1",
+                5: "Braga 2",
+                6: "Vieira do Minho",
+                7: "Póvoa de Lanhoso 1",
+                8: "Póvoa de Lanhoso 2",
+                9: "Amares",
+                10: "Terras de Bouro",
+                11: "Caldelas",
+                12: "Vila Verde 1",
+                13: "Vila Verde 2",
+                14: "Vila Verde 3",
+                15: "Vila Verde 4",
+                16: "Ponte de Lima"
+            };
+
+            const coresRotasAnalise = {
+                1: "#9f365c",
+                2: "#c8102e",
+                3: "#e53920",
+                4: "#7c3aed",
+                5: "#c1272d",
+                6: "#a16207",
+                7: "#b59b16",
+                8: "#ffd600",
+                9: "#f97316",
+                10: "#8b4513",
+                11: "#2563eb",
+                12: "#228b22",
+                13: "#32a832",
+                14: "#65c936",
+                15: "#9bea45",
+                16: "#27272a"
+            };
+
+            const rotasOrdenadas = Object.entries(missoesPorRota)
+                .sort(function (a, b) {
+                    return b[1] - a[1] || Number(a[0]) - Number(b[0]);
+                });
+
+            if (comparativoRotas) {
+                if (rotasOrdenadas.length === 0) {
+                    comparativoRotas.innerHTML = `
+            <p style="margin:0;color:#64748b;font-size:11px;">
+                Sem rotas registadas nas missões concluídas deste período.
+            </p>
+        `;
+                } else {
+                    comparativoRotas.innerHTML = rotasOrdenadas
+                        .map(function ([codigo, quantidade]) {
+                            const numeroRota = Number(codigo);
+
+                            if (!Number.isInteger(numeroRota) ||
+                                numeroRota < 1 || numeroRota > 16) {
+                                return "";
+                            }
+
+                            return `
+<div class="linha-comparativo-rota"
+     style="border-right:4px solid ${coresRotasAnalise[numeroRota]};">                        <strong>
+    <svg viewBox="0 0 24 24" aria-hidden="true"
+         style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:5px;fill:none;stroke:${coresRotasAnalise[numeroRota]};stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+        <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"></path>
+        <path d="M9 3v15M15 6v15"></path>
+    </svg>
+    Rota ${String(numeroRota).padStart(2, "0")} · ${nomesRotasAnalise[numeroRota]}
+</strong>
+
+                        <span>
+                            ${quantidade}
+                            ${quantidade === 1
+                                    ? "missão concluída"
+                                    : "missões concluídas"}
+                        </span>
+                    </div>
+                `;
+                        })
+                        .join("");
+                }
+            }
 
 
 
