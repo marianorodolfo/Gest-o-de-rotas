@@ -1305,6 +1305,32 @@
            DISTRIBUIDORES
         ===================================================== */
 
+        /* Operadores iniciais para o primeiro acesso */
+        if (localStorage.getItem("distribuidores") === null) {
+            const operadoresIniciais = [
+                { nome: "Aníbal", codigo: "OP-001", tipo: "carro" },
+                { nome: "João Palha", codigo: "OP-002", tipo: "carro" },
+                { nome: "Victor Hugo", codigo: "OP-017", tipo: "carro" },
+                { nome: "André", codigo: "OP-004", tipo: "carro" },
+                { nome: "Lopes", codigo: "OP-018", tipo: "carro" },
+                { nome: "Fernando", codigo: "OP-019", tipo: "carro" },
+                { nome: "Ianyck", codigo: "OP-020", tipo: "moto" },
+                { nome: "Dione", codigo: "OP-021", tipo: "moto" },
+                { nome: "Charles", codigo: "OP-022", tipo: "moto" },
+                { nome: "Francisco", codigo: "OP-023", tipo: "moto" },
+                { nome: "Vitor", codigo: "OP-024", tipo: "moto" },
+                { nome: "Mauro", codigo: "OP-025", tipo: "moto" },
+                { nome: "Leonardo", codigo: "OP-026", tipo: "moto" },
+                { nome: "Juan", codigo: "OP-027", tipo: "moto" },
+                { nome: "Gustavo", codigo: "OP-028", tipo: "moto" }
+            ];
+
+            localStorage.setItem(
+                "distribuidores",
+                JSON.stringify(operadoresIniciais)
+            );
+        }
+
         const distribuidoresSalvos =
             JSON.parse(
                 localStorage.getItem("distribuidores")
