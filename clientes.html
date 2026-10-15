@@ -1176,15 +1176,39 @@
         }
 
         .indicador-cliente:nth-child(1)::after {
-            content: "👥";
+            content: "";
+            width: 26px;
+            height: 26px;
+
+            background-color: #f97316;
+
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") center / contain no-repeat;
+
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E") center / contain no-repeat;
         }
 
         .indicador-cliente:nth-child(2)::after {
-            content: "🗺️";
+            content: "";
+            width: 26px;
+            height: 26px;
+
+            background-color: #f97316;
+
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z'/%3E%3Cpath d='M9 3v15M15 6v15'/%3E%3C/svg%3E") center / contain no-repeat;
+
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z'/%3E%3Cpath d='M9 3v15M15 6v15'/%3E%3C/svg%3E") center / contain no-repeat;
         }
 
         .indicador-cliente:nth-child(3)::after {
-            content: "📍";
+            content: "";
+            width: 26px;
+            height: 26px;
+
+            background-color: #f97316;
+
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 8c0 4-5 8-5 8S2 12 2 8a5 5 0 0 1 10 0Z'/%3E%3Ccircle cx='7' cy='8' r='1.7'/%3E%3Cpath d='M22 13c0 4-5 8-5 8s-5-4-5-8a5 5 0 0 1 10 0Z'/%3E%3Ccircle cx='17' cy='13' r='1.7'/%3E%3C/svg%3E") center / contain no-repeat;
+
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 8c0 4-5 8-5 8S2 12 2 8a5 5 0 0 1 10 0Z'/%3E%3Ccircle cx='7' cy='8' r='1.7'/%3E%3Cpath d='M22 13c0 4-5 8-5 8s-5-4-5-8a5 5 0 0 1 10 0Z'/%3E%3Ccircle cx='17' cy='13' r='1.7'/%3E%3C/svg%3E") center / contain no-repeat;
         }
 
         .indicador-cliente span {
@@ -1387,8 +1411,7 @@
             </h2>
 
             <div class="pesquisa">
-                <input type="text" id="pesquisa"
-                    placeholder="Pesquisar por código, ponto de entrega, morada ou rota..."
+                <input type="text" id="pesquisa" placeholder="Pesquisar por código, ponto de entrega, morada ou rota..."
                     oninput="pesquisarClientes()">
 
                 <select id="filtroRota" onchange="pesquisarClientes(); atualizarResumoClientes()">

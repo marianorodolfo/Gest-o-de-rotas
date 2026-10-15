@@ -9,6 +9,8 @@
 
     <title>Desempenho</title>
 
+    <link rel="stylesheet" href="layout-global.css">
+
     <style>
         :root {
             --azul-primo: #123b63;
@@ -459,74 +461,701 @@
             max-width: 100%;
             overflow-x: hidden;
         }
+
+        body {
+            margin: 0;
+            padding: 74px 16px 16px;
+            background: #f3f6fa;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        @media (min-width: 769px) {
+            body {
+                padding-left: 201px;
+            }
+        }
+
+        .filtros-dashboard {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+
+            padding: 14px 16px;
+            margin-bottom: 16px;
+
+            background: #ffffff;
+            border: 1px solid #dce5ef;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 12px rgba(18, 59, 99, 0.04);
+        }
+
+        .filtro-item {
+            min-width: 0;
+            gap: 5px;
+        }
+
+        .filtro-item label {
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .filtro-item input,
+        .filtro-item select {
+            min-height: 36px;
+            padding: 8px 10px;
+
+            background: #f8fafc;
+            border: 1px solid #dce5ef;
+            border-radius: 7px;
+
+            color: #123b63;
+            font-family: inherit;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .filtros-dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .grafico-container {
+            padding: 16px 18px;
+            margin-bottom: 16px;
+
+            background: #ffffff;
+            border: 1px solid #dce5ef;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 12px rgba(18, 59, 99, 0.04);
+        }
+
+        .grafico-container h2 {
+            margin: 0 0 14px;
+
+            color: #123b63;
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .resumo-dia {
+            padding: 16px 18px;
+            margin-bottom: 16px;
+
+            border: 1px solid #dce5ef;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 12px rgba(18, 59, 99, 0.04);
+        }
+
+        .resumo-dia h2 {
+            margin: 0 0 12px;
+            color: #123b63;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .indicadores-dia {
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .indicador-dia {
+            padding: 12px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .indicador-dia strong {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .indicador-dia span {
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .resumo-dia>p {
+            margin: 12px 0 0;
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .linha-filtros-resumo {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .linha-filtros-resumo #resumoDia {
+            grid-column: 1;
+            grid-row: 1;
+            min-width: 0;
+            margin-bottom: 0;
+        }
+
+        .linha-filtros-resumo .resumo-dia {
+            margin-bottom: 0;
+        }
+
+        .linha-filtros-resumo .filtros-dashboard {
+            grid-column: 2;
+            grid-row: 1;
+            grid-template-columns: 1fr;
+
+            gap: 7px;
+            padding: 10px;
+            margin-bottom: 0;
+        }
+
+        .linha-filtros-resumo .filtro-item {
+            gap: 3px;
+        }
+
+        .linha-filtros-resumo .filtro-item label {
+            font-size: 9px;
+        }
+
+        .linha-filtros-resumo .filtro-item input,
+        .linha-filtros-resumo .filtro-item select {
+            min-height: 30px;
+            padding: 5px 8px;
+            font-size: 11px;
+        }
+
+        @media (max-width: 900px) {
+            .linha-filtros-resumo {
+                grid-template-columns: 1fr;
+            }
+
+            .linha-filtros-resumo .filtros-dashboard {
+                grid-column: 1;
+                grid-row: 2;
+            }
+        }
+
+        /* Filtros e resumo mais compactos */
+        .linha-filtros-resumo {
+            grid-template-columns: minmax(0, 1fr) 180px;
+            gap: 10px;
+        }
+
+        .linha-filtros-resumo .filtros-dashboard {
+            padding: 8px;
+            gap: 5px;
+        }
+
+        .linha-filtros-resumo .filtro-item {
+            gap: 2px;
+        }
+
+        .linha-filtros-resumo .filtro-item input,
+        .linha-filtros-resumo .filtro-item select {
+            min-height: 26px;
+            padding: 4px 6px;
+            font-size: 10px;
+        }
+
+        .linha-filtros-resumo .resumo-dia {
+            padding: 12px;
+        }
+
+        .linha-filtros-resumo .resumo-dia h2 {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .linha-filtros-resumo .indicadores-dia {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            max-width: 640px;
+            gap: 7px;
+            margin-top: 8px;
+        }
+
+        .linha-filtros-resumo .indicador-dia {
+            min-width: 0;
+            padding: 9px 10px;
+            border-radius: 7px;
+        }
+
+        .linha-filtros-resumo .indicador-dia strong {
+            margin-bottom: 4px;
+            font-size: 21px;
+        }
+
+        .linha-filtros-resumo .indicador-dia span {
+            font-size: 10px;
+            line-height: 1.3;
+        }
+
+        .linha-filtros-resumo .resumo-dia>p {
+            margin-top: 8px;
+            font-size: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .linha-filtros-resumo {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .linha-filtros-resumo .indicadores-dia {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .cabecalho-resumo-periodo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-bottom: 8px;
+        }
+
+        .linha-filtros-resumo .cabecalho-resumo-periodo h2 {
+            margin: 0;
+        }
+
+        .tempo-medio-resumo {
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        .tempo-medio-resumo strong {
+            margin-left: 4px;
+            color: #123b63;
+            font-weight: 800;
+        }
+
+        @media (min-width: 901px) {
+
+            .linha-filtros-resumo .resumo-dia,
+            .linha-filtros-resumo .filtros-dashboard {
+                box-sizing: border-box;
+                height: 140px;
+            }
+
+            .linha-filtros-resumo .filtros-dashboard {
+                gap: 4px;
+                padding: 8px;
+                align-content: center;
+            }
+        }
+
+        .resumo-dia .indicador-saidas {
+            --cor-indicador: #123b63;
+            --fundo-hover: #eef4fb;
+        }
+
+        .resumo-dia .indicador-clientes {
+            --cor-indicador: #2f8f5b;
+            --fundo-hover: #edf8f1;
+        }
+
+        .resumo-dia .indicador-entregas {
+            --cor-indicador: #e59a23;
+            --fundo-hover: #fff7e8;
+        }
+
+        .resumo-dia .indicador-tempo {
+            --cor-indicador: #7b61a8;
+            --fundo-hover: #f4effa;
+        }
+
+        .resumo-dia .indicador-dia {
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease,
+                box-shadow 0.18s ease,
+                transform 0.18s ease;
+        }
+
+        .resumo-dia .indicador-dia:hover {
+            background: var(--fundo-hover);
+            border-color: var(--cor-indicador);
+            box-shadow: 0 3px 10px rgba(18, 59, 99, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .resumo-dia .indicador-dia:hover strong {
+            color: var(--cor-indicador);
+        }
+
+        .filtros-dashboard select {
+            cursor: pointer;
+            transition:
+                border-color 0.18s ease,
+                background 0.18s ease,
+                box-shadow 0.18s ease;
+        }
+
+        .filtros-dashboard select:hover {
+            background: #eef4fb;
+            border-color: #93b4d6;
+        }
+
+        .filtros-dashboard select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .filtros-dashboard select option {
+            background: #f8fafc;
+            color: #123b63;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+
+        .filtros-dashboard select option:checked {
+            background: #dbeafe;
+            color: #123b63;
+            font-weight: 700;
+        }
+
+        #graficoSaidas {
+            display: block;
+            height: auto;
+            padding: 0;
+            margin-top: 8px;
+            background: transparent;
+        }
+
+        #graficoSaidas .grafico-barras {
+            height: 220px;
+            gap: 14px;
+            padding: 24px 12px 12px;
+
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+
+            background:
+                repeating-linear-gradient(to top,
+                    transparent 0,
+                    transparent 43px,
+                    #e8eef5 43px,
+                    #e8eef5 44px),
+                #f8fafc;
+        }
+
+        #graficoSaidas .barra-valor {
+            width: 28px;
+            background: linear-gradient(to top, #123b63, #3b82f6);
+            border-radius: 5px 5px 2px 2px;
+        }
+
+        #graficoSaidas .barra-valor:hover {
+            opacity: 0.85;
+        }
+
+        #graficoSaidas .barra-numero {
+            color: #123b63;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        #graficoSaidas .barra-label {
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        #graficoSaidas>p {
+            margin: 0;
+            padding: 24px 12px;
+            border: 1px dashed #dce5ef;
+            border-radius: 8px;
+
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .titulo-comparativo-operadores {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            margin: 14px 0 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #dce5ef;
+
+            color: #123b63;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .titulo-comparativo-operadores svg {
+            flex-shrink: 0;
+        }
+
+        #resumoDistribuidores {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: start;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        #resumoDistribuidores>hr {
+            display: none;
+        }
+
+        #resumoDistribuidores .cartao-distribuidor {
+            min-width: 0;
+            margin: 0;
+            padding: 14px;
+
+            background: #ffffff;
+            border: 1px solid #dce5ef;
+            border-left: 3px solid #2563eb;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 12px rgba(18, 59, 99, 0.04);
+        }
+
+        #resumoDistribuidores .cartao-distribuidor h2 {
+            margin: 0 0 8px;
+            color: #123b63;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        #resumoDistribuidores .cartao-distribuidor>p {
+            margin: 7px 0;
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        #resumoDistribuidores .barra-meta {
+            height: 5px;
+            margin-top: 8px;
+            background: #e8eef5;
+        }
+
+        #resumoDistribuidores .progresso-meta {
+            background: #2563eb;
+        }
+
+        #resumoDistribuidores .indicadores-distribuidor {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        #resumoDistribuidores .indicador {
+            min-width: 0;
+            padding: 8px;
+            background: #f8fafc;
+            border: 1px solid #e8eef5;
+            border-radius: 7px;
+            box-shadow: none;
+        }
+
+        #resumoDistribuidores .indicador strong {
+            margin-bottom: 4px;
+            color: #123b63;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        #resumoDistribuidores .indicador span {
+            display: block;
+            font-size: 9px;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 1100px) {
+            #resumoDistribuidores {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #resumoDistribuidores .indicadores-distribuidor {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .card-comparativo-operadores {
+            margin-top: 12px;
+            padding: 14px;
+
+            background: #ffffff;
+            border: 1px solid #dce5ef;
+            border-radius: 10px;
+
+            box-shadow: 0 3px 12px rgba(18, 59, 99, 0.04);
+        }
+
+        .card-comparativo-operadores .titulo-comparativo-operadores {
+            margin-top: 0;
+        }
+
+        .card-comparativo-operadores .linha-ranking {
+            gap: 8px;
+            padding: 9px 12px;
+            margin: 6px 0;
+
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #2563eb;
+            border-radius: 7px;
+
+            color: #64748b;
+            font-size: 11px;
+
+            transition:
+                background 0.18s ease,
+                border-color 0.18s ease;
+        }
+
+        .card-comparativo-operadores .linha-ranking:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .card-comparativo-operadores .linha-ranking strong {
+            color: #123b63;
+            font-size: 11px;
+        }
+
+        .card-comparativo-operadores .posicao-ranking {
+            min-width: 24px;
+            height: 24px;
+            margin-right: 5px;
+
+            background: #123b63;
+            font-size: 10px;
+        }
+
+        #graficoSaidas .barra-dia {
+            flex: 1 0 38px;
+            min-width: 38px;
+        }
+
+        #graficoSaidas .barra-valor {
+            width: 60%;
+            max-width: 44px;
+            flex-shrink: 0;
+        }
+
+        #graficoSaidas .barra-numero,
+        #graficoSaidas .barra-label {
+            flex-shrink: 0;
+        }
     </style>
 
 </head>
 
 <body>
 
-    <h1>Desempenho dos Distribuidores</h1>
+    <header class="topo-gestao">
 
-    <div class="filtros-dashboard">
+        <div class="identidade-topo-gestao">
 
-        <div class="filtro-item">
+            <img src="img/logo-primo-pecas.jpeg/ChatGPT Image 17 de set. de 2026, 22_59_03.png" alt="PRIMO PEÇAS"
+                class="imagem-logo-gestao">
 
-            <label>
-                Data:
-            </label>
+            <div class="titulo-topo-gestao">
 
-            <input type="date" id="dataFiltro">
+                <h1>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#f97316;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;">
+                        <path d="M3 3v18h18"></path>
+                        <path d="M7 17v-5M12 17V8M17 17V5"></path>
+                    </svg>
+                    Análises
+                </h1>
 
-        </div>
+                <p>
+                    Evolução das missões e desempenho por período
+                </p>
 
-        <div class="filtro-item">
-
-            <label>
-                Período:
-            </label>
-
-            <select id="periodoFiltro">
-
-                <option value="dia">
-                    Dia
-                </option>
-
-                <option value="semana">
-                    Esta semana
-                </option>
-
-                <option value="mes">
-                    Este mês
-                </option>
-
-            </select>
+            </div>
 
         </div>
 
-        <div class="filtro-item">
+    </header>
 
-            <label>
-                Distribuidor:
-            </label>
+    <div id="menu-container"></div>
 
-            <select id="distribuidorFiltro">
+    <div class="linha-filtros-resumo">
 
-                <option value="">
-                    Todos
-                </option>
+        <div class="filtros-dashboard">
 
-            </select>
+            <div class="filtro-item">
+
+                <label>
+                    Data:
+                </label>
+
+                <input type="date" id="dataFiltro">
+
+            </div>
+
+            <div class="filtro-item">
+
+                <label>
+                    Período:
+                </label>
+
+                <select id="periodoFiltro">
+
+                    <option value="dia">
+                        Dia
+                    </option>
+
+                    <option value="semana">
+                        Esta semana
+                    </option>
+
+                    <option value="mes">
+                        Este mês
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="filtro-item">
+
+                <label for="distribuidorFiltro">
+                    Operador
+                </label>
+
+                <select id="distribuidorFiltro">
+
+                    <option value="">
+                        Todos
+                    </option>
+
+                </select>
+
+            </div>
 
         </div>
 
+        <div id="resumoDia"></div>
     </div>
-
-    <div id="resumoDia"></div>
 
     <div class="grafico-container">
 
         <h2>
-            Evolução das saídas
+            <svg viewBox="0 0 24 24" aria-hidden="true"
+                style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+                <path d="M3 3v18h18"></path>
+                <path d="m7 15 5-5 4 3 5-7M17 6h4v4"></path>
+            </svg>
+            Evolução das missões concluídas
         </h2>
 
         <div id="graficoSaidas"></div>
@@ -535,10 +1164,47 @@
 
     <br>
 
+    <section class="grafico-container">
+        <h2>
+            <svg viewBox="0 0 24 24" aria-hidden="true"
+                style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+                <path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"></path>
+                <path d="M9 3v15M15 6v15"></path>
+            </svg>
+            Comparativo por rota
+        </h2>
+
+        <p style="margin:0 0 12px;color:#64748b;font-size:11px;">
+            Missões concluídas que incluíram cada rota no período filtrado.
+        </p>
+
+        <div id="comparativoRotas"></div>
+    </section>
+
     <div id="resumoDistribuidores"></div>
 
 
     <script>
+
+        fetch("menu.html")
+            .then(function (resposta) {
+                return resposta.text();
+            })
+            .then(function (htmlMenu) {
+                document.getElementById("menu-container").innerHTML =
+                    htmlMenu;
+
+                document.querySelectorAll("#menu-container .menu a")
+                    .forEach(function (link) {
+                        link.classList.toggle(
+                            "ativo",
+                            link.getAttribute("href") === "desempenho.html"
+                        );
+                    });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao carregar menu:", erro);
+            });
 
         /* =====================================================
            DISTRIBUIDORES
@@ -883,7 +1549,7 @@
            MOSTRAR DESEMPENHO
         ===================================================== */
 
-        function mostrarDesempenho() {
+                    function mostrarDesempenho() {
 
             resumoDia.innerHTML = "";
 
@@ -954,6 +1620,31 @@
 
             const totalDistribuicoes =
                 distribuicoesDoPeriodo.length;
+
+            const missoesPorRota = {};
+
+            distribuicoesDoPeriodo.forEach(function (missao) {
+                const rotasDaMissao = Array.isArray(missao.rotas)
+                    ? missao.rotas
+                    : [];
+
+                const rotasUnicas = new Set(
+                    rotasDaMissao
+                        .map(function (rota) {
+                            return String(rota).trim();
+                        })
+                        .filter(function (rota) {
+                            return rota !== "";
+                        })
+                );
+
+                rotasUnicas.forEach(function (codigoRota) {
+                    missoesPorRota[codigoRota] =
+                        (missoesPorRota[codigoRota] || 0) + 1;
+                });
+            });
+
+
 
 
             /* =================================================
@@ -1155,9 +1846,22 @@
 
             <div class="resumo-dia">
 
-                <h2>
-                    Resumo do período
-                </h2>
+                <div class="cabecalho-resumo-periodo">
+    <h2>
+    <svg viewBox="0 0 24 24" aria-hidden="true"
+         style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:5px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+        <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+        <path d="M7 3v4M17 3v4M3 11h18"></path>
+        <path d="M7 15h2M13 15h2M7 18h2M13 18h2"></path>
+    </svg>
+    Resumo do período
+</h2>
+
+    <span class="tempo-medio-resumo">
+        Tempo médio por missão:
+        <strong>${formatarTempo(tempoMedioDia)}</strong>
+    </span>
+</div>
 
 
                 <div class="indicadores-dia">
@@ -1170,7 +1874,7 @@
                         </strong>
 
                         <span>
-                            saídas realizadas
+                            Missões concluídas
                         </span>
 
                     </div>
@@ -1183,8 +1887,8 @@
                         </strong>
 
                         <span>
-                            clientes únicos
-                        </span>
+    Pontos de entrega distintos
+</span>
 
                     </div>
 
@@ -1196,7 +1900,7 @@
                         </strong>
 
                         <span>
-                            entregas
+                            Entregas
                         </span>
 
                     </div>
@@ -1211,63 +1915,8 @@
                         </strong>
 
                         <span>
-                            tempo total
+                            Tempo total
                         </span>
-
-                    </div>
-
-
-                </div>
-
-
-                <p>
-
-                    Tempo médio por saída:
-
-                    <strong>
-                        ${formatarTempo(
-                tempoMedioDia
-            )}
-                    </strong>
-
-                </p>
-
-
-                <hr>
-
-
-                <h3>
-                    Veículos
-                </h3>
-
-
-                <div class="veiculos-resumo">
-
-
-                    <div class="veiculo-resumo veiculo-carros">
-
-                        <strong>
-                            🚗 Carros
-                        </strong>
-
-                        ${distribuicoesCarros.length}
-                        saídas ·
-                        ${entregasCarros}
-                        entregas
-
-                    </div>
-
-
-                    <div class="veiculo-resumo veiculo-motos">
-
-                        <strong>
-                            🏍️ Motos
-                        </strong>
-
-                        ${distribuicoesMotos.length}
-                        saídas ·
-                        ${entregasMotos}
-                        entregas
 
                     </div>
 
@@ -1419,9 +2068,16 @@
 
             resumoDia.innerHTML += `
 
-            <h2>
-                Ranking
-            </h2>
+            <div class="card-comparativo-operadores">
+
+            <h2 class="titulo-comparativo-operadores">
+    <svg viewBox="0 0 24 24" aria-hidden="true"
+         style="width:18px;height:18px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+        <path d="M3 3v18h18"></path>
+        <path d="M7 17v-5M12 17V8M17 17V5"></path>
+    </svg>
+    Comparativo por operador
+</h2>
 
         `;
 
@@ -1466,8 +2122,8 @@
                         ${item.quantidade}
 
                         ${item.quantidade === 1
-                            ? "saída"
-                            : "saídas"
+                            ? "missão"
+                            : "missões"
                         }
 
                         ·
@@ -1475,8 +2131,8 @@
                         ${item.clientes}
 
                         ${item.clientes === 1
-                            ? "cliente"
-                            : "clientes"
+                            ? "ponto"
+                            : "pontos"
                         }
 
                         ·
@@ -1495,6 +2151,27 @@
                 }
             );
 
+            const cardComparativo =
+                resumoDia.querySelector(".card-comparativo-operadores");
+
+            if (cardComparativo) {
+                resumoDia.querySelectorAll(".linha-ranking")
+                    .forEach(function (linha) {
+                        cardComparativo.appendChild(linha);
+                    });
+
+                if (!cardComparativo.querySelector(".linha-ranking")) {
+                    const mensagem = document.createElement("p");
+
+                    mensagem.textContent =
+                        "Sem missões concluídas para comparar neste período.";
+
+                    mensagem.style.cssText =
+                        "margin:0;padding:12px 0;color:#64748b;font-size:11px;";
+
+                    cardComparativo.appendChild(mensagem);
+                }
+            }
 
             /* =================================================
                CARTÕES DOS DISTRIBUIDORES
@@ -1633,33 +2310,28 @@
                     ============================================= */
 
                     const percentagem =
-                        Math.min(
-                            (
-                                quantidade /
-                                10
-                            ) * 100,
-                            100
-                        );
-
+                        totalDistribuicoes > 0
+                            ? (quantidade / totalDistribuicoes) * 100
+                            : 0;
 
                     resumo.innerHTML += `
 
                     <div class="cartao-distribuidor">
 
                         <h2>
-                            ${nome}
-                        </h2>
+    <svg viewBox="0 0 24 24" aria-hidden="true"
+         style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:5px;fill:none;stroke:#2563eb;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;">
+        <circle cx="12" cy="7" r="4"></circle>
+        <path d="M4 21v-2a8 8 0 0 1 16 0v2"></path>
+    </svg>
+    ${nome}
+</h2>
 
 
-                        <p>
-
-                            <strong>
-                                ${quantidade}
-                            </strong>
-
-                            de 10 distribuições
-
-                        </p>
+                       <p>
+    <strong>${quantidade}</strong>
+    ${quantidade === 1 ? "missão concluída" : "missões concluídas"}
+</p>
 
 
                         <div class="barra-meta">
@@ -1675,15 +2347,9 @@
 
 
                         <p>
-
-                            ${quantidade}
-                            / 10 saídas —
-
-                            ${Math.round(
-                        percentagem
-                    )}%
-
-                        </p>
+    <strong>${Math.round(percentagem)}%</strong>
+    das missões do período filtrado
+</p>
 
 
                         <div class="indicadores-distribuidor">
@@ -1696,8 +2362,8 @@
                                 </strong>
 
                                 <span>
-                                    clientes únicos
-                                </span>
+    Pontos distintos
+</span>
 
                             </div>
 
@@ -1709,7 +2375,7 @@
                                 </strong>
 
                                 <span>
-                                    entregas
+                                    Entregas
                                 </span>
 
                             </div>
@@ -1724,7 +2390,7 @@
                                 </strong>
 
                                 <span>
-                                    tempo total
+                                    Tempo total
                                 </span>
 
                             </div>
@@ -1739,7 +2405,7 @@
                                 </strong>
 
                                 <span>
-                                    tempo médio
+                                    Tempo médio
                                 </span>
 
                             </div>
@@ -1859,8 +2525,11 @@
                 graficoSaidas.innerHTML = `
 
                 <p>
-                    Nenhuma saída concluída neste período.
-                </p>
+    <strong style="display:block;margin-bottom:5px;color:#123b63;">
+        Nenhuma missão concluída neste período
+    </strong>
+    Selecione outra data, período ou operador para consultar a evolução.
+</p>
 
             `;
 
