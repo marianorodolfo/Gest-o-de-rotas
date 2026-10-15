@@ -2525,6 +2525,38 @@
 
                 document.getElementById("menu-container").innerHTML = menu;
 
+                const menuLateral = document.querySelector("#menu-container .menu");
+                const botaoHamburger = document.querySelector("#menu-container .botao-menu");
+
+                if (menuLateral && botaoHamburger) {
+                    menuLateral.classList.remove("aberto");
+
+                    botaoHamburger.setAttribute("aria-label", "Abrir menu");
+                    botaoHamburger.setAttribute("aria-expanded", "false");
+
+                    botaoHamburger.onclick = function () {
+                        const aberto = menuLateral.classList.toggle("aberto");
+
+                        botaoHamburger.setAttribute("aria-expanded", String(aberto));
+                        botaoHamburger.setAttribute(
+                            "aria-label",
+                            aberto ? "Fechar menu" : "Abrir menu"
+                        );
+                    };
+
+                    document.addEventListener("click", function (evento) {
+                        if (
+                            window.matchMedia("(max-width: 768px)").matches &&
+                            !menuLateral.contains(evento.target) &&
+                            !botaoHamburger.contains(evento.target)
+                        ) {
+                            menuLateral.classList.remove("aberto");
+                            botaoHamburger.setAttribute("aria-expanded", "false");
+                            botaoHamburger.setAttribute("aria-label", "Abrir menu");
+                        }
+                    });
+                }
+
                 const paginaAtual =
                     window.location.pathname.split("/").pop();
 

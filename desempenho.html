@@ -1285,6 +1285,50 @@
         #resumoDistribuidores .cartao-distribuidor:hover .progresso-meta {
             background: #EF7F1A !important;
         }
+
+        #resumoDistribuidores .cartao-distribuidor h2 {
+            color: #2A3B5D;
+        }
+
+        #resumoDistribuidores .cartao-distribuidor h2 svg {
+            stroke: #EF7F1A !important;
+        }
+
+        @media (max-width: 768px) {
+    #menu-container .menu {
+        transform: translateX(-100%);
+        transition: transform 0.22s ease;
+    }
+
+    #menu-container .menu.aberto {
+        transform: translateX(0);
+    }
+
+    #menu-container .menu-mobile {
+        display: block;
+        position: fixed;
+        top: 12px;
+        left: 10px;
+        z-index: 1001;
+    }
+
+    #menu-container .botao-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 34px;
+        height: 34px;
+        padding: 0;
+
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 7px;
+        background: #2A3B5D;
+        color: #ffffff;
+        font-size: 22px;
+        cursor: pointer;
+    }
+}
     </style>
 
 </head>
